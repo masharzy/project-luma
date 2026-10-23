@@ -18,7 +18,7 @@ export default function Page() {
         <Icon name="shield" />
         <b>Restricted workspace</b>
         <span>
-          Admin role verified by Neon Auth. Content services are not connected
+          Admin role verified by Luma Auth. Content services are not connected
           yet.
         </span>
       </div>

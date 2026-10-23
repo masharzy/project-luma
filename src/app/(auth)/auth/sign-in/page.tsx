@@ -3,6 +3,20 @@ export const metadata = {
   title: "Sign in",
   robots: { index: false, follow: false },
 };
-export default function Page() {
-  return <AuthForm mode="sign-in" />;
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+  return (
+    <AuthForm
+      mode="sign-in"
+      initialError={
+        error === "oauth"
+          ? "Google sign-in could not be completed. Please try again."
+          : ""
+      }
+    />
+  );
 }

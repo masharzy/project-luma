@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth/server";
-const protect = auth.middleware({ loginUrl: "/auth/sign-in" });
+import { sessionCookieName } from "@/lib/auth/config";
 export default async function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-  const authOrigin = new URL(process.env.NEON_AUTH_BASE_URL!).origin;
+
   const isDev = process.env.NODE_ENV !== "production";
   const csp = [
     "default-src 'self'",
@@ -11,8 +10,8 @@ export default async function proxy(request: NextRequest) {
     `style-src 'self'${isDev ? " 'unsafe-inline'" : ` 'nonce-${nonce}'`}`,
     "img-src 'self' data: blob:",
     "font-src 'self'",
-    `connect-src 'self' ${authOrigin}${isDev ? " ws:" : ""}`,
-    `frame-src ${authOrigin} https://accounts.google.com`,
+    `connect-src 'self'${isDev ? " ws:" : ""}`,
+    "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -31,13 +30,15 @@ export default async function proxy(request: NextRequest) {
       request.nextUrl.pathname.startsWith(prefix + "/"),
   );
   if (secured) {
-    const authResponse = await protect(new NextRequest(request, { headers }));
-    if (authResponse.headers.get("location")) {
-      authResponse.headers.set("Cache-Control", "private, no-store");
-      return authResponse;
+    // A cookie check only avoids unnecessary unauthenticated page work.
+    // Server layouts and APIs always validate the opaque token in PostgreSQL.
+    if (!request.cookies.get(sessionCookieName())?.value) {
+      const redirect = NextResponse.redirect(
+        new URL("/auth/sign-in", request.url),
+      );
+      redirect.headers.set("Cache-Control", "private, no-store");
+      return redirect;
     }
-    for (const cookie of authResponse.cookies.getAll())
-      response.cookies.set(cookie);
     response.headers.set("Cache-Control", "private, no-store");
   }
   response.headers.set("Content-Security-Policy", csp);

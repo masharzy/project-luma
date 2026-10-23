@@ -12,7 +12,8 @@
 - `/resources` — learning hub.
 - `/resources/writing`, `/resources/ebooks`, `/vocabulary`, `/grammar`, `/blog` — learning collection pages.
 - `/pricing` — Free/Premium comparison; no made-up price or active checkout.
-- `/auth/sign-in`, `/auth/sign-up`, `/auth/forgot-password`, `/auth/reset-password` — connected Neon authentication.
+- `/auth/verify-email` — finish verification or request a replacement link.
+- `/auth/sign-in`, `/auth/sign-up`, `/auth/forgot-password`, `/auth/reset-password` — custom authentication (requires deployment configuration).
 
 ## Learner workspace (sign-in required)
 
@@ -24,7 +25,7 @@
 - `/settings` — connected profile name update, read-only email and password recovery.
 - `/account` — redirects to settings.
 
-## Administration (managed admin role required)
+## Administration (PostgreSQL admin role required)
 
 - `/admin` — platform overview.
 - `/admin/questions`, `/admin/questions/new` — question bank and draft editor.

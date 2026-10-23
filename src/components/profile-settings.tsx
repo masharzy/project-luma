@@ -65,9 +65,7 @@ export function ProfileSettings({
               disabled
             />
           </label>
-          <p className="field-hint">
-            Your sign-in email is managed by your authentication provider.
-          </p>
+          <p className="field-hint">Your sign-in email is managed by Luma.</p>
           {message && (
             <p role="status" className="success-note">
               {message}
@@ -95,7 +93,7 @@ export function ProfileSettings({
           Reset password <span>↗</span>
         </Link>
         <div className="security-note">
-          Your password is handled by Neon Auth. Luma never stores it in the
+          Your password is handled by Luma Auth. Luma never stores it in the
           browser.
         </div>
       </section>
