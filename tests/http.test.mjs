@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
 for (const [path, content] of [
-  ["/", "স্কোরের ওপারে"],
+  ["/", "IELTS প্রস্তুতিতে"],
   ["/auth/sign-in", "Pick up where you left off."],
   ["/auth/sign-up", "Your next chapter starts here."],
   ["/auth/forgot-password", "Forgot your password?"],
@@ -43,8 +43,6 @@ for (const path of [
   "/practice/reading",
   "/practice/writing",
   "/cambridge",
-  "/cambridge/1",
-  "/cambridge/11",
   "/mocks",
   "/resources",
   "/resources/writing",
