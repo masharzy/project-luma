@@ -16,6 +16,8 @@ import {
 } from "@/lib/auth/crypto";
 import {
   readSession,
+  readAccountSession,
+  createPendingSession,
   createSession,
   revokeSession,
   sessionCookieOptions,
@@ -38,6 +40,7 @@ import {
   audit,
 } from "@/lib/auth/http";
 import { beginGoogle, finishGoogle } from "@/lib/auth/google";
+import { claimVerificationDelivery, verificationResendAt } from "@/lib/auth/verification";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 const routePath = (request: NextRequest) =>
@@ -47,8 +50,14 @@ export async function GET(request: NextRequest) {
     const path = routePath(request);
     if (path === "get-session")
       return json(
-        await readSession(request.cookies.get(sessionCookieName())?.value),
+        await readAccountSession(request.cookies.get(sessionCookieName())?.value),
       );
+    if (path === "verification-status") {
+      const session = await readAccountSession(request.cookies.get(sessionCookieName())?.value);
+      if (!session) throw new AuthHttpError(401, "Sign in to verify your email.");
+      return json({ email: session.user.email, verified: session.user.emailVerified,
+        resendAt: session.user.emailVerified ? 0 : await verificationResendAt(session.user.id) });
+    }
     if (path === "config")
       return json({
         google: googleReady(),
@@ -68,9 +77,8 @@ export async function POST(request: NextRequest) {
     const path = routePath(request);
     const input = await readBody(request);
     const network = networkKey(request);
-    const sql = db();
-
     if (path === "sign-up/email") {
+      const sql = db();
       const email = parseEmail(input.email),
         name = parseName(input.name);
       if (!validPassword(input.password))
@@ -84,20 +92,32 @@ export async function POST(request: NextRequest) {
         "SELECT id FROM app_auth.users WHERE email=$1",
         [email],
       );
-      if (existing[0]) return json({ requiresVerification: true });
+      if (existing[0]) throw new AuthHttpError(409, "Unable to create this account. Try signing in or resetting your password.");
       const hash = await hashPassword(input.password);
       const token = randomToken();
       const rows = await sql.query(
         `WITH created AS (INSERT INTO app_auth.users(email,name,password_hash) VALUES($1,$2,$3) ON CONFLICT(email) DO NOTHING RETURNING id), ticket AS (INSERT INTO app_auth.email_tokens(token_hash,user_id,kind,expires_at) SELECT $4,id,'verify_email',now()+interval '24 hours' FROM created RETURNING user_id) SELECT id FROM created`,
         [email, name, hash, digest(token)],
       );
-      if (rows[0]) {
+      if (!rows[0]) throw new AuthHttpError(409, "Unable to create this account. Try signing in or resetting your password.");
+      const userId = String(rows[0].id);
+      const sessionToken = await createPendingSession(userId);
+      const resendAt = await claimVerificationDelivery(userId, network);
+      let emailSent = false;
+      try {
         await sendAuthMail(email, token, "verify_email");
-        await audit(String(rows[0].id), "sign_up");
+        emailSent = true;
+      } catch {
+        // The created account/session remain usable for a later authenticated resend.
       }
-      return json({ requiresVerification: true });
+      await audit(userId, "sign_up");
+      const response = json({ requiresVerification: true, emailSent, resendAt });
+      response.cookies.set(sessionCookieName(), sessionToken, { ...sessionCookieOptions(), maxAge: 86400 });
+      return response;
     }
+
     if (path === "sign-in/email") {
+      const sql = db();
       const email = parseEmail(input.email);
       await limitMany([
         { key: "login-email:" + email, max: 8 },
@@ -124,16 +144,13 @@ export async function POST(request: NextRequest) {
           "Email or password is incorrect.",
           "INVALID_CREDENTIALS",
         );
-      if (user.email_verified !== true)
-        throw new AuthHttpError(
-          403,
-          "Verify your email before signing in. Use the verification page to request another link.",
-          "EMAIL_UNVERIFIED",
-        );
-      const token = await createSession(String(user.id));
+      const pending = user.email_verified !== true;
+      const token = pending
+        ? await createPendingSession(String(user.id))
+        : await createSession(String(user.id));
       await audit(String(user.id), "password_sign_in");
-      const response = json({ signedIn: true });
-      response.cookies.set(sessionCookieName(), token, sessionCookieOptions());
+      const response = json({ signedIn: true, requiresVerification: pending });
+      response.cookies.set(sessionCookieName(), token, { ...sessionCookieOptions(), ...(pending ? { maxAge: 86400 } : {}) });
       return response;
     }
     if (path === "sign-out") {
@@ -151,6 +168,7 @@ export async function POST(request: NextRequest) {
       );
       if (!session)
         throw new AuthHttpError(401, "Sign in to update your profile.");
+      const sql = db();
       await limit("profile:" + session.user.id, 20);
       // Reject unrecognized fields so role, email and password cannot be mass-assigned.
       if (Object.keys(input).some((key) => key !== "name"))
@@ -166,7 +184,25 @@ export async function POST(request: NextRequest) {
       await audit(session.user.id, "profile_updated");
       return json({ updated: true });
     }
-    if (path === "request-password-reset" || path === "resend-verification") {
+    if (path === "resend-verification") {
+      const session = await readAccountSession(request.cookies.get(sessionCookieName())?.value);
+      if (!session) throw new AuthHttpError(401, "Sign in to resend your verification email.");
+      // The recipient comes exclusively from the authenticated database user.
+      if (Object.keys(input).length) throw new AuthHttpError(400, "Recipient overrides are not allowed.");
+      if (session.user.emailVerified) throw new AuthHttpError(400, "Your email is already verified.");
+      assertMailReady();
+      const sql = db();
+      const resendAt = await claimVerificationDelivery(session.user.id, network);
+      const token = randomToken();
+      await sql.query(
+        "INSERT INTO app_auth.email_tokens(token_hash,user_id,kind,expires_at) VALUES($1,$2,'verify_email',now()+interval '24 hours')",
+        [digest(token), session.user.id],
+      );
+      await sendAuthMail(session.user.email, token, "verify_email");
+      return json({ accepted: true, resendAt });
+    }
+    if (path === "request-password-reset") {
+      const sql = db();
       const email = parseEmail(input.email);
       await limitMany([
         { key: "mail-email:" + email, max: 3 },
@@ -177,22 +213,15 @@ export async function POST(request: NextRequest) {
         "SELECT id,email_verified FROM app_auth.users WHERE email=$1 AND banned=false",
         [email],
       );
-      if (
-        users[0] &&
-        (path === "request-password-reset" || users[0].email_verified === false)
-      ) {
-        const token = randomToken(),
-          kind =
-            path === "request-password-reset"
-              ? "reset_password"
-              : "verify_email";
+      if (users[0]) {
+        const token = randomToken(), kind = "reset_password";
         await sql.query(
           `INSERT INTO app_auth.email_tokens(token_hash,user_id,kind,expires_at) VALUES($1,$2,$3,now()+($4 * interval '1 second'))`,
           [
             digest(token),
             users[0].id,
             kind,
-            kind === "reset_password" ? 1200 : 86400,
+            1200,
           ],
         );
         await sendAuthMail(email, token, kind);
@@ -200,6 +229,7 @@ export async function POST(request: NextRequest) {
       return json({ accepted: true });
     }
     if (path === "reset-password") {
+      const sql = db();
       if (!validToken(input.token) || !validPassword(input.newPassword))
         throw new AuthHttpError(
           400,
@@ -226,6 +256,7 @@ export async function POST(request: NextRequest) {
       return response;
     }
     if (path === "verify-email") {
+      const sql = db();
       if (!validToken(input.token))
         throw new AuthHttpError(400, "Invalid verification request.");
       await limit("verify-network:" + network, 8);

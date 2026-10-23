@@ -91,6 +91,6 @@ export const authClient = {
     request("reset-password", data),
   verifyEmail: (data: { token: string }) =>
     request("verify-email", data),
-  resendVerification: (data: { email: string }) =>
-    request("resend-verification", data),
+  verificationStatus: () => request<{ email: string; verified: boolean; resendAt: number }>("verification-status"),
+  resendVerification: () => request<{ accepted: boolean; resendAt: number }>("resend-verification", {}),
 };

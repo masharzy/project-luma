@@ -4,7 +4,7 @@
 
 - Own Node.js auth handlers; no hosted authentication SDK or auth framework.
 - Passwords use salted scrypt with N=131072, r=8, p=1 and constant-time key comparison. Unknown accounts take the same password-derivation path. Password length is 12–128 characters, bounded in UTF-8 bytes.
-- Verification consumes the emailed one-time token without a password and never creates a login session. Dashboard access still requires an authenticated, verified, non-banned account. Validated Google accounts skip separate inbox verification.
+- Signup and password sign-in can issue a restricted 24-hour session before verification. Learner/admin route guards redirect these accounts to the account-bound verification page; protected APIs still require a verified account. Email links never issue sessions, so they unlock only a session already established with signup/password credentials. Validated Google accounts skip inbox verification. Verification resend accepts no recipient input, requires a valid unverified account session, and applies an atomic 60-second database cooldown plus per-account and per-network limits.
 - Opaque 256-bit session/reset/verification tokens are stored as SHA-256 hashes. Sessions use host-only HttpOnly/Secure/SameSite=Lax cookies on HTTPS, with a seven-day absolute expiry and 24-hour idle expiry.
 - Roles, bans and session versions are read from PostgreSQL on every protected server request. Password reset increments the version and revokes all sessions. Profile input cannot change roles or email.
 - The runtime database role has column-level grants that deny role promotion. Owner credentials are used only for explicit schema/identity migrations, never by the app.

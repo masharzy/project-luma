@@ -81,7 +81,9 @@ export function AuthForm({
         setError(result.error.message);
         return;
       }
-      if (isForgot || isReset || mode === "sign-up") setSuccess(true);
+      if (mode === "sign-up" || (mode === "sign-in" && result.data?.requiresVerification))
+        window.location.assign("/auth/verify-email");
+      else if (isForgot || isReset) setSuccess(true);
       else window.location.assign("/dashboard");
     } catch {
       setError("We couldn’t connect just now. Please try again.");
@@ -130,20 +132,12 @@ export function AuthForm({
           </p>
           {success ? (
             <div className="auth-success" role="status">
-              <h2>
-                {isForgot || mode === "sign-up"
-                  ? "Check your inbox."
-                  : "Password updated."}
-              </h2>
-              <p>
-                {mode === "sign-up"
-                  ? "If this email can be registered, a verification link will arrive shortly. Click the link to verify your email, then sign in to access your dashboard."
-                  : isForgot
-                    ? "If an account exists for that email, you’ll receive a password reset link. Check your spam folder too."
-                    : "You can now sign in using your new password."}
-              </p>
-              <Link className="button" href={mode === "sign-up" ? "/auth/verify-email" : "/auth/sign-in"}>
-                {mode === "sign-up" ? "Resend verification email" : "Back to sign in"} <span>↗</span>
+              <h2>{isForgot ? "Check your inbox." : "Password updated."}</h2>
+              <p>{isForgot
+                ? "If an account exists for that email, you’ll receive a password reset link. Check your spam folder too."
+                : "You can now sign in using your new password."}</p>
+              <Link className="button" href="/auth/sign-in">
+                Back to sign in <span>↗</span>
               </Link>
             </div>
           ) : invalidToken ? (
@@ -286,9 +280,6 @@ export function AuthForm({
               </p>
             </>
           )}
-          <p className="auth-switch">
-            <Link href="/auth/verify-email">Need to verify your email?</Link>
-          </p>
           <Link href="/" className="auth-home">
             ← Back to Luma
           </Link>

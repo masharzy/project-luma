@@ -109,3 +109,17 @@ test("out-of-range book and unsupported module return 404", async () => {
     assert.equal(r.status, 404);
   }
 });
+
+test("verification page cannot collect arbitrary recipient emails anonymously", async () => {
+  const r = await fetch(base + "/auth/verify-email", { redirect: "manual" });
+  assert.ok([302,303,307,308].includes(r.status));
+  assert.match(r.headers.get("location"), /auth\/sign-in/);
+});
+test("anonymous verification resend is denied by the API", async () => {
+  const r = await fetch(base + "/api/auth/resend-verification", {
+    method: "POST", headers: { "Content-Type": "application/json", Origin: base },
+    body: JSON.stringify({ email: "recipient@example.invalid" }),
+  });
+  assert.equal(r.status,401);
+  assert.match(r.headers.get("cache-control"), /no-store/);
+});
