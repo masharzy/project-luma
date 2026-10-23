@@ -1,27 +1,28 @@
-# Security controls and verification boundary
+# Custom authentication security
 
-## Implemented
+## Implemented controls
 
-- Official Neon Auth handles passwords, CSRF/origin validation, sessions and OAuth. No custom token, password or browser role implementation.
-- `/dashboard`, `/settings`, `/account` and `/admin` are protected by the Next.js proxy. Server layouts perform independent session checks.
-- Admin access requires the explicit `admin` role from Neon Auth. Role checks bypass the SDK cookie cache and fail closed on provider errors. Email strings, query params, profile fields and browser storage do not confer permissions.
-- Direct `/api/admin/access` checks authentication and role itself (401/403). No admin mutation endpoints have been introduced.
-- Private workspace responses and account/admin API responses use no-store. Private routes have noindex metadata and are excluded from robots discovery.
-- HTML responses use a cryptographically generated per-request CSP nonce. Scripts require the nonce; production script/style policies do not allow unsafe-inline or unsafe-eval. Root HTML is rendered per request so a nonce is never shared through static HTML caching.
-- Clickjacking, MIME sniffing and unnecessary camera/microphone/geolocation access are blocked. Auth secrets remain server-only and Git-ignored.
-- Draft authoring accepts bounded plain-text fields, exports JSON only and does not render raw HTML. Exported drafts never publish, submit marks, create jobs or send emails.
-- Cambridge 11–21 pages expose book metadata only. No premium question content, answers or exercise payloads are included in browser assets.
+- Own Node.js auth handlers; no hosted authentication SDK or auth framework.
+- Passwords use salted scrypt with N=131072, r=8, p=1 and constant-time key comparison. Unknown accounts take the same password-derivation path. Password length is 12–128 characters, bounded in UTF-8 bytes.
+- Verification requires the emailed one-time token plus the signup password. Unverified or banned accounts cannot establish a session.
+- Opaque 256-bit session/reset/verification tokens are stored as SHA-256 hashes. Sessions use host-only HttpOnly/Secure/SameSite=Lax cookies on HTTPS, with a seven-day absolute expiry and 24-hour idle expiry.
+- Roles, bans and session versions are read from PostgreSQL on every protected server request. Password reset increments the version and revokes all sessions. Profile input cannot change roles or email.
+- The runtime database role has column-level grants that deny role promotion. Owner credentials are used only for explicit schema/identity migrations, never by the app.
+- State-changing endpoints enforce a canonical Origin, reject cross-site requests, require JSON and cap streamed bodies at 8 KB. Distributed fixed-window rate limits use atomic PostgreSQL counters rather than process memory.
+- Reset/verification token consumption and user updates are atomic SQL operations. GET links never consume tokens or reset passwords.
+- Google uses authorization code + PKCE S256, state cookie binding, a single-use server-side flow, nonce, verified email and signed ID-token claim checks. The stable Google subject identifies the user. Existing email accounts are never automatically linked to a new subject. Provider access/refresh tokens are not retained.
+- Authentication replies and private pages are no-store. HTML uses a fresh CSP nonce; auth pages use no-referrer. Frame embedding and unsafe production inline scripts are disallowed.
+- Success audit events contain user IDs/actions, no passwords, raw tokens, authorization codes, Google secrets or full request bodies.
 
-## Owner setup
+## Operational boundaries
 
-No account is automatically elevated to admin. An owner must first identify their account and have its managed Neon Auth role set through a trusted provider administration flow. Do not add a public bootstrap endpoint, hard-coded password, client-side role override or email-only allowlist.
+- Google production credentials and SMTP sender configuration are still required before cutover. No shared Neon service is a fallback.
+- Test users and captured mail belong only to the disposable validation branch/local SMTP server. Production identities are not modified by tests.
+- Expiry is enforced on every access. Periodic deletion of expired sessions/tokens/flow/rate rows and an audit-retention policy must be configured operationally; expired rows do not authorize requests.
+- Production Google consent, SMTP delivery, backup/restore and owner recovery must be verified with controlled accounts. No external penetration-test claim is made.
+- Existing content/admin pages still do not implement content CRUD, exam scheduling, payments or real result publication. Their future APIs need their own authorization and validation.
 
-## Still required before public production launch
+## Source references
 
-- Owner-controlled Google OAuth credentials and custom SMTP (previous foundation requirement).
-- Verified real-user signup, session restoration, sign-out, recovery-email receipt and Google consent.
-- Full end-to-end role-revocation testing with controlled learner/admin identities.
-- When content APIs are introduced: authorization at every read/write boundary, strict schemas and input limits, persistent audit logs, rate limits, private media policy, entitlement enforcement and transactional admin-only mock publication. UI gates are not substitutes for those controls.
-- Scheduler, queues, evaluation, payments and content storage are not implemented in this page-building milestone. They must not be described as operational or independently security-audited.
-
-The implemented controls reduce specific risks. This document is not a claim of an external penetration test or absolute security.
+- OWASP Password Storage Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+- Google OpenID Connect: https://developers.google.com/identity/openid-connect/openid-connect

@@ -21,7 +21,7 @@ export default async function Page() {
             </div>
             <div>
               <dt>Role source</dt>
-              <dd>Managed Neon Auth</dd>
+              <dd>Luma PostgreSQL</dd>
             </div>
             <div>
               <dt>Role validation</dt>

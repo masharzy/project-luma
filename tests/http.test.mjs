@@ -26,7 +26,7 @@ test("account API rejects direct anonymous requests", async () => {
   assert.match(r.headers.get("cache-control"), /no-store/);
   assert.deepEqual(await r.json(), { error: "Unauthorized" });
 });
-test("auth proxy connects to managed session endpoint", async () => {
+test("custom session endpoint returns no anonymous session", async () => {
   const r = await fetch(base + "/api/auth/get-session");
   assert.equal(r.status, 200);
   assert.equal(await r.json(), null);

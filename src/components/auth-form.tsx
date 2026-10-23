@@ -33,14 +33,16 @@ export function AuthForm({
   mode,
   token,
   invalidToken = false,
+  initialError = "",
 }: {
   mode: Mode;
   token?: string;
   invalidToken?: boolean;
+  initialError?: string;
 }) {
   const c = copy[mode];
   const [busy, setBusy] = useState(false),
-    [error, setError] = useState(""),
+    [error, setError] = useState(initialError),
     [success, setSuccess] = useState(false);
   const isReset = mode === "reset-password",
     isForgot = mode === "forgot-password";
@@ -76,20 +78,10 @@ export function AuthForm({
                   token: token!,
                 });
       if (result.error) {
-        if (isForgot) {
-          setSuccess(true);
-          return;
-        }
-        setError(
-          isReset
-            ? "This reset link may have expired. Request a new link below."
-            : mode === "sign-in"
-              ? "Couldn’t sign you in. Check your email and password, then try again."
-              : "Couldn’t create your account. Check your details, or sign in if you already have an account.",
-        );
+        setError(result.error.message);
         return;
       }
-      if (isForgot || isReset) setSuccess(true);
+      if (isForgot || isReset || mode === "sign-up") setSuccess(true);
       else window.location.assign("/dashboard");
     } catch {
       setError("We couldn’t connect just now. Please try again.");
@@ -106,8 +98,7 @@ export function AuthForm({
         callbackURL: window.location.origin + "/dashboard",
         errorCallbackURL: window.location.origin + "/auth/sign-in?error=oauth",
       });
-      if (result.error)
-        setError("Google sign-in couldn’t start. Please try again.");
+      if (result.error) setError(result.error.message);
     } catch {
       setError("We couldn’t connect to Google. Please try again.");
     } finally {
@@ -139,11 +130,17 @@ export function AuthForm({
           </p>
           {success ? (
             <div className="auth-success" role="status">
-              <h2>{isForgot ? "Check your inbox." : "Password updated."}</h2>
+              <h2>
+                {isForgot || mode === "sign-up"
+                  ? "Check your inbox."
+                  : "Password updated."}
+              </h2>
               <p>
-                {isForgot
-                  ? "If an account exists for that email, you’ll receive a password reset link. Check your spam folder too."
-                  : "You can now sign in using your new password."}
+                {mode === "sign-up"
+                  ? "If this email can be registered, a verification link will arrive shortly. Open it and enter your signup password to finish. Already registered? Sign in or reset your password."
+                  : isForgot
+                    ? "If an account exists for that email, you’ll receive a password reset link. Check your spam folder too."
+                    : "You can now sign in using your new password."}
               </p>
               <Link className="button" href="/auth/sign-in">
                 Back to sign in <span>↗</span>
@@ -216,7 +213,7 @@ export function AuthForm({
                         mode === "sign-in" ? "current-password" : "new-password"
                       }
                       required
-                      minLength={mode === "sign-in" ? 1 : 8}
+                      minLength={mode === "sign-in" ? 1 : 12}
                       maxLength={128}
                       aria-describedby={
                         mode === "sign-in" ? undefined : "password-hint"
@@ -227,7 +224,7 @@ export function AuthForm({
                 )}
                 {!isForgot && mode !== "sign-in" && (
                   <p id="password-hint" className="field-hint">
-                    Use at least 8 characters.
+                    Use at least 12 characters.
                   </p>
                 )}
                 {isReset && (
@@ -239,7 +236,7 @@ export function AuthForm({
                       type="password"
                       autoComplete="new-password"
                       required
-                      minLength={8}
+                      minLength={12}
                       maxLength={128}
                       disabled={busy}
                     />
@@ -289,6 +286,9 @@ export function AuthForm({
               </p>
             </>
           )}
+          <p className="auth-switch">
+            <Link href="/auth/verify-email">Need to verify your email?</Link>
+          </p>
           <Link href="/" className="auth-home">
             ← Back to Luma
           </Link>

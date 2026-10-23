@@ -16,6 +16,14 @@ const config: NextConfig = {
           { key: "X-DNS-Prefetch-Control", value: "off" },
         ],
       },
+      {
+        source: "/auth/:path*",
+        headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
+      },
+      {
+        source: "/api/auth/:path*",
+        headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
+      },
     ];
   },
 };
