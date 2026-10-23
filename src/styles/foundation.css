@@ -316,3 +316,217 @@ a:hover {
     transition: none !important;
   }
 }
+
+/* Main navigation */
+.upgraded-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  box-shadow: 0 3px 20px #40202d05;
+}
+.upgraded-header .header-inner {
+  height: 82px;
+  max-width: 1360px;
+  gap: 26px;
+}
+.upgraded-header .nav {
+  gap: 23px;
+}
+.upgraded-header .nav > a,
+.nav-learn {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.nav-learn {
+  border: 0;
+  background: none;
+  padding: 12px 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.nav-learn.active,
+.nav-learn:hover {
+  color: var(--red);
+}
+.learn-navigation {
+  position: relative;
+}
+.learn-dropdown {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: -80px;
+  width: 330px;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid #e7d8dd;
+  border-top: 3px solid var(--red);
+  box-shadow: 0 20px 50px #4a263316;
+}
+.learn-dropdown[hidden] {
+  display: none;
+}
+.learn-dropdown > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0e5e8;
+  gap: 15px;
+}
+.learn-dropdown > a:last-child {
+  border: 0;
+}
+.learn-dropdown > a:hover b {
+  color: var(--red);
+}
+.learn-dropdown b {
+  display: block;
+  font-size: 13px;
+}
+.learn-dropdown small {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: #705762;
+  margin-top: 3px;
+}
+.dropdown-label {
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: #9d2244;
+  font-weight: 700;
+}
+.upgraded-header .nav-signin {
+  background: #c60936;
+  color: white;
+  border: 0;
+  min-width: 118px;
+  gap: 24px;
+  padding: 12px 17px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 9px) 0,
+    100% 9px,
+    100% 100%,
+    9px 100%,
+    0 calc(100% - 9px)
+  );
+  box-shadow: none;
+}
+.upgraded-header .nav-signin:hover {
+  background: #8b1231;
+  color: #fff;
+}
+.free-nav {
+  color: #9a173c;
+}
+.upgraded-header .brand {
+  font-size: 34px;
+}
+.upgraded-header .brand span {
+  font-size: 10px;
+}
+.upgraded-header .nav a.active {
+  box-shadow: none;
+  color: var(--red);
+}
+@media (max-width: 1100px) {
+  .upgraded-header .header-inner {
+    padding: 0 24px;
+    gap: 18px;
+  }
+  .upgraded-header .nav {
+    gap: 17px;
+  }
+  .upgraded-header .nav > a,
+  .nav-learn {
+    font-size: 11px;
+  }
+}
+@media (max-width: 940px) {
+  .upgraded-header .header-inner {
+    height: 74px;
+    position: relative;
+  }
+  .upgraded-header .nav {
+    display: none;
+    position: absolute;
+    top: 74px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 18px 24px 26px;
+    background: #fff;
+    border-bottom: 2px solid #c60936;
+    box-shadow: 0 14px 20px #40202d0c;
+    max-height: calc(100dvh - 74px);
+    overflow: auto;
+  }
+  .upgraded-header .nav.open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .upgraded-header .nav > a,
+  .nav-learn {
+    font-size: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid #eee2e7;
+    width: 100%;
+  }
+  .nav-learn {
+    justify-content: space-between;
+  }
+  .learn-dropdown {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    border: 0;
+    padding: 14px 16px;
+    background: #fcf5f7;
+  }
+  .learn-dropdown a {
+    padding: 10px 0;
+  }
+  .upgraded-header .menu-toggle {
+    display: block;
+    min-height: 42px;
+    border-radius: 0;
+    border-color: #e1ccd4;
+    font-size: 11px;
+    background: white;
+  }
+  .upgraded-header .nav-signin {
+    min-width: 101px;
+    font-size: 11px;
+    gap: 16px;
+  }
+  .upgraded-header .header-actions {
+    gap: 12px;
+  }
+  .upgraded-header .brand {
+    font-size: 31px;
+  }
+}
+@media (max-width: 400px) {
+  .upgraded-header .header-inner {
+    padding: 0 16px;
+  }
+  .upgraded-header .brand span {
+    display: none;
+  }
+  .upgraded-header .nav-signin {
+    min-width: 88px;
+    padding: 11px 14px;
+  }
+  .upgraded-header .header-actions {
+    gap: 8px;
+  }
+}
+
+.upgraded-header .header-actions > .nav-signin {
+  display: inline-flex;
+}

@@ -35,9 +35,7 @@ export default function Page() {
         </div>
         <div className="hero-caption">
           <span>LISTENING / READING / WRITING</span>
-          <Link href="/coming-soon?feature=cambridge">
-            Explore the library ↓
-          </Link>
+          <Link href="/cambridge">Explore the library ↓</Link>
         </div>
       </section>
       <section className="section" id="practice">
@@ -51,7 +49,7 @@ export default function Page() {
                 resources—প্রস্তুতির সবটা এক জায়গায়।
               </p>
             </div>
-            <Link className="text-link" href="/coming-soon?feature=practice">
+            <Link className="text-link" href="/practice">
               Find your practice ↗
             </Link>
           </div>
@@ -82,10 +80,7 @@ export default function Page() {
                 Cambridge-এর Listening ও Reading, প্রশ্নের ধরন অনুযায়ী
                 প্র্যাকটিস করো। বই ১–১০ ফ্রি।
               </p>
-              <Link
-                className="service-bottom"
-                href="/coming-soon?feature=cambridge"
-              >
+              <Link className="service-bottom" href="/cambridge">
                 Explore Cambridge <span>↗</span>
               </Link>
             </article>
@@ -106,10 +101,7 @@ export default function Page() {
                   Listening, Reading বা Writing—যখন সময় পাবে, পছন্দের test দিয়ে
                   প্রস্তুতি যাচাই করো।
                 </p>
-                <Link
-                  href="/coming-soon?feature=practice"
-                  className="service-bottom"
-                >
+                <Link href="/practice" className="service-bottom">
                   Browse practice tests <span>↗</span>
                 </Link>
               </article>
@@ -129,10 +121,7 @@ export default function Page() {
                   Sample answer দেখে শেখো। Writing guide আর ebook দিয়ে নিজের
                   উত্তর আরও গোছাও।
                 </p>
-                <Link
-                  href="/coming-soon?feature=resources"
-                  className="service-bottom"
-                >
+                <Link href="/resources" className="service-bottom">
                   Explore the shelf <span>↗</span>
                 </Link>
               </article>
@@ -151,10 +140,7 @@ export default function Page() {
                 একবার নিজেকে যাচাই করো।
               </h2>
               <p>তিনটি module। নির্দিষ্ট সময়। একসঙ্গে শুরু।</p>
-              <Link
-                href="/coming-soon?feature=mock-tests"
-                className="button outline"
-              >
+              <Link href="/mocks" className="button outline">
                 মক টেস্ট দেখো <span>↗</span>
               </Link>
             </div>
@@ -189,12 +175,12 @@ export default function Page() {
               <span className="eyebrow">FIND YOUR FOCUS</span>
               <h2 lang="en">What will you practice today?</h2>
             </div>
-            <Link href="/coming-soon?feature=practice" className="text-link">
+            <Link href="/practice" className="text-link">
               View all practice ↗
             </Link>
           </div>
           <div className="module-rows">
-            <Link className="module-row" href="/coming-soon?feature=practice">
+            <Link className="module-row" href="/practice">
               <span className="module-number">01</span>
               <div>
                 <span className="eyebrow">Reading</span>
@@ -205,7 +191,7 @@ export default function Page() {
                 ↗
               </span>
             </Link>
-            <Link className="module-row" href="/coming-soon?feature=practice">
+            <Link className="module-row" href="/practice">
               <span className="module-number">02</span>
               <div>
                 <span className="eyebrow">Writing</span>
@@ -216,7 +202,7 @@ export default function Page() {
                 ↗
               </span>
             </Link>
-            <Link className="module-row" href="/coming-soon?feature=practice">
+            <Link className="module-row" href="/practice">
               <span className="module-number">03</span>
               <div>
                 <span className="eyebrow">Listening</span>
@@ -240,13 +226,13 @@ export default function Page() {
               <span className="eyebrow">OFF THE CLOCK</span>
               <h2 lang="en">More ways to learn.</h2>
             </div>
-            <Link className="text-link" href="/coming-soon?feature=resources">
+            <Link className="text-link" href="/resources">
               All resources ↗
             </Link>
           </div>
           <div className="learning-grid">
             <Link
-              href="/coming-soon?feature=writing"
+              href="/resources/writing"
               className="learning-card sample-card"
             >
               <span className="eyebrow">WRITING SAMPLES</span>
@@ -261,10 +247,7 @@ export default function Page() {
                 <span>↗</span>
               </div>
             </Link>
-            <Link
-              href="/coming-soon?feature=vocabulary"
-              className="learning-card vocab-card"
-            >
+            <Link href="/vocabulary" className="learning-card vocab-card">
               <span className="eyebrow">VOCABULARY & GRAMMAR</span>
               <div className="word-art" aria-hidden="true">
                 <span>good</span>
@@ -275,10 +258,7 @@ export default function Page() {
                 <span>↗</span>
               </div>
             </Link>
-            <Link
-              href="/coming-soon?feature=ebooks"
-              className="learning-card ebook-card"
-            >
+            <Link href="/resources/ebooks" className="learning-card ebook-card">
               <span className="eyebrow">THE EBOOK SHELF</span>
               <div className="mini-books" aria-hidden="true">
                 <span>
@@ -318,7 +298,7 @@ export default function Page() {
                 প্রস্তুতি শুরু হবে ফ্রিতে। আরও প্র্যাকটিসের জন্য থাকবে Premium।
               </p>
             </div>
-            <Link href="/coming-soon?feature=premium" className="text-link">
+            <Link href="/pricing" className="text-link">
               Compare access ↗
             </Link>
           </div>
@@ -346,10 +326,7 @@ export default function Page() {
                   <span lang="bn">Guest হিসেবেও free practice</span>
                 </li>
               </ul>
-              <Link
-                className="button outline"
-                href="/coming-soon?feature=practice"
-              >
+              <Link className="button outline" href="/practice">
                 Start free <span>↗</span>
               </Link>
             </article>
@@ -376,7 +353,7 @@ export default function Page() {
                   <span lang="bn">Vocabulary ও Grammar-এ পূর্ণ access</span>
                 </li>
               </ul>
-              <Link className="button" href="/coming-soon?feature=premium">
+              <Link className="button" href="/pricing">
                 Explore Premium <span>↗</span>
               </Link>
             </article>

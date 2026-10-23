@@ -1,17 +1,17 @@
-# Foundation verification
+# Verification
 
-## Completed
+## Current checks
 
-- Next.js production build and strict TypeScript check pass.
-- Ten HTTP integration checks pass against the local production server: six public pages, protected account redirect, direct account API returning 401 with no-store, managed auth session endpoint, and a real 404.
-- App uses the official Neon Auth SDK proxy, server session checks and provider-backed email/password/Google methods. No fake auth or local user data.
-- Font assets are self-hosted; font licenses are included.
-- Environment files are ignored by Git; cookie secret is stored privately in Vercel and local development configuration.
+- Production Next.js build and strict TypeScript pass.
+- 46 automated checks pass: public pages and 404 behavior, anonymous dashboard/admin denial, direct API denial, exact admin-role policy, Cambridge bounds, deferred Speaking route rejection and per-request nonce CSP bound to rendered scripts.
+- Browser QA covers desktop public landing, Cambridge, resources and sign-in, Cambridge free-book filtering (10 books), Learn dropdown, mobile navigation and horizontal-overflow checks.
+- Local provider-mock QA exercises actual Next.js learner/admin layouts and role boundaries without creating production identities. This is integration/UI verification, not proof of the real owner's provider setup.
 
-## Requires owner verification before public launch
+## Production identity checks still needed
 
-- Create a real account; sign in, reload to confirm session restoration, and sign out.
-- Complete Google consent with the owner's Google account. Shared provider credentials are for development; configure production credentials first.
-- Request a recovery email, receive it in a controlled inbox, and complete a real password reset. Configure production SMTP first.
+- Owner-controlled signup/sign-in, reload/session restoration and sign-out.
+- Google consent with production OAuth credentials.
+- Receipt and completion of real recovery emails with custom SMTP.
+- Owner admin-role provisioning and revocation with real managed accounts.
 
-No test accounts, exam records or seed data were created in the production database. HTTP checks do not establish full Google/inbox end-to-end success. Local automated Chromium visual testing was unavailable because the browser download was blocked/truncated; production visual review remains to be completed.
+No test users, questions or scores were inserted in the production database. Catalogs and dashboards use empty states. No claims are made that content CRUD, exam execution, scheduling, scoring, premium billing or result publishing are operational.

@@ -1,23 +1,28 @@
+import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { site } from "@/config/site";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { SiteFrame } from "@/components/site-frame";
+
 import "@/styles/marketing.css";
 import "@/styles/foundation.css";
+import "@/styles/workspace.css";
 export const metadata: Metadata = {
   title: { default: `${site.name} IELTS`, template: `%s · ${site.name} IELTS` },
   description: site.description,
 };
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  await headers(); // Opt into per-request rendering for nonce-based CSP.
   return (
     <html lang="bn">
       <body>
         <a className="skip-link" href="#content">
           Skip to content
         </a>
-        <Header />
-        <main id="content">{children}</main>
-        <Footer />
+        <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
   );

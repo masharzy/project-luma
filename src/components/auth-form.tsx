@@ -90,7 +90,7 @@ export function AuthForm({
         return;
       }
       if (isForgot || isReset) setSuccess(true);
-      else window.location.assign("/account");
+      else window.location.assign("/dashboard");
     } catch {
       setError("We couldn’t connect just now. Please try again.");
     } finally {
@@ -103,7 +103,7 @@ export function AuthForm({
     try {
       const result = await authClient.signIn.social({
         provider: "google",
-        callbackURL: window.location.origin + "/account",
+        callbackURL: window.location.origin + "/dashboard",
         errorCallbackURL: window.location.origin + "/auth/sign-in?error=oauth",
       });
       if (result.error)

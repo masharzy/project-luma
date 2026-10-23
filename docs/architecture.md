@@ -1,28 +1,32 @@
-# Foundation architecture
+# Application architecture
 
-Next.js App Router + strict TypeScript, deployed on Vercel from `master`. One application keeps this milestone small; no separate Render service is needed.
+Next.js App Router + strict TypeScript, deployed on Vercel from `master`. A single application serves public marketing, feature collections, learner pages and administration. No Render service is currently required.
 
 ## Directory ownership
 
-- `src/app/(marketing)` — landing and service availability page.
-- `src/app/(auth)/auth` — sign-in, sign-up and password recovery routes.
-- `src/app/(account)` — minimal protected account confirmation.
-- `src/app/api/auth` — official SDK handler; no custom password/session implementation.
-- `src/app/api/account` — server session authorization example for later API routes.
-- `src/components` — shared header/footer and auth UI.
-- `src/lib/auth` — server-only provider configuration and client wrapper.
-- `src/config` — central brand settings.
-- `src/styles` — approved landing stylesheet and scoped foundation additions.
-- `public/fonts` — self-hosted Hind Siliguri and Manrope.
-- `docs` — scope, architecture, site map, deployment and verification notes.
-- `tests` — HTTP integration checks; never seed real users or exam content.
+- `src/app/(marketing)` — landing, public feature catalogs, resource collections and pricing.
+- `src/app/(auth)/auth` — sign-in, sign-up and password recovery.
+- `src/app/(learner)` — session-protected learner dashboard and profile settings.
+- `src/app/(management)/admin` — admin-role-protected workspace and authoring pages.
+- `src/app/api/auth` — official same-origin Neon Auth SDK handler.
+- `src/app/api/account`, `src/app/api/admin/access` — independently authorized identity/access endpoints.
+- `src/components` — public/workspace shells, navigation, catalog filters and authoring forms.
+- `src/lib/auth` — server-only provider configuration, guards, pure role policy and browser client.
+- `src/config` — brand and structural feature metadata; no question content.
+- `src/styles` — approved marketing design, foundation additions and scoped product styles.
+- `public/fonts` — self-hosted Hind Siliguri and Manrope plus licenses.
+- `docs`, `tests` — product boundaries, security and verification.
 
-## Identity and data
+## Data and identity
 
-New Neon project `project-luma`, Singapore region, holds managed identity in `neon_auth`. The application uses `@neondatabase/auth`'s official same-origin Next.js handler, Google OAuth integration and cached session cookies. Passwords never enter application storage. No application database schema, demo content, exam records or migrated legacy data are included.
+The separate Neon project holds managed identity in `neon_auth`. The official SDK handles credentials, cookies and OAuth. Profile name updates use the actual provider API. No application content/history schema or seed data is introduced by this page milestone.
 
-`proxy.ts` redirects unauthenticated `/account` traffic. `/account` and `/api/account` also check sessions on the server; future protected operations must do the same. API responses use no-store.
+All HTML opts into per-request rendering for nonce CSP. Private route responses are no-store. Learner guards check sessions; admin guards additionally bypass cookie-cache reads and validate the managed role. API authorization is enforced independently of page navigation.
 
-## Future extension points
+## Authoring boundary
 
-Add feature code only with the next approved milestone. Practice engine migration, dashboard, admin, question import, scoring workers, SMTP branding, payments and mock synchronization remain separate work. See `site-map.md` for route intent. Domain logic can later move under `src/features/<feature>` when a feature actually exists; empty framework layers and unused APIs are intentionally absent.
+Admin question/test/mock/resource forms support bounded plain-text draft input and JSON download. They do not silently persist to browser storage, write records, publish content, create evaluation jobs or send emails. Question/test engines and content APIs will be integrated after the data model and migration approach are agreed.
+
+## Future services
+
+Content storage, user-specific history, bookmarks, secure paid entitlements, server-timed mocks, reminders, durable evaluation and transactional bulk result release require independent server operations with resource-level authorization. Their page entry points are now present; the services are not represented as running.

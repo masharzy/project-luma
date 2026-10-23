@@ -1,26 +1,33 @@
 # Project Luma
 
-IELTS platform foundation: approved Bangla/English landing page, account creation, email/password and Google sign-in, password recovery, and Vercel deployment.
+A bilingual IELTS platform built with Next.js, React, TypeScript and Neon Auth, deployed from GitHub to Vercel.
 
-## Stack
+## Implemented pages
 
-Next.js 16 App Router, React 19, TypeScript, Neon Auth (Managed Better Auth), Neon Postgres and Vercel. No Render service is required for this milestone.
+- Approved landing page and responsive navigation with a red sign-in button.
+- Free practice, Listening/Reading/Writing collections, searchable Cambridge 1–21 shelf, book pages, scheduled mocks, learning resources, Writing samples, ebooks, vocabulary, grammar, journal and Free/Premium comparison.
+- Authenticated learner workspace: overview, practice history, mocks, published results, saved resources and profile settings.
+- Role-protected admin workspace: overview, question bank, test collection, mock planning, resources, results release, users and settings. Authoring forms export draft JSON; publishing is not simulated.
+- Connected email/password and Google authentication, password recovery, session checks and real profile-name updates.
+
+## Current integration boundary
+
+No demo users, questions, attempts, articles or scores are seeded. Catalogs have honest empty states. Question engines, content CRUD, persistent history/saves, scheduling, reminders, AI evaluation, transactions for publishing and payments remain later integrations. No Speaking or chatbot implementation.
 
 ## Local development
 
-1. Use Node 24 and run `npm ci`.
-2. Copy `.env.example` to `.env.local`. Set the branch's `NEON_AUTH_BASE_URL` and generate a cookie secret with `openssl rand -base64 48`. Never commit that file.
+1. Use Node 24; run `npm ci`.
+2. Copy `.env.example` to `.env.local`. Supply the branch's `NEON_AUTH_BASE_URL` and generate `NEON_AUTH_COOKIE_SECRET` using `openssl rand -base64 48`. Never commit secrets.
 3. Run `npm run dev`.
-4. Run `npm run build` and `npm run typecheck` before pushing.
-5. With the app running, run `npm test`. Set `TEST_BASE_URL` to check a deployed environment.
+4. Run `npm run build` and `npm run typecheck`.
+5. With the app running, run `npm test`; set `TEST_BASE_URL` to test a deployed environment. HTTP tests assume an anonymous session and no Vercel protection wall.
 
-## Documents
+Admin access requires the explicit managed `admin` role, verified server-side. No user is automatically elevated. Production OAuth credentials, SMTP and full owner-account verification remain launch requirements.
 
-- [Site map and approved scope](docs/site-map.md)
-- [Architecture and folder ownership](docs/architecture.md)
-- [Deployment and provider setup](docs/deployment.md)
+## Documentation
+
+- [Site map and feature boundaries](docs/site-map.md)
+- [Architecture](docs/architecture.md)
+- [Deployment](docs/deployment.md)
+- [Security](docs/security.md)
 - [Verification](docs/verification.md)
-
-## Scope
-
-This is the foundation milestone. The account page confirms the authenticated session; it is not a learner dashboard. Practice engines, scheduled mocks, questions, AI scoring, payments, dashboard and admin are planned only. Landing service links explicitly show coming-soon status. No demo users or test questions are seeded.
