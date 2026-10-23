@@ -33,3 +33,8 @@ export function smtpReady() {
     process.env.SMTP_FROM
   );
 }
+
+export function emailReady() {
+  if (process.env.RESEND_API_KEY) return !!process.env.RESEND_FROM_EMAIL;
+  return smtpReady();
+}

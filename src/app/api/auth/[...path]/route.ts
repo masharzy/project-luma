@@ -3,7 +3,7 @@ import { db } from "@/lib/auth/db";
 import {
   appOrigin,
   googleReady,
-  smtpReady,
+  emailReady,
   sessionCookieName,
 } from "@/lib/auth/config";
 import {
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
     if (path === "config")
       return json({
         google: googleReady(),
-        email: smtpReady(),
+        email: emailReady(),
         provider: "custom",
       });
     if (path === "google") return await beginGoogle(request);
