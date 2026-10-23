@@ -1,104 +1,29 @@
 "use client";
-import { useState, type FormEvent } from "react";
-import Link from "next/link";
+import { useState,type FormEvent } from "react";
 import { WorkspaceHeading } from "./page-parts";
-import type { CambridgeTest, CambridgeSection } from "@/lib/cambridge";
-
-export function CambridgeTestManager({initialTests}:{initialTests:CambridgeTest[]}) {
- const [tests,setTests]=useState(initialTests);
+import type { CambridgeTest,CambridgeSection } from "@/lib/cambridge";
+const modules=["listening","reading","writing"] as const;
+export function CambridgeTestManager({initialTests}:{initialTests:CambridgeTest[]}){
+ const [tests,setTests]=useState(initialTests),[selected,setSelected]=useState<number|null>(null),[editing,setEditing]=useState<string|null>(null);
  const [book,setBook]=useState("1"),[serial,setSerial]=useState("1"),[title,setTitle]=useState("");
- const [access,setAccess]=useState<"free"|"premium">("free");
- const [status,setStatus]=useState<"draft"|"published">("draft");
- const [sections,setSections]=useState<CambridgeSection[]>(["listening","reading"]);
- const [error,setError]=useState(""),[notice,setNotice]=useState(""),[busy,setBusy]=useState(false);
- const [search,setSearch]=useState("");
- const refresh=async()=>{
-  const res=await fetch("/api/admin/cambridge-tests",{cache:"no-store"});
-  if(!res.ok)throw new Error("Could not load tests");
-  const data=await res.json();setTests(data.tests);
- };
- const toggle=(section:CambridgeSection)=>setSections(prev=>prev.includes(section)?prev.filter(s=>s!==section):[...prev,section]);
- const submit=async(e:FormEvent<HTMLFormElement>)=>{
-  e.preventDefault();setError("");setNotice("");
-  if(!sections.length){setError("Select at least one section.");return;}
-  setBusy(true);
-  try {
-   const res=await fetch("/api/admin/cambridge-tests",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({bookNumber:Number(book),testNumber:Number(serial),title,access,status,sections})
-   });
-   const result=await res.json();
-   if(!res.ok)throw new Error(result.error||"Could not save test");
-   await refresh();setNotice("Test saved successfully.");setSerial(String(Number(serial)+1));setTitle("");
-  }catch(err){setError(err instanceof Error?err.message:"Save failed");}
-  finally{setBusy(false);}
- };
- const change=async(id:string,values:{status?:"draft"|"published";access?:"free"|"premium"})=>{
-  setBusy(true);setError("");setNotice("");
-  try{
-   const res=await fetch("/api/admin/cambridge-tests/"+id,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify(values)});
-   if(!res.ok)throw new Error((await res.json()).error||"Could not update");
-   await refresh();
-  }catch(err){setError(err instanceof Error?err.message:"Update failed");}
-  finally{setBusy(false);}
- };
- const remove=async(id:string)=>{
-  if(!window.confirm("Delete this Cambridge test permanently?"))return;
-  setBusy(true);setError("");setNotice("");
-  try{
-   const res=await fetch("/api/admin/cambridge-tests/"+id,{method:"DELETE"});
-   if(!res.ok)throw new Error("Could not delete");
-   await refresh();
-  }catch(err){setError(err instanceof Error?err.message:"Delete failed");}
-  finally{setBusy(false);}
- };
- const filtered=tests.filter(t=>`cambridge ${t.bookNumber} test ${t.testNumber} ${t.title}`.toLowerCase().includes(search.toLowerCase()));
- return <>
-  <WorkspaceHeading eyebrow="CONTENT / CAMBRIDGE TESTS" title="Manage Cambridge tests."
-   description="Cambridge book ও test serial অনুযায়ী সাজাও, section বেছে নাও, Free/Premium এবং publish status নিয়ন্ত্রণ করো।">
-   <Link href="/admin/questions" className="text-link">Question bank ↗</Link>
-  </WorkspaceHeading>
-  <div className="admin-integration-note">Test metadata database-এ save হচ্ছে। Question bank এবং runnable exam engine এখনো সংযুক্ত নয়।</div>
-  <form className="workspace-panel draft-editor" onSubmit={submit}>
-   <h2>Add Cambridge test</h2>
-   <div className="form-two">
-    <label>Cambridge book number<input type="number" min={1} max={1000} required value={book} onChange={e=>setBook(e.target.value)}/></label>
-    <label>Test serial<input type="number" min={1} max={1000} required value={serial} onChange={e=>setSerial(e.target.value)}/></label>
-   </div>
-   <label>Test title<input maxLength={180} value={title} onChange={e=>setTitle(e.target.value)} placeholder="Optional — Test 1"/></label>
-   <div className="form-two">
-    <label>Access<select value={access} onChange={e=>setAccess(e.target.value as "free"|"premium")}>
-     <option value="free">Free</option><option value="premium">Premium</option></select></label>
-    <label>Status<select value={status} onChange={e=>setStatus(e.target.value as "draft"|"published")}>
-     <option value="draft">Draft</option><option value="published">Published</option></select></label>
-   </div>
-   <fieldset><legend>Available sections</legend>
-    {(["listening","reading","writing"] as const).map(s=><label key={s} style={{display:"inline-flex",gap:8,marginRight:20,alignItems:"center"}}>
-     <input type="checkbox" checked={sections.includes(s)} onChange={()=>toggle(s)}/>{s[0].toUpperCase()+s.slice(1)}
-    </label>)}
-   </fieldset>
-   <button className="button" type="submit" disabled={busy}>Save test +</button>
-  </form>
-  {error&&<p role="alert">{error}</p>}
-  {notice&&<p role="status">{notice}</p>}
-  <section className="workspace-panel admin-table-panel">
-   <div className="catalog-toolbar"><label className="search-field">Search tests
-    <input type="search" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Book or test number"/>
-   </label></div>
-   <div className="table-scroll"><table>
-    <thead><tr><th>BOOK</th><th>TEST</th><th>SECTIONS</th><th>ACCESS</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
-    <tbody>{filtered.map(t=><tr key={t.id}>
-     <td>Cambridge {t.bookNumber}</td><td>{t.title||"Test "+t.testNumber} (#{t.testNumber})</td>
-     <td>{t.sections.join(", ")}</td>
-     <td><select aria-label="Test access" disabled={busy} value={t.access} onChange={e=>change(t.id,{access:e.target.value as "free"|"premium"})}>
-      <option value="free">Free</option><option value="premium">Premium</option></select></td>
-     <td><select aria-label="Publish status" disabled={busy} value={t.status} onChange={e=>change(t.id,{status:e.target.value as "draft"|"published"})}>
-      <option value="draft">Draft</option><option value="published">Published</option></select></td>
-     <td><button type="button" disabled={busy} onClick={()=>remove(t.id)}>Delete</button></td>
-    </tr>)}
-    {filtered.length===0&&<tr><td colSpan={6}>No Cambridge tests found.</td></tr>}
-    </tbody>
-   </table></div>
-  </section>
- </>;
+ const [access,setAccess]=useState<"free"|"premium">("free"),[status,setStatus]=useState<"draft"|"published"|"archived">("draft"),[sections,setSections]=useState<CambridgeSection[]>(["listening","reading"]);
+ const [busy,setBusy]=useState(false),[message,setMessage]=useState(""),[showForm,setShowForm]=useState(false);
+ const books=Array.from(new Set(tests.map(t=>t.bookNumber))).sort((a,b)=>a-b);
+ const refresh=async()=>{const r=await fetch("/api/admin/cambridge-tests",{cache:"no-store"});if(!r.ok)throw Error("Refresh failed");setTests((await r.json()).tests);};
+ const reset=()=>{setEditing(null);setTitle("");setSerial("1");setStatus("draft");setAccess("free");setSections(["listening","reading"]);setShowForm(false);};
+ const edit=(t:CambridgeTest)=>{setEditing(t.id);setBook(String(t.bookNumber));setSerial(String(t.testNumber));setTitle(t.title);setAccess(t.access);setStatus(t.status);setSections(t.sections);setShowForm(true);window.scrollTo({top:0,behavior:"smooth"});};
+ const request=async(url:string,method:string,data?:object)=>{const r=await fetch(url,{method,headers:{"Content-Type":"application/json"},body:data?JSON.stringify(data):undefined});if(!r.ok)throw Error((await r.json()).error||"Request failed");await refresh();};
+ const submit=async(e:FormEvent)=>{e.preventDefault();setBusy(true);setMessage("");try{const payload={bookNumber:Number(book),testNumber:Number(serial),title,access,status,sections};await request(editing?"/api/admin/cambridge-tests/"+editing:"/api/admin/cambridge-tests",editing?"PATCH":"POST",payload);setSelected(Number(book));reset();setMessage("Saved successfully.");}catch(e){setMessage(e instanceof Error?e.message:"Save failed");}finally{setBusy(false);}};
+ const act=async(t:CambridgeTest,action:"draft"|"published"|"archived"|"delete")=>{if(action==="delete"&&!confirm("Delete this test permanently?"))return;setBusy(true);setMessage("");try{await request("/api/admin/cambridge-tests/"+t.id,action==="delete"?"DELETE":"PATCH",action==="delete"?undefined:{status:action});}catch(e){setMessage(e instanceof Error?e.message:"Update failed");}finally{setBusy(false);}};
+ return <div className="admin-refactor"><WorkspaceHeading eyebrow="CAMBRIDGE LIBRARY" title={selected?"Cambridge "+selected:"Manage Cambridge"} description="Books and tests are organized exactly as they appear in the learner library.">
+ <button className="button" onClick={()=>{setShowForm(v=>!v);setEditing(null);if(selected)setBook(String(selected));}}>Add Cambridge test +</button></WorkspaceHeading>
+ {showForm&&<form className="workspace-panel admin-editor" onSubmit={submit}><div className="panel-heading"><h2>{editing?"Edit test":"Add Cambridge test"}</h2><button type="button" onClick={reset}>Close</button></div>
+ <div className="form-two"><label>Book number<input type="number" min="1" max="1000" required value={book} onChange={e=>setBook(e.target.value)}/></label><label>Test serial<input type="number" min="1" max="1000" required value={serial} onChange={e=>setSerial(e.target.value)}/></label></div>
+ <label>Test title<input maxLength={180} value={title} onChange={e=>setTitle(e.target.value)}/></label><div className="form-two"><label>Access<select value={access} onChange={e=>setAccess(e.target.value as "free"|"premium")}><option value="free">Free</option><option value="premium">Premium</option></select></label><label>Status<select value={status} onChange={e=>setStatus(e.target.value as "draft"|"published"|"archived")}><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></label></div>
+ <fieldset><legend>Available modules</legend><div className="admin-checks">{modules.map(m=><label key={m}><input type="checkbox" checked={sections.includes(m)} onChange={()=>setSections(s=>s.includes(m)?s.filter(x=>x!==m):[...s,m])}/>{m}</label>)}</div></fieldset><button className="button" disabled={busy||!sections.length}>Save test ↗</button></form>}
+ {message&&<p role="status" className="admin-feedback">{message}</p>}
+ {selected!==null&&<button className="admin-back" onClick={()=>setSelected(null)}>← All Cambridge books</button>}
+ {selected===null?<div className="book-grid admin-book-grid">{books.map(n=>{const entries=tests.filter(t=>t.bookNumber===n),premium=entries.every(t=>t.access==="premium");return <button type="button" key={n} className={`catalog-book admin-book-button ${premium?"premium-book":""}`} onClick={()=>setSelected(n)}><div className="book-cover"><span>CAMBRIDGE<br/>IELTS</span><strong>{String(n).padStart(2,"0")}</strong><span>TEST COLLECTION</span><span className="book-spine"/></div><div className="book-caption"><div><h2>Cambridge {n}</h2><span>{entries.length} tests · {entries.filter(t=>t.status==="published").length} published</span></div><span>↗</span></div></button>})}{!books.length&&<div className="workspace-panel admin-empty">No Cambridge books yet. Add a test to create the first book.</div>}</div>:
+ <div className="admin-item-grid">{tests.filter(t=>t.bookNumber===selected).sort((a,b)=>a.testNumber-b.testNumber).map(t=><article key={t.id} className="workspace-panel admin-item-card"><div className="admin-item-top"><span className="access-pill">{t.status} · {t.access}</span><details><summary aria-label={"Actions for test "+t.testNumber}>⋯</summary><div className="admin-item-menu"><button onClick={()=>edit(t)}>Edit</button><button disabled={busy} onClick={()=>act(t,"draft")}>Draft / Unpublish</button><button disabled={busy} onClick={()=>act(t,"published")}>Publish</button><button disabled={busy} onClick={()=>act(t,"archived")}>Archive</button><button disabled={busy} onClick={()=>act(t,"delete")}>Delete</button></div></details></div><h3>{t.title||"Test "+t.testNumber}</h3><p>Test #{t.testNumber}</p><div className="admin-item-meta">{t.sections.join(" · ")}</div></article>)}</div>}
+ </div>;
 }
