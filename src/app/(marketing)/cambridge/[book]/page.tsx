@@ -2,91 +2,43 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageIntro, PageWrap, EmptyState } from "@/components/page-parts";
 import { Icon } from "@/components/ui/icon";
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ book: string }>;
-}) {
-  const { book } = await params;
-  const number = Number(book);
-  if (
-    !/^\d+$/.test(book) ||
-    !Number.isInteger(number) ||
-    number < 1 ||
-    number > 21
-  )
-    notFound();
-  const premium = number > 10;
-  return (
-    <PageWrap tone="library-page">
-      <PageIntro
-        eyebrow={"CAMBRIDGE / " + number}
-        title={"Cambridge " + number}
-        description={
-          premium
-            ? "এই বইয়ের practice Premium membership-এর অংশ। Premium access চালু হলে এখান থেকে প্রস্তুতি নিতে পারবে।"
-            : "এই বইয়ের Listening ও Reading practice ফ্রিতে করা যাবে। Published test নিচে দেখা যাবে।"
-        }
-      >
-        <Link className="text-link" href="/cambridge">
-          ← Back to the shelf
-        </Link>
-      </PageIntro>
-      <div className="book-detail">
-        <div className={"book-cover " + (premium ? "premium-detail" : "")}>
-          <span>
-            CAMBRIDGE
-            <br />
-            IELTS
-          </span>
-          <strong>{String(number).padStart(2, "0")}</strong>
-          <span>YOUR PRACTICE COLLECTION</span>
-        </div>
-        <section>
-          <span className="access-pill">
-            {premium ? "PREMIUM LIBRARY" : "FREE LIBRARY"}
-          </span>
-          <h2>Take it one test at a time.</h2>
-          <p lang="bn">
-            Question content publish হওয়ার পর বইয়ের test আর module এখানে সাজানো
-            থাকবে।
-          </p>
-          <div className="book-modules">
-            <span>
-              <Icon name="headphones" />
-              Listening
-            </span>
-            <span>
-              <Icon name="book" />
-              Reading
-            </span>
-          </div>
-          {premium && (
-            <Link href="/pricing" className="button">
-              View Premium <span>↗</span>
-            </Link>
-          )}
-        </section>
-      </div>
-      {premium ? (
-        <div className="premium-lock">
-          <Icon name="lock" />
-          <h3>Premium access is required.</h3>
-          <p lang="bn">
-            Free account বা guest access-এ Cambridge ১১–২১-এর question খোলা হবে
-            না।
-          </p>
-        </div>
-      ) : (
-        <div className="catalog-empty">
-          <EmptyState
-            title="The tests are being prepared."
-            description="এই বইয়ের কোনো test এখনো publish করা হয়নি। অন্য collection-গুলো দেখে নিতে পারো।"
-            action="Browse practice"
-            href="/practice"
-          />
-        </div>
-      )}
-    </PageWrap>
-  );
+import { listCambridgeTests } from "@/lib/cambridge";
+export const dynamic="force-dynamic";
+export default async function Page({params}:{params:Promise<{book:string}>}) {
+ const {book}=await params;
+ const number=Number(book);
+ if(!/^\d+$/.test(book)||!Number.isSafeInteger(number)||number<1) notFound();
+ const tests=(await listCambridgeTests()).filter(t=>t.bookNumber===number);
+ if(!tests.length) notFound();
+ const premium=tests.every(t=>t.access==="premium");
+ const allModules=Array.from(new Set(tests.flatMap(t=>t.sections)));
+ return <PageWrap tone="library-page">
+  <PageIntro eyebrow={"CAMBRIDGE / "+number} title={"Cambridge "+number}
+   description="এই বইয়ের published tests সিরিয়াল অনুযায়ী সাজানো। প্রতিটি test-এর available section ও access Admin Panel থেকে নির্ধারিত।">
+   <Link className="text-link" href="/cambridge">← Back to the shelf</Link>
+  </PageIntro>
+  <div className="book-detail"><div className={"book-cover "+(premium?"premium-detail":"")}>
+   <span>CAMBRIDGE<br/>IELTS</span><strong>{String(number).padStart(2,"0")}</strong>
+   <span>YOUR PRACTICE COLLECTION</span></div>
+   <section><span className="access-pill">{premium?"PREMIUM LIBRARY":"CAMBRIDGE LIBRARY"}</span>
+    <h2>Take it one test at a time.</h2><p lang="bn">{tests.length}টি published test পাওয়া যাচ্ছে।</p>
+    <div className="book-modules">{allModules.map(section=><span key={section}>
+     <Icon name={section==="listening"?"headphones":"book"}/>{section[0].toUpperCase()+section.slice(1)}
+    </span>)}</div>
+   </section>
+  </div>
+  <div className="book-grid">
+   {tests.map(test=><div className={`catalog-book ${test.access==="premium"?"premium-book":""}`} key={test.id}>
+    <div className="book-cover"><span>CAMBRIDGE<br/>IELTS</span>
+     <strong>{String(test.testNumber).padStart(2,"0")}</strong>
+     <span>{test.sections.map(s=>s.toUpperCase()).join(" / ")}</span><span className="book-spine"/></div>
+    <div className="book-caption"><div><h2>{test.title||"Test "+test.testNumber}</h2>
+     <span>{test.access==="premium"?"Premium access":"Free access"} · {test.sections.length} sections</span>
+    </div>{test.access==="premium"?<Icon name="lock" size={17}/>:<span>↗</span>}</div>
+    <div className="book-modules">{test.sections.map(s=><span key={s}>{s[0].toUpperCase()+s.slice(1)}</span>)}</div>
+    <div className="field-information">Full test এবং individual section শুরু করা যাবে প্রশ্ন ও exam engine সংযুক্ত হওয়ার পর।</div>
+   </div>)}
+  </div>
+  {tests.length===0&&<div className="catalog-empty"><EmptyState title="No published tests yet."/></div>}
+ </PageWrap>;
 }
