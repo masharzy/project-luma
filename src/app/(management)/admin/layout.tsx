@@ -1,3 +1,4 @@
+import "@/styles/admin-refactor.css";
 import { requireAdmin } from "@/lib/auth/guards";
 import { WorkspaceShell } from "@/components/workspace-shell";
 export const metadata = { robots: { index: false, follow: false } };
