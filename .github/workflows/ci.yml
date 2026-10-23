@@ -1,8 +1,8 @@
 name: CI
 on:
-  pull_request:
-    branches: [master]
   push:
+    branches: [feat/admin-workspace-refactor]
+  pull_request:
     branches: [master]
   workflow_dispatch:
 jobs:
@@ -18,5 +18,20 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
-      - run: npm test
+      - name: Unit and security tests
+        run: node --test $(find tests -maxdepth 1 -name '*.test.mjs' ! -name 'http.test.mjs' | sort)
       - run: npm run build
+  http-integration:
+    if: ${{ vars.CI_TEST_BASE_URL != '' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: HTTP integration against configured test server
+        env:
+          TEST_BASE_URL: ${{ vars.CI_TEST_BASE_URL }}
+        run: node --test tests/http.test.mjs

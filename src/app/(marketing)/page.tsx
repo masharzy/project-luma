@@ -20,12 +20,12 @@ export default function Page() {
         <div className="hero-content">
           <div className="hero-kicker">IELTS PRACTICE, MADE FOR YOU</div>
           <h1 lang="bn">
-            স্কোরের ওপারে
+            IELTS প্রস্তুতিতে
             <br />
-            <span>অপেক্ষায় তোমার পৃথিবী।</span>
+            <span>প্রতিটি ধাপে এগিয়ে যাও।</span>
           </h1>
           <p className="hero-description">
-            সেই পথে এগোতে, প্রতিদিন একটু প্রস্তুতি।
+            Cambridge বই, Listening, Reading ও Writing প্র্যাকটিস—নিজের লক্ষ্য অনুযায়ী প্রস্তুতি সাজাও, নিয়মিত অনুশীলন করো এবং আত্মবিশ্বাস বাড়াও।
           </p>
           <div className="hero-ctas">
             <Link className="button" href="/auth/sign-up">
@@ -57,7 +57,7 @@ export default function Page() {
             <article className="service cambridge">
               <div className="service-label">
                 <span>CAMBRIDGE LIBRARY</span>
-                <span className="badge">01–10 FREE</span>
+                <span className="badge">FREE & PREMIUM</span>
               </div>
               <div className="books" aria-hidden="true">
                 <div className="back-book">
@@ -78,7 +78,7 @@ export default function Page() {
               </h3>
               <p>
                 Cambridge-এর Listening ও Reading, প্রশ্নের ধরন অনুযায়ী
-                প্র্যাকটিস করো। বই ১–১০ ফ্রি।
+                প্র্যাকটিস করো। প্রতিটি টেস্টের Free বা Premium অ্যাক্সেস আলাদা।
               </p>
               <Link className="service-bottom" href="/cambridge">
                 Explore Cambridge <span>↗</span>
@@ -314,7 +314,7 @@ export default function Page() {
               <p lang="bn">শুরু করার জন্য যা প্রয়োজন।</p>
               <ul>
                 <li>
-                  <b>Cambridge 1–10</b>
+                  <b>Selected Cambridge tests</b>
                   <span lang="bn">Listening ও Reading practice</span>
                 </li>
                 <li>
@@ -341,7 +341,7 @@ export default function Page() {
               <p lang="bn">আরও প্রশ্ন, আরও শেখার সুযোগ।</p>
               <ul>
                 <li>
-                  <b>Cambridge 11–21</b>
+                  <b>Premium Cambridge tests</b>
                   <span lang="bn">পরের বইগুলোর practice access</span>
                 </li>
                 <li>

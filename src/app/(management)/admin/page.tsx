@@ -1,70 +1,26 @@
 import Link from "next/link";
-import { WorkspaceHeading, EmptyState } from "@/components/page-parts";
-import { Icon } from "@/components/ui/icon";
-export const metadata = { title: "Admin overview" };
-export default function Page() {
-  return (
-    <>
-      <WorkspaceHeading
-        eyebrow="PLATFORM / OVERVIEW"
-        title="Set the next chapter in motion."
-        description="Question, practice test, mock schedule আর learning content—এক জায়গা থেকে গোছাও।"
-      >
-        <Link href="/admin/questions/new" className="button">
-          Draft a question <span>+</span>
-        </Link>
-      </WorkspaceHeading>
-      <div className="admin-status-strip">
-        <Icon name="shield" />
-        <b>Restricted workspace</b>
-        <span>
-          Admin role verified by Luma Auth. Content services are not connected
-          yet.
-        </span>
-      </div>
-      <div className="admin-overview-grid">
-        {[
-          ["Question bank", "book", "/admin/questions"],
-          ["Practice library", "file", "/admin/tests"],
-          ["Scheduled mocks", "clock", "/admin/mocks"],
-          ["Results & publishing", "chart", "/admin/results"],
-        ].map(([label, icon, href]) => (
-          <Link href={href} className="admin-overview-card" key={href}>
-            <Icon name={icon as "book" | "file" | "clock" | "chart"} />
-            <h2>{label}</h2>
-            <p>No published content</p>
-            <span>Open workspace ↗</span>
-          </Link>
-        ))}
-      </div>
-      <div className="dashboard-columns">
-        <section className="workspace-panel">
-          <div className="panel-heading">
-            <h2>Ready for your first collection</h2>
-          </div>
-          <EmptyState
-            title="A clean slate."
-            description="এখনো কোনো content service connect করা হয়নি। Authoring form-এ draft করে export করা যাবে; published content বা real result দেখানো হচ্ছে না।"
-            href="/admin/questions/new"
-            action="Open question draft"
-          />
-        </section>
-        <section className="workspace-panel admin-release">
-          <span className="eyebrow">RESULT RELEASE POLICY</span>
-          <h2>
-            Review first.
-            <br />
-            Publish together.
-          </h2>
-          <p lang="bn">
-            AI evaluation শেষ হলেও result private থাকবে। নির্দিষ্ট mock-এর সব
-            result admin publish করলেই learner দেখতে পাবে।
-          </p>
-          <Link href="/admin/results" className="text-link">
-            Results workspace ↗
-          </Link>
-        </section>
-      </div>
-    </>
-  );
+import { WorkspaceHeading } from "@/components/page-parts";
+import { db } from "@/lib/auth/db";
+import { listCambridgeTests } from "@/lib/cambridge";
+export const dynamic="force-dynamic";
+export default async function Page(){
+ const cambridge=await listCambridgeTests(false);
+ const [users,content]=await Promise.all([
+ db().query("SELECT count(*)::int AS total, count(*) FILTER(WHERE created_at >= date_trunc('day',now()))::int AS today FROM app_auth.users"),
+ db().query("SELECT kind,count(*)::int AS total FROM public.admin_content GROUP BY kind")
+ ]);
+ const count=(kind:string)=>Number(content.find(x=>x.kind===kind)?.total||0);
+ const cards=[
+ ["Total users",Number(users[0]?.total||0),"/admin/users"],
+ ["New users today",Number(users[0]?.today||0),"/admin/users"],
+ ["Cambridge tests",cambridge.length,"/admin/cambridge"],
+ ["Cambridge books",new Set(cambridge.map(x=>x.bookNumber)).size,"/admin/cambridge"],
+ ["Practice tests",count("practice"),"/admin/practice"],
+ ["Mock exams",count("mock"),"/admin/mocks"],
+ ["Vocabulary entries",count("vocabulary"),"/admin/vocabulary"]
+ ] as const;
+ return <div className="admin-refactor"><WorkspaceHeading eyebrow="BUSINESS DASHBOARD" title="Platform overview" description="A live snapshot of your learners, content inventory and publishing activity."><Link href="/admin/cambridge" className="button">Manage Cambridge ↗</Link></WorkspaceHeading>
+ <div className="admin-kpi-grid">{cards.map(([label,value,href])=><Link href={href} className="admin-kpi" key={label}><span>{label}</span><strong>{value.toLocaleString()}</strong><small>View details ↗</small></Link>)}</div>
+ <section className="workspace-panel admin-business-note"><h2>Revenue & purchases</h2><p>Today's purchases, revenue and payment conversion will appear when a verified payment/orders data source is connected. No fabricated sales figures are shown.</p></section>
+ <section className="workspace-panel admin-business-note"><h2>Question inventory</h2><p>Standalone question-bank management is removed from the navigation. Module-level questions will be counted once the exam content model is connected.</p></section></div>;
 }

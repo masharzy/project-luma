@@ -14,10 +14,10 @@ const learner = [
 ];
 const admin = [
   ["/admin", "Overview", "grid"],
-  ["/admin/questions", "Question bank", "book"],
-  ["/admin/tests", "Practice tests", "file"],
+  ["/admin/cambridge", "Cambridge", "book"],
+  ["/admin/practice", "Practice tests", "file"],
   ["/admin/mocks", "Mock exams", "clock"],
-  ["/admin/results", "Results & publishing", "chart"],
+  ["/admin/vocabulary", "Vocabulary", "book"],
   ["/admin/resources", "Learning resources", "pen"],
   ["/admin/users", "Users & access", "users"],
   ["/admin/settings", "Settings", "settings"],
@@ -79,19 +79,13 @@ export function WorkspaceShell({
           })}
         </nav>
         <div className="sidebar-bottom">
-          {isAdmin ? (
-            <div className="sidebar-note">
-              <Icon name="shield" />
-              <b>Admin workspace</b>
-              <p>Access is checked on the server.</p>
-            </div>
-          ) : (
+          {!isAdmin ? (
             <div className="sidebar-note">
               <span className="eyebrow">A LITTLE MORE ROOM</span>
               <h3>Keep moving forward.</h3>
               <Link href="/pricing">Explore Premium ↗</Link>
             </div>
-          )}
+          ) : null}
           <Link className="sidebar-home" href={isAdmin ? "/dashboard" : "/"}>
             ← {isAdmin ? "Learner dashboard" : "Back to website"}
           </Link>
