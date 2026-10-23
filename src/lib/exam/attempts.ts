@@ -1,6 +1,7 @@
 import 'server-only';
 import { randomUUID } from 'node:crypto';
 import { cookies } from 'next/headers';
+import { readSession } from '@/lib/auth/session';
 import { db } from '@/lib/auth/db';
 import { digest, randomToken, validToken } from '@/lib/auth/crypto';
 import { AuthHttpError } from '@/lib/auth/http';
@@ -13,7 +14,7 @@ type Snapshot = {
     module: Module;
     document: ExamDocument;
 }[];
-export async function startAttempt(kind: string, parentId: string, selection: string, owner: string) {
+export async function startAttempt(kind: string, parentId: string, selection: string, owner: string, userId: string | null) {
     if (!['cambridge', 'practice'].includes(kind) || !/^\d{1,16}$/.test(parentId) || ![...moduleOrder, 'full'].includes(selection as any))
         throw new AuthHttpError(400, 'Invalid test');
     const k = kind as 'cambridge' | 'practice';
@@ -30,18 +31,22 @@ export async function startAttempt(kind: string, parentId: string, selection: st
         return { module, document };
     }));
     const id = randomUUID();
-    await db().query('INSERT INTO public.exam_attempts(id,owner_hash,kind,parent_id,title,snapshot) VALUES($1,$2,$3,$4,$5,$6::jsonb)', [id, digest(owner), kind, parentId, parent.title, JSON.stringify(snapshot)]);
+    await db().query('INSERT INTO public.exam_attempts(id,owner_hash,kind,parent_id,title,snapshot,user_id) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::uuid)', [id, digest(owner), kind, parentId, parent.title, JSON.stringify(snapshot), userId]);
     return id;
 }
 export async function readAttempt(id: string) {
     if (!/^[a-f0-9-]{36}$/.test(id))
         throw new AuthHttpError(404, 'Attempt not found');
+    const session = await readSession();
     const token = (await cookies()).get(ownerCookie)?.value;
-    if (!validToken(token))
+    if (!session?.user.id && !validToken(token))
         throw new AuthHttpError(404, 'Attempt not found');
-    const rows = await db().query('SELECT * FROM public.exam_attempts WHERE id=$1 AND owner_hash=$2 AND expires_at>now()', [id, digest(token)]);
+    const rows = await db().query(
+        'SELECT * FROM public.exam_attempts WHERE id=$1 AND expires_at>now() AND ((user_id IS NOT NULL AND user_id=$2::uuid) OR (user_id IS NULL AND owner_hash=$3))',
+        [id, session?.user.id ?? null, validToken(token) ? digest(token) : '']
+    );
     if (!rows.length)
-        throw new AuthHttpError(404, 'This attempt has expired or belongs to another browser');
+        throw new AuthHttpError(404, 'This attempt has expired or belongs to another account');
     return rows[0];
 }
 export function publicAttempt(r: any) {
