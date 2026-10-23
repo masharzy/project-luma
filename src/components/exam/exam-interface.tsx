@@ -3106,7 +3106,7 @@ export default function ExamInterface({
                       onMouseUp={(e) => e.stopPropagation()}
                       className="ielts-writing-textarea"
                       placeholder=""
-                      value={writingQuestionId ? answers[writingQuestionId] || "" : writingDrafts[currentPart?.id || ""] || ""}
+                      value={writingQuestionId ? answers[writingQuestionId] || "" : answers[`writing_draft_${currentPart?.id}`] || writingDrafts[currentPart?.id || ""] || ""}
                       onChange={(e) => {
                         if (writingQuestionId) {
                           onAnswerChange(writingQuestionId, e.target.value);
@@ -3119,7 +3119,7 @@ export default function ExamInterface({
                     {!writingQuestionId && (
                       <div className="ielts-writing-sync-warning">Writing question is still loading. Your typing is saved locally and will sync automatically.</div>
                     )}
-                    <div className="ielts-word-count">Words: {splitOnWhitespace(((writingQuestionId ? answers[writingQuestionId] || "" : writingDrafts[currentPart?.id || ""] || "") as string).trim()).length}</div>
+                    <div className="ielts-word-count">Words: {splitOnWhitespace(((writingQuestionId ? answers[writingQuestionId] || "" : answers[`writing_draft_${currentPart?.id}`] || writingDrafts[currentPart?.id || ""] || "") as string).trim()).length}</div>
                   </div> :
 
               <div className="max-w-2xl mx-auto space-y-12 select-text">
@@ -3316,35 +3316,17 @@ export default function ExamInterface({
         </div>
       }
 
-      <AlertDialog open={showSubmitConfirm} onOpenChange={setShowSubmitConfirm}>
-        <AlertDialogContent className="max-w-sm rounded-3xl border border-white/10 shadow-2xl p-0 overflow-hidden bg-[#0a0a0a] font-hind-siliguri">
-          <AlertDialogHeader className="p-0">
-            <div className="px-7 pt-8 pb-6 flex flex-col items-center text-center text-white">
-              <div className="w-14 h-14 rounded-2xl bg-[#74b602]/15 border border-[#74b602]/30 flex items-center justify-center mb-5">
-                <AlertTriangle className="w-7 h-7 text-[#74b602]" />
-              </div>
-              <AlertDialogTitle className="text-xl font-black text-white mb-2">
-                Submit?
-              </AlertDialogTitle>
-              <AlertDialogDescription className="text-white/50 text-sm font-medium leading-relaxed">
-                Changes cannot be made after submission.
-              </AlertDialogDescription>
-              <div className="mt-4 flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                <span className="text-[11px] font-black text-white/40 uppercase tracking-widest">time left</span>
-                <span className="text-sm font-black text-[#74b602] font-mono">{formatTime(timeLeft)}</span>
-              </div>
-            </div>
+      <AlertDialog open={showSubmitConfirm} onOpenChange={open=>{if(!submittingModule)setShowSubmitConfirm(open);}}>
+        <AlertDialogContent className="luma-submit-dialog">
+          <AlertDialogHeader>
+            <span className="luma-submit-eyebrow">FINISH THIS MODULE</span>
+            <AlertDialogTitle>Ready to submit?</AlertDialogTitle>
+            <AlertDialogDescription>You cannot change these answers after submitting. Check your work before you continue.</AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="px-7 pb-7 flex sm:flex-row gap-3">
-            <AlertDialogCancel className="flex-1 h-12 rounded-2xl bg-white/5 border border-white/10 text-white/60 font-black text-xs hover:bg-white/10 transition-all m-0">
-              No, go back
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirmSubmit}
-              className="flex-1 h-12 rounded-2xl bg-[#74b602] hover:bg-[#65a002] text-black font-black text-xs shadow-lg shadow-[#74b602]/20 transition-all active:scale-95 border-none m-0">
-              
-              Yes, submit
-            </AlertDialogAction>
+          <div className="luma-submit-time"><span>Time remaining</span><strong>{formatTime(timeLeft)}</strong></div>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={submittingModule}>Keep working</AlertDialogCancel>
+            <AlertDialogAction disabled={submittingModule} onClick={e=>{e.preventDefault();void handleConfirmSubmit();}}>{submittingModule?'Submitting…':'Submit module ↗'}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
