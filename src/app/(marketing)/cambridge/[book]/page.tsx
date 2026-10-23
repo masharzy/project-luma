@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { PageIntro, PageWrap, EmptyState } from "@/components/page-parts";
+import { PageIntro, PageWrap } from "@/components/page-parts";
 import { Icon } from "@/components/ui/icon";
 import { listCambridgeTests } from "@/lib/cambridge";
 export const dynamic="force-dynamic";
@@ -39,6 +39,5 @@ export default async function Page({params}:{params:Promise<{book:string}>}) {
     <div className="field-information">Full test এবং individual section শুরু করা যাবে প্রশ্ন ও exam engine সংযুক্ত হওয়ার পর।</div>
    </div>)}
   </div>
-  {tests.length===0&&<div className="catalog-empty"><EmptyState title="No published tests yet."/></div>}
  </PageWrap>;
 }
