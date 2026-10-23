@@ -1,5 +1,4 @@
-import { AdminList } from "@/components/admin-list";
-export const metadata = { title: "Manage mocks" };
-export default function Page() {
-  return <AdminList kind="mocks" />;
-}
+import { ContentManager } from "@/components/content-manager";
+import { listContent } from "@/lib/admin/content";
+export const dynamic="force-dynamic";
+export default async function Page(){return <ContentManager kind="mock" initialItems={await listContent("mock")}/>;}
