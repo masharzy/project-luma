@@ -226,42 +226,21 @@ export async function POST(request: NextRequest) {
       return response;
     }
     if (path === "verify-email") {
-      if (
-        !validToken(input.token) ||
-        typeof input.password !== "string" ||
-        input.password.length > 128
-      )
+      if (!validToken(input.token))
         throw new AuthHttpError(400, "Invalid verification request.");
       await limit("verify-network:" + network, 8);
-      const users = await sql.query(
-        `SELECT u.id,u.password_hash FROM app_auth.email_tokens t JOIN app_auth.users u ON u.id=t.user_id WHERE t.token_hash=$1 AND t.kind='verify_email' AND t.expires_at>now() AND u.banned=false`,
-        [digest(input.token)],
-      );
-      if (
-        !(await verifyPassword(
-          input.password,
-          users[0]?.password_hash as string | undefined,
-        ))
-      )
-        throw new AuthHttpError(
-          400,
-          "The link or password is incorrect.",
-          "INVALID_VERIFICATION",
-        );
       const rows = await sql.query(
-        `WITH ticket AS (DELETE FROM app_auth.email_tokens t USING app_auth.users u WHERE t.token_hash=$1 AND t.kind='verify_email' AND t.expires_at>now() AND t.user_id=u.id AND u.password_hash=$2 AND u.banned=false RETURNING t.user_id), changed AS (UPDATE app_auth.users u SET email_verified=true,updated_at=now() FROM ticket WHERE u.id=ticket.user_id RETURNING u.id) SELECT id FROM changed`,
-        [digest(input.token), users[0].password_hash],
+        `WITH ticket AS (DELETE FROM app_auth.email_tokens t USING app_auth.users u WHERE t.token_hash=$1 AND t.kind='verify_email' AND t.expires_at>now() AND t.user_id=u.id AND u.banned=false RETURNING t.user_id), changed AS (UPDATE app_auth.users u SET email_verified=true,updated_at=now() FROM ticket WHERE u.id=ticket.user_id RETURNING u.id) SELECT id FROM changed`,
+        [digest(input.token)],
       );
       if (!rows[0])
         throw new AuthHttpError(
           400,
           "This verification link has expired or was already used.",
         );
-      const token = await createSession(String(rows[0].id));
       await audit(String(rows[0].id), "email_verified");
-      const response = json({ verified: true });
-      response.cookies.set(sessionCookieName(), token, sessionCookieOptions());
-      return response;
+      // Email ownership is not authentication. Never create a session here.
+      return json({ verified: true });
     }
     return json({ message: "Not found." }, 404);
   } catch (e) {

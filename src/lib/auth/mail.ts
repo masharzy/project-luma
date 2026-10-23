@@ -25,7 +25,7 @@ export async function sendAuthMail(
         : "Reset your Luma password",
     text:
       kind === "verify_email"
-        ? `Finish creating your Luma account:\n\n${url}\n\nEnter the password you chose at signup to complete verification. This link expires in 24 hours. If you did not request this, ignore this email.`
+        ? `Finish creating your Luma account:\n\n${url}\n\nThis link verifies your email only and does not sign you in. This link expires in 24 hours. If you did not request this, ignore this email.`
         : `Set a new Luma password:\n\n${url}\n\nThis link expires in 20 minutes. If you did not request it, ignore this email.`,
   };
   if (process.env.RESEND_API_KEY) {

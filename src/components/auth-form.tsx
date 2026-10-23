@@ -137,13 +137,13 @@ export function AuthForm({
               </h2>
               <p>
                 {mode === "sign-up"
-                  ? "If this email can be registered, a verification link will arrive shortly. Open it and enter your signup password to finish. Already registered? Sign in or reset your password."
+                  ? "If this email can be registered, a verification link will arrive shortly. Click the link to verify your email, then sign in to access your dashboard."
                   : isForgot
                     ? "If an account exists for that email, you’ll receive a password reset link. Check your spam folder too."
                     : "You can now sign in using your new password."}
               </p>
-              <Link className="button" href="/auth/sign-in">
-                Back to sign in <span>↗</span>
+              <Link className="button" href={mode === "sign-up" ? "/auth/verify-email" : "/auth/sign-in"}>
+                {mode === "sign-up" ? "Resend verification email" : "Back to sign in"} <span>↗</span>
               </Link>
             </div>
           ) : invalidToken ? (

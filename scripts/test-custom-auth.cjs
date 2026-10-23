@@ -155,19 +155,19 @@ function remember(r) {
     r = await call("/api/auth/sign-in/email", { email, password });
     assert.equal(r.status, 403);
     ok("Unverified account cannot sign in");
-    r = await call("/api/auth/verify-email", {
-      token: verifyToken,
-      password: "wrong-password",
-    });
-    assert.equal(r.status, 400);
-    ok("Email ownership alone cannot activate an attacker-chosen password");
-    r = await call("/api/auth/verify-email", { token: verifyToken, password });
+    r = await call("/api/auth/verify-email", { token: verifyToken });
     assert.equal(r.status, 200);
-    remember(r);
-    ok("Email verification establishes an HttpOnly session");
-    r = await call("/api/auth/verify-email", { token: verifyToken, password });
+    assert.equal(r.headers.get("set-cookie"), null);
+    ok("Email verification does not create a session");
+    r = await call("/api/auth/get-session");
+    assert.equal(await r.json(), null);
+    ok("Opening a verification link cannot sign in its recipient");
+    r = await call("/api/auth/verify-email", { token: verifyToken });
     assert.equal(r.status, 400);
     ok("Verification token cannot be replayed");
+    r = await call("/api/auth/sign-in/email", { email, password });
+    assert.equal(r.status, 200);
+    remember(r);
     r = await call("/api/auth/get-session");
     let session = await r.json();
     assert.equal(session.user.email, email);

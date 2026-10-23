@@ -89,7 +89,7 @@ export const authClient = {
     request("request-password-reset", { email: data.email }),
   resetPassword: (data: { newPassword: string; token: string }) =>
     request("reset-password", data),
-  verifyEmail: (data: { token: string; password: string }) =>
+  verifyEmail: (data: { token: string }) =>
     request("verify-email", data),
   resendVerification: (data: { email: string }) =>
     request("resend-verification", data),

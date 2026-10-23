@@ -138,6 +138,12 @@ export async function finishGoogle(request: NextRequest) {
       );
     }
     if (!rows[0] || rows[0].banned === true) return fail();
+    // A validated Google email needs no additional inbox verification.
+    // Match the current email before marking an existing identity verified.
+    await sql.query(
+      "UPDATE app_auth.users SET email_verified=true,updated_at=now() WHERE id=$1 AND email=$2 AND banned=false",
+      [String(rows[0].id), email],
+    );
     const token = await createSession(String(rows[0].id));
     await audit(String(rows[0].id), "google_sign_in");
     const response = NextResponse.redirect(appOrigin() + "/dashboard");
