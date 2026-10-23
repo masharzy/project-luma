@@ -57,5 +57,8 @@
     "smtp-server": "^3.21.1",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.0"
+  },
+  "overrides": {
+    "jsdom": "26.1.0"
   }
 }
