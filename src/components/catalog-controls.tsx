@@ -3,86 +3,53 @@ import { useState } from "react";
 import Link from "next/link";
 import { EmptyState } from "./page-parts";
 import { Icon } from "./ui/icon";
-export function CambridgeCatalog() {
-  const [query, setQuery] = useState(""),
-    [access, setAccess] = useState("all");
-  const books = Array.from({ length: 21 }, (_, i) => i + 1).filter(
-    (n) =>
-      (!query ||
-        String(n).includes(query.trim()) ||
-        ("cambridge " + n).includes(query.toLowerCase().trim())) &&
-      (access === "all" || (access === "free" ? n <= 10 : n > 10)),
-  );
-  return (
-    <>
-      <div className="catalog-toolbar">
-        <div className="filter-tabs" aria-label="Book access">
-          {[
-            ["all", "All books"],
-            ["free", "Free / 01–10"],
-            ["premium", "Premium / 11–21"],
-          ].map(([id, label]) => (
-            <button
-              type="button"
-              key={id}
-              aria-pressed={access === id}
-              onClick={() => setAccess(id)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <label className="search-field">
-          <Icon name="search" size={17} />
-          <span className="sr-only">Search Cambridge books</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Find a book…"
-            maxLength={50}
-          />
-        </label>
-      </div>
-      <p className="catalog-count">
-        {books.length} {books.length === 1 ? "book" : "books"} on the shelf{" "}
-        <span>Published tests will appear inside each book.</span>
-      </p>
-      <div className="book-grid">
-        {books.map((n) => (
-          <Link
-            href={"/cambridge/" + n}
-            className={`catalog-book ${n > 10 ? "premium-book" : ""}`}
-            key={n}
-          >
-            <div className="book-cover">
-              <span>
-                CAMBRIDGE
-                <br />
-                IELTS
-              </span>
-              <strong>{String(n).padStart(2, "0")}</strong>
-              <span>LISTENING / READING</span>
-              <span className="book-spine" />
-            </div>
-            <div className="book-caption">
-              <div>
-                <h2>Cambridge {n}</h2>
-                <span>{n <= 10 ? "Free access" : "Premium access"}</span>
-              </div>
-              {n > 10 ? <Icon name="lock" size={17} /> : <span>↗</span>}
-            </div>
-          </Link>
-        ))}
-      </div>
-      {books.length === 0 && (
-        <EmptyState
-          title="That book isn’t on this shelf."
-          description="অন্য book number দিয়ে খুঁজে দেখো, অথবা filter বদলাও।"
-        />
-      )}
-    </>
-  );
+import type { CambridgeTest } from "@/lib/cambridge";
+
+export function CambridgeCatalog({ tests }: { tests: CambridgeTest[] }) {
+ const [query,setQuery]=useState("");
+ const [access,setAccess]=useState("all");
+ const entries=Array.from(new Map(tests.map(test=>[test.bookNumber,test])).entries())
+ .map(([number])=>({
+  number, tests:tests.filter(t=>t.bookNumber===number)
+ })).filter(book=>
+ (!query || ("cambridge "+book.number).includes(query.toLowerCase().trim()) || String(book.number).includes(query.trim())) &&
+ (access==="all" || book.tests.some(test=>test.access===access))
+ );
+ return (
+ <>
+ <div className="catalog-toolbar">
+  <div className="filter-tabs" aria-label="Book access">
+  {([["all","All books"],["free","Free"],["premium","Premium"]] as const).map(([id,label])=>(
+   <button type="button" key={id} aria-pressed={access===id} onClick={()=>setAccess(id)}>{label}</button>
+  ))}
+  </div>
+  <label className="search-field"><Icon name="search" size={17}/>
+   <span className="sr-only">Search Cambridge books</span>
+   <input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Find a book…" maxLength={50}/>
+  </label>
+ </div>
+ <p className="catalog-count">{entries.length} {entries.length===1?"book":"books"} on the shelf{" "}
+  <span>{tests.length} published tests</span>
+ </p>
+ <div className="book-grid">
+ {entries.map(({number,tests:bookTests})=>{
+  const premium=bookTests.every(t=>t.access==="premium");
+  const modules=Array.from(new Set(bookTests.flatMap(t=>t.sections)));
+  return <Link href={"/cambridge/"+number} className={`catalog-book ${premium?"premium-book":""}`} key={number}>
+   <div className="book-cover">
+   <span>CAMBRIDGE<br/>IELTS</span>
+   <strong>{String(number).padStart(2,"0")}</strong>
+   <span>{modules.map(m=>m.toUpperCase()).join(" / ")}</span><span className="book-spine"/>
+   </div>
+   <div className="book-caption"><div><h2>Cambridge {number}</h2>
+   <span>{bookTests.length} tests · {premium?"Premium access":bookTests.some(t=>t.access==="premium")?"Free & Premium":"Free access"}</span>
+   </div>{premium?<Icon name="lock" size={17}/>:<span>↗</span>}</div>
+  </Link>;
+ })}
+ </div>
+ {entries.length===0 && <EmptyState title="No Cambridge books available." description="এখনো এই filter-এ কোনো published Cambridge test নেই।"/>}
+ </>
+ );
 }
 export function EmptyCatalog({
   kind = "practice",
