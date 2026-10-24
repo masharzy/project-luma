@@ -45,3 +45,8 @@ References used:
 
 ## Offline review file
 `scripts/build-speaking-preview.cjs OUTPUT.html` builds a standalone practice review file with the same renderer. `SPEAKING_PREVIEW_AUDIO=PATH_TO_AUDIO_JSON` embeds consistent pre-generated preview voices. These preview clips were generated separately with en-GB Ryan/Sonia; production uses the configured server TTS endpoint. No device speech-synthesis fallback is used by the active controller. The offline file does not create a live mock, save to the database or grade speech.
+
+## Follow-up: Practice / Cambridge authoring
+See speaking-evaluation-plan.md. Test creation now includes Speaking and module minutes; practice content has a durations column (migration 010). The speaking editor supports optional topic groups with arbitrary written questions, a custom cue card, rounding-off questions and configurable per-part recording/preparation limits. Overall Speaking countdown uses parent metadata and preserves a current recording on timeout. Live mock remains deferred. Evaluation is an architecture recommendation, not an implemented premium upload/scoring job.
+
+Authoring follow-up validation: typecheck and optimized build passed; focused tests now cover Speaking-only Practice and Cambridge creation with selected minutes and rejection of invalid timing/mock module selection. A browser check used custom unlabeled question groups and a shortened overall deadline: the correct custom question appeared and expiry preserved the in-progress recording. Migration 010 has not been applied to production.
