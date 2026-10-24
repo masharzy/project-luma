@@ -8,7 +8,7 @@ Scope: Cambridge Academic Listening Books 1–21, Tests 1–4 (84 module identit
 - Bulk answer collection uses 336 publicly readable Answers & Explanations pages. Book/Test/Part subtitles and summary-table question numbers are verified. An export endpoint required login for one test; no access control was bypassed. The importer does not call that gated endpoint.
 - `data/imports/engnovate/source-manifest.json`, `answer-source-manifest.json` and `report.json` record identities, public provenance and source hashes. All 84 documents normalize and self-score against source keys with full marks, with a wrong-answer deduction checked for every module.
 - 380 distinct audio/image references passed HTTP checks. A Unicode dash in one image URL was percent-encoded; no images were cropped or redrawn. Media remains externally hosted; no R2 copy is claimed.
-- Older source tests can have 41/42 numbered slots. Source numbering is retained, not forced to 40. Estimated bands are omitted by the existing result policy for non-40-slot tests.
+- Older source tests can have 41–43 numbered slots. Source numbering is retained, not forced to 40. Estimated bands are omitted by the existing result policy for non-40-slot tests.
 - Source-perfect scoring verifies mapping, not independent correctness of the publisher's answer keys.
 
 ## Implementation

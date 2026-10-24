@@ -1,3 +1,44 @@
+# CURRENT HANDOFF — 2026-10-25 — Listening import released
+
+This section supersedes the historical handoff below. Do not restart discovery or re-import the library.
+
+## Release and data
+
+- PR #12 merged into master: `02c1e102a481f03b22b5f6163e9d15448242834d`.
+- Production deployment `dpl_GMUPricER1Z7NPU5GrvmU4qE78wJ` reached READY.
+- Production contains **84 Cambridge Academic Listening modules across 21 books / 84 tests**. Imported 83 new modules; preserved the existing reviewed Cambridge 1 Test 1 Listening exactly (revision 2, document MD5 `22f937d6e7a068545dcb1e4a7c09d14a`).
+- Existing Reading remains unchanged (revision 2, document MD5 `3801812d7d324792a1a283e769f5b918`). Reading remains deferred.
+- All 84 tests published; Books 1–10 free (40 tests), Books 11–21 premium (44 tests). Existing access/status preserved.
+- Validation branch contains all 84 source candidates / 336 Parts. Its C1T1 source candidate differs from preserved production C1T1; do not overwrite production with it.
+
+## Implementation and evidence
+
+See `engnovate-listening.md`, `engnovate-production-checks.json` and `data/imports/engnovate/report.json`.
+All 84 source pages, 336 public answer/explanation pages and 380 audio/image URLs were checked. Normalized documents and source provenance are committed in `data/imports/engnovate/`. Source images stay whole; media remains externally hosted. No access-control bypass or gated export dependency.
+
+The `source_html` renderer preserves paragraphs, tables, image references, choices, controlled gaps and draggable option banks inside the existing exam frame. Admin previews the same component. Keys/accepted variants are stripped from learner payloads. Per-Part audio advances independently of question browsing and tries source fallback URLs. Autoplay has an explicit Play action.
+
+Source numbering is preserved: six newly imported tests have 41–43 slots, while the retained production C1T1 has 40. Non-40-slot tests show raw/percentage results without an estimated band. Source-perfect scoring proves answer mapping, not independent official key accuracy.
+
+TypeScript, optimized Next build and focused regression tests passed. All 84 source documents normalize and self-score correctly, with wrong-answer deductions checked. Browser fixture checks for C1T3 and C2T1 passed with real image bytes, text/radio/checkbox controls, selection limits, single-input datalist/drop, and audio event sequencing. Audio was stubbed in browser tests; actual sound quality has not been audited.
+
+## Production HTTP checks
+
+Real guest create → fetch → start → submit passed: C1T3 42/42, C2T1 40/40 and C10T4 40/40. Learner payloads hid keys/variants and showed four Parts / 30 minutes. Non-40 band stayed omitted. Premium C21T1 guest start returned 404 as expected. Public /cambridge and /cambridge/2 returned 200. Deployment error/fatal logs scan found none in the release window. These are representative checks, not a manual review of all 84 tests.
+
+## Operations
+
+Production: https://project-luma-rho.vercel.app/cambridge
+Admin: https://project-luma-rho.vercel.app/admin/cambridge
+Neon project `holy-bird-58277611`, database `neondb`, production `br-ancient-salad-a1pk9zgd`, validation `br-fragrant-hall-a1yqo08w`.
+Pre-import snapshot: `engnovate-production-before.json`.
+Production SQL builder only inserts missing rows and never replaces modules. No schema/auth changes. Keep custom auth, package security overrides, existing attempts and unrelated manual content.
+
+For reproduction, use the fetch/conversion commands in `engnovate-listening.md`. Do not bulk-run production imports without an actual new request. Potential later work: Reading import, independent content/key audit, optional owned media hosting, and premium entitlement behavior (unchanged by this import).
+
+---
+# Historical handoff — superseded
+
 # CURRENT HANDOFF — 2026-10-24 — ENGNovate Listening ONLY
 
 ## Highest-priority user instruction
