@@ -7,13 +7,8 @@ function variants(raw){
  values=values.map(v=>v.replace(/(?<=\d),(?=\d)/g,''));return [...new Set(values)].filter(Boolean).join('/');
 }
 function keysFor(root,b,t){
- const out={};let files=0;const issues=[];
- for(let part=1;part<=3;part++){
-  const file=path.join(root,'public-keys',`${String(b).padStart(2,'0')}-${t}-${part}.html`);if(!fs.existsSync(file)){issues.push('Missing public answer page for Part '+part);continue;}
-  const raw=fs.readFileSync(file,'utf8'),subtitle=clean((raw.match(/<p class="ira-subtitle">([\s\S]*?)<\/p>/)?.[1]||'').replace(/<[^>]+>/g,' '));if(!new RegExp('Cambridge IELTS 0?'+b+' Academic Reading Test '+t+'\\b.*Part '+part+'\\b').test(subtitle)){issues.push('Public key identity mismatch for Part '+part);continue;}const table=raw.match(/<table[^>]*class="ira-summary-table"[^>]*>[\s\S]*?<\/table>/)?.[0];if(!table){issues.push('Public key table missing for Part '+part);continue;}const parsed=new JSDOM(table),d=parsed.window.document;
-  for(const tr of d.querySelectorAll('.ira-summary-table tr[data-q]')){const n=Number(tr.dataset.q),value=clean(tr.querySelector('.ira-col-answer')?.textContent);if(!n){issues.push('Invalid answer number');continue;}if(out[n]&&out[n]!==value)issues.push('Conflicting answer '+n);out[n]=value;}files++;parsed.window.close();
- }
- return {answers:out,issues};
+ const saved=require('./reading-checkpoint.cjs').getCheckpoint(b,t);
+ return {answers:saved.answers,issues:saved.issues,sourceByQuestion:saved.ownership};
 }
 
 function classify(text,el){
