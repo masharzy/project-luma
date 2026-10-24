@@ -37,6 +37,7 @@ import {
   AlertDialogTitle } from
 "@/components/exam/ui/alert-dialog";
 import { toast } from "./feedback";
+import {SourceQuestionGroup} from "./source-question-group";
 import { isObjectiveAnswerCorrect } from "@/lib/exam/mock-scoring";
 
 export interface ExamInterfaceProps {
@@ -470,6 +471,8 @@ export default function ExamInterface({
 }: ExamInterfaceProps) {
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [audioPartIndex,setAudioPartIndex]=useState(0);
+  const [audioFallbackIndex,setAudioFallbackIndex]=useState(0);
   const audioAttemptedForRef = useRef<string | null>(null);
   const [audioReady, setAudioReady] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
@@ -526,7 +529,8 @@ export default function ExamInterface({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const currentPart = parts[currentPartIndex];
-  const listeningAudioUrl = sectionType === "listening" ? String(sectionAudioUrl || "") : "";
+  const listeningSources=sectionAudioUrl?[sectionAudioUrl]:[parts[audioPartIndex]?.audio_url,...(parts[audioPartIndex]?.audio_fallbacks||[])].filter(Boolean);
+  const listeningAudioUrl = sectionType === "listening" ? String(listeningSources[audioFallbackIndex]||"") : "";
   const officialContrastClass = contrastMode === "wb" ? "ielts-contrast-white-on-black" : contrastMode === "yb" ? "ielts-contrast-yellow-on-black" : "ielts-contrast-black-on-white";
   const officialTextSizeClass = textSizeMode === "large" ? "ielts-text-large" : textSizeMode === "extra" ? "ielts-text-extra" : "ielts-text-regular";
   const sectionLabel = String(sectionType || "test").charAt(0).toUpperCase() + String(sectionType || "test").slice(1);
@@ -665,7 +669,6 @@ export default function ExamInterface({
       audio.load();
     }
 
-    if (!waitForAudioStart) return;
     const id = window.setTimeout(() => {
       void attemptListeningAudioPlayback('auto');
     }, 300);
@@ -1038,6 +1041,7 @@ export default function ExamInterface({
 
     const renderGroup = (group: any) => {
       const groupType = getGroupType(group);
+      if (groupType === "source_html") return <SourceQuestionGroup key={group.id} group={group} questions={questions.filter(q=>q.group_id===group.id)} answers={answers} onAnswerChange={onAnswerChange} reviewMode={reviewMode}/>;
       if (groupType === "flowchart_completion" || groupType === "flow_chart") return renderFlowChartGroup(group);
       if (groupType === "table_completion") return renderTableGroup(group);
       if (groupType === "summary_completion") return renderSummaryGroup(group);
@@ -3007,7 +3011,7 @@ export default function ExamInterface({
           <div className="ielts-audio-status">
             <Volume2 className="w-4 h-4" />
             <span>{audioStarted ? "Audio is playing" : audioReady ? "Audio ready" : "Preparing audio"}</span>
-            {waitForAudioStart && !reviewMode && !audioStarted && audioError && (
+            {!reviewMode && !audioStarted && (
               <button type="button" onClick={handleStartListeningAudio}>Play audio</button>
             )}
           </div>
@@ -3021,7 +3025,8 @@ export default function ExamInterface({
             onCanPlayThrough={() => setAudioReady(true)}
             onCanPlay={() => setAudioReady(true)}
             onPlaying={() => { setAudioStarted(true); onAudioPlaybackStarted?.(); }}
-            onError={() => setAudioError('Audio could not load. Please check your connection and try again.')}
+            onEnded={()=>{if(!sectionAudioUrl && audioPartIndex<parts.length-1){setAudioFallbackIndex(0);setAudioPartIndex(i=>i+1);setCurrentPartIndex(audioPartIndex+1);}}}
+            onError={() => {if(audioFallbackIndex<listeningSources.length-1)setAudioFallbackIndex(i=>i+1);else setAudioError('Audio could not load. Please check your connection and try again.');}}
           />
         )}
       </div>

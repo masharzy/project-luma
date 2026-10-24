@@ -1,5 +1,6 @@
 "use client";
 
+import {SourceGroupEditor} from "./source-group-editor";
 import { normalizeDocument, type Module } from "@/lib/exam/document";
 import React, {
   useState,
@@ -3414,6 +3415,7 @@ export default function CDIAdminEditor({
     const groupQuestions = questions.filter(
       (q) => q.group_id === group.id || q.group_id === group.temp_id,
     );
+    if (group.type === "source_html") return <SourceGroupEditor key={group.id} group={group} questions={groupQuestions} onGroupChange={patch=>updateQuestionGroup(group.id,patch)} onQuestionChange={(id,value)=>{updateQuestion(id,"correct_answer",value);if(groupQuestions.find(q=>q.id===id)?.question_type!=="list_selection")updateQuestion(id,"correct_answer_variants",value.split("/").map(v=>v.trim()).filter(Boolean));}}/>;
     const effectiveType = getEffectiveQuestionType(group);
     const isSummaryOrNote =
       effectiveType === "summary_completion" || effectiveType === "note_completion";

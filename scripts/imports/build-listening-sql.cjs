@@ -1,0 +1,10 @@
+/* Emits SQL only. The caller chooses an isolated Neon branch and transaction. */
+const fs=require('fs'),path=require('path'),{normalizeDocument}=require('./exam-loader.cjs')('document');
+const book=Number(process.argv[2]),root=process.argv[3],mode=process.argv[4]||'validation';if(!Number.isInteger(book)||book<1||book>21||!['validation','production'].includes(mode))throw Error('Invalid import scope');
+const reports=JSON.parse(fs.readFileSync(path.join(root,'report.json'))),sql=[],quote=v=>"'"+String(v).replaceAll("'","''")+"'";
+const ready=reports.filter(r=>r.identity.book===book&&r.status==='validated');const selected=mode==='production'?ready:reports.filter(r=>r.identity.book===book&&r.status!=='failed');
+if(selected.length){sql.push(`INSERT INTO public.cambridge_books(book_number,title,access,status) VALUES(${book},'Cambridge ${book}','${book<=10?'free':'premium'}','${mode==='production'?'published':'draft'}') ON CONFLICT(book_number) DO NOTHING`);}
+for(const r of selected){const test=r.identity.test;if(mode==='production'&&book===1&&test===1)continue;const doc=normalizeDocument(JSON.parse(fs.readFileSync(path.join(root,`${String(book).padStart(2,'0')}-${test}.json`))),'listening'),status=mode==='production'?'published':'draft';sql.push(`INSERT INTO public.cambridge_tests(book_number,test_number,title,access,status,sections,durations) VALUES(${book},${test},'Test ${test}','${book<=10?'free':'premium'}','${status}','["listening"]'::jsonb,'{"listening":30,"reading":60,"writing":60,"speaking":15}'::jsonb) ON CONFLICT(book_number,test_number) DO NOTHING`);
+const payload=quote(JSON.stringify(doc));sql.push(`INSERT INTO public.exam_modules(kind,parent_id,module,cambridge_id,document) SELECT 'cambridge',id,'listening',id,${payload}::jsonb FROM public.cambridge_tests WHERE book_number=${book} AND test_number=${test} ON CONFLICT(kind,parent_id,module) ${mode==='production'?'DO NOTHING':'DO UPDATE SET document=excluded.document,revision=exam_modules.revision+1,updated_at=now()'}`);
+}
+process.stdout.write(JSON.stringify(sql));
