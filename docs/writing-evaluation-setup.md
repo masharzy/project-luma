@@ -34,6 +34,9 @@ The initial DB insert and queue publish are separate services. If publishing fai
 
 On Vercel, Queue uses platform OIDC. A provider key alone does not prove queue delivery. Validate one real queued evaluation after deployment. Local end-to-end provider/queue testing requires Vercel local credentials; focused tests instead use a mocked provider and database transaction checks.
 
+## Dependency security
+The Queue SDK uses the existing compatible `@vercel/oidc` 3.2.0 API (`getVercelOidcToken`) via an npm override. This avoids the newer CLI-config dependency that pins vulnerable Zod. The AI SDK already uses the same OIDC version. The production dependency audit after this override reports zero advisories. Recheck this override when updating Queue; real platform queue delivery still requires the deployment E2E check described above.
+
 ## Validation
 - Optimized Next.js build and typecheck.
 - 14 focused tests: L/R selection; authoring capabilities; task/image snapshots; Task 2 weighting; invalid/unsupported model evidence; owner/access checks; duplicate reservation; bounded real SDK request using mocked fetch.
