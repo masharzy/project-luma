@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PageIntro, PageWrap, FeatureNote } from "@/components/page-parts";
 import { modules } from "@/config/features";
 import { Icon } from "@/components/ui/icon";
-import { EmptyCatalog } from "@/components/catalog-controls";
+import { PracticeCatalog } from "@/components/practice-catalog";
 export const metadata = { title: "Practice tests" };
 export default function Page() {
   return (
@@ -10,10 +10,10 @@ export default function Page() {
       <PageIntro
         eyebrow="PRACTICE"
         title="A little practice. A little closer."
-        description="সময় যখন তোমার, practice-ও তোমার মতো। Listening, Reading অথবা Writing—বেছে নাও নিজের জায়গাটা।"
+        description="সময় যখন তোমার, practice-ও তোমার মতো। Listening অথবা Reading—বেছে নাও নিজের জায়গাটা।"
       />
       <div className="module-cards">
-        {modules.map((m) => (
+        {modules.filter(m=>m.id!=='writing').map((m) => (
           <Link
             href={"/practice/" + m.id}
             key={m.id}
@@ -37,7 +37,7 @@ export default function Page() {
         <h2>Find your next test.</h2>
         <Link href="/cambridge">Cambridge library ↗</Link>
       </div>
-      <EmptyCatalog />
+      <PracticeCatalog />
       <FeatureNote>
         Guest হিসেবেও free practice করা যাবে। Account ছাড়া দেওয়া test-এর history
         save হবে না। Test content এখনো publish করা হয়নি।

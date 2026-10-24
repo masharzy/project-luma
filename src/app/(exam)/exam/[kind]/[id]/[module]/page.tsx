@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { AttemptLauncher } from '@/components/exam/attempt-launcher';
-import { moduleOrder } from '@/lib/cambridge-settings';
+import { moduleOrder, selectedModules } from '@/lib/cambridge-settings';
 import { examParent, loadExam } from '@/lib/exam/store';
 import '@/styles/exam-session.css';
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ export default async function Page({ params }: {
     const parent = await examParent(kind, p.id);
     if (!parent || parent.status !== 'published' || parent.access !== 'free')
         notFound();
-    const chosen = moduleOrder.filter(m => parent.modules.includes(m) && (p.module === 'full' || m === p.module));
+    const chosen = selectedModules(parent.modules, p.module);
     if (!chosen.length)
         notFound();
     const modules = await Promise.all(chosen.map(async module=>{

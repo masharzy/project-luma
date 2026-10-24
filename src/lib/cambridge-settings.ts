@@ -1,6 +1,12 @@
 export const moduleOrder = ['listening', 'reading', 'writing'] as const;
-export type CambridgeSection = typeof moduleOrder[number];
-export const defaultDurations: Record<CambridgeSection, number> = { listening: 30, reading: 60, writing: 60 };
-export function validDurations(value: unknown): value is Record<CambridgeSection, number> {
-    return !!value && typeof value === 'object' && !Array.isArray(value) && moduleOrder.every(m => Number.isInteger((value as Record<string, unknown>)[m]) && Number((value as Record<string, unknown>)[m]) >= 1 && Number((value as Record<string, unknown>)[m]) <= 240);
+export const objectiveModules = ['listening', 'reading'] as const;
+export const testModuleOrder = ['listening', 'reading', 'writing', 'speaking'] as const;
+export type CambridgeSection = typeof testModuleOrder[number];
+export const defaultDurations: Record<CambridgeSection, number> = { listening: 30, reading: 60, writing: 60, speaking: 15 };
+export function validDurations(value: unknown): value is Partial<Record<CambridgeSection, number>> {
+ if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+ return Object.entries(value).every(([k,v]) => testModuleOrder.includes(k as CambridgeSection) && Number.isInteger(v) && v >= 1 && v <= 240);
+}
+export function selectedModules(modules: string[], selection: string) {
+ return moduleOrder.filter(m => modules.includes(m) && (selection === 'full' ? objectiveModules.includes(m as typeof objectiveModules[number]) : selection === m));
 }
