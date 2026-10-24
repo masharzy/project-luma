@@ -1,0 +1,152 @@
+{
+  "document": {
+    "parts": [
+      {
+        "id": "temp-part-ed97fc49-5764-40d5-9b74-53fede5c4e3b",
+        "title": "New Part",
+        "temp_id": "temp-part-ed97fc49-5764-40d5-9b74-53fede5c4e3b",
+        "section_id": "cambridge-1-listening",
+        "order_index": 1,
+        "part_number": 1,
+        "instructions": "",
+        "passage_text": "",
+        "question_groups": [
+          {
+            "id": "group-a61b737e-81fa-476d-b6e0-7aa255a90025",
+            "type": "multiple_choice",
+            "title": "Multiple Choice (one answer)",
+            "labels": [],
+            "layout": "normal",
+            "options": [],
+            "sections": [],
+            "useTable": false,
+            "groupText": "",
+            "tableRows": [
+              [
+                "",
+                ""
+              ]
+            ],
+            "diagramImage": "",
+            "diagramTitle": "",
+            "instructions": "Choose the correct letter, A, B, C or D.",
+            "optionsTitle": "",
+            "tableHeaders": [
+              "Column 1",
+              "Column 2"
+            ],
+            "ieltsQuestionType": "multiple_choice",
+            "tableColumnWidths": [
+              150,
+              150
+            ]
+          },
+          {
+            "id": "group-1e639f77-0c05-4981-9fe7-148ca8457c0a",
+            "type": "table_completion",
+            "title": "Table Completion",
+            "labels": [],
+            "layout": "normal",
+            "options": [],
+            "sections": [],
+            "useTable": true,
+            "groupText": "",
+            "tableRows": [
+              [
+                "",
+                ""
+              ]
+            ],
+            "diagramImage": "",
+            "diagramTitle": "",
+            "instructions": "Complete the table below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
+            "optionsTitle": "",
+            "tableHeaders": [
+              "Column 1",
+              "Column 2"
+            ],
+            "ieltsQuestionType": "table_completion",
+            "tableColumnWidths": [
+              150,
+              150
+            ]
+          }
+        ]
+      },
+      {
+        "id": "temp-part-a9e533a1-895d-4673-94d2-9e12d903ca67",
+        "title": "Part 2",
+        "temp_id": "temp-part-a9e533a1-895d-4673-94d2-9e12d903ca67",
+        "section_id": "cambridge-1-listening",
+        "order_index": 2,
+        "part_number": 2,
+        "instructions": "",
+        "passage_text": "",
+        "question_groups": []
+      },
+      {
+        "id": "temp-part-c17edc65-919f-4d75-8155-174301bf792e",
+        "title": "Part 3",
+        "temp_id": "temp-part-c17edc65-919f-4d75-8155-174301bf792e",
+        "section_id": "cambridge-1-listening",
+        "order_index": 3,
+        "part_number": 3,
+        "instructions": "",
+        "passage_text": "",
+        "question_groups": []
+      }
+    ],
+    "audioUrl": "",
+    "questions": [
+      {
+        "id": "temp-q-92b74d8b-1a42-4f2d-aaa1-8b5747eacf65",
+        "points": 1,
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "part_id": "temp-part-ed97fc49-5764-40d5-9b74-53fede5c4e3b",
+        "temp_id": "temp-q-92b74d8b-1a42-4f2d-aaa1-8b5747eacf65",
+        "group_id": "group-a61b737e-81fa-476d-b6e0-7aa255a90025",
+        "answerCount": 1,
+        "order_index": 1,
+        "temp_part_id": "temp-part-ed97fc49-5764-40d5-9b74-53fede5c4e3b",
+        "question_text": "Mewmew?",
+        "question_type": "multiple_choice",
+        "correct_answer": "A",
+        "ieltsQuestionType": "multiple_choice"
+      },
+      {
+        "id": "temp-q-9daf3cf8-3541-4695-971e-8200e664bfed",
+        "points": 1,
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "part_id": "temp-part-ed97fc49-5764-40d5-9b74-53fede5c4e3b",
+        "temp_id": "temp-q-9daf3cf8-3541-4695-971e-8200e664bfed",
+        "group_id": "group-a61b737e-81fa-476d-b6e0-7aa255a90025",
+        "answerCount": 1,
+        "order_index": 2,
+        "temp_part_id": "temp-part-ed97fc49-5764-40d5-9b74-53fede5c4e3b",
+        "question_text": "Haee?",
+        "question_type": "multiple_choice",
+        "correct_answer": "A",
+        "ieltsQuestionType": "multiple_choice"
+      }
+    ],
+    "schemaVersion": 1,
+    "durationMinutes": 30
+  },
+  "revision": 1,
+  "updated_by": "776e8a95-db59-4ac1-a2a6-bb1905f4187a",
+  "sections": [
+    "listening",
+    "reading"
+  ],
+  "status": "published"
+}

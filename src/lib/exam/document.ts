@@ -24,6 +24,13 @@ export function normalizeDocument(value: unknown, module: Module): ExamDocument 
       const groupId = id(g?.id || g?.temp_id);
       if (!groupId || groupIds.has(groupId) || typeof g.type !== "string" || g.type.length > 100) throw Error("Duplicate or invalid question group.");
       if (g.options !== undefined && (!Array.isArray(g.options) || g.options.length > 200 || !g.options.every((o: unknown) => typeof o === "string" && o.length <= 5000))) throw Error("Invalid group options.");
+      if (g.referenceImage !== undefined && g.referenceImage !== "") {
+        if (typeof g.referenceImage !== "string" || g.referenceImage.length > 1500000) throw Error("Invalid group reference image.");
+        if (!/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(g.referenceImage)) {
+          const u = new URL(g.referenceImage);
+          if (u.protocol !== "https:" || u.username || u.password || g.referenceImage.length > 2000) throw Error("Group image must use HTTPS or an uploaded image.");
+        }
+      }
       groupIds.set(groupId, partId);
       return { ...g, id: groupId };
     });

@@ -1065,6 +1065,7 @@ export default function ExamInterface({
         return (
           <div key={group.id} className="ielts-official-group">
             {renderOfficialQuestionHeader(getGlobalIdx(groupQs[0].id), getQuestionEndIdx(groupQs[groupQs.length - 1]), group.instructions)}
+            {group.referenceImage && <img className="ielts-group-reference-image" src={group.referenceImage} alt={group.referenceImageAlt || "Question reference"} />}
             {groupQs.map((q) => renderQuestionItem(q, group))}
           </div>
         );
@@ -1292,7 +1293,7 @@ export default function ExamInterface({
                   type={inputType}
                   name={`q-${q.id}`}
                   checked={selected}
-                  disabled={reviewMode || (multi && !selected && selectedValues.length >= maxSelections)}
+                  disabled={reviewMode || q.exampleOptions?.includes(label) || (multi && !selected && selectedValues.length >= maxSelections)}
                   onChange={(e) => {
                     if (reviewMode) return;
                     if (multi) setMulti(label, e.currentTarget.checked);
@@ -1300,7 +1301,7 @@ export default function ExamInterface({
                   }}
                 />
                 <span className="ielts-choice-letter">{label}</span>
-                <span>{opt}</span>
+                {!q.optionLabelOnly && <span>{opt}</span>}
               </label>
             );
           })}

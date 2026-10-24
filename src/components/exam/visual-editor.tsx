@@ -3650,6 +3650,16 @@ export default function CDIAdminEditor({
           />
         </div>
 
+        <div className="exam-group-reference-editor">
+          <label>Shared question image <input type="file" accept="image/png,image/jpeg,image/webp" onChange={async e => {
+            const file = e.target.files?.[0]; if (!file) return;
+            try { const url = await uploadQuestionImage(file); updateQuestionGroup(group.id, {referenceImage:url}); }
+            catch (error) { toast.error(error instanceof Error ? error.message : "Image upload failed"); }
+            e.target.value = "";
+          }} /></label>
+          {group.referenceImage && <><img className="ielts-group-reference-image" src={group.referenceImage} alt={group.referenceImageAlt || "Shared question image"} /><button type="button" onClick={() => updateQuestionGroup(group.id, {referenceImage:""})}>Remove shared image</button></>}
+        </div>
+
         {isSummaryOrDragDrop && (group.options || []).length > 0 && <label className="flex items-center gap-3 px-4 py-3 text-sm">Answer input<select aria-label="Completion answer input" className="border px-2 py-1" value={group.matchingMode || "drag_drop"} onChange={e => updateQuestionGroup(group.id, { matchingMode: e.target.value })}><option value="drag_drop">Drag words into gaps</option><option value="dropdown">Dropdown inside paragraph</option></select></label>}
         {group.ieltsQuestionType === "summary_completion_drag" && (
           <div className="p-5 bg-[#f8fafc] border-b border-gray-200">
