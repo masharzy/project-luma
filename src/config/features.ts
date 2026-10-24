@@ -28,6 +28,7 @@ export const modules = [
       "Task 1 ও Task 2-এর উত্তর গোছাতে, পরিষ্কারভাবে ভাবতে আর লিখতে শেখো।",
     meta: "Task 1 · Task 2 · Your words",
   },
+  {id:"speaking",name:"Speaking",icon:"headphones",number:"04",line:"Find your voice.",description:"প্রশ্ন শুনে নিজের উত্তর record করো, নিজের গতিতে অনুশীলন করো।",meta:"Parts 1–3 · Record · Review"},
 ] as const;
 export const resourceCategories = [
   {

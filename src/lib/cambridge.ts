@@ -1,6 +1,6 @@
 import "server-only";
 import { db } from "@/lib/auth/db";
-import { defaultDurations, type CambridgeSection } from './cambridge-settings';
+import { testDefaultDurations as defaultDurations, type TestSection as CambridgeSection } from './cambridge-settings';
 export type { CambridgeSection } from './cambridge-settings';
 export type CambridgeBook = {
     bookNumber: number;
