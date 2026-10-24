@@ -1,3 +1,48 @@
+# CURRENT HANDOFF — 2026-10-24 — ENGNovate Listening ONLY
+
+## Highest-priority user instruction
+
+**Import all 84 Cambridge IELTS Academic Listening tests (Books 1–21, Tests 1–4 each) into the existing Luma exam engine.** User explicitly narrowed scope from the previous Listening + Reading plan: **Reading is deferred**, not part of the current job. Do NOT keep asking for scope or spend another turn just auditing; implement and execute the actual imports, then report real success/failure counts. Keep existing UI/theme, accurate questions, answer mapping, images intact (do not crop), and audio. User has been frustrated by repetitive non-import work.
+
+## Latest source selection
+
+User provided:
+https://engnovate.com/ielts-listening-tests/cambridge-ielts-01-academic-listening-test-3/
+
+User says Engnovate has consistent sequential URLs and prefers it over practicepteonline because the latter may have missing questions. The assistant previously observed that this page appears to number up to **42**; verify source numbering / scoring before transforming, don't hard-code 40 blindly or assume 42 means 42 distinct answer slots. Check representative pages and media and exact page availability. Original pattern hypothesis:
+`https://engnovate.com/ielts-listening-tests/cambridge-ielts-XX-academic-listening-test-Y/`
+where XX is zero-padded book number, Y = 1–4. **Do not mark unverified guessed URLs as complete.**
+
+## Actual progress in this conversation
+
+- Added `scripts/imports/audit-library.cjs` on branch; commit `39b8f77e37561334b907796c51875917c49ffc8c`. It is a read-only manifest/document preflight validator for the **old practicepteonline** plan; this is not imported content.
+- Added `scripts/imports/discover-engnovate-listening.cjs`; commit `2d17d62ec99692fec9d30fd44a8df1340fd03067`. It enumerates archive pages and writes `data/imports/engnovate-listening-manifest.json` when run. **It has NOT been run or validated and may require correction to archive paths and parsing**. It imports no exams.
+- No new content was imported into Neon or published by this conversation. Do not claim otherwise.
+- Neon production was read-only queried and showed just one Cambridge listening module and one reading module as of that check. Validation branch likewise had one each. The single fully reviewed production module is **Cambridge 1 Test 1 Listening** (revision 2, 40/40 production smoke-tested), inherited from previous agent.
+- Prior source-manifest had 165/168 Listening+Reading URLs, with Book 3 Listening Test 2–4 missing on practicepteonline. Those gaps are NOT a blocker if Engnovate has the tests, but Engnovate still needs verification.
+
+## Repo / infrastructure
+
+GitHub: `masharzy/project-luma`, working branch `feat/cambridge-library-import`; do not edit master directly.
+Vercel production: https://project-luma-rho.vercel.app/
+Neon project `holy-bird-58277611`, db `neondb`, production branch `br-ancient-salad-a1pk9zgd`, validation branch `br-fragrant-hall-a1yqo08w`.
+Vercel project `prj_hOKly2ADgwEMyTzU4tkqO03BeXZB`, team `team_gq7mzXQoP1PTZiTGYeSbGT6F`.
+Existing exam_modules schema/document, admin UI and question types must be inspected for compatibility. Existing rows should be backed up before changes, with revision guards and no replacement of unrelated modules; preserve free books 1–10 and premium books 11–21 per prior user requirement.
+Previous reviewed single-test adapter at `scripts/imports/cambridge-one-listening.cjs`, normalized reference `data/imports/cambridge-1-test-1-listening.json`; this is explicitly **not generic**. See older handoff below for all details.
+Do not migrate Neon Auth or change existing account/auth system.
+
+## Immediate next actions
+
+1. Verify Engnovate source and actual 84 source pages (via web/browser/HTTP). Fix the new discovery script if needed.
+2. Download and inspect representative HTML, images, audio, instructions, answers; identify structural profiles and special cases. Validate exact source numbering and answer-slot counts.
+3. Implement bulk importer with deterministic question-to-answer mapping, audio/image preservation, and explicit hold-for-review on uncertain data. Do not silently fake missing questions/answers or publish questionable modules.
+4. Populate all verified Listening modules in validation Neon, run representative UI and scoring smoke tests. Back up affected production rows, safely publish verified modules and confirm production results.
+5. Give counts: attempted, verified, imported to validation, live in production, and held, with per-test issue report. Full goal is **84 Listening modules**.
+6. Reading is **out of scope for now**. Avoid another cycle of just explaining work, generating non-import audit scripts, or claiming success before DB imports.
+
+## Original earlier handoff (historical; superseded when conflicting)
+
+---
 # Handoff — Cambridge 1–21 Listening / Academic Reading
 
 ## User request / scope
