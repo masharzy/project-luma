@@ -13,6 +13,8 @@ const learnLinks = [
   ["/blog", "Journal", "Ideas for your preparation"],
 ];
 const mainLinks = [
+  ["/writing-evaluation", "Writing Evaluation"],
+  ["/speaking-evaluation", "Speaking Evaluation"],
   ["/practice", "Practice"],
   ["/cambridge", "Cambridge"],
   ["/mocks", "Mock Tests"],

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { SignOut } from "./sign-out";
 import { Icon } from "./ui/icon";
 const learner = [
+  ["/writing-evaluation", "Writing Evaluation", "pen"],
+  ["/speaking-evaluation", "Speaking Evaluation", "headphones"],
   ["/dashboard", "Overview", "grid"],
   ["/dashboard/practice", "My practice", "book"],
   ["/dashboard/mocks", "My mocks", "clock"],
@@ -19,6 +21,7 @@ const admin = [
   ["/admin/mocks", "Mock exams", "clock"],
   ["/admin/vocabulary", "Vocabulary", "book"],
   ["/admin/resources", "Learning resources", "pen"],
+  ["/admin/speaking-tests", "Speaking question bank", "file"],
   ["/admin/evaluations", "Evaluation access", "chart"],
   ["/admin/users", "Users & access", "users"],
   ["/admin/settings", "Settings", "settings"],

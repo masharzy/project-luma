@@ -12,6 +12,14 @@
           "topic": "luma-writing-evaluation"
         }
       ]
+    },
+    "src/app/api/queues/speaking-evaluation/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "luma-speaking-evaluation"
+        }
+      ]
     }
   }
 }
