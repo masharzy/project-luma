@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
+const {load,set}=require('../scripts/build-speaking-preview.cjs');
+const {normalizeSpeakingSet,examInstructions}=load('schema');
+const {speakingSteps}=load('flow');
+test('fixed practice/cambridge flow starts with actual questions and never asks identity',()=>{const steps=speakingSteps(normalizeSpeakingSet(set));assert.equal(steps[0].say,set.part1[0]);assert.equal(steps.some(s=>s.t==='id'||/full name|identification/i.test(s.say||'')),false);assert.equal(steps.filter(s=>s.long).length,1);assert.equal(steps.at(-1).t,'end')});
+test('speaking question bank rejects malformed and unbounded input',()=>{assert.throws(()=>normalizeSpeakingSet({...set,part1:[]}));assert.throws(()=>normalizeSpeakingSet({...set,part3:Array(16).fill('q')}));assert.throws(()=>normalizeSpeakingSet({...set,cueCard:{...set.cueCard,points:[5]}}));assert.throws(()=>normalizeSpeakingSet({...set,part1:['x'.repeat(1001)]}))});
+test('mock instructions require name/ID only as simulation and enforce the question bank',()=>{const prompt=examInstructions(set,'female');assert.match(prompt,/full name/);assert.match(prompt,/not real identity verification/);assert.match(prompt,/ONE at a time/);assert.match(prompt,/one-minute/);assert.ok(prompt.includes(JSON.stringify(set)))});
+test('approved room renderer preserves characters and escapes script-breaking question text',async()=>{const html=await load('render').renderSpeakingRoom('practice','1',{...set,part1:['</script><script>bad()</script>']},'testnonce');assert.ok(html.includes('Sarah Mitchell'));assert.ok(html.includes('James Carter'));assert.ok(!html.includes('"</script><script>bad()'));assert.ok(html.includes('\\u003c/script>'));assert.ok(html.includes('nonce="testnonce"'));assert.ok(html.includes('RTCPeerConnection'));assert.ok(!html.includes('@import url('))});

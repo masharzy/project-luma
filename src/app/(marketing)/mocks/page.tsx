@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageIntro, PageWrap, FeatureNote } from "@/components/page-parts";
 import { EmptyCatalog } from "@/components/catalog-controls";
 export const metadata = { title: "Scheduled mock tests" };
@@ -9,6 +10,7 @@ export default function Page() {
         title="Make the real day feel familiar."
         description="একই সময়ে শুরু, নির্দিষ্ট সময়ের পরীক্ষা। Listening, Reading ও Writing—একটি পূর্ণ mock experience।"
       />
+      <Link className="button" href="/mocks/speaking">Live speaking mocks ↗</Link>
       <div className="mock-page-banner">
         <div>
           <span className="eyebrow">A DRESS REHEARSAL FOR YOUR NEXT STEP</span>

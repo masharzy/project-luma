@@ -17,6 +17,10 @@ const config: NextConfig = {
         ],
       },
       {
+        source: "/speaking/:path*",
+        headers: [{ key: "Permissions-Policy", value: "camera=(), microphone=(self), geolocation=()" }],
+      },
+      {
         source: "/auth/:path*",
         headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
       },

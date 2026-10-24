@@ -1,0 +1,9 @@
+import { NextRequest } from 'next/server';
+import { readSession } from '@/lib/auth/session';
+import { hasAdminRole } from '@/lib/auth/policy';
+import { requireSameOrigin,readBody,json,AuthHttpError } from '@/lib/auth/http';
+import { db } from '@/lib/auth/db';
+import { normalizeSpeakingSet } from '@/lib/speaking/schema';
+import { examParent } from '@/lib/exam/store';
+export async function GET(req:NextRequest){const s=await readSession();if(!s||!hasAdminRole(s.user))return json({error:'Forbidden'},403);const kind=req.nextUrl.searchParams.get('kind'),id=req.nextUrl.searchParams.get('id');if(!['practice','cambridge','mock'].includes(kind||'')||!/^\d{1,16}$/.test(id||''))return json({error:'Invalid test'},400);return json({items:await db().query('SELECT document,published FROM public.speaking_tests WHERE kind=$1 AND parent_id=$2',[kind,id])})}
+export async function PUT(req:NextRequest){try{requireSameOrigin(req);const s=await readSession();if(!s||!hasAdminRole(s.user))return json({error:'Forbidden'},403);const d=await readBody(req,50000);if(!['practice','cambridge','mock'].includes(String(d.kind))||!/^\d{1,16}$/.test(String(d.id))||typeof d.published!=='boolean')throw new AuthHttpError(400,'Invalid test');if(!await examParent(d.kind as 'practice',String(d.id)))throw new AuthHttpError(404,'Test not found');let doc;try{doc=normalizeSpeakingSet(d.document)}catch{throw new AuthHttpError(400,'Invalid speaking questions')}await db().query('INSERT INTO public.speaking_tests(kind,parent_id,document,published,updated_by) VALUES($1,$2,$3::jsonb,$4,$5) ON CONFLICT(kind,parent_id) DO UPDATE SET document=excluded.document,published=excluded.published,updated_by=excluded.updated_by,updated_at=now()',[d.kind,d.id,JSON.stringify(doc),d.published,s.user.id]);return json({saved:true})}catch(e){if(e instanceof AuthHttpError)return json({error:e.message},e.status);console.error('Speaking save failed');return json({error:'Unable to save speaking questions'},503)}}

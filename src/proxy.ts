@@ -3,7 +3,8 @@ import { sessionCookieName } from "@/lib/auth/config";
 export default async function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
-  const engine = request.nextUrl.pathname.startsWith("/admin/engine/") || request.nextUrl.pathname.startsWith("/exam/");
+  const speaking = request.nextUrl.pathname.startsWith("/speaking/");
+  const engine = speaking || request.nextUrl.pathname.startsWith("/admin/engine/") || request.nextUrl.pathname.startsWith("/exam/");
   const isDev = process.env.NODE_ENV !== "production";
   const csp = [
     "default-src 'self'",
@@ -11,7 +12,7 @@ export default async function proxy(request: NextRequest) {
     `style-src 'self'${isDev ? " 'unsafe-inline'" : ` 'nonce-${nonce}'`}`,
     engine ? "style-src-attr 'unsafe-inline'" : "style-src-attr 'none'",
     engine ? "img-src 'self' https: data: blob:" : "img-src 'self' data: blob:",
-    engine ? "media-src 'self' https: blob:" : "media-src 'self'",
+    speaking ? "media-src 'self' data: blob:" : engine ? "media-src 'self' https: blob:" : "media-src 'self'",
     "font-src 'self'",
     `connect-src 'self'${isDev ? " ws:" : ""}`,
     "frame-src 'none'",
