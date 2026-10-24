@@ -87,6 +87,12 @@ function convert(html,identity,keys){
  }
  const max=Math.max(...allNumbers);if(max<35||max>45)issues.push('Unexpected total '+max);for(let n=1;n<=max;n++)if(!allNumbers.has(n))issues.push('Missing question '+n);
  if(Object.keys(keys.answers).length!==max)issues.push('Answer key count differs from numbered slots');
+ for(const [number,sourcePart] of (keys.sourceByQuestion||new Map())){
+  const matches=document.questions.filter(q=>(q.sourceNumbers||[]).includes(number));
+  if(matches.length!==1)issues.push('Answer '+number+' does not bind exactly once');
+  else if(matches[0].part_id!==prefix+'-p'+sourcePart)issues.push('Answer '+number+' belongs to wrong Part');
+ }
+ for(const n of allNumbers)if(!keys.sourceByQuestion?.has(n))issues.push('No verified key for question '+n);
  parsed.window.close();return {document,identity:{...identity,source:'engnovate',sourceHash:crypto.createHash('sha256').update(html).digest('hex')},answerSlots:max,images:[...imageUrls],issues:[...new Set(issues)],status:issues.length?'review':'validated'};
 }
 module.exports={convert,keysFor,variants};
