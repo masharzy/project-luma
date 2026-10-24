@@ -1,4 +1,4 @@
-import urllib.request,json,re,pathlib,concurrent.futures,time
+import urllib.request,json,re,pathlib,concurrent.futures,time,sys
 from html.parser import HTMLParser
 from urllib.parse import urljoin
 BASE='https://practicepteonline.com';cache=pathlib.Path('/tmp/luma-source-cache')
@@ -29,7 +29,7 @@ manifest=[]
 def book(b):
  s=get(b['url']);out=[]
  for href,text in Links(s).links:
-  t=' '.join(text.split());m=re.search(r'(listening|(?:academic\s+)?reading)\s+test\s*(\d+)(?:\.(\d+))?',t,re.I)
+  t=' '.join(text.split());m=re.search(r'(listening|(?:academic\s+)?reading)\s+(?:test\s*)?(\d+)(?:\.(\d+))?',t,re.I)
   if not m or 'general' in t.lower():continue
   n=int(m[3] or m[2]);module='listening' if 'listening' in m[1].lower() else 'reading'
   if 1<=n<=4:out.append({'book':b['book'],'test':n,'module':module,'url':urljoin(BASE,href),'label':t})
@@ -40,6 +40,7 @@ manifest.sort(key=lambda x:(x['book'],x['test'],x['module']));pathlib.Path('/tmp
 print('BOOKS',len(books),'MODULES',len(manifest),flush=True)
 from collections import Counter
 print('PER BOOK',dict(sorted(Counter(x['book'] for x in manifest).items())),flush=True)
+if '--discover-only' in sys.argv:sys.exit(0)
 def fetch(m):
  try:s=get(m['url']);return {'book':m['book'],'test':m['test'],'module':m['module'],'bytes':len(s),'ok':True}
  except Exception as e:return {**m,'ok':False,'error':str(e)}

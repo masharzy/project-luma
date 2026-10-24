@@ -42,10 +42,10 @@ The original `/workspace/scratch/1a49811bb85f/project-luma` is OLD and DIRTY; DO
 Discovery script: `scripts/imports/discover-library.py` (copy of `/tmp/luma-discover.py`). It fetches a known source catalog, parses book links, then test links, caches HTML and resumes from cache. Three parallel GET workers, timeout/retries. Background process was STOPPED on user handoff request; it is not running.
 
 Source catalog: https://practicepteonline.com/cambridge-ielts-1-13-tests/
-There are 21 book index pages. Current discovery found **157 module URLs, not expected 168**:
-- Book 3: only 5 module links matched; investigate missing 3.
-- Book 13: no module links matched; investigate missing 8.
-- Other 19 books: 8 LR links each.
+There are 21 book index pages. Current discovery found **165 module URLs, not expected 168**:
+- Book 3: user-supplied official index was verified: it actually lists only Listening Test 3.1 plus four Academic Reading tests. Listening 3.2–3.4 are absent from that index and still need independently verified source mapping.
+- Book 13: FIXED. Labels omit the word Test (Listening 13.1, Academic Reading 13.1); discovery regex now accepts it as optional. All eight URLs are in the manifest. Verified https://practicepteonline.com/official-ielts-tests-book-13/.
+- Other 20 books (including Book 13): 8 LR links each.
 Do not guess URLs/test numbers to fill these gaps.
 
 Manifest committed as `data/imports/source-manifest.json`, original `/tmp/luma-source-manifest.json`.
@@ -103,9 +103,11 @@ Keep @vercel/oidc override 3.2.0 and jsdom 26.1.0; prior security audit fix. Do 
 
 ## Next steps
 
-1. Fix missing Book 3/13 discovery; confirm exactly 168 unique Academic LR book/test/module identities.
+1. Find and verify Book 3 Listening Tests 2–4 (three missing URLs); Book 13 is fixed. Confirm exactly 168 unique Academic LR identities before claiming complete coverage.
 2. Resume cached page fetches, audit all structural profiles and source key/media completeness.
 3. Implement reviewed reusable adapters/validation; keep incomplete cases out of published tests.
 4. Batch-save on validation branch, test representative layouts + full answer mapping/scoring.
 5. Back up existing production content, deploy any required renderer/editor changes, then import verified modules with correct access flags and revision guards.
 6. Report exact counts imported/published/held for review; never claim all done while discovery/validation is incomplete.
+
+Update after handoff: user supplied Book 3 and Book 13 official index URLs. Verified both; only Book 13 was a parser issue. Bulk fetching remains stopped; no further production content was imported. `discover-library.py --discover-only` can regenerate the manifest without starting test-page downloads.
