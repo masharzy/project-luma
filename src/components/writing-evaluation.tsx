@@ -2,17 +2,18 @@
 import { useCallback,useEffect,useState,useRef } from 'react';
 import type { WritingAssessment } from '@/lib/evaluation/schema';
 type Job={id:string;status:string;result:WritingAssessment|null;model:string};
-export function WritingEvaluation({attemptId}:{attemptId:string}){
+export function WritingEvaluation({attemptId,source='attempt'}:{attemptId:string;source?:'attempt'|'submission'}){
+ const api=source==='submission'?'/api/products/writing':'/api/evaluations/writing';const query=(source==='submission'?'submissionId=':'attemptId=')+attemptId;
  const autoRequested=useRef(false);
  const [job,setJob]=useState<Job|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false);
- const check=useCallback(async()=>{const response=await fetch('/api/evaluations/writing?attemptId='+attemptId,{cache:'no-store'});if(response.ok)setJob((await response.json()).evaluation);},[attemptId]);
+ const check=useCallback(async()=>{const response=await fetch(api+'?'+query,{cache:'no-store'});if(response.ok)setJob((await response.json()).evaluation);},[attemptId,api,query,source]);
  
  useEffect(()=>{if(!job||!['pending','running'].includes(job.status))return;const timer=setInterval(()=>void check().catch(()=>{}),5000);return()=>clearInterval(timer);},[job,check]);
- const evaluate=useCallback(async()=>{setBusy(true);setError('');try{const r=await fetch('/api/evaluations/writing',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({attemptId})});const d=await r.json();if(!r.ok)throw Error(d.error||'Unable to request feedback');setJob(d.evaluation);}catch(e){setError(e instanceof Error?e.message:'Please try again.');}finally{setBusy(false);}},[attemptId]);
- useEffect(()=>{let active=true;void (async()=>{const response=await fetch('/api/evaluations/writing?attemptId='+attemptId,{cache:'no-store'});if(!active||!response.ok)return;const d=await response.json();if(!active)return;setJob(d.evaluation);if(!d.evaluation&&!autoRequested.current){autoRequested.current=true;await evaluate();}})().catch(()=>{});return()=>{active=false};},[attemptId,evaluate]);
+ const evaluate=useCallback(async()=>{setBusy(true);setError('');try{const r=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(source==='submission'?{submissionId:attemptId}:{attemptId})});const d=await r.json();if(!r.ok)throw Error(d.error||'Unable to request feedback');setJob(d.evaluation);}catch(e){setError(e instanceof Error?e.message:'Please try again.');}finally{setBusy(false);}},[attemptId,api,query,source]);
+ useEffect(()=>{let active=true;void (async()=>{const response=await fetch(api+'?'+query,{cache:'no-store'});if(!active||!response.ok)return;const d=await response.json();if(!active)return;setJob(d.evaluation);if(!d.evaluation&&!autoRequested.current){autoRequested.current=true;await evaluate();}})().catch(()=>{});return()=>{active=false};},[attemptId,evaluate,api,query]);
  const pending=job&&['pending','running'].includes(job.status);
  return <section className="writing-evaluation" aria-label="Writing AI evaluation"><span className="session-eyebrow">WRITING / AI FEEDBACK</span><h2>Make your next answer stronger.</h2>
- {!job&&<p>Use your Cambridge or Practice Writing allowance. Separate Writing Evaluation product credits are never used here.</p>}
+ {!job&&<p>{source==='submission'?'Use your standalone Writing Evaluation allowance.':'Use your Cambridge or Practice Writing allowance. Separate product credits are never used here.'}</p>}
  {(!job||job.status==='pending')&&<button className="session-primary" disabled={busy} onClick={()=>void evaluate()}>{busy?'Sending…':job?'Resume evaluation':'Evaluate my writing ↗'}</button>}
  {pending&&<p role="status">Your answers are queued for evaluation. You can close this page and return to this attempt later.</p>}
  {job?.status==='failed'&&<p role="alert">We could not complete this evaluation. Its allowance has been returned. Your original answers are still available.</p>}

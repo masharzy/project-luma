@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
   poweredByHeader: false,
+  outputFileTracingIncludes: {"/speaking/evaluation/*": ["./src/lib/speaking/*.html","./src/lib/speaking/*.js"]},
   async headers() {
     return [
       {
@@ -16,6 +17,7 @@ const config: NextConfig = {
           { key: "X-DNS-Prefetch-Control", value: "off" },
         ],
       },
+      {source:"/speaking/:path*",headers:[{key:"Permissions-Policy",value:"camera=(), microphone=(self), geolocation=()"}]},
       {
         source: "/auth/:path*",
         headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
