@@ -1,0 +1,2 @@
+const fs=require('fs'),path=require('path'),ts=require('typescript'),cache=new Map();
+module.exports=function load(name){if(cache.has(name))return cache.get(name);const m={exports:{}};cache.set(name,m.exports);const code=ts.transpileModule(fs.readFileSync(path.join(__dirname,'../../src/lib/exam',name+'.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;new Function('require','module','exports',code)(p=>p.startsWith('./')?module.exports(p.slice(2)):require(p),m,m.exports);cache.set(name,m.exports);return m.exports;};

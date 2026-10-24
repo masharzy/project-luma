@@ -1,0 +1,4049 @@
+[
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172294-cambridge-ielts-01-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "958216"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172309-cambridge-ielts-01-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "525106"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172308-cambridge-ielts-01-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "766164"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172307-cambridge-ielts-01-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "905031"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-1-q1.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "127485"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-1-q2.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "87745"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-1-q3.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "177980"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-1-q4.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "75896"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172306-cambridge-ielts-01-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "980577"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172305-cambridge-ielts-01-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "496789"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172304-cambridge-ielts-01-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "763760"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172303-cambridge-ielts-01-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "756760"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-2-8-diagram-6a27884e75f7a.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "81413"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172302-cambridge-ielts-01-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "956022"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172301-cambridge-ielts-01-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "814020"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172300-cambridge-ielts-01-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "653210"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172299-cambridge-ielts-01-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "858428"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-2-q4.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "512050"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-3-9-diagram-6a2788f48a4d9.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "79743"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172298-cambridge-ielts-01-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "962604"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172297-cambridge-ielts-01-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "790196"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172296-cambridge-ielts-01-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "905657"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172295-cambridge-ielts-01-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "720084"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-4-q1.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "224067"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-4-q3.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "207069"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-4-q4.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "138144"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-reading-test-1-4-q11.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "217058"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-01-academic-listening-test-4-6-diagram-6a2789876b3f.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "202584"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172278-cambridge-ielts-02-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2004681"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172293-cambridge-ielts-02-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1801579"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172292-cambridge-ielts-02-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1473742"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172291-cambridge-ielts-02-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2040338"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172290-cambridge-ielts-02-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2573628"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172289-cambridge-ielts-02-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1609448"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172288-cambridge-ielts-02-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1471000"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172287-cambridge-ielts-02-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1665481"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-2-5-diagram-6a27817c02dd7.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "20397"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172286-cambridge-ielts-02-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2111653"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172285-cambridge-ielts-02-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1533824"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172284-cambridge-ielts-02-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1614673"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172283-cambridge-ielts-02-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1981302"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172282-cambridge-ielts-02-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2002200"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172281-cambridge-ielts-02-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "application/octet-stream",
+    "bytes": "1534346"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172280-cambridge-ielts-02-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1787473"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172279-cambridge-ielts-02-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-02-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1769448"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172262-cambridge-ielts-03-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3436985"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172277-cambridge-ielts-03-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3669998"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172276-cambridge-ielts-03-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2551121"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172275-cambridge-ielts-03-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3688179"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172274-cambridge-ielts-03-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3340855"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172273-cambridge-ielts-03-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2471709"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172272-cambridge-ielts-03-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3131457"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172271-cambridge-ielts-03-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3090288"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-2-2-diagram-6a277bbb36472.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "38544"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-2-9-diagram-6a277bbb7440d.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "17189"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-2-11-diagram-6a277bbb88c95.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "10081"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172270-cambridge-ielts-03-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3685044"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172269-cambridge-ielts-03-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2676300"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172268-cambridge-ielts-03-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2444959"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172267-cambridge-ielts-03-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3261652"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-3-4-diagram-6a277c03b26a1.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "43383"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172266-cambridge-ielts-03-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3195405"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172265-cambridge-ielts-03-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2553420"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172264-cambridge-ielts-03-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2492816"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172263-cambridge-ielts-03-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3504068"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-4-2-diagram-6a277c915657c.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "11925"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-4-11-diagram-6a277c9191d43.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "16723"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-03-academic-listening-test-4-12-diagram-6a277c919c0b3.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "19598"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172261-cambridge-ielts-04-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5989399"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172243-cambridge-ielts-04-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5790190"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172260-cambridge-ielts-04-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6486928"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172259-cambridge-ielts-04-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5681103"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-1-4-diagram-6a2772d388db3.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "152001"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-1-7-diagram-6a2772d3a1c91.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "78270"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172258-cambridge-ielts-04-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6980956"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172257-cambridge-ielts-04-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5586226"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172256-cambridge-ielts-04-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4838497"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172255-cambridge-ielts-04-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7843624"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172254-cambridge-ielts-04-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7009808"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172253-cambridge-ielts-04-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5773903"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172251-cambridge-ielts-04-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6508675"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172250-cambridge-ielts-04-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5691983"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172247-cambridge-ielts-04-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8043839"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172246-cambridge-ielts-04-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5359705"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172245-cambridge-ielts-04-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7343340"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172244-cambridge-ielts-04-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-04-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5771395"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172225-cambridge-ielts-05-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2078396"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172226-cambridge-ielts-05-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1231315"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172227-cambridge-ielts-05-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1623564"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172228-cambridge-ielts-05-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1671654"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172229-cambridge-ielts-05-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2005934"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172230-cambridge-ielts-05-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1745956"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172231-cambridge-ielts-05-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1599272"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172232-cambridge-ielts-05-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1986482"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172233-cambridge-ielts-05-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1996579"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172234-cambridge-ielts-05-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2114510"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172235-cambridge-ielts-05-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1670646"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172236-cambridge-ielts-05-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1814166"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172237-cambridge-ielts-05-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1905717"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172238-cambridge-ielts-05-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1333830"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172239-cambridge-ielts-05-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1758705"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172240-cambridge-ielts-05-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-05-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1506340"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172208-cambridge-ielts-06-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1806272"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172212-cambridge-ielts-06-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1188896"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172211-cambridge-ielts-06-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1402400"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172210-cambridge-ielts-06-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1383680"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172213-cambridge-ielts-06-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1668416"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172216-cambridge-ielts-06-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1368032"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172215-cambridge-ielts-06-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1517792"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172214-cambridge-ielts-06-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1684448"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172217-cambridge-ielts-06-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1663136"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172220-cambridge-ielts-06-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1657856"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172219-cambridge-ielts-06-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1403168"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172218-cambridge-ielts-06-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1871744"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-3-3-diagram-6a26cd032a78e.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "21523"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172221-cambridge-ielts-06-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1416608"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172224-cambridge-ielts-06-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1586336"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172223-cambridge-ielts-06-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1520576"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172222-cambridge-ielts-06-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-06-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1498688"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172189-cambridge-ielts-07-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8839296"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172197-cambridge-ielts-07-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6467712"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172196-cambridge-ielts-07-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7278720"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172195-cambridge-ielts-07-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6514688"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172194-cambridge-ielts-07-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6635520"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172193-cambridge-ielts-07-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5036032"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172192-cambridge-ielts-07-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6848512"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172191-cambridge-ielts-07-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7055360"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-2-2-diagram-6a2635f0ae523.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "23998"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172198-cambridge-ielts-07-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7297152"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172205-cambridge-ielts-07-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6201344"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172204-cambridge-ielts-07-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6135808"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172203-cambridge-ielts-07-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6338560"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-3-7-diagram-6a263695393af.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "71006"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172202-cambridge-ielts-07-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6744064"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172201-cambridge-ielts-07-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6133760"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172200-cambridge-ielts-07-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4937728"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3172199-cambridge-ielts-07-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5543936"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-07-academic-listening-test-4-4-diagram-6a26372a43315.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "57313"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170388-cambridge-ielts-08-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6799686"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170395-cambridge-ielts-08-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5784887"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170394-cambridge-ielts-08-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7951989"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170393-cambridge-ielts-08-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7105203"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170392-cambridge-ielts-08-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7664873"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170391-cambridge-ielts-08-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6207430"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170390-cambridge-ielts-08-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6520888"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170389-cambridge-ielts-08-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6679695"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-2-4-diagram-6a2619badcca5.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "47267"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170396-cambridge-ielts-08-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7271574"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170402-cambridge-ielts-08-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5507364"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170404-cambridge-ielts-08-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6329064"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170403-cambridge-ielts-08-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7504371"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170405-cambridge-ielts-08-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6297719"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170406-cambridge-ielts-08-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5425865"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170398-cambridge-ielts-08-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6343285"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3170397-cambridge-ielts-08-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6528394"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-08-academic-listening-test-4-3-diagram-6a261f0469b72.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "87360"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164535-cambridge-ielts-09-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9192114"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164534-cambridge-ielts-09-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6808662"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164533-cambridge-ielts-09-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9249534"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164532-cambridge-ielts-09-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7942446"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164538-cambridge-ielts-09-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8872717"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164541-cambridge-ielts-09-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7567195"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164540-cambridge-ielts-09-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8427973"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164539-cambridge-ielts-09-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7535353"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-2-4-diagram-6a2369ec2e64e.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "48349"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164542-cambridge-ielts-09-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12328879"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164543-cambridge-ielts-09-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7248253"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164544-cambridge-ielts-09-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7234681"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164545-cambridge-ielts-09-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8235355"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164546-cambridge-ielts-09-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8735953"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164547-cambridge-ielts-09-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8175847"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164548-cambridge-ielts-09-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7616263"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3164549-cambridge-ielts-09-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7000303"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-09-academic-listening-test-4-4-diagram-6a2369ded8929.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "56144"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11884-ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9621674"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11887-ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9126347"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11886-ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9362703"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11885-ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9593417"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11907-cambridge-ielts-10-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8611048"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11906-cambridge-ielts-10-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8686863"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11905-cambridge-ielts-10-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10773942"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11904-cambridge-ielts-10-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9917544"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11944-cambridge-ielts-10-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10782137"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11943-cambridge-ielts-10-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9562697"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11942-cambridge-ielts-10-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10164558"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11941-cambridge-ielts-10-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11745698"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11975-cambridge-ielts-10-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9429830"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11974-cambridge-ielts-10-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9390915"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11973-cambridge-ielts-10-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10392764"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/11972-cambridge-ielts-10-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10767673"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12004-cambridge-ielts-11-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8222555"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12003-cambridge-ielts-11-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6398561"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12002-cambridge-ielts-11-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7879390"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12001-cambridge-ielts-11-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8168200"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-test-1-15-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "70451"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12035-cambridge-ielts-11-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7387055"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12034-cambridge-ielts-11-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6902619"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12033-cambridge-ielts-11-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7317235"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12032-cambridge-ielts-11-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7155903"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-test-2-17-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "99925"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12067-cambridge-ielts-11-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6720827"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12066-cambridge-ielts-11-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6842015"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12064-cambridge-ielts-11-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6369721"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12065-cambridge-ielts-11-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8200801"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12100-cambridge-ielts-11-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7177240"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12099-cambridge-ielts-11-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5805894"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12098-cambridge-ielts-11-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6992899"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12097-cambridge-ielts-11-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8030273"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-11-academic-listening-test-4-17-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "55788"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12130-cambridge-ielts-12-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10332139"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12129-cambridge-ielts-12-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9802107"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12128-cambridge-ielts-12-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9558228"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12127-cambridge-ielts-12-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12678533"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12158-cambridge-ielts-12-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11854347"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12157-cambridge-ielts-12-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11268517"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12156-cambridge-ielts-12-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10340647"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12155-cambridge-ielts-12-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12413307"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12186-cambridge-ielts-12-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11423640"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12185-cambridge-ielts-12-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10449735"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12184-cambridge-ielts-12-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12234629"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12183-cambridge-ielts-12-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11786368"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12214-cambridge-ielts-12-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10356590"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12213-cambridge-ielts-12-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8868595"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12212-cambridge-ielts-12-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11165699"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12211-cambridge-ielts-12-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11386381"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-12-academic-listening-test-4-15-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "89476"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12240-cambridge-ielts-13-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4606153"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12239-cambridge-ielts-13-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4868211"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12238-cambridge-ielts-13-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5120802"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12237-cambridge-ielts-13-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5030345"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-test-1-14-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "103298"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12413-cambridge-ielts-13-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5728258"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12412-cambridge-ielts-13-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5279180"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12411-cambridge-ielts-13-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5142399"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12410-cambridge-ielts-13-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6521790"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12450-cambridge-ielts-13-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5817150"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12449-cambridge-ielts-13-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4570861"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12448-cambridge-ielts-13-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4776502"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12447-cambridge-ielts-13-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4789022"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12491-cambridge-ielts-13-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5071897"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12490-cambridge-ielts-13-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4945835"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12489-cambridge-ielts-13-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5403441"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12488-cambridge-ielts-13-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-13-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5733969"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12558-cambridge-ielts-14-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6647427"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12557-cambridge-ielts-14-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3277773"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12556-cambridge-ielts-14-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3492815"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12555-cambridge-ielts-14-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3951446"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12614-cambridge-ielts-14-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7500005"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12613-cambridge-ielts-14-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3589443"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12612-cambridge-ielts-14-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3741650"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12611-cambridge-ielts-14-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "8428196"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-test-2-16-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "165396"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12712-cambridge-ielts-14-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8080085"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12711-cambridge-ielts-14-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3220940"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12710-cambridge-ielts-14-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3090103"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12709-cambridge-ielts-14-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3955205"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12745-cambridge-ielts-14-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7560717"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12746-cambridge-ielts-14-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3503663"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12744-cambridge-ielts-14-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "3751801"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/12743-cambridge-ielts-14-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-14-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/x-m4a",
+    "bytes": "4522548"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26096-cambridge-ielts-15-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8037068"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26092-cambridge-ielts-15-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8185796"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26097-cambridge-ielts-15-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8703740"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26098-cambridge-ielts-15-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11037716"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26099-cambridge-ielts-15-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10000988"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26100-cambridge-ielts-15-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8285780"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26101-cambridge-ielts-15-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8484836"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26102-cambridge-ielts-15-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10581188"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-15-academic-listening-test-2-15-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "86398"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26103-cambridge-ielts-15-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8379668"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26104-cambridge-ielts-15-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8403716"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26105-cambridge-ielts-15-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8129708"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26106-cambridge-ielts-15-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9207404"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26107-cambridge-ielts-15-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6875467"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26108-cambridge-ielts-15-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6099787"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26109-cambridge-ielts-15-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6702667"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/26110-cambridge-ielts-15-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/12/cambridge-ielts-15-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7485643"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-15-academic-listening-test-4-11-16.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "72627"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13183-cambridge-ielts-16-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "13505290"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13182-cambridge-ielts-16-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "13340795"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13181-cambridge-ielts-16-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12844805"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13180-cambridge-ielts-16-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "16161425"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-test-1-15-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "61448"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13211-cambridge-ielts-16-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12721225"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13210-cambridge-ielts-16-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "14837950"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13209-cambridge-ielts-16-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "13319085"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13208-cambridge-ielts-16-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "16822745"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13240-cambridge-ielts-16-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "15776490"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13239-cambridge-ielts-16-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "13056060"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13238-cambridge-ielts-16-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "13149580"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13237-cambridge-ielts-16-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "16464530"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13320-cambridge-ielts-16-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "13626365"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13319-cambridge-ielts-16-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12309570"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13318-cambridge-ielts-16-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "13052720"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13316-cambridge-ielts-16-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "17707010"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-16-academic-listening-test-4-15-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "49367"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13445-cambridge-ielts-17-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3892200"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13444-cambridge-ielts-17-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6599859"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13443-cambridge-ielts-17-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7091919"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13442-cambridge-ielts-17-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7274565"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13590-cambridge-ielts-17-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7575639"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13589-cambridge-ielts-17-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7105263"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13588-cambridge-ielts-17-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6424302"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13587-cambridge-ielts-17-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6934293"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13670-cambridge-ielts-17-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6629883"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13669-cambridge-ielts-17-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7189497"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13668-cambridge-ielts-17-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7227444"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13667-cambridge-ielts-17-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7771212"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13843-cambridge-ielts-17-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6115722"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13842-cambridge-ielts-17-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7544781"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13841-cambridge-ielts-17-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6570669"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/13840-cambridge-ielts-17-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-17-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8235333"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14074-cambridge-ielts-18-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "4902427"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14072-cambridge-ielts-18-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6369593"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14071-cambridge-ielts-18-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6414733"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14070-cambridge-ielts-18-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8441835"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14324-cambridge-ielts-18-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7501009"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14323-cambridge-ielts-18-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6995696"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14322-cambridge-ielts-18-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6848575"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14321-cambridge-ielts-18-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6815556"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-test-2-15-20.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "123926"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14614-cambridge-ielts-18-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7529430"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14613-cambridge-ielts-18-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7478857"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14612-cambridge-ielts-18-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5684140"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14611-cambridge-ielts-18-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7355559"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14645-cambridge-ielts-18-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7086393"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14644-cambridge-ielts-18-academic-listening-4-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-4-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6978142"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14643-cambridge-ielts-18-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6689750"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/14642-cambridge-ielts-18-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-18-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7959092"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/156063-cambridge-ielts-19-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7563057"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/156064-cambridge-ielts-19-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6996304"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/156065-cambridge-ielts-19-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6724631"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/156066-cambridge-ielts-19-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6637277"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2024/07/cambridge-ielts-19-academic-listening-test-1-16-20.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png",
+    "bytes": "275247"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/158820-cambridge-ielts-19-academic-listening-2-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-2-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "7711015"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/158821-cambridge-ielts-19-academic-listening-2-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-2-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6147011"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/158822-cambridge-ielts-19-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6573330"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/158823-cambridge-ielts-19-academic-listening-2-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-2-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6832046"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/161246-cambridge-ielts-19-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6339690"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/161249-cambridge-ielts-19-academic-listening-3-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-3-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "5949735"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/161248-cambridge-ielts-19-academic-listening-3-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-3-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6755142"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/161247-cambridge-ielts-19-academic-listening-3-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-3-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6567478"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/163752-cambridge-ielts-19-academic-listening-4-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-4-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6483050"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/163863-cambridge-ielts-19-academic-listening-4-audio-2-.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-4-audio-2-.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6226424"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/163754-cambridge-ielts-19-academic-listening-4-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-4-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "6870917"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/163753-cambridge-ielts-19-academic-listening-4-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2024/08/cambridge-ielts-19-academic-listening-4-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "8303263"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1696216-cambridge-ielts-20-academic-listening-1-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-1-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2005516"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1696218-cambridge-ielts-20-academic-listening-1-audio-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-1-audio-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2058388"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1696219-cambridge-ielts-20-academic-listening-1-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-1-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1916281"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1696220-cambridge-ielts-20-academic-listening-1-audio-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-1-audio-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1890472"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1714876-cambridge-ielts-20-academic-listening-2-audio1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-2-audio1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1941327"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715032-cambridge-ielts-20-academic-listening-2-audio-part-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-2-audio-part-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2186283"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1703092-cambridge-ielts-20-academic-listening-2-audio-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-2-audio-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1690190"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715033-cambridge-ielts-20-academic-listening-2-audio-part-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-2-audio-part-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "3011504"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1703303-cambridge-ielts-20-academic-listening-3-audio-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-3-audio-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "1759258"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715034-cambridge-ielts-20-academic-listening-3-audio-part-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-3-audio-part-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2592797"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715035-cambridge-ielts-20-academic-listening-3-audio-part-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-3-audio-part-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2320838"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715036-cambridge-ielts-20-academic-listening-3-audio-part-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-3-audio-part-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2825934"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-reading-test-3%E2%80%9317-20.png",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/png"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715037-cambridge-ielts-20-academic-listening-4-audio-part-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-4-audio-part-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2275310"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715039-cambridge-ielts-20-academic-listening-4-audio-part-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-4-audio-part-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2527884"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715040-cambridge-ielts-20-academic-listening-4-audio-part-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-4-audio-part-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2410115"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/1715041-cambridge-ielts-20-academic-listening-4-audio-part-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2025/07/cambridge-ielts-20-academic-listening-4-audio-part-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "2420414"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178700-cambridge-ielts-21-academic-listening-test-1-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-1-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11271403"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178722-cambridge-ielts-21-academic-listening-test-1-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-1-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11273911"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178721-cambridge-ielts-21-academic-listening-test-1-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-1-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10550424"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178719-cambridge-ielts-21-academic-listening-test-1-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-1-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "14134633"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178718-cambridge-ielts-21-academic-listening-test-2-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-2-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12356634"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178717-cambridge-ielts-21-academic-listening-test-2-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-2-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9526005"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178716-cambridge-ielts-21-academic-listening-test-2-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-2-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11345381"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178715-cambridge-ielts-21-academic-listening-test-2-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-2-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "12030626"
+  },
+  {
+    "url": "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-2-4-diagram-6a3cf580846f3.jpg",
+    "kind": "image",
+    "ok": true,
+    "status": 200,
+    "type": "image/jpeg",
+    "bytes": "34720"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178711-cambridge-ielts-21-academic-listening-test-3-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-3-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10404346"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178710-cambridge-ielts-21-academic-listening-test-3-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-3-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10467041"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178709-cambridge-ielts-21-academic-listening-test-3-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-3-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9954204"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178708-cambridge-ielts-21-academic-listening-test-3-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-3-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "14508915"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178707-cambridge-ielts-21-academic-listening-test-4-1.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-4-1.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10210622"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178704-cambridge-ielts-21-academic-listening-test-4-2.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-4-2.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "10838815"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178703-cambridge-ielts-21-academic-listening-test-4-3.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-4-3.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "9928500"
+  },
+  {
+    "url": "https://ielts-listening-audio.engnovatemedia.com/3178702-cambridge-ielts-21-academic-listening-test-4-4.mp3",
+    "kind": "audio",
+    "fallback": [
+      "https://engnovate.com/wp-content/uploads/2026/06/cambridge-ielts-21-academic-listening-test-4-4.mp3"
+    ],
+    "ok": true,
+    "status": 200,
+    "type": "audio/mpeg",
+    "bytes": "11691452"
+  }
+]

@@ -7,6 +7,7 @@ type QuestionLike = {
   part_id?: string | null;
   question_text?: string | null;
   correct_answer?: string | null;
+  correct_answer_variants?: string[];
   correctAnswer?: string | null;
   answer_key?: string | null;
   question_type?: string | null;
@@ -97,6 +98,7 @@ function resolveOptionAnswer(value: unknown, question: QuestionLike): string {
 }
 
 function correctAnswerValues(question: QuestionLike): string[] {
+  if(Array.isArray(question.correct_answer_variants)) return question.correct_answer_variants;
   const raw = question.correct_answer ?? question.correctAnswer ?? question.answer_key ?? '';
   return String(raw)
     .split(/[,/]/)

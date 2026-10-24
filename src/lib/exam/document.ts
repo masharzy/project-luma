@@ -19,6 +19,7 @@ export function normalizeDocument(value: unknown, module: Module): ExamDocument 
   const parts = d.parts.map((p, i) => {
     const partId = id(p?.id || p?.temp_id);
     if (!partId || partIds.has(partId) || !Array.isArray(p.question_groups) || p.question_groups.length > 80) throw Error("Duplicate or invalid part.");
+    if (p.audio_url) { const u=new URL(p.audio_url); if(u.protocol!=="https:"||u.username||u.password||p.audio_url.length>2000)throw Error("Invalid Part audio URL."); }
     partIds.add(partId);
     const groups = p.question_groups.map((g: any) => {
       const groupId = id(g?.id || g?.temp_id);
@@ -31,6 +32,7 @@ export function normalizeDocument(value: unknown, module: Module): ExamDocument 
           if (u.protocol !== "https:" || u.username || u.password || g.referenceImage.length > 2000) throw Error("Group image must use HTTPS or an uploaded image.");
         }
       }
+      if(g.type==="source_html" && (typeof g.sourceHtml!=="string" || g.sourceHtml.length>200000 || /<(script|iframe|object|form|input|select)\b/i.test(g.sourceHtml) || /\son[a-z]+\s*=/i.test(g.sourceHtml)))throw Error("Invalid imported layout.");
       groupIds.set(groupId, partId);
       return { ...g, id: groupId };
     });
@@ -47,10 +49,17 @@ export function normalizeDocument(value: unknown, module: Module): ExamDocument 
     const group = parts.find(p => p.id === partId)?.question_groups.find((g: any) => g.id === q.group_id);
     const multi = q.question_type === "list_selection" || q.ieltsQuestionType === "multiple_choice_multiple" || group?.ieltsQuestionType === "multiple_choice_multiple";
     const raw = String(q.correct_answer || "").trim();
-    const answerCount = raw ? Math.max(1, raw.split(multi ? /[,/]/ : /,/).filter((s: string) => s.trim()).length) : Number.isInteger(q.answerCount) && q.answerCount >= 1 && q.answerCount <= 20 ? q.answerCount : 1;
+    if(q.correct_answer_variants!==undefined && (!Array.isArray(q.correct_answer_variants)||q.correct_answer_variants.length>256||q.correct_answer_variants.some((v:unknown)=>typeof v!=="string"||!v.trim()||v.length>1000)))throw Error("Invalid accepted answers.");
+    const answerCount = Array.isArray(q.correct_answer_variants) && !multi ? 1 : raw ? Math.max(1, raw.split(multi ? /[,/]/ : /,/).filter((s: string) => s.trim()).length) : Number.isInteger(q.answerCount) && q.answerCount >= 1 && q.answerCount <= 20 ? q.answerCount : 1;
+    if(q.sourceNumbers && (!Array.isArray(q.sourceNumbers)||q.sourceNumbers.length!==answerCount||q.sourceNumbers.some((n:unknown)=>!Number.isInteger(n)||Number(n)<1||Number(n)>100)))throw Error("Imported answer slots do not match source numbering.");
     if (answerCount > 20) throw Error("A question supports at most 20 answer fields.");
     return { ...q, id: questionId, part_id: partId, answerCount };
   });
+  for(const part of parts) for(const group of part.question_groups) if(group.type==="source_html") {
+    const bindings=[...String(group.sourceHtml).matchAll(/data-luma-question="([a-zA-Z0-9_.:-]+)"/g)].map(m=>m[1]);
+    const own=questions.filter(q=>q.group_id===group.id);
+    if(bindings.some(id=>!own.some(q=>q.id===id))||own.some(q=>!bindings.includes(q.id)))throw Error("Imported question bindings do not match this group.");
+  }
   // Materialize inline gaps immediately, including when Save is clicked before editor debounce.
   for (const part of parts) for (const group of part.question_groups) {
     const texts: string[] = [];
