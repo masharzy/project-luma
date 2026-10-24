@@ -244,4 +244,4 @@
 
 .ielts-group-reference-image{display:block;width:auto;max-width:100%;height:auto;margin:18px 0 24px;object-fit:contain}.exam-group-reference-editor{padding:16px;border-bottom:1px solid #ddd}.exam-group-reference-editor label{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:13px}.exam-group-reference-editor button{padding:8px 12px;border:1px solid #ccc;background:white}
 
-.exam-engine .ielts-picture-choice{display:flex;flex-wrap:wrap;gap:24px}.exam-engine .ielts-picture-choice .ielts-choice-letter{display:inline}.exam-engine .ielts-picture-choice .ielts-choice-option{grid-template-columns:18px auto;gap:8px}
+.exam-engine .ielts-picture-choice{display:flex;flex-direction:row;flex-wrap:wrap;gap:24px}.exam-engine .ielts-picture-choice .ielts-choice-letter{display:inline}.exam-engine .ielts-picture-choice .ielts-choice-option{grid-template-columns:18px auto;gap:8px}
