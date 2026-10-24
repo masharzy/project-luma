@@ -1,3 +1,9 @@
+# CURRENT WORK — Reading WIP, stopped for handoff
+
+Read [READING-HANDOFF.md](READING-HANDOFF.md) first. No Reading DB import or deployment occurred. The completed Listening release below remains live.
+
+---
+
 # CURRENT HANDOFF — 2026-10-25 — Listening import released
 
 This section supersedes the historical handoff below. Do not restart discovery or re-import the library.
