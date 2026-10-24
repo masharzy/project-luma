@@ -5,7 +5,7 @@ import { readSession } from '@/lib/auth/session';
 import { db } from '@/lib/auth/db';
 import { digest, randomToken, validToken } from '@/lib/auth/crypto';
 import { AuthHttpError } from '@/lib/auth/http';
-import { moduleOrder } from '@/lib/cambridge-settings';
+import { moduleOrder, selectedModules } from '@/lib/cambridge-settings';
 import { examParent, loadExam, learnerDocument } from './store';
 import { gradeModule } from './result';
 import type { ExamDocument, Module } from './document';
@@ -21,7 +21,7 @@ export async function startAttempt(kind: string, parentId: string, selection: st
     const parent = await examParent(k, parentId);
     if (!parent || parent.status !== 'published' || parent.access !== 'free')
         throw new AuthHttpError(404, 'Test unavailable');
-    const chosen = moduleOrder.filter(m => parent.modules.includes(m) && (selection === 'full' || selection === m));
+    const chosen = selectedModules(parent.modules, selection);
     if (!chosen.length)
         throw new AuthHttpError(404, 'Module unavailable');
     const snapshot: Snapshot = await Promise.all(chosen.map(async module => {

@@ -19,6 +19,7 @@ const admin = [
   ["/admin/mocks", "Mock exams", "clock"],
   ["/admin/vocabulary", "Vocabulary", "book"],
   ["/admin/resources", "Learning resources", "pen"],
+  ["/admin/evaluations", "Evaluation access", "chart"],
   ["/admin/users", "Users & access", "users"],
   ["/admin/settings", "Settings", "settings"],
 ];

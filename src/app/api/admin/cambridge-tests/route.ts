@@ -24,12 +24,12 @@ export async function POST(request: NextRequest) {
         !Number.isSafeInteger(testNumber) || Number(testNumber) < 1 || Number(testNumber) > 1000 ||
         typeof title !== "string" || title.length > 180 ||
         !["free", "premium"].includes(String(access)) || !["draft", "published", "archived"].includes(String(status)) ||
-        !Array.isArray(sections) || !sections.length || sections.length > 3 || !sections.every(s => ["listening", "reading", "writing"].includes(s)) || new Set(sections).size !== sections.length)
+        !Array.isArray(sections) || !sections.length || sections.length > 4 || !sections.every(s => ["listening", "reading", "writing", "speaking"].includes(s)) || new Set(sections).size !== sections.length)
         return Response.json({ error: "Invalid fields" }, { status: 400 });
     if (!(await db().query("SELECT 1 FROM public.cambridge_books WHERE book_number=$1", [bookNumber])).length)
         return Response.json({ error: "Create the book first" }, { status: 400 });
     try {
-        const rows = await db().query(`INSERT INTO public.cambridge_tests(book_number,test_number,title,access,status,sections,durations) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb) RETURNING id`, [bookNumber, testNumber, title || "Test " + testNumber, access, status, JSON.stringify(sections), JSON.stringify(durations ?? defaultDurations)]);
+        const rows = await db().query(`INSERT INTO public.cambridge_tests(book_number,test_number,title,access,status,sections,durations) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb) RETURNING id`, [bookNumber, testNumber, title || "Test " + testNumber, access, status, JSON.stringify(sections), JSON.stringify({...defaultDurations,...(durations as object || {})})]);
         return Response.json({ id: String(rows[0].id) }, { status: 201 });
     }
     catch (e) {

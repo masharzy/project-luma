@@ -41,10 +41,10 @@ export async function PATCH(request: NextRequest, { params }: {
         (title !== undefined && (typeof title !== "string" || title.length > 180)) ||
         (access !== undefined && !["free", "premium"].includes(String(access))) ||
         (status !== undefined && !["draft", "published", "archived"].includes(String(status))) ||
-        (sections !== undefined && (!Array.isArray(sections) || !sections.length || sections.length > 3 || !sections.every(s => ["listening", "reading", "writing"].includes(s)) || new Set(sections).size !== sections.length)))
+        (sections !== undefined && (!Array.isArray(sections) || !sections.length || sections.length > 4 || !sections.every(s => ["listening", "reading", "writing", "speaking"].includes(s)) || new Set(sections).size !== sections.length)))
         return Response.json({ error: "Invalid fields" }, { status: 400 });
     try {
-        const rows = await db().query(`UPDATE public.cambridge_tests SET book_number=COALESCE($2,book_number),test_number=COALESCE($3,test_number),title=COALESCE($4,title),access=COALESCE($5,access),status=COALESCE($6,status),sections=COALESCE($7::jsonb,sections),durations=COALESCE($8::jsonb,durations),updated_at=now() WHERE id=$1 RETURNING id`, [id, bookNumber ?? null, testNumber ?? null, title ?? null, access ?? null, status ?? null, sections ? JSON.stringify(sections) : null, durations ? JSON.stringify(durations) : null]);
+        const rows = await db().query(`UPDATE public.cambridge_tests SET book_number=COALESCE($2,book_number),test_number=COALESCE($3,test_number),title=COALESCE($4,title),access=COALESCE($5,access),status=COALESCE($6,status),sections=COALESCE($7::jsonb,sections),durations=durations||COALESCE($8::jsonb,'{}'::jsonb),updated_at=now() WHERE id=$1 RETURNING id`, [id, bookNumber ?? null, testNumber ?? null, title ?? null, access ?? null, status ?? null, sections ? JSON.stringify(sections) : null, durations ? JSON.stringify(durations) : null]);
         return rows.length ? Response.json({ ok: true }) : Response.json({ error: "Not found" }, { status: 404 });
     }
     catch (e) {

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { modules } from "@/config/features";
 import { PageIntro, PageWrap, FeatureNote } from "@/components/page-parts";
-import { EmptyCatalog } from "@/components/catalog-controls";
+import { PracticeCatalog } from "@/components/practice-catalog";
 export default async function Page({
   params,
 }: {
@@ -32,10 +32,9 @@ export default async function Page({
           পাবে।
         </p>
       </div>
-      <EmptyCatalog kind="practice" />
+      <PracticeCatalog module={module} />
       <FeatureNote>
-        Practice engine ও question content এখনো সংযুক্ত হয়নি। এই page তোমার
-        module library।
+        Published module বেছে নিজের সময়ে অনুশীলন শুরু করো।
       </FeatureNote>
     </PageWrap>
   );
