@@ -1281,7 +1281,7 @@ export default function ExamInterface({
     return (
       <div key={q.id} id={`q-${q.id}`} className="ielts-question-row">
         <div className="ielts-question-text"><span className="ielts-qnum-inline">{multi && maxSelections > 1 ? `${displayNum}-${displayNum + maxSelections - 1}` : displayNum}</span>{formatHeadingTokenForDisplay(q.question_text)}</div>
-        <div className="ielts-choice-list">
+        <div className={cn("ielts-choice-list", q.optionLabelOnly && "ielts-picture-choice")}>
           {opts.map((opt: string, idx: number) => {
             const label = normalizeOptionLabel(idx);
             const selected = selectedValues.includes(label) || selectedValues.includes(String(opt).trim().toUpperCase());
