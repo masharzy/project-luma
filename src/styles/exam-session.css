@@ -3,3 +3,65 @@
 .result-total .result-submitted{font-size:clamp(32px,7vw,54px)}
 
 .writing-evaluation{margin:32px 0;padding:28px;border:1px solid #d5d5ca;background:#fff;text-align:left}.writing-evaluation h2{font-size:1.5rem}.writing-task-feedback{padding:24px 0;border-top:1px solid #d5d5ca;margin-top:24px}.writing-task-feedback h4{margin-top:20px}.writing-task-feedback ul{padding-left:24px;list-style:disc}.writing-evaluation p,.writing-evaluation li{overflow-wrap:anywhere}
+
+
+/* Cambridge session and Writing feedback polish */
+.exam-session-sheet{border-radius:20px;box-shadow:0 24px 70px #46282b13;overflow:visible}
+.session-primary{border-radius:12px;box-shadow:0 10px 24px #af203025;gap:10px;transition:transform .16s,box-shadow .16s,background .16s;text-decoration:none}
+.session-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 13px 28px #af20303a;color:#fff}
+.session-primary:focus-visible,.speaking-room-entry:focus-visible{outline:3px solid #1b648d;outline-offset:3px}
+.speaking-room-entry{background:#9f1630!important;color:#fff!important;border:2px solid #9f1630!important;font-size:1rem;letter-spacing:.01em;min-height:54px}
+.speaking-room-entry:hover{background:#761122!important;color:#fff!important}
+.result-module-grid article{border-radius:14px;background:#fffdfa}
+.result-review summary{border-radius:8px}
+.writing-evaluation{border-radius:20px;border:1px solid #e3d9d5;background:linear-gradient(145deg,#fff,#fefbf9);box-shadow:0 14px 32px #40202c0e;padding:30px;color:#2c2929}
+.writing-evaluation h2{font-size:clamp(1.45rem,4vw,2.2rem);line-height:1.2;letter-spacing:-.025em;color:#261c1f;margin:10px 0}
+.writing-eval-heading{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:25px;align-items:start}
+.writing-eval-heading p{font-size:14px;margin:8px 0}
+.writing-band-badge{border-radius:16px;min-width:0;text-align:center;padding:18px;background:#9f1736;color:white;display:grid;gap:5px}
+.writing-band-badge span{text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:800;color:#fff1f4}
+.writing-band-badge strong{font-size:clamp(2.5rem,7vw,3.8rem);line-height:1.1;color:#fff}
+.writing-band-badge small{font-size:11px;color:#ffecf1}
+.writing-feedback-legend{display:flex;flex-wrap:wrap;gap:8px 18px;padding:18px 0;margin:15px 0;border-block:1px solid #eee2df}
+.writing-feedback-legend span{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#534b4b}
+.writing-feedback-legend i{width:13px;height:13px;display:inline-block;border-radius:3px}
+.legend-grammar{background:#f6c6cc;border-bottom:2px solid #be1535}
+.legend-improve{background:#ffe1aa;border-bottom:2px solid #ab700f}
+.legend-good{background:#bfeacb;border-bottom:2px solid #2a8250}
+.writing-feedback-progress{padding:16px 19px;background:#eef5fb;color:#1c4c70!important;border-left:4px solid #2c80bb;border-radius:10px;font-size:14px;line-height:1.7}
+.writing-feedback-error{padding:16px 20px;background:#fff0f0;color:#84283a;border-left:4px solid #c43146;border-radius:10px}
+.writing-feedback-error p{margin:6px 0}
+.writing-feedback-error a{display:inline-block;margin-top:8px;color:#7c1833;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+.writing-feedback-warning{background:#fff8e5;color:#7b5316;border-radius:8px;padding:12px}
+.writing-assessment-summary{font-size:15px;font-weight:500;background:#f3f8f4;padding:18px;border-radius:10px;color:#2c5736!important}
+.writing-task-feedback{margin-top:28px;padding:26px;border:1px solid #eadedb;border-radius:15px;background:#fff}
+.writing-task-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.writing-task-heading h3{font-size:24px;line-height:1.2;margin:7px 0}
+.writing-task-band{color:#206846;background:#eaf8ef;padding:7px 10px;border-radius:100px;font-size:12px;font-weight:700}
+.writing-original-label{font-size:12px!important;color:#645957!important;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.writing-original{white-space:pre-wrap;overflow-wrap:anywhere;background:#faf9f6;border:1px solid #e5e2da;border-radius:12px;line-height:1.95;padding:22px;font-size:15px;color:#302e2d;min-height:100px}
+.writing-empty-response{background:#faf7f3;border-radius:8px;padding:14px}
+.writing-highlight{position:relative;border-radius:3px;cursor:help;padding:1px 2px;color:inherit}
+.writing-highlight.grammar{background:#fbd7db;border-bottom:2px solid #c42443}
+.writing-highlight.improve{background:#ffeac1;border-bottom:2px solid #ba851d}
+.writing-highlight.good{background:#d1f1d9;border-bottom:2px solid #25874d}
+.writing-highlight:focus-visible{outline:2px solid #165e9d;outline-offset:2px}
+.writing-inline-tip{position:absolute;display:none;z-index:5;bottom:calc(100% + 9px);left:0;width:min(300px,75vw);padding:12px 14px;background:#2a2730;color:#fff;border-radius:9px;line-height:1.5;font-size:12px;font-weight:500;white-space:normal;box-shadow:0 10px 30px #18151b33}
+.writing-highlight:hover .writing-inline-tip,.writing-highlight:focus .writing-inline-tip{display:block}
+.writing-assessment-details{margin-top:25px;border-top:1px solid #eee4e0;padding-top:22px}
+.writing-assessment-details h4{margin:20px 0 12px;color:#34202a;font-size:16px}
+.writing-criteria-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.writing-criterion{border:1px solid #e7e1dc;border-radius:12px;padding:15px;background:#fffefd}
+.writing-criterion>div{display:flex;align-items:center;justify-content:space-between;gap:9px}
+.writing-criterion strong{font-size:13px;color:#3f3437}
+.writing-criterion b{display:grid;place-items:center;min-width:36px;min-height:32px;border-radius:9px;background:#e8f2ea;color:#206139}
+.writing-criterion p{font-size:13px;line-height:1.65;margin:10px 0}
+.writing-criterion ul{margin:8px 0 0;padding-left:18px;font-size:12px;color:#655c5e}
+.writing-corrections{display:grid;gap:10px}
+.writing-corrections>div{border-radius:10px;padding:16px;background:#fff8ed;border:1px solid #f2dcbc}
+.writing-corrections p{margin:7px 0;font-size:13px;white-space:pre-wrap}
+.writing-correction-label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-weight:800;color:#995c12}
+.writing-assessment-details>ul{padding-left:21px;font-size:14px;line-height:1.7}
+.writing-evaluation .session-note{font-size:12px;color:#6e6267}
+@media(max-width:720px){.writing-evaluation{padding:20px 14px}.writing-task-feedback{padding:17px 13px}.writing-eval-heading{grid-template-columns:1fr}.writing-band-badge{max-width:200px}.writing-criteria-grid{grid-template-columns:1fr}.writing-original{padding:15px;font-size:14px}.writing-inline-tip{max-width:75vw}}
+@media(prefers-reduced-motion:reduce){.session-primary{transition:none}}
