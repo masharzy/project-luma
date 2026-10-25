@@ -1,12 +1,21 @@
 export type SpeakingMode = 'evaluation' | 'practice' | 'cambridge' | 'mock';
 export type SpeakingGroup={title:string;questions:string[]};
 export type SpeakingTiming={preparationSeconds:number;longTurnSeconds:number;shortAnswerSeconds:number};
-export type SpeakingSet = { part1Groups?:SpeakingGroup[];part3Groups?:SpeakingGroup[];timing?:SpeakingTiming; part1: string[]; cueCard: { topic: string; points: string[]; explain: string }; rounding: string[]; part3: string[] };
+export type SourceSpeakingPart={title:string;questions:{sourceNumber?:number;text:string;paragraphs:string[];taskCard:boolean;images?:string[]}[]};
+export type SpeakingSet = { sourceParts?:SourceSpeakingPart[];part1Groups?:SpeakingGroup[];part3Groups?:SpeakingGroup[];timing?:SpeakingTiming; part1: string[]; cueCard: { topic: string; points: string[]; explain: string }; rounding: string[]; part3: string[] };
 export function normalizeSpeakingSet(value: unknown): SpeakingSet {
  const d=value as SpeakingSet;
  const text=(v:unknown,max=600):string=>{if(typeof v!=='string'||!v.trim()||v.length>max)throw Error('Invalid speaking text');return v.trim()};
  const list=(v:unknown,min:number,max:number)=>{if(!Array.isArray(v)||v.length<min||v.length>max)throw Error('Invalid speaking question count');return v.map(x=>text(x))};
- if(!d||typeof d!=='object'||!d.cueCard)throw Error('Missing speaking set');
+ if(!d||typeof d!=='object')throw Error('Missing speaking set');
+ if(d.sourceParts!==undefined){
+  if(!Array.isArray(d.sourceParts)||d.sourceParts.length<1||d.sourceParts.length>3)throw Error('Invalid source parts');
+  let count=0;const sourceNumbers=new Set<number>();const sourceParts=d.sourceParts.map(p=>{if(!Array.isArray(p.questions)||!p.questions.length||p.questions.length>25)throw Error('Invalid source questions');return{title:text(p.title,120),questions:p.questions.map(q=>{count++;if(q.sourceNumber!==undefined){if(!Number.isInteger(q.sourceNumber)||q.sourceNumber<1||q.sourceNumber>100||sourceNumbers.has(q.sourceNumber))throw Error('Invalid source question number');sourceNumbers.add(q.sourceNumber);}if(typeof q.taskCard!=='boolean'||!Array.isArray(q.paragraphs)||!q.paragraphs.length||q.paragraphs.length>40)throw Error('Invalid source question');const paragraphs=q.paragraphs.map(v=>text(v,2000)),joined=paragraphs.join('\n');if(joined.length>8000||q.text!==joined)throw Error('Source text differs from displayed paragraphs');const images=q.images||[];if(!Array.isArray(images)||images.length>6)throw Error('Invalid source images');for(const src of images){const u=new URL(src);if(u.protocol!=='https:'||u.username||u.password||src.length>2000)throw Error('Invalid source image URL');}return{...(q.sourceNumber!==undefined?{sourceNumber:q.sourceNumber}:{}),text:joined,paragraphs,taskCard:q.taskCard,images};})}});
+  if(count>40)throw Error('Too many source questions');
+  const timing=d.timing||{preparationSeconds:60,longTurnSeconds:120,shortAnswerSeconds:90};for(const [key,min,max]of [['preparationSeconds',15,120],['longTurnSeconds',30,120],['shortAnswerSeconds',15,120]]as const)if(!Number.isInteger(timing[key])||timing[key]<min||timing[key]>max)throw Error('Invalid speaking timing');
+  return {sourceParts,timing,part1:[],part3:[],rounding:[],cueCard:{topic:'',points:[],explain:''}};
+ }
+ if(!d.cueCard)throw Error('Missing cue card');
  const label=(v:unknown)=>{if(v==null)return 'Questions';if(typeof v!=='string')throw Error('Invalid group label');return v.trim()?text(v,120):'Questions'};
  const groups=(v:unknown,fallback:string[],max:number):SpeakingGroup[]=>{if(v===undefined)return [{title:'Questions',questions:list(fallback,1,max)}];if(!Array.isArray(v)||!v.length||v.length>6)throw Error('Invalid speaking groups');return v.map(g=>({title:label(g?.title),questions:list(g?.questions,1,max)}))};
  const part1Groups=groups(d.part1Groups,d.part1,20),part3Groups=groups(d.part3Groups,d.part3,15);

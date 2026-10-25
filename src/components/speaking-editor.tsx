@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
+import {SourceSpeakingEditor} from './source-speaking-editor';
 import type { SpeakingSet,SpeakingGroup } from '@/lib/speaking/schema';
 type GroupDraft={id:string;title:string;lines:string};
 const drafts=(groups:SpeakingGroup[]|undefined,flat:string[]|undefined,prefix:string):GroupDraft[]=>(groups||[{title:'',questions:flat||[]}]).map((g,i)=>({id:prefix+i,title:g.title==='Questions'?'':g.title,lines:g.questions.join('\n')}));
 const lines=(value:unknown)=>String(value||'').split('\n').map(v=>v.trim()).filter(Boolean);
-export function SpeakingEditor({kind,id,initial,published}:{kind:string;id:string;initial:SpeakingSet|null;published:boolean}){
+function StandardSpeakingEditor({kind,id,initial,published}:{kind:string;id:string;initial:SpeakingSet|null;published:boolean}){
  const [part1,setPart1]=useState(()=>drafts(initial?.part1Groups,initial?.part1,'p1-')),[part3,setPart3]=useState(()=>drafts(initial?.part3Groups,initial?.part3,'p3-'));
  const [message,setMessage]=useState(''),[busy,setBusy]=useState(false);
  const groupEditor=(part:number,groups:GroupDraft[],set:(g:GroupDraft[])=>void)=><fieldset><legend>Part {part} · {part===1?'Introduction & interview':'Discussion'}</legend><p>{part===1?'Write your own Part 1 questions. Group names are optional; no predefined topics are required.':'Write your own Part 3 discussion questions. You can group them if useful.'}</p>{groups.map((g,i)=><div className="speaking-question-group" key={g.id}><label>Group name — optional<input placeholder="Optional label" maxLength={120} value={g.title} onChange={e=>set(groups.map(x=>x.id===g.id?{...x,title:e.target.value}:x))}/></label><label>Questions — one per line<textarea required rows={4} value={g.lines} onChange={e=>set(groups.map(x=>x.id===g.id?{...x,lines:e.target.value}:x))}/></label><button type="button" disabled={groups.length===1} onClick={()=>set(groups.filter(x=>x.id!==g.id))}>Remove group {i+1}</button></div>)}<button type="button" disabled={groups.length>=6} onClick={()=>set([...groups,{id:crypto.randomUUID(),title:'',lines:''}])}>Add topic group +</button></fieldset>;
@@ -17,3 +18,5 @@ export function SpeakingEditor({kind,id,initial,published}:{kind:string;id:strin
  <label><input type="checkbox" name="published" defaultChecked={published}/> Publish speaking module</label><button type="submit" disabled={busy}>{busy?'Saving…':'Save speaking questions'}</button><p role="status">{message}</p>
  </form>
 }
+
+export function SpeakingEditor(props:{kind:string;id:string;initial:SpeakingSet|null;published:boolean}){return props.initial?.sourceParts?<SourceSpeakingEditor id={props.id} initial={props.initial} published={props.published}/>:<StandardSpeakingEditor {...props}/>;}
