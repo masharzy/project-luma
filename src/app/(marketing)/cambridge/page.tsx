@@ -1,5 +1,7 @@
 import { PageIntro, PageWrap } from "@/components/page-parts";
 import { CambridgeCatalog } from "@/components/catalog-controls";
+import { CambridgeQuestionPractice } from "@/components/cambridge-question-practice";
+import "@/styles/cambridge-question-practice.css";
 import { listCambridgeBooks, listCambridgeTests } from "@/lib/cambridge";
 export const metadata = { title: "Cambridge library" };
 export const dynamic = "force-dynamic";
@@ -12,6 +14,7 @@ export default async function Page() {
   <div className="library-banner"><span>THE CAMBRIDGE SHELF</span>
    <p>{bookCount} books. <em>Your own pace.</em></p>
    <span>LISTENING / READING / WRITING</span></div>
+  <CambridgeQuestionPractice />
   <CambridgeCatalog tests={tests} books={books}/>
  </PageWrap>;
 }
