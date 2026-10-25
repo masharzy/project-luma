@@ -77,7 +77,7 @@ export function CambridgeQuestionPractice(){
        <span className="type-field-title"><SlidersHorizontal size={16}/> Module</span>
        <div className="type-module-tabs" aria-label="Filter question bank by module">
          {([['all','All modules'],['listening','Listening'],['reading','Reading']] as const).map(([value,label])=>
-           <button key={value} type="button" aria-pressed={module===value} onClick={()=>setModule(value)}>{value==='listening'?<Headphones size={16}/>:value==='reading'?<BookOpenText size={16}/>:<Layers3 size={16}/>} {label}</button>)}
+           <button key={value} type="button" aria-pressed={module===value} onClick={()=>{setModule(value);setSelected([]);}}>{value==='listening'?<Headphones size={16}/>:value==='reading'?<BookOpenText size={16}/>:<Layers3 size={16}/>} {label}</button>)}
        </div>
      </div>
      <div className="type-practice-field">
