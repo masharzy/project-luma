@@ -62,3 +62,5 @@
 @media(max-width:1100px){.type-question-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.cambridge-type-practice{margin:27px 0 40px;border-radius:17px}.type-practice-intro{padding:25px 19px}.type-practice-icon{width:47px;height:47px;border-radius:13px}.type-practice-controls,.type-practice-library{padding:23px 18px}.type-question-grid{grid-template-columns:1fr}.type-question-card{min-height:0}.type-practice-start-action{justify-items:start}.type-count-warning{text-align:left}.type-library-heading{align-items:start;flex-direction:column}.type-practice-start{align-items:stretch;padding:16px}.type-practice-start-action>span{line-height:1.5}.type-tag{padding:9px 10px}.type-practice-intro p{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.type-spin{animation:none}.type-start-button,.type-module-tabs button,.type-tag{transition:none}}
+
+.cambridge-type-practice .session-eyebrow{display:block;font-size:10px;font-weight:850;letter-spacing:.12em;color:#a22545;text-transform:uppercase}
