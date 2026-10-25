@@ -2,18 +2,18 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { BookOpenText, Headphones, LockKeyhole, Layers3, Shuffle, ArrowUpRight, LoaderCircle, SlidersHorizontal, CheckCircle2 } from 'lucide-react';
 import { QuestionPagePreview } from './question-page-preview';
-import { MAX_PRACTICE_QUESTIONS, questionTypeLabel } from '@/lib/exam/question-types';
+import { questionTypeLabel } from '@/lib/exam/question-types';
 
 type ModuleChoice='all'|'listening'|'reading';
 type Kind={type:string;label:string;total:number;free:number;premium:number};
-type Question={key?:string;module:'listening'|'reading';type:string;book:number;test:number;number:string;preview:string;premium:boolean;previewKey?:string};
+type Question={key?:string;module:'listening'|'reading';type:string;book:number;test:number;number:string;preview:string;premium:boolean;previewKey?:string;questionCount:number};
 type Catalog={types:Kind[];items:Question[];total:number;free:number;premium:number;page:number;hasMore:boolean};
 
-export function CambridgeQuestionPractice(){const [open,setOpen]=useState(false);return <details className="question-practice-disclosure" onToggle={e=>setOpen(e.currentTarget.open)}><summary><span><strong>Practise by question type</strong><small>Listening & Reading · choose specific questions or a mixed set</small></span><span className="question-practice-toggle">{open?'Close −':'Explore +'}</span></summary>{open&&<QuestionPracticePanel/>}</details>;}
+export function CambridgeQuestionPractice(){const [open,setOpen]=useState(false);return <details className="question-practice-disclosure" onToggle={e=>setOpen(e.currentTarget.open)}><summary><span><strong>Practise by question type</strong><small>Listening & Reading · choose complete question groups</small></span><span className="question-practice-toggle">{open?'Close −':'Explore +'}</span></summary>{open&&<QuestionPracticePanel/>}</details>;}
 function QuestionPracticePanel(){
  const [module,setModule]=useState<ModuleChoice>('all');
  const [selected,setSelected]=useState<string[]>([]);
- const [count,setCount]=useState(10);
+ const [count,setCount]=useState(1);
  const [picked,setPicked]=useState<string[]>([]);
  const [catalog,setCatalog]=useState<Catalog|null>(null);
  const [questions,setQuestions]=useState<Question[]>([]);
@@ -60,7 +60,7 @@ function QuestionPracticePanel(){
    try{
      const response=await fetch('/api/cambridge/question-types',{
        method:'POST',headers:{'Content-Type':'application/json'},
-       body:JSON.stringify({modules:module==='all'?['listening','reading']:[module],types:selected,count:size,...(keys.length?{keys}: {})}),
+       body:JSON.stringify({modules:module==='all'?['listening','reading']:[module],types:selected,selectionMode:'groups',count:size,...(keys.length?{keys}: {})}),
      });
      const data=await response.json();
      if(!response.ok)throw Error(data.error||'Unable to start this practice.');
@@ -70,14 +70,9 @@ function QuestionPracticePanel(){
  const changeType=(type:string)=>{
    setPicked([]);setSelected(v=>v.includes(type)?v.filter(t=>t!==type):[...v,type]);
  };
- const enough=Boolean(catalog && catalog.free>=(picked.length||count));
- return <section className="cambridge-type-practice" id="question-type-practice" aria-labelledby="type-practice-heading">
-   <div className="type-practice-intro">
-     <div><span className="session-eyebrow">SMART PRACTICE · CAMBRIDGE QUESTION BANK</span>
-     <h2 id="type-practice-heading">Practice by question type.</h2>
-     <p>Filter a type, preview the page, then tick the questions you want. Or choose a count for a random set.</p></div>
-     <div className="type-practice-icon" aria-hidden><Layers3 size={31}/></div>
-   </div>
+ const selectedQuestionCount=questions.filter(q=>q.key&&picked.includes(q.key)).reduce((n,q)=>n+q.questionCount,0);
+ const enough=Boolean(catalog && catalog.free>=(picked.length||count)&&selectedQuestionCount<=40);
+ return <section className="cambridge-type-practice" id="question-type-practice" aria-label="Question type practice">
    <div className="type-practice-controls">
      <div className="type-practice-field">
        <span className="type-field-title"><SlidersHorizontal size={16}/> Module</span>
@@ -97,44 +92,44 @@ function QuestionPracticePanel(){
        </div>
      </div>
      <div className="type-practice-start">
-       <div><label className="type-field-title" htmlFor="type-question-count">Number of questions</label>
-         <input id="type-question-count" type="number" min={1} max={MAX_PRACTICE_QUESTIONS} disabled={picked.length>0} value={count} onChange={e=>setCount(Math.max(1,Math.min(MAX_PRACTICE_QUESTIONS,Number(e.target.value)||1)))}/>
-         <p>{picked.length?picked.length+' questions selected below.':'No specific selection: a random set will be created.'}</p>
+       <div><label className="type-field-title" htmlFor="type-question-count">Number of groups</label>
+         <input id="type-question-count" type="number" min={1} max={10} disabled={picked.length>0} value={count} onChange={e=>setCount(Math.max(1,Math.min(10,Number(e.target.value)||1)))}/>
+         <p>{picked.length?picked.length+' groups · '+selectedQuestionCount+' questions selected.':'Random complete groups · up to 40 questions; no group is split.'}</p>
        </div>
        <div className="type-practice-start-action">
-         <span>{catalog? <><strong>{catalog.free}</strong> free questions available · <strong>{catalog.premium}</strong> premium locked</>:'Loading availability…'}</span>
+         <span>{catalog? <><strong>{catalog.free}</strong> free groups available · <strong>{catalog.premium}</strong> premium locked</>:'Loading availability…'}</span>
          <button type="button" className="type-start-button" onClick={()=>void start()} disabled={starting||loading||!enough}>
            {starting?<LoaderCircle className="type-spin" size={18}/>:<Shuffle size={18}/>}
            {starting?'Preparing session…':picked.length?'Practise selected ('+picked.length+')':'Start random practice'}<ArrowUpRight size={17}/>
          </button>
-         {catalog&&!enough&&<small className="type-count-warning">Only {catalog.free} free questions match your selection. Select a smaller number or another type.</small>}
+         {catalog&&!enough&&<small className="type-count-warning">Only {catalog.free} free groups match your selection. Select a smaller number or another type.</small>}
        </div>
      </div>
    </div>
    <div className="type-practice-library">
      <div className="type-library-heading">
        <div><span className="session-eyebrow">QUESTION EXPLORER</span><h3>{selected.length===1?questionTypeLabel(selected[0]):selected.length>1?selected.length+' selected question types':'All question types'}</h3></div>
-       <span>{catalog?.total ?? 0} questions · {questions.length} shown</span>
+       <span>{catalog?.total ?? 0} groups · {questions.length} shown</span>
      </div>
-     {picked.length>0&&<div className="type-selection-bar" role="status"><strong>{picked.length} / 40 selected</strong><button type="button" onClick={()=>setPicked([])}>Clear selection</button></div>}
+     {picked.length>0&&<div className="type-selection-bar" role="status"><strong>{picked.length} groups · {selectedQuestionCount} questions selected</strong><button type="button" onClick={()=>setPicked([])}>Clear selection</button></div>}
      <div className="type-question-grid" aria-busy={loading}>
        {questions.map((item,index)=>
          <article key={item.key||['premium',item.book,item.test,item.module,item.number,item.type,index].join('-')} className={'type-question-card '+(item.premium?'is-locked':'')}>
            <div className="type-question-meta"><span>{item.module==='listening'?<Headphones size={15}/>:<BookOpenText size={15}/>} {item.module}</span>
              <span>Cambridge {item.book} · Test {item.test} · Q {item.number}</span></div>
            <h4>{questionTypeLabel(item.type)}</h4>
-           {!item.premium&&item.key&&<label className="type-question-select"><input type="checkbox" checked={picked.includes(item.key)} disabled={!picked.includes(item.key)&&picked.length>=40} onChange={()=>setPicked(v=>v.includes(item.key!)?v.filter(k=>k!==item.key):[...v,item.key!])}/>Select question {item.number}</label>}
+           {!item.premium&&item.key&&<label className="type-question-select"><input type="checkbox" checked={picked.includes(item.key)} disabled={!picked.includes(item.key)&&(picked.length>=10||selectedQuestionCount+item.questionCount>40)} onChange={()=>setPicked(v=>v.includes(item.key!)?v.filter(k=>k!==item.key):[...v,item.key!])}/>Select group {item.number} · {item.questionCount} questions</label>}
            {item.premium
              ? <div className="type-locked-content" aria-label="Premium question locked"><div className="type-locked-blur" aria-hidden><i/><i/><i/></div><div className="type-locked-overlay"><LockKeyhole size={20}/><strong>Premium question</strong><span>Question content locked</span></div></div>
-             : <><QuestionPagePreview previewKey={item.previewKey||item.key!}/><button type="button" className="type-practise-one" disabled={starting||loading} onClick={()=>void start([item.key!])}>Practise this question ↗</button></>}
-           <div className="type-question-footer"><span>{item.premium?<><LockKeyhole size={14}/> Locked</>:<><CheckCircle2 size={14}/> Included in free pool</>}</span><span>{item.premium?'Premium':'Practice ready'}</span></div>
+             : <><QuestionPagePreview previewKey={item.previewKey||item.key!}/><button type="button" className="type-practise-one" disabled={starting||loading} onClick={()=>void start([item.key!])}>Practise this group ↗</button></>}
+           <div className="type-question-footer"><span>{item.premium?<><LockKeyhole size={14}/> Locked</>:<><CheckCircle2 size={14}/> Free group</>}</span><span>{item.premium?'Premium':item.questionCount+' questions'}</span></div>
          </article>)}
      </div>
      {!loading&&!questions.length&&!error&&<p className="type-empty">There are no published questions for these filters yet. Try another type or module.</p>}
      {error&&<p className="type-error" role="alert">{error}</p>}
      {catalog?.hasMore&&<button type="button" className="type-load-more" disabled={loading} onClick={()=>void loadMore()}>{loading?'Loading questions…':'Load more questions ↓'}</button>}
      {picked.length>0&&<div className="type-mobile-selection"><strong>{picked.length} selected</strong><button className="type-start-button" type="button" disabled={starting||loading} onClick={()=>void start()}>Start selected questions ↗</button></div>}
-     <p className="type-practice-footnote"><LockKeyhole size={15}/> Locked questions require Premium. Choose up to 40 free questions; scores appear after submission.</p>
+     <p className="type-practice-footnote"><LockKeyhole size={15}/> Locked questions require Premium. Choose complete free groups (up to 40 questions); every field in a selected group is included.</p>
    </div>
  </section>;
 }

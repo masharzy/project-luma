@@ -4,7 +4,7 @@ import { secureCookies } from '@/lib/auth/config';
 import { readSession } from '@/lib/auth/session';
 import { requireSameOrigin, readBody, json, AuthHttpError, limit, networkKey } from '@/lib/auth/http';
 import { ownerCookie, newOwner } from '@/lib/exam/attempts';
-import { loadQuestionIndex, publicQuestionCatalog, startQuestionTypeAttempt, questionPreview } from '@/lib/exam/question-type-practice';
+import { loadQuestionIndex, publicQuestionCatalog, startQuestionTypeAttempt, startQuestionGroupAttempt, questionPreview } from '@/lib/exam/question-type-practice';
 import { validPracticeModules, validPracticeTypes, type PracticeModule } from '@/lib/exam/question-types';
 
 export const runtime = 'nodejs';
@@ -48,7 +48,9 @@ export async function POST(req:NextRequest){
       throw new AuthHttpError(400,'Choose valid modules, question types and a count from 1 to 40.');
     const owner=newOwner((await cookies()).get(ownerCookie)?.value);
     const session=await readSession();
-    const id=await startQuestionTypeAttempt(await loadQuestionIndex(),input.modules,input.types,Number(input.count),owner,session?.user.id??null,input.keys as string[]|undefined);
+    if(input.selectionMode!==undefined&&input.selectionMode!=='groups')throw new AuthHttpError(400,'Invalid selection mode');
+    const start=input.selectionMode==='groups'?startQuestionGroupAttempt:startQuestionTypeAttempt;
+    const id=await start(await loadQuestionIndex(),input.modules,input.types,Number(input.count),owner,session?.user.id??null,input.keys as string[]|undefined);
     const response=json({id,url:'/exam/attempt/'+id},201);
     response.cookies.set(ownerCookie,owner,{httpOnly:true,secure:secureCookies(),sameSite:'lax',path:'/',maxAge:86400});
     return response;

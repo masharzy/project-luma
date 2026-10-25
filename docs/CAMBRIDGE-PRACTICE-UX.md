@@ -25,3 +25,7 @@ Official task taxonomy: https://ielts.org/take-a-test/preparation-resources/samp
 ## Verification
 
 15 focused tests passed across selection, free/locked preview privacy, original/native reference images and numbered gaps, exact snapshot membership, seamless LR transitions and Reading source regressions. Desktop/mobile browser fixtures passed for the collapsed shelf, readable Note Completion page/dialog, checkbox selection and one-question actions, four module cards on a 390px viewport, with no JS errors or page overflow. UI fixtures use mocked API data; production checks cover the live catalog and preview API separately. TypeScript and optimized production build were checked. No source test data or answer keys are modified by this release.
+
+## Group-based correction
+
+The explorer now groups by module + source test + part + question-group ID **before** filtering, counting and pagination. One group produces one card, with its complete source question range and field count. Type counts and random selection count groups. A selected group always expands to all its source questions, including mixed-type source groups; no answer field produces a duplicate card. Group-mode creation accepts 1–10 complete groups within the existing 40-question session cap. Legacy single-question API callers remain compatible, but the current UI submits group mode. The redundant inner Smart Practice / question-bank heading and icon were removed. Tests cover five-field grouped pagination, MCQ deduplication, complete-group snapshots and locked-group rejection.

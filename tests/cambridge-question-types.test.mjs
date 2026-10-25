@@ -52,8 +52,8 @@ test('Index requires both published book/test access and never exposes premium c
  const index=await p.loadQuestionIndex();assert.equal(index.length,4);
  assert.equal(index.filter(q=>q.premium).length,1);
  const catalog=p.publicQuestionCatalog(index,['listening','reading'],[],0);
- assert.equal(catalog.total,4);assert.equal(catalog.free,3);assert.equal(catalog.premium,1);
- assert.equal(catalog.types.find(t=>t.type==='note_completion').free,2);
+ assert.equal(catalog.total,3);assert.equal(catalog.free,2);assert.equal(catalog.premium,1);
+ assert.equal(catalog.types.find(t=>t.type==='note_completion').free,1);
  const publicJSON=JSON.stringify(catalog);
  assert.equal(publicJSON.includes('SECRET PREMIUM'),false);
  assert.equal(publicJSON.includes('Premium question'),false);
@@ -64,9 +64,9 @@ test('Index requires both published book/test access and never exposes premium c
 test('One type or multiple types filter the entire question bank',async()=>{
  const index=await p.loadQuestionIndex();
  const notes=p.publicQuestionCatalog(index,['listening'],['note_completion'],0);
- assert.equal(notes.total,2);assert.equal(notes.free,2);assert.equal(notes.items[0].module,'listening');
+ assert.equal(notes.total,1);assert.equal(notes.free,1);assert.equal(notes.items[0].module,'listening');
  const combined=p.publicQuestionCatalog(index,['listening','reading'],['note_completion','multiple_choice_single'],0);
- assert.equal(combined.total,3);assert.equal(combined.free,3);
+ assert.equal(combined.total,2);assert.equal(combined.free,2);
 });
 test('Custom snapshots preserve selected source HTML, audio and unique question keys',async()=>{
  const index=await p.loadQuestionIndex();
@@ -102,3 +102,20 @@ test('Free preview keeps original page/images/blank fields without scoring keys;
 test('Exact selection starts precisely the chosen question and refuses locked or unknown keys',async()=>{const index=await p.loadQuestionIndex();await p.startQuestionTypeAttempt(index,['listening'],[],1,'owner',null,[index[1].key]);const insert=calls.findLast(q=>q.sql.includes('INSERT INTO public.exam_attempts'));const doc=JSON.parse(insert.args[4])[0].document;assert.equal(doc.questions.length,1);assert.deepEqual(doc.questions[0].sourceNumbers,[2]);await assert.rejects(p.startQuestionTypeAttempt(index,['listening','reading'],[],1,'owner',null,[index.find(q=>q.premium).key]),e=>e.status===409);await assert.rejects(p.startQuestionTypeAttempt(index,['listening'],[],2,'owner',null,[index[0].key,index[0].key]),e=>e.status===400);});
 test('Official Listening completion variants remain visible and explicit source instructions refine generic imports',async()=>{const catalog=p.publicQuestionCatalog(await p.loadQuestionIndex(),['listening'],[],0);assert.ok(catalog.types.some(t=>t.type==='form_completion'&&t.total===0));assert.equal(questionType({ieltsQuestionType:'note_completion'},{sourceHtml:'<p>Complete the form below.</p>'}),'form_completion');assert.equal(questionType({ieltsQuestionType:'note_completion'},{sourceHtml:'<p>Complete the flow-chart below.</p>'}),'flowchart_completion');});
 test('Native reviewed questions keep reference images and render numbered note gaps in page previews',async()=>{const index=await p.loadQuestionIndex();const native={...index[0],group:{id:'native',type:'note_completion',groupText:'<p>Name: [[1]]</p>',referenceImage:'https://assets.example/chart.png',instructions:'Complete the notes.'}};const page=p.questionPreview([native],native.key);assert.match(page.group.sourceHtml,/<img src="https:\/\/assets.example\/chart.png"/);assert.match(page.group.sourceHtml,/data-luma-question="q1"/);assert.doesNotMatch(page.group.sourceHtml,/\[\[1\]\]/);assert.equal(JSON.stringify(page).includes('correct_answer'),false);});
+
+test('Catalog groups note fields and MCQ questions once, before filtering and pagination',async()=>{
+ const index=await p.loadQuestionIndex();const notes=p.publicQuestionCatalog(index,['listening'],['note_completion'],0);
+ assert.equal(notes.items.length,1);assert.equal(notes.items[0].questionCount,2);assert.equal(notes.items[0].number,'1–2');
+ const mcq=index.filter(q=>!q.premium&&q.module==='listening').map(q=>({...q,type:'multiple_choice_single'}));
+ assert.equal(p.publicQuestionCatalog(mcq,['listening'],['multiple_choice_single'],0).items.length,1);
+ const many=Array.from({length:25},(_,g)=>Array.from({length:5},(_,i)=>({...index[0],key:'listening:'+g+':q'+i,source:{...index[0].source,test_id:g+100},group:{...index[0].group,id:'g'+g},question:{...index[0].question,order_index:i+1,sourceNumbers:[i+1]},questionOrder:i}))).flat();
+ const first=p.publicQuestionCatalog(many,['listening'],[],0),last=p.publicQuestionCatalog(many,['listening'],[],1);
+ assert.equal(first.total,25);assert.equal(first.items.length,24);assert.equal(last.items.length,1);assert.ok([...first.items,...last.items].every(g=>g.questionCount===5));
+});
+test('Selecting a group includes every field exactly once, including mixed-type source groups',async()=>{
+ const index=(await p.loadQuestionIndex()).filter(q=>q.module==='listening');const mixed=index.map((q,i)=>({...q,type:i?'multiple_choice_single':'note_completion'}));
+ await p.startQuestionGroupAttempt(mixed,['listening'],['multiple_choice_single'],1,'owner',null,[mixed[0].key]);
+ const snapshot=JSON.parse(calls.findLast(c=>c.sql.includes('INSERT INTO public.exam_attempts')).args[4]);
+ assert.equal(snapshot[0].document.questions.length,2);assert.deepEqual(snapshot[0].document.questions.map(q=>q.sourceNumbers),[[1],[2]]);
+ await assert.rejects(p.startQuestionGroupAttempt(await p.loadQuestionIndex(),['reading'],[],1,'owner',null,[(await p.loadQuestionIndex()).find(q=>q.premium).key]),e=>e.status===409);
+});
