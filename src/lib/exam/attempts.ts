@@ -31,7 +31,7 @@ export async function startAttempt(kind: string, parentId: string, selection: st
         return { module, document };
     }));
     const id = randomUUID();
-    await db().query('INSERT INTO public.exam_attempts(id,owner_hash,kind,parent_id,title,snapshot,user_id) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::uuid)', [id, digest(owner), kind, parentId, parent.title, JSON.stringify(snapshot), userId]);
+    await db().query("INSERT INTO public.exam_attempts(id,owner_hash,kind,parent_id,title,snapshot,user_id,deadline) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::uuid,now()+($8::integer * interval '1 second'))", [id, digest(owner), kind, parentId, parent.title, JSON.stringify(snapshot), userId, snapshot[0].document.durationMinutes * 60]);
     return id;
 }
 export async function readAttempt(id: string) {
@@ -82,7 +82,7 @@ export async function advanceAttempt(id: string, body: Record<string, unknown>) 
             answers[key] = value;
         }
         const result = gradeModule(snapshot[index].module, snapshot[index].document, answers);
-        await db().query("UPDATE public.exam_attempts SET current_index=current_index+1,deadline=NULL,results=results||$3::jsonb,answers=jsonb_set(answers,ARRAY[$2::text],$4::jsonb) WHERE id=$1 AND current_index=$2::integer AND deadline IS NOT NULL", [id, index, JSON.stringify([result]), JSON.stringify(answers)]);
+        await db().query("UPDATE public.exam_attempts SET current_index=current_index+1,deadline=CASE WHEN current_index+1<$5::integer THEN now()+($6::integer * interval '1 second') ELSE NULL END,results=results||$3::jsonb,answers=jsonb_set(answers,ARRAY[$2::text],$4::jsonb) WHERE id=$1 AND current_index=$2::integer AND deadline IS NOT NULL", [id, index, JSON.stringify([result]), JSON.stringify(answers), snapshot.length, (snapshot[index + 1]?.document.durationMinutes ?? 0) * 60]);
     }
     else
         throw new AuthHttpError(400, 'Invalid action');
