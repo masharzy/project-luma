@@ -65,3 +65,11 @@
 .writing-evaluation .session-note{font-size:12px;color:#6e6267}
 @media(max-width:720px){.writing-evaluation{padding:20px 14px}.writing-task-feedback{padding:17px 13px}.writing-eval-heading{grid-template-columns:1fr}.writing-band-badge{max-width:200px}.writing-criteria-grid{grid-template-columns:1fr}.writing-original{padding:15px;font-size:14px}.writing-inline-tip{max-width:75vw}}
 @media(prefers-reduced-motion:reduce){.session-primary{transition:none}}
+
+
+.session-module-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#f1ebf7;color:#7d42ab}
+.session-module-icon-reading{background:#e9f4fb;color:#2470a8}
+.session-module-icon-writing{background:#fff1e8;color:#a75a28}
+.session-module-list>div{border-bottom-color:#eee2dd}
+.session-duration{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#64584f}
+@media(max-width:600px){.session-module-list>div{gap:12px}}
