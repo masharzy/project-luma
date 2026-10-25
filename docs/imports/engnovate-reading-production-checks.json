@@ -1,0 +1,50 @@
+{
+  "production": "https://project-luma-rho.vercel.app",
+  "checks": [
+    {
+      "book": 1,
+      "test": 1,
+      "selection": "reading",
+      "scores": [
+        {
+          "module": "reading",
+          "correct": 40,
+          "total": 40
+        }
+      ],
+      "keysHidden": true
+    },
+    {
+      "book": 1,
+      "test": 3,
+      "selection": "reading",
+      "scores": [
+        {
+          "module": "reading",
+          "correct": 38,
+          "total": 38
+        }
+      ],
+      "keysHidden": true
+    },
+    {
+      "book": 2,
+      "test": 1,
+      "selection": "full",
+      "scores": [
+        {
+          "module": "listening",
+          "correct": 40,
+          "total": 40
+        },
+        {
+          "module": "reading",
+          "correct": 40,
+          "total": 40
+        }
+      ],
+      "keysHidden": true
+    }
+  ],
+  "premiumGuestDenied": true
+}

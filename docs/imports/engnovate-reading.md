@@ -16,7 +16,7 @@ All 22 image references passed HTTP GET checks. Images remain externally hosted,
 
 Validation database contains 84 Reading modules / 252 Parts. Regression checks cover all 84 scores, wrong-answer deductions, 20-word bank preservation, source passage ownership/XSS rejection, learner-key redaction and prior Listening imports. TypeScript passed. Browser fixtures passed for C1T1 word grid/reuse, radio interaction, Part answer persistence and C1T3 passage heading drag/drop.
 
-Production release is pending at this code checkpoint. The SQL builder inserts 83 missing Reading modules and replaces only the backed-up C1T1 sample at its exact revision/hash guard. It appends Reading to test sections while preserving access, Listening, other modules and existing attempt snapshots. There is no schema/auth migration. Production checks will be recorded after deployment and data publication.
+Production release completed through PR #14, merge commit d51a8391376a87e4b4282e2c512aa507ce18360a, deployment dpl_7Z9SfCb44jpbWNx2QDscCYa7zzWg (READY). Production now has 84 Reading modules / 252 Parts, alongside the unchanged 84 Listening modules. All 84 Listening revision/hash pairs match the pre-import backup. The SQL builder inserted 83 missing Reading modules and replaced only the backed-up C1T1 sample at its exact revision/hash guard. It appends Reading to test sections while preserving access, Listening, other modules and existing attempt snapshots. There is no schema/auth migration. Live HTTP scoring and Full Test sequencing checks are recorded in engnovate-reading-production-checks.json.
 
 Pre-import backup: `engnovate-reading-before.json`. Detailed source and validation reports: `data/imports/engnovate-reading/`.
 
