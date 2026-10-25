@@ -1,76 +1,8 @@
-import Link from "next/link";
-import { PageIntro, PageWrap, FeatureNote } from "@/components/page-parts";
-import { Icon } from "@/components/ui/icon";
-export const metadata = { title: "Free & Premium" };
-export default function Page() {
-  return (
-    <PageWrap tone="pricing-page">
-      <PageIntro
-        eyebrow="FREE & PREMIUM"
-        title="Start small. Make more room."
-        description="প্রস্তুতি শুরু করো ফ্রিতে। আরও practice প্রয়োজন হলে থাকবে Premium-এর বাড়তি collection।"
-      />
-      <div className="pricing-grid">
-        {[false, true].map((premium) => (
-          <article
-            className={"pricing-sheet " + (premium ? "premium-sheet" : "")}
-            key={String(premium)}
-          >
-            <span className="eyebrow">
-              {premium ? "MORE ROOM TO GROW" : "A GOOD PLACE TO BEGIN"}
-            </span>
-            <h2>{premium ? "Premium" : "Free"}</h2>
-            <div className="price-display">
-              {premium ? "Coming soon" : "৳0"}
-              <span>
-                {premium ? "Pricing to be announced" : "No subscription needed"}
-              </span>
-            </div>
-            <p lang="bn">
-              {premium
-                ? "আরও বই, আরও test, আরও শেখার সুযোগ।"
-                : "প্রস্তুতির প্রথম ধাপটা হোক সহজ।"}
-            </p>
-            <ul>
-              {(premium
-                ? [
-                    "Cambridge 11–21",
-                    "Expanded practice library",
-                    "Premium Writing resources",
-                    "Full Vocabulary & Grammar collections",
-                  ]
-                : [
-                    "Cambridge 1–10",
-                    "Selected practice tests",
-                    "Selected samples & ebooks",
-                    "Guest access to free practice",
-                  ]
-              ).map((line) => (
-                <li key={line}>
-                  <Icon name="check" size={16} />
-                  {line}
-                </li>
-              ))}
-            </ul>
-            {premium ? (
-              <>
-                <button className="button" disabled>
-                  Membership opens later <span>↗</span>
-                </button>
-                <small>No payment is being collected.</small>
-              </>
-            ) : (
-              <Link className="button outline" href="/free">
-                Explore free practice <span>↗</span>
-              </Link>
-            )}
-          </article>
-        ))}
-      </div>
-      <FeatureNote>
-        Premium price, payment provider ও usage limits এখনো নির্ধারিত হয়নি। কোনো
-        purchase বা subscription এখন চালু নেই।
-      </FeatureNote>
-    </PageWrap>
-  );
-}
+import Link from 'next/link';
+import { PageIntro,PageWrap } from '@/components/page-parts';
+import { publicPlans,freePolicy } from '@/lib/products/plans';
+import '@/styles/memberships.css';
+export const metadata={title:'Free & Premium'};
+export const dynamic='force-dynamic';
+const quota=(n:number|null)=>n===null?'Unlimited':String(n);
+export default async function Page(){const [plans,free]=await Promise.all([publicPlans(),freePolicy()]);return <PageWrap tone="pricing-page"><PageIntro eyebrow="FREE & PREMIUM" title="A little practice. A bigger possibility." description="নিজের গতিতে প্রস্তুতি নাও। Writing ও Speaking feedback-এর জন্য বেছে নাও তোমার উপযোগী plan।"/><p className="membership-pricing-intro">Evaluation limits reset on the first day of each month (UTC). Each Writing submission uses one credit, including both tasks. Speaking credits are separate. Cambridge Writing uses the same Writing allowance.</p><div className="membership-plan-grid"><article className="membership-panel membership-pricing-free"><span className="membership-tag">Start here</span><h2>Free</h2><p className="membership-price">৳0</p><p>Verified account required for AI evaluation. Free Listening & Reading practice remains available to guests.</p><div className="membership-quotas"><span>Writing <b>{free.free_writing} / month</b></span><span>Speaking <b>{free.free_speaking} / month</b></span></div><Link className="button outline" href="/dashboard/subscription">View my allowance ↗</Link></article>{plans.map(p=><article className="membership-panel" key={String(p.id)}><span className="membership-tag">Premium evaluations</span><h2>{String(p.name)}</h2><p className="membership-price">৳{Number(p.price_bdt).toLocaleString()}<small>/ 30 days</small></p><p>{String(p.description)}</p><div className="membership-quotas"><span>Writing <b>{quota(p.writing_limit)} / month</b></span><span>Speaking <b>{quota(p.speaking_limit)} / month</b></span></div><Link className="button" href="/dashboard/subscription">Request this plan ↗</Link><small>Starts after admin approval. No automatic charge or renewal.</small></article>)}</div>{!plans.length&&<p className="membership-pricing-intro">Premium evaluation plans are being prepared. Published plans will appear here.</p>}</PageWrap>}
