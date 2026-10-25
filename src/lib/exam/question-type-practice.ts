@@ -70,30 +70,35 @@ export async function loadQuestionIndex(scope?:{testId:string;module:PracticeMod
   return index;
 }
 
+const groupIdentity=(q:IndexedQuestion)=>[q.module,q.source.test_id,q.part.id,q.group.id].join(':');
+export function indexedQuestionGroups(index:IndexedQuestion[]){const groups=new Map<string,IndexedQuestion[]>();for(const q of index){const id=groupIdentity(q);groups.set(id,[...(groups.get(id)||[]),q]);}return [...groups.values()];}
+const groupNumber=(rows:IndexedQuestion[])=>{const numbers=[...new Set(rows.flatMap(q=>q.question.sourceNumbers||[q.question.order_index||q.questionOrder+1]))].map(Number).sort((a,b)=>a-b);return numbers.length>1&&numbers.every((n,i)=>!i||n===numbers[i-1]+1)?numbers[0]+'–'+numbers.at(-1):numbers.join(', ');};
 export function publicQuestionCatalog(index: IndexedQuestion[], modules: PracticeModule[], selectedTypes: string[], page: number) {
-  const inModules = index.filter(item => modules.includes(item.module));
-  const typeCounts = new Map<string,{type:string;label:string;total:number;free:number;premium:number}>();
-  for (const item of inModules) {
-    const current = typeCounts.get(item.type) || {type:item.type,label:questionTypeLabel(item.type),total:0,free:0,premium:0};
-    current.total++;
-    item.premium ? current.premium++ : current.free++;
-    typeCounts.set(item.type,current);
-  }
-  for(const type of new Set(modules.flatMap(m=>m==='listening'?listeningTypes:readingTypes))){if(!typeCounts.has(type))typeCounts.set(type,{type,label:questionTypeLabel(type),total:0,free:0,premium:0});}
-  const filtered = inModules.filter(item => !selectedTypes.length || selectedTypes.includes(item.type));
-  const free = filtered.filter(item=>!item.premium).length, premium = filtered.length-free;
-  const items:PublicQuestion[] = filtered.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE).map(item => item.premium
-    ? {module:item.module,type:item.type,book:item.book,test:item.test,number:item.number,preview:'',premium:true}
-    : {key:item.key,module:item.module,type:item.type,book:item.book,test:item.test,number:item.number,preview:item.preview,premium:false,previewKey:index.find(q=>q.source.test_id===item.source.test_id&&q.module===item.module&&q.group.id===item.group.id)?.key||item.key});
-  return {types:[...typeCounts.values()].sort((a,b)=>b.total-a.total || a.label.localeCompare(b.label)),
-    items,total:filtered.length,free,premium,page,pageSize:PAGE_SIZE,hasMore:(page+1)*PAGE_SIZE<filtered.length};
+ const groups=indexedQuestionGroups(index.filter(q=>modules.includes(q.module)));
+ const typeCounts=new Map<string,{type:string;label:string;total:number;free:number;premium:number}>();
+ for(const rows of groups)for(const type of new Set(rows.map(q=>q.type))){const c=typeCounts.get(type)||{type,label:questionTypeLabel(type),total:0,free:0,premium:0};c.total++;rows[0].premium?c.premium++:c.free++;typeCounts.set(type,c);}
+ for(const type of new Set(modules.flatMap(m=>m==='listening'?listeningTypes:readingTypes)))if(!typeCounts.has(type))typeCounts.set(type,{type,label:questionTypeLabel(type),total:0,free:0,premium:0});
+ const filtered=groups.filter(rows=>!selectedTypes.length||rows.some(q=>selectedTypes.includes(q.type)));
+ const free=filtered.filter(rows=>!rows[0].premium).length;
+ const items=filtered.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE).map(rows=>{const item=rows.find(q=>selectedTypes.includes(q.type))||rows[0],first=rows[0];const base={module:item.module,type:item.type,book:item.book,test:item.test,number:groupNumber(rows),questionCount:rows.length,preview:item.premium?'':item.preview,premium:item.premium};return item.premium?base:{...base,key:first.key,previewKey:first.key};});
+ return {types:[...typeCounts.values()].sort((a,b)=>b.total-a.total||a.label.localeCompare(b.label)),items,total:filtered.length,free,premium:filtered.length-free,page,pageSize:PAGE_SIZE,hasMore:(page+1)*PAGE_SIZE<filtered.length,questionTotal:filtered.reduce((n,g)=>n+g.length,0)};
+}
+
+export async function startQuestionGroupAttempt(index:IndexedQuestion[],modules:PracticeModule[],types:string[],count:number,owner:string,userId:string|null,keys?:string[]){
+ if(!Number.isInteger(count)||count<1||count>10||keys&&(!keys.length||keys.length!==count||new Set(keys).size!==keys.length||keys.some(k=>typeof k!=='string'||k.length>180)))throw new AuthHttpError(400,'Choose 1–10 question groups.');
+ const pool=indexedQuestionGroups(index).filter(g=>!g[0].premium&&modules.includes(g[0].module)&&(!types.length||g.some(q=>types.includes(q.type))));
+ let chosen:IndexedQuestion[][];
+ if(keys){const exact=keys.map(key=>pool.find(g=>g[0].key===key));if(exact.some(g=>!g))throw new AuthHttpError(409,'A selected group is unavailable or locked. Refresh your selection.');chosen=exact as IndexedQuestion[][];}
+ else {const shuffled=[...pool];for(let i=shuffled.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];}chosen=shuffled.slice(0,count);if(chosen.length!==count)throw new AuthHttpError(409,'Not enough free groups match these filters.');}
+ const selected=chosen.flat();if(selected.length>MAX_PRACTICE_QUESTIONS)throw new AuthHttpError(400,'These groups contain more than 40 questions. Choose fewer groups; groups are never split.');
+ return startQuestionTypeAttempt(index,modules,[],selected.length,owner,userId,selected.map(q=>q.key));
 }
 
 // Only a published free source can be previewed. Do not serialize scoring fields.
 export function questionPreview(index:IndexedQuestion[],key:string){
  const item=index.find(q=>q.key===key&&!q.premium);
  if(!item)throw new AuthHttpError(404,'Question preview unavailable.');
- const siblings=index.filter(q=>q.source.test_id===item.source.test_id&&q.module===item.module&&q.group.id===item.group.id);
+ const siblings=index.filter(q=>groupIdentity(q)===groupIdentity(item));
  const esc=(v:unknown)=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
  let html=String(item.group.sourceHtml||item.group.groupText||'');
  if(!item.group.sourceHtml){
