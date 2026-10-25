@@ -250,3 +250,9 @@
 .exam-engine .ielts-source-drag-option{display:inline-flex;padding:8px 12px;border:1px solid #999;background:var(--ielts-panel);margin:5px;cursor:grab}
 .exam-engine .source-group-editor{padding:20px;border:1px solid #ccc;margin:18px 0}.exam-engine .source-group-editor details{margin-top:20px}.exam-engine .source-group-editor details label{display:grid;gap:8px;margin:12px 0}.exam-engine .source-group-editor textarea,.exam-engine .source-group-editor details input{width:100%;border:1px solid #999;padding:10px}
 .exam-engine .source-question-number{display:inline-block;margin:0 6px;font-weight:700;color:var(--ielts-blue)}
+/* Imported Reading word banks use the same bordered cells as native banks. */
+.exam-engine .source-word-bank { margin:16px 0; }
+.exam-engine .source-word-bank .ielts-word-bank-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.exam-engine .source-word-bank .ielts-source-drag-option { width:100%; min-width:0; margin:0; border-radius:0; overflow-wrap:anywhere; }
+.exam-engine .ielts-reading-passage > .ielts-source-content { border:0; padding:0; margin:0; font-size:16px; line-height:1.75; }
+.exam-engine .source-heading-drop-zone { padding:8px 0; }

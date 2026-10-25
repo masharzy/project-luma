@@ -1,6 +1,6 @@
 "use client";
 
-import {SourceGroupEditor} from "./source-group-editor";
+import {SourceGroupEditor,SourcePassageEditor} from "./source-group-editor";
 import { normalizeDocument, type Module } from "@/lib/exam/document";
 import React, {
   useState,
@@ -4994,7 +4994,7 @@ export default function CDIAdminEditor({
                     placeholder="Passage Title..."
                   />
                 </div>
-                <PassageEditor
+                {currentPart?.sourcePassage ? <SourcePassageEditor html={currentPart.passage_text||''} questions={questions.filter(q=>q.part_id===(currentPart.id||currentPart.temp_id)||q.temp_part_id===(currentPart.id||currentPart.temp_id))} onChange={html=>updatePart(currentPart.id||currentPart.temp_id,"passage_text",html)}/> : <PassageEditor
                   content={currentPart?.passage_text || ""}
                   onChange={(html) =>
                     updatePart(
@@ -5007,7 +5007,7 @@ export default function CDIAdminEditor({
                   headingOptions={matchingHeadingsOptions}
                   placeholder="Type or paste passage content..."
                   className="flex-1"
-                />
+                />}
               </div>
             </div>
             <div

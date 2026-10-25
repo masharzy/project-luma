@@ -3079,7 +3079,7 @@ export default function ExamInterface({
                   </div> :
                   <div className="ielts-reading-passage">
                     <h2>{getPartDisplayTitle(currentPart)}</h2>
-                    <div
+                    {currentPart?.sourcePassage ? <SourceQuestionGroup group={{sourceHtml:currentPart.passage_text,sourceHeading:''}} questions={questions.filter(q=>q.part_id===currentPart.id)} answers={answers} onAnswerChange={onAnswerChange} reviewMode={reviewMode}/> : <div
                       className="ielts-reading-text select-text tiptap-content"
                       onDragOver={handleHeadingPassageDragOver}
                       onDrop={handleHeadingPassageDrop}
@@ -3087,7 +3087,7 @@ export default function ExamInterface({
                       onClick={handleHeadingPassageClick}
                       onDoubleClick={handleHeadingPassageDoubleClick}
                       dangerouslySetInnerHTML={{ __html: sanitizeHtml(injectedPassageHtml || "") }}
-                    />
+                    />}
                   </div>
                 }
               </div>

@@ -58,7 +58,13 @@ export function normalizeDocument(value: unknown, module: Module): ExamDocument 
   for(const part of parts) for(const group of part.question_groups) if(group.type==="source_html") {
     const bindings=[...String(group.sourceHtml).matchAll(/data-luma-question="([a-zA-Z0-9_.:-]+)"/g)].map(m=>m[1]);
     const own=questions.filter(q=>q.group_id===group.id);
-    if(bindings.some(id=>!own.some(q=>q.id===id))||own.some(q=>!bindings.includes(q.id)))throw Error("Imported question bindings do not match this group.");
+    const passageBindings=part.sourcePassage?[...String(part.passage_text||'').matchAll(/data-luma-question="([a-zA-Z0-9_.:-]+)"/g)].map(m=>m[1]):[];
+    if(bindings.some(id=>!own.some(q=>q.id===id))||own.some(q=>!bindings.includes(q.id)&&!passageBindings.includes(q.id)))throw Error("Imported question bindings do not match this group.");
+  }
+  for(const part of parts) if(part.sourcePassage){
+    if(typeof part.passage_text!=="string"||part.passage_text.length>250000||/<(script|iframe|object|form|input|select)\b/i.test(part.passage_text)||/\son[a-z]+\s*=/i.test(part.passage_text))throw Error("Invalid imported passage.");
+    const bindings=[...part.passage_text.matchAll(/data-luma-question="([a-zA-Z0-9_.:-]+)"/g)].map((m:RegExpMatchArray)=>m[1]);
+    if(bindings.some((id:string)=>!questions.some(q=>q.id===id&&q.part_id===part.id&&part.question_groups.some((g:any)=>g.id===q.group_id&&g.type==='source_html'))))throw Error("Imported passage bindings do not match this part.");
   }
   // Materialize inline gaps immediately, including when Save is clicked before editor debounce.
   for (const part of parts) for (const group of part.question_groups) {
