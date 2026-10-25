@@ -7,8 +7,17 @@ function variants(raw){
  values=values.map(v=>v.replace(/(?<=\d),(?=\d)/g,''));return [...new Set(values)].filter(Boolean).join('/');
 }
 function keysFor(root,b,t){
- const saved=require('./reading-checkpoint.cjs').getCheckpoint(b,t);
- return {answers:saved.answers,issues:saved.issues,sourceByQuestion:saved.ownership};
+ const out={},byPart={};let files=0;const issues=[];
+ const snapshotPath=path.join(root,'answer-key-checkpoint.json');
+ const snapshot=fs.existsSync(snapshotPath)?JSON.parse(fs.readFileSync(snapshotPath,'utf8')):JSON.parse(fs.readFileSync(path.join(__dirname,'../../data/imports/engnovate-reading/answer-key-checkpoint.json'),'utf8'));
+ for(let part=1;part<=3;part++){
+  const matches=snapshot.filter(x=>x.book===b&&x.test===t&&x.part===part);
+  if(matches.length){const x=matches[0];if(matches.length!==1||!x.identityVerified||x.status!=='retrieved'||!/^https:\/\/engnovate.com\/ielts-reading-answers\/[^/?#]+\/$/.test(x.url)||!x.answers||typeof x.answers!=='object'){issues.push('Invalid key checkpoint Part '+part);continue;}byPart[part]=Object.keys(x.answers).map(Number);for(const [n,value] of Object.entries(x.answers)){if(!/^\d+$/.test(n)||Number(n)<1||Number(n)>100||typeof value!=='string'){issues.push('Invalid key checkpoint answer');continue;}if(Object.hasOwn(out,n))issues.push('Duplicate key across Parts '+n);out[n]=clean(value);}files++;continue;}
+  const file=path.join(root,'public-keys',`${String(b).padStart(2,'0')}-${t}-${part}.html`);if(!fs.existsSync(file)){issues.push('Missing public answer page for Part '+part);continue;}
+  const raw=fs.readFileSync(file,'utf8'),subtitle=clean((raw.match(/<p class="ira-subtitle">([\s\S]*?)<\/p>/)?.[1]||'').replace(/<[^>]+>/g,' '));if(!new RegExp('Cambridge IELTS 0?'+b+' Academic Reading Test '+t+'\\b.*Part '+part+'\\b').test(subtitle)){issues.push('Public key identity mismatch for Part '+part);continue;}const table=raw.match(/<table[^>]*class="ira-summary-table"[^>]*>[\s\S]*?<\/table>/)?.[0];if(!table){issues.push('Public key table missing for Part '+part);continue;}const parsed=new JSDOM(table),d=parsed.window.document;
+  for(const tr of d.querySelectorAll('.ira-summary-table tr[data-q]')){const n=Number(tr.dataset.q),value=clean(tr.querySelector('.ira-col-answer')?.textContent);if(!n){issues.push('Invalid answer number');continue;}if(out[n]&&out[n]!==value)issues.push('Conflicting answer '+n);out[n]=value;}files++;parsed.window.close();
+ }
+ return {answers:out,byPart,issues};
 }
 
 function classify(text,el){
@@ -87,12 +96,7 @@ function convert(html,identity,keys){
  }
  const max=Math.max(...allNumbers);if(max<35||max>45)issues.push('Unexpected total '+max);for(let n=1;n<=max;n++)if(!allNumbers.has(n))issues.push('Missing question '+n);
  if(Object.keys(keys.answers).length!==max)issues.push('Answer key count differs from numbered slots');
- for(const [number,sourcePart] of (keys.sourceByQuestion||new Map())){
-  const matches=document.questions.filter(q=>(q.sourceNumbers||[]).includes(number));
-  if(matches.length!==1)issues.push('Answer '+number+' does not bind exactly once');
-  else if(matches[0].part_id!==prefix+'-p'+sourcePart)issues.push('Answer '+number+' belongs to wrong Part');
- }
- for(const n of allNumbers)if(!keys.sourceByQuestion?.has(n))issues.push('No verified key for question '+n);
+ for(const part of document.parts){const numbers=document.questions.filter(q=>q.part_id===part.id).flatMap(q=>q.sourceNumbers).sort((a,b)=>a-b),keyNumbers=keys.byPart?.[part.part_number]?.sort((a,b)=>a-b);if(keyNumbers&&JSON.stringify(numbers)!==JSON.stringify(keyNumbers))issues.push('Part '+part.part_number+' answer coverage differs from questions');}
  parsed.window.close();return {document,identity:{...identity,source:'engnovate',sourceHash:crypto.createHash('sha256').update(html).digest('hex')},answerSlots:max,images:[...imageUrls],issues:[...new Set(issues)],status:issues.length?'review':'validated'};
 }
 module.exports={convert,keysFor,variants};

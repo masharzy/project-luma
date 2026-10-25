@@ -1,3 +1,9 @@
+# CURRENT STATUS — Reading validated; production release pending
+
+All 84 source tests and 252 answer pages retrieved. 84/84 documents validated and saved to validation Neon. Browser fixtures and focused regression tests passed. See [engnovate-reading.md](engnovate-reading.md) for implementation and current evidence. Production still needs the new renderer deployed, then guarded import and live checks. The old stopped-work checkpoint below is historical.
+
+---
+
 # Reading import handoff — 2026-10-25 — STOPPED at user request
 
 ## Current request and authorization
