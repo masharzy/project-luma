@@ -127,7 +127,7 @@ export function buildQuestionSnapshots(selected:IndexedQuestion[]):{module:Pract
       for(const group of part.question_groups)
         if(typeof group.sourceHtml==='string')group.sourceHtml=remapQuestionBindings(group.sourceHtml,local);
     }
-    const durationMinutes=Math.max(5,Math.min(90,Math.ceil(questions.length*1.5)));
+    const durationMinutes=Math.max(5,Math.min(120,Math.max(Math.ceil(questions.length*1.5),module==='listening'?parts.length*10:0)));
     snapshots.push({module,document:{schemaVersion:1,durationMinutes,audioUrl:'',parts,questions}});
   }
   return snapshots;
@@ -138,9 +138,41 @@ export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules
     throw new AuthHttpError(400,'Choose between 1 and 40 questions.');
   const pool=index.filter(item => !item.premium && modules.includes(item.module) && (!types.length||types.includes(item.type)));
   if(pool.length<count)throw new AuthHttpError(409,'Only '+pool.length+' free questions match these filters. Reduce the count or change your question types.');
-  // Uniform random selection without trusting client-provided question IDs or access flags.
-  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
-  const selected=pool.slice(0,count),snapshot=buildQuestionSnapshots(selected);
+  // Shuffle groups so a small custom practice still samples the entire free bank,
+  // while keeping related audio / passage context together where possible.
+  const shuffle=<T,>(arr:T[]):T[]=>{
+    for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+    return arr;
+  };
+  const selected:IndexedQuestion[]=[];
+  const chosenKeys=new Set<string>();
+  const add=(item:IndexedQuestion)=>{if(chosenKeys.has(item.key))return;selected.push(item);chosenKeys.add(item.key);};
+  // When there is room, represent every selected type in the generated test.
+  if(types.length<=count){
+    for(const type of shuffle([...types])){
+      const candidates=pool.filter(q=>q.type===type&&!chosenKeys.has(q.key));
+      if(candidates.length)add(candidates[Math.floor(Math.random()*candidates.length)]);
+    }
+  }
+  const groups=new Map<string,IndexedQuestion[]>();
+  for(const item of pool){
+    const key=item.module+':'+item.source.test_id+':'+item.part.id;
+    groups.set(key,[...(groups.get(key)||[]),item]);
+  }
+  const entries=shuffle([...groups.entries()]).sort((a,b)=>{
+    const aChosen=a[1].some(q=>chosenKeys.has(q.key));
+    const bChosen=b[1].some(q=>chosenKeys.has(q.key));
+    return Number(bChosen)-Number(aChosen);
+  });
+  for(const [,items] of entries){
+    for(const item of shuffle(items)){
+      if(selected.length>=count)break;
+      add(item);
+    }
+    if(selected.length>=count)break;
+  }
+  if(selected.length!==count)throw new AuthHttpError(409,'Could not assemble the selected practice. Try a different filter.');
+  const snapshot=buildQuestionSnapshots(selected);
   if(!snapshot.length)throw new AuthHttpError(409,'No suitable questions are available.');
   const attemptId=randomUUID();
   const first=selected[0];
