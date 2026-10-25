@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState, useRef } from 'react';
-import { BookOpenText, Headphones, LockKeyhole, Layers3, Shuffle, ArrowUpRight, LoaderCircle, SlidersHorizontal, CheckCircle2 } from 'lucide-react';
+import { BookOpenText, Headphones, LockKeyhole, Layers3, Shuffle, ArrowUpRight, LoaderCircle, SlidersHorizontal, CheckCircle2, Check, X } from 'lucide-react';
 import { QuestionPagePreview } from './question-page-preview';
 import { questionTypeLabel } from '@/lib/exam/question-types';
 
@@ -53,8 +53,8 @@ function QuestionPracticePanel(){
    }catch(e){setError(e instanceof Error?e.message:'Unable to load more questions.');}
    finally{setLoading(false);}
  };
- const start=async(only?:string[])=>{
-   const keys=only||picked;const size=keys.length||count;
+ const start=async()=>{
+   const keys=picked;const size=keys.length||count;
    if(starting||loading||!catalog||size>catalog.free)return;
    setStarting(true);setError('');
    try{
@@ -94,13 +94,13 @@ function QuestionPracticePanel(){
      <div className="type-practice-start">
        <div><label className="type-field-title" htmlFor="type-question-count">Number of groups</label>
          <input id="type-question-count" type="number" min={1} max={10} disabled={picked.length>0} value={count} onChange={e=>setCount(Math.max(1,Math.min(10,Number(e.target.value)||1)))}/>
-         <p>{picked.length?picked.length+' groups · '+selectedQuestionCount+' questions selected.':'Random complete groups · up to 40 questions; no group is split.'}</p>
+         <p>Random complete groups · up to 40 questions; no group is split.</p>
        </div>
        <div className="type-practice-start-action">
          <span>{catalog? <><strong>{catalog.free}</strong> free groups available · <strong>{catalog.premium}</strong> premium locked</>:'Loading availability…'}</span>
-         <button type="button" className="type-start-button" onClick={()=>void start()} disabled={starting||loading||!enough}>
+         <button type="button" className="type-start-button" onClick={()=>void start()} disabled={starting||loading||!enough||picked.length>0}>
            {starting?<LoaderCircle className="type-spin" size={18}/>:<Shuffle size={18}/>}
-           {starting?'Preparing session…':picked.length?'Practise selected ('+picked.length+')':'Start random practice'}<ArrowUpRight size={17}/>
+           {starting?'Preparing session…':'Start random practice'}<ArrowUpRight size={17}/>
          </button>
          {catalog&&!enough&&<small className="type-count-warning">Only {catalog.free} free groups match your selection. Select a smaller number or another type.</small>}
        </div>
@@ -111,24 +111,23 @@ function QuestionPracticePanel(){
        <div><span className="session-eyebrow">QUESTION EXPLORER</span><h3>{selected.length===1?questionTypeLabel(selected[0]):selected.length>1?selected.length+' selected question types':'All question types'}</h3></div>
        <span>{catalog?.total ?? 0} groups · {questions.length} shown</span>
      </div>
-     {picked.length>0&&<div className="type-selection-bar" role="status"><strong>{picked.length} groups · {selectedQuestionCount} questions selected</strong><button type="button" onClick={()=>setPicked([])}>Clear selection</button></div>}
      <div className="type-question-grid" aria-busy={loading}>
-       {questions.map((item,index)=>
-         <article key={item.key||['premium',item.book,item.test,item.module,item.number,item.type,index].join('-')} className={'type-question-card '+(item.premium?'is-locked':'')}>
-           <div className="type-question-meta"><span>{item.module==='listening'?<Headphones size={15}/>:<BookOpenText size={15}/>} {item.module}</span>
-             <span>Cambridge {item.book} · Test {item.test} · Q {item.number}</span></div>
-           <h4>{questionTypeLabel(item.type)}</h4>
-           {!item.premium&&item.key&&<label className="type-question-select"><input type="checkbox" checked={picked.includes(item.key)} disabled={!picked.includes(item.key)&&(picked.length>=10||selectedQuestionCount+item.questionCount>40)} onChange={()=>setPicked(v=>v.includes(item.key!)?v.filter(k=>k!==item.key):[...v,item.key!])}/>Select group {item.number} · {item.questionCount} questions</label>}
-           {item.premium
-             ? <div className="type-locked-content" aria-label="Premium question locked"><div className="type-locked-blur" aria-hidden><i/><i/><i/></div><div className="type-locked-overlay"><LockKeyhole size={20}/><strong>Premium question</strong><span>Question content locked</span></div></div>
-             : <><QuestionPagePreview previewKey={item.previewKey||item.key!}/><button type="button" className="type-practise-one" disabled={starting||loading} onClick={()=>void start([item.key!])}>Practise this group ↗</button></>}
-           <div className="type-question-footer"><span>{item.premium?<><LockKeyhole size={14}/> Locked</>:<><CheckCircle2 size={14}/> Free group</>}</span><span>{item.premium?'Premium':item.questionCount+' questions'}</span></div>
-         </article>)}
+       {questions.map((item,index)=>{const checked=Boolean(item.key&&picked.includes(item.key));const capped=!checked&&(picked.length>=10||selectedQuestionCount+item.questionCount>40);return <article key={item.key||['premium',item.book,item.test,item.module,item.number,item.type,index].join('-')} className={'type-question-card '+(item.premium?'is-locked':'')+(checked?' is-selected':'')}>
+         {!item.premium&&item.key&&<><input className="type-card-selector" type="checkbox" aria-label={'Select '+questionTypeLabel(item.type)+', Cambridge '+item.book+', Test '+item.test+', questions '+item.number} checked={checked} disabled={capped} onChange={()=>setPicked(v=>v.includes(item.key!)?v.filter(k=>k!==item.key):[...v,item.key!])}/><span className="type-card-checkbox" aria-hidden="true">{checked&&<Check size={14} strokeWidth={3}/>}</span></>}
+         <div className="type-card-heading"><span aria-hidden="true">{item.module==='listening'?<Headphones size={14}/>:<BookOpenText size={14}/>}</span><h4>{questionTypeLabel(item.type)}</h4></div>
+         <p className="type-card-caption">Cambridge {item.book} · Test {item.test} · Q {item.number}<span>{item.questionCount} questions</span></p>
+         {item.premium?<div className="type-locked-content" aria-label="Premium question locked"><div className="type-locked-blur" aria-hidden="true"><i/><i/><i/></div><div className="type-locked-overlay"><LockKeyhole size={20}/><strong>Premium</strong></div></div>:<QuestionPagePreview previewKey={item.previewKey||item.key!}/>}
+       </article>;})}
      </div>
      {!loading&&!questions.length&&!error&&<p className="type-empty">There are no published questions for these filters yet. Try another type or module.</p>}
      {error&&<p className="type-error" role="alert">{error}</p>}
      {catalog?.hasMore&&<button type="button" className="type-load-more" disabled={loading} onClick={()=>void loadMore()}>{loading?'Loading questions…':'Load more questions ↓'}</button>}
-     {picked.length>0&&<div className="type-mobile-selection"><strong>{picked.length} selected</strong><button className="type-start-button" type="button" disabled={starting||loading} onClick={()=>void start()}>Start selected questions ↗</button></div>}
+     <div className={'type-floating-selection'+(picked.length?' is-visible':'')} inert={!picked.length} aria-hidden={!picked.length} role="region" aria-label="Selected practice">
+       <div><strong key={picked.length} className="type-floating-count">{picked.length} selected</strong><small>{selectedQuestionCount} questions</small></div>
+       <button className="type-start-button" type="button" disabled={starting||loading||!enough} onClick={()=>void start()}>{starting?<LoaderCircle className="type-spin" size={16}/>:null}{starting?'Preparing…':'Start this Practice'}<ArrowUpRight size={16}/></button>
+       <button className="type-floating-clear" type="button" aria-label="Clear selection" onClick={()=>setPicked([])}><X size={18}/></button>
+     </div>
+     <span className="type-selection-status" role="status" aria-live="polite">{picked.length?picked.length+' selected, '+selectedQuestionCount+' questions':''}</span>
      <p className="type-practice-footnote"><LockKeyhole size={15}/> Locked questions require Premium. Choose complete free groups (up to 40 questions); every field in a selected group is included.</p>
    </div>
  </section>;
