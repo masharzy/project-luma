@@ -89,8 +89,12 @@ test('Server starts only free published questions and rejects premium-only or ov
  assert.match(id,/^[a-f0-9-]{36}$/);
  const insert=calls.findLast(call=>call.sql.includes('INSERT INTO public.exam_attempts'));
  assert.equal(insert.args[2],'1');
- assert.equal(insert.args[6],5*60);
+ assert.equal(insert.args[6],10*60);
  const snapshot=JSON.parse(insert.args[4]);
  assert.equal(snapshot[0].document.questions.length,2);
  assert.equal(snapshot[0].document.questions[0].correct_answer!==undefined,true);
+ const bothId=await p.startQuestionTypeAttempt(index,['listening','reading'],['note_completion','multiple_choice_single'],2,'owner',null);
+ assert.match(bothId,/^[a-f0-9-]{36}$/);
+ const bothInsert=calls.filter(call=>call.sql.includes('INSERT INTO public.exam_attempts')).at(-1);
+ assert.deepEqual(JSON.parse(bothInsert.args[4]).map(s=>s.module),['listening','reading']);
 });
