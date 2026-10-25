@@ -1,6 +1,6 @@
-# CURRENT WORK — Reading WIP, stopped for handoff
+# CURRENT WORK — Reading production import COMPLETE — 2026-10-25
 
-Read [READING-HANDOFF.md](READING-HANDOFF.md) first. No Reading DB import or deployment occurred. The completed Listening release below remains live.
+Production has 84 Reading modules / 252 Parts and 84 unchanged Listening modules / 336 Parts. All Cambridge 1–21 tests expose both LR modules. Read [READING-HANDOFF.md](READING-HANDOFF.md) and [engnovate-reading.md](engnovate-reading.md) for release details. Do not restart imports. The older Listening release below is historical.
 
 ---
 
