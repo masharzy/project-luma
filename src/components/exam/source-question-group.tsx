@@ -1,10 +1,11 @@
 'use client';
-import {useMemo} from 'react';
+import {useEffect,useState} from 'react';
 import DOMPurify from 'isomorphic-dompurify';
 type Props={group:any;questions:any[];answers:Record<string,any>;onAnswerChange:(id:string,value:string)=>void;reviewMode?:boolean};
 // Reconstruct a small safe HTML vocabulary. Source scripts, styles and event handlers never execute.
 export function SourceQuestionGroup({group,questions,answers,onAnswerChange,reviewMode=false}:Props){
- const tree=useMemo(()=>{if(typeof DOMParser==='undefined')return null;return new DOMParser().parseFromString(DOMPurify.sanitize(String(group.sourceHtml||'')), 'text/html').body;},[group.sourceHtml]);
+ const [tree,setTree]=useState<HTMLElement|null>(null);
+ useEffect(()=>{setTree(new DOMParser().parseFromString(DOMPurify.sanitize(String(group.sourceHtml||'')), 'text/html').body);},[group.sourceHtml]);
  const map=new Map(questions.map(q=>[q.id,q])),anchors=new Set<string>();
  const render=(node:ChildNode,key:string):React.ReactNode=>{
   if(node.nodeType===3)return node.textContent;

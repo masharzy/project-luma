@@ -4,7 +4,7 @@ import { secureCookies } from '@/lib/auth/config';
 import { readSession } from '@/lib/auth/session';
 import { requireSameOrigin, readBody, json, AuthHttpError, limit, networkKey } from '@/lib/auth/http';
 import { ownerCookie, newOwner } from '@/lib/exam/attempts';
-import { loadQuestionIndex, publicQuestionCatalog, startQuestionTypeAttempt } from '@/lib/exam/question-type-practice';
+import { loadQuestionIndex, publicQuestionCatalog, startQuestionTypeAttempt, questionPreview } from '@/lib/exam/question-type-practice';
 import { validPracticeModules, validPracticeTypes, type PracticeModule } from '@/lib/exam/question-types';
 
 export const runtime = 'nodejs';
@@ -27,6 +27,8 @@ function fail(e:unknown){
 }
 export async function GET(req:NextRequest){
   try{
+    const key=req.nextUrl.searchParams.get('preview');
+    if(key){const match=key.match(/^(listening|reading):(\d{1,16}):.{1,150}$/);if(!match)throw new AuthHttpError(400,'Invalid preview');return json(questionPreview(await loadQuestionIndex({module:match[1] as PracticeModule,testId:match[2]}),key));}
     const modules=modulesFromQuery(req.nextUrl.searchParams.get('module'));
     const types=typesFromQuery(req.nextUrl.searchParams.get('types'));
     const raw=req.nextUrl.searchParams.get('page')||'0';
@@ -41,11 +43,12 @@ export async function POST(req:NextRequest){
     await limit('question-type-practice:'+networkKey(req),20,3600);
     const input=await readBody(req,4096);
     if(!validPracticeModules(input.modules)||!validPracticeTypes(input.types)||
+       (input.keys!==undefined&&(!Array.isArray(input.keys)||input.keys.length>40||input.keys.some(k=>typeof k!=='string'||k.length>180)))||
        !Number.isInteger(input.count)||Number(input.count)<1||Number(input.count)>40)
       throw new AuthHttpError(400,'Choose valid modules, question types and a count from 1 to 40.');
     const owner=newOwner((await cookies()).get(ownerCookie)?.value);
     const session=await readSession();
-    const id=await startQuestionTypeAttempt(await loadQuestionIndex(),input.modules,input.types,Number(input.count),owner,session?.user.id??null);
+    const id=await startQuestionTypeAttempt(await loadQuestionIndex(),input.modules,input.types,Number(input.count),owner,session?.user.id??null,input.keys as string[]|undefined);
     const response=json({id,url:'/exam/attempt/'+id},201);
     response.cookies.set(ownerCookie,owner,{httpOnly:true,secure:secureCookies(),sameSite:'lax',path:'/',maxAge:86400});
     return response;

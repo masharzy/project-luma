@@ -4,7 +4,7 @@ import { db } from '@/lib/auth/db';
 import { digest } from '@/lib/auth/crypto';
 import { AuthHttpError } from '@/lib/auth/http';
 import { isObjectiveQuestion } from '@/lib/exam/mock-scoring';
-import { questionType, questionTypeLabel, previewText, MAX_PRACTICE_QUESTIONS, PAGE_SIZE, type PracticeModule } from './question-types';
+import { questionType, questionTypeLabel, previewText, MAX_PRACTICE_QUESTIONS, PAGE_SIZE, listeningTypes, readingTypes, type PracticeModule } from './question-types';
 import type { ExamDocument } from './document';
 
 type SourceRow = {
@@ -16,9 +16,9 @@ export type IndexedQuestion = {
   book: number; test: number; number: string; preview: string;
   source: SourceRow; question: any; part: any; group: any; partOrder: number; groupOrder: number; questionOrder: number;
 };
-type PublicQuestion = { key?: string; module: PracticeModule; type: string; book: number; test: number; number: string; preview: string; premium: boolean };
+type PublicQuestion = { key?: string; module: PracticeModule; type: string; book: number; test: number; number: string; preview: string; premium: boolean; previewKey?:string };
 
-export async function loadQuestionIndex(): Promise<IndexedQuestion[]> {
+export async function loadQuestionIndex(scope?:{testId:string;module:PracticeModule}): Promise<IndexedQuestion[]> {
   // A book AND its test must be published. Both entitlement levels are checked on the server.
   const rows = await db().query(`
     SELECT t.id AS test_id,t.book_number,t.test_number,e.module,
@@ -28,7 +28,8 @@ export async function loadQuestionIndex(): Promise<IndexedQuestion[]> {
     JOIN public.cambridge_books b ON b.book_number=t.book_number
     WHERE e.kind='cambridge' AND e.module IN ('listening','reading')
       AND e.revision>0 AND t.status='published' AND b.status='published'
-    ORDER BY t.book_number,t.test_number,e.module`);
+      AND ($1::bigint IS NULL OR t.id=$1) AND ($2::text IS NULL OR e.module=$2)
+    ORDER BY t.book_number,t.test_number,e.module`,[scope?.testId||null,scope?.module||null]);
   const index: IndexedQuestion[] = [];
   for (const raw of rows) {
     const source = raw as SourceRow;
@@ -78,13 +79,31 @@ export function publicQuestionCatalog(index: IndexedQuestion[], modules: Practic
     item.premium ? current.premium++ : current.free++;
     typeCounts.set(item.type,current);
   }
+  for(const type of new Set(modules.flatMap(m=>m==='listening'?listeningTypes:readingTypes))){if(!typeCounts.has(type))typeCounts.set(type,{type,label:questionTypeLabel(type),total:0,free:0,premium:0});}
   const filtered = inModules.filter(item => !selectedTypes.length || selectedTypes.includes(item.type));
   const free = filtered.filter(item=>!item.premium).length, premium = filtered.length-free;
   const items:PublicQuestion[] = filtered.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE).map(item => item.premium
     ? {module:item.module,type:item.type,book:item.book,test:item.test,number:item.number,preview:'',premium:true}
-    : {key:item.key,module:item.module,type:item.type,book:item.book,test:item.test,number:item.number,preview:item.preview,premium:false});
+    : {key:item.key,module:item.module,type:item.type,book:item.book,test:item.test,number:item.number,preview:item.preview,premium:false,previewKey:index.find(q=>q.source.test_id===item.source.test_id&&q.module===item.module&&q.group.id===item.group.id)?.key||item.key});
   return {types:[...typeCounts.values()].sort((a,b)=>b.total-a.total || a.label.localeCompare(b.label)),
     items,total:filtered.length,free,premium,page,pageSize:PAGE_SIZE,hasMore:(page+1)*PAGE_SIZE<filtered.length};
+}
+
+// Only a published free source can be previewed. Do not serialize scoring fields.
+export function questionPreview(index:IndexedQuestion[],key:string){
+ const item=index.find(q=>q.key===key&&!q.premium);
+ if(!item)throw new AuthHttpError(404,'Question preview unavailable.');
+ const siblings=index.filter(q=>q.source.test_id===item.source.test_id&&q.module===item.module&&q.group.id===item.group.id);
+ const esc=(v:unknown)=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+ let html=String(item.group.sourceHtml||item.group.groupText||'');
+ if(!item.group.sourceHtml){
+  html=html.replace(/\[\[(?:n)?(\d+)\]\]/g,(marker,num)=>{const q=siblings.find(q=>(q.question.sourceNumbers||[q.question.order_index]).some((n:unknown)=>String(n)===num));return q?'<span data-luma-question="'+esc(q.question.id)+'"></span>':marker;});
+  if(!html)html=siblings.map(({question:q,number})=>'<p><strong>Question '+esc(number)+'</strong> '+esc(q.question_text)+'</p>'+(Array.isArray(q.options)&&q.options.length?'<ul>'+q.options.map((o:any,i:number)=>'<li>'+String.fromCharCode(65+i)+'. '+esc(typeof o==='string'?o:o.text||o.label||'')+'</li>').join('')+'</ul>':'<span data-luma-question="'+esc(q.id)+'"></span>')).join('');
+ }
+ const image=String(item.group.referenceImage||item.group.diagramImage||'');
+ if(image&&image.length<=2000000&&(/^https:\/\//.test(image)||/^data:image\/(png|jpeg|webp);base64,/.test(image)))html='<img src="'+esc(image)+'" alt="Question reference"/>'+html;
+ if(!item.group.sourceHtml&&item.group.instructions)html='<p>'+esc(item.group.instructions)+'</p>'+html;
+ return {heading:item.part.title||'Question page',group:{sourceHeading:item.group.sourceHeading||item.group.title||'',sourceHtml:html},questions:siblings.map(q=>({id:q.question.id,sourceNumbers:q.question.sourceNumbers||[q.number],sourceOptions:q.question.sourceOptions||[],answerCount:q.question.answerCount||1})),passage:item.module==='reading'?String(item.part.passage_text||''):''};
 }
 
 // Rewrite only source question bindings, never render or execute imported HTML on the server.
@@ -109,7 +128,7 @@ export function buildQuestionSnapshots(selected:IndexedQuestion[]):{module:Pract
       const partKey=prefix+':'+item.part.id;
       let part=partLookup.get(partKey);
       if (!part) {
-        part={...item.part,id:'qp-p-'+(parts.length+1),title:'Cambridge '+item.book+' · Test '+item.test+' · '+(item.part.title||'Part '+(item.partOrder+1)),question_groups:[]};
+        part={...item.part,audio_url:item.part.audio_url||item.source.document.audioUrl||'',id:'qp-p-'+(parts.length+1),title:'Cambridge '+item.book+' · Test '+item.test+' · '+(item.part.title||'Part '+(item.partOrder+1)),question_groups:[]};
         parts.push(part);partLookup.set(partKey,part);
       }
       const groupKey=partKey+':'+item.group.id;
@@ -139,9 +158,10 @@ export function buildQuestionSnapshots(selected:IndexedQuestion[]):{module:Pract
   return snapshots;
 }
 
-export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules: PracticeModule[], types: string[], count: number, owner: string, userId: string|null) {
+export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules: PracticeModule[], types: string[], count: number, owner: string, userId: string|null, keys?:string[]) {
   if(!Number.isInteger(count)||count<1||count>MAX_PRACTICE_QUESTIONS)
     throw new AuthHttpError(400,'Choose between 1 and 40 questions.');
+  if(keys&&(!keys.length||keys.length>40||new Set(keys).size!==keys.length||keys.some(k=>typeof k!=='string'||k.length>180)||keys.length!==count))throw new AuthHttpError(400,'Select 1–40 unique questions.');
   const pool=index.filter(item => !item.premium && modules.includes(item.module) && (!types.length||types.includes(item.type)));
   if(pool.length<count)throw new AuthHttpError(409,'Only '+pool.length+' free questions match these filters. Reduce the count or change your question types.');
   // Shuffle groups so a small custom practice still samples the entire free bank,
@@ -178,6 +198,7 @@ export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules
     if(selected.length>=count)break;
   }
   if(selected.length!==count)throw new AuthHttpError(409,'Could not assemble the selected practice. Try a different filter.');
+  if(keys){const exact=keys.map(key=>pool.find(q=>q.key===key));if(exact.some(q=>!q))throw new AuthHttpError(409,'A selected question is unavailable or locked. Refresh your selection.');selected.splice(0,selected.length,...exact as IndexedQuestion[]);}
   const snapshot=buildQuestionSnapshots(selected);
   if(!snapshot.length)throw new AuthHttpError(409,'No suitable questions are available.');
   const attemptId=randomUUID();
