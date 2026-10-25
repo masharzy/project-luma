@@ -5,6 +5,7 @@ import { AuthHttpError } from '@/lib/auth/http';
 import { readAttempt } from '@/lib/exam/attempts';
 import { writingInput } from './input';
 import { writingModel } from './provider';
+import { legacyWritingUsage } from '@/lib/products/plans';
 export const products=['cambridge_writing','practice_writing','writing_product','speaking_product'] as const;
 export async function evaluationForAttempt(attemptId:string,userId:string){
  const rows=await db().query('SELECT id,status,result,model,error_code,created_at,updated_at FROM public.writing_evaluations WHERE attempt_id=$1::uuid AND user_id=$2::uuid',[attemptId,userId]);return rows[0]??null;
@@ -18,19 +19,19 @@ export async function createWritingEvaluation(attemptId:string,userId:string){
  if(index<0||Number(attempt.current_index)<=index)throw new AuthHttpError(409,'Submit your Writing answers first.');
  const input=writingInput(snapshot[index].document,attempt.answers[String(index)]||{});
  if(!input.tasks.some(t=>t.answer.trim()))throw new AuthHttpError(400,'Write an answer before requesting evaluation.');
- const product=attempt.kind==='cambridge'?'cambridge_writing':'practice_writing';
- const grant=(await db().query('SELECT monthly_limit FROM public.evaluation_grants WHERE user_id=$1::uuid AND product=$2 AND expires_at>now()',[userId,product]))[0];
+ const product=attempt.kind==='cambridge'?'writing_product':'practice_writing';
+ const grant=(await db().query('SELECT monthly_limit FROM public.evaluation_allowance($1::uuid,$2::text)',[userId,product]))[0];
  if(!grant)throw new AuthHttpError(403,'AI feedback is not included in your current access. Your Writing answers are still available.','EVALUATION_ACCESS_REQUIRED');
  try {
  // Reserve the source-specific allowance and insert its job in a single atomic statement.
  // A duplicate attempt or concurrent active job rolls back the reservation as well.
  const rows=await db().query(`WITH allowance AS (
- SELECT monthly_limit FROM public.evaluation_grants WHERE user_id=$1::uuid AND product=$2 AND expires_at>now()
+ SELECT monthly_limit FROM public.evaluation_allowance($1::uuid,$2::text)
  ), reserved AS (
  INSERT INTO public.evaluation_usage(user_id,product,period,count)
- SELECT $1::uuid,$2,date_trunc('month',now() AT TIME ZONE 'UTC')::date,1 FROM allowance WHERE monthly_limit IS NULL OR monthly_limit>0
+ SELECT $1::uuid,$2,date_trunc('month',now() AT TIME ZONE 'UTC')::date,1 FROM allowance WHERE monthly_limit IS NULL OR monthly_limit>${legacyWritingUsage}
  ON CONFLICT(user_id,product,period) DO UPDATE SET count=evaluation_usage.count+1
- WHERE (SELECT monthly_limit FROM allowance) IS NULL OR evaluation_usage.count<(SELECT monthly_limit FROM allowance)
+ WHERE (SELECT monthly_limit FROM allowance) IS NULL OR evaluation_usage.count+${legacyWritingUsage}<(SELECT monthly_limit FROM allowance)
  RETURNING period
  ) INSERT INTO public.writing_evaluations(id,attempt_id,user_id,product,period,input,model)
  SELECT $3::uuid,$4::uuid,$1::uuid,$2,period,$5::jsonb,$6 FROM reserved RETURNING id,status,result,model,error_code,created_at,updated_at`,[userId,product,randomUUID(),attemptId,JSON.stringify(input),writingModel]);

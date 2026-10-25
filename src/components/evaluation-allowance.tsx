@@ -1,0 +1,3 @@
+import Link from 'next/link';
+import { membership } from '@/lib/products/plans';
+export async function EvaluationAllowance({userId,product}:{userId:string;product:'writing_product'|'speaking_product'}){const {allowances}=await membership(userId);const a=allowances.find(a=>a.product===product);const remaining=a?.monthly_limit===null?'Unlimited':Math.max(0,Number(a?.monthly_limit||0)-Number(a?.used||0));return <aside className="evaluation-allowance-summary"><span><strong>{remaining}</strong> {product==='writing_product'?'Writing':'Speaking'} evaluations left this month</span><Link href="/dashboard/subscription">View allowance & plans ↗</Link></aside>}

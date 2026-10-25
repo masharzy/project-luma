@@ -3122,8 +3122,8 @@ export default function ExamInterface({
                         }
                       }}
                     />
-                    {!writingQuestionId && (
-                      <div className="ielts-writing-sync-warning">Writing question is still loading. Your typing is saved locally and will sync automatically.</div>
+                    {!writingQuestionId && !currentPart?.passage_text?.trim() && (
+                      <div className="ielts-writing-sync-warning">The task prompt is unavailable. Your draft is kept in this browser. Please contact support before submitting.</div>
                     )}
                     <div className="ielts-word-count">Words: {splitOnWhitespace(((writingQuestionId ? answers[writingQuestionId] || "" : answers[`writing_draft_${currentPart?.id}`] || writingDrafts[currentPart?.id || ""] || "") as string).trim()).length}</div>
                   </div> :

@@ -12,6 +12,7 @@ const learner = [
   ["/dashboard/mocks", "My mocks", "clock"],
   ["/dashboard/results", "Results", "chart"],
   ["/dashboard/saved", "Saved resources", "heart"],
+  ["/dashboard/subscription", "My subscription", "chart"],
   ["/settings", "Settings", "settings"],
 ];
 const admin = [
@@ -22,7 +23,8 @@ const admin = [
   ["/admin/vocabulary", "Vocabulary", "book"],
   ["/admin/resources", "Learning resources", "pen"],
   ["/admin/speaking-tests", "Speaking question bank", "file"],
-  ["/admin/evaluations", "Evaluation access", "chart"],
+  ["/admin/subscriptions", "Plans & subscriptions", "chart"],
+  ["/admin/evaluations", "Account overrides", "chart"],
   ["/admin/users", "Users & access", "users"],
   ["/admin/settings", "Settings", "settings"],
 ];
