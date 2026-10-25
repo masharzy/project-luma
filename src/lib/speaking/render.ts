@@ -21,6 +21,7 @@ export async function renderSpeakingRoom(mode:SpeakingMode,testId:string,questio
  html=html.replaceAll('Math.max(0,120-seconds)','Math.max(0,(ROOM.questions.timing?.longTurnSeconds??120)-seconds)');
  html=html.replaceAll("'You have one minute to prepare.'","'You have '+String(ROOM.questions.timing?.preparationSeconds??60)+' seconds to prepare.'").replaceAll("(part===2?' / 02:00':'')","(S[si]?.long?' / '+fmt(ROOM.questions.timing?.longTurnSeconds??120):'')");
  html=html.replaceAll('CAMBRIDGE · SPEAKING PRACTICE','SPEAKING EVALUATION').replace('let TTS=true','let TTS=false').replace('speechSynthesis?.getVoices?.();','');
+ if(questions.sourceParts){const n=questions.sourceParts.length;html=html.replaceAll('Parts 1, 2 and 3.',n+' parts · Source question order.').replaceAll('three parts, like the real test.',n+' parts in source order.').replaceAll("'PART 2 · PREPARATION'","'PART '+part+' · PREPARATION'");}
  html=html.replaceAll('new MediaRecorder(stream)','new MediaRecorder(stream,{audioBitsPerSecond:64000})').replace('Recordings stay in this tab. No AI grading.','Your recordings are saved privately after upload.').replace('Fixed questions · Parts 1, 2 and 3.','Parts 1, 2 and 3 · Record, review and get feedback.');
  html=html.replaceAll('<script',`<script nonce="${nonce}"`).replaceAll('<style',`<style nonce="${nonce}"`);
  return html;
