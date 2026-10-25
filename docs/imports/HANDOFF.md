@@ -1,3 +1,11 @@
+# CURRENT WORK — All Cambridge module sources imported — 2026-10-25
+
+Production contains 84 Listening, 84 Reading, 84 Writing modules and 84 linked Speaking sets across Books 1–21. Speaking includes all 8 legacy two-part sources and 76 three-part sources, preserved in actual source section order. Do not restart discovery or re-import. Read [WRITING-SPEAKING-IMPORT.md](WRITING-SPEAKING-IMPORT.md) for source format, migration, access, validation and test limits.
+
+PR #16 merged, production deployment `dpl_Ce3wFL54y3C3SxkmNZLBYnqtVJ3f` READY. Original 168 LR hashes/revisions unchanged. Full Test stays LR-only. Individual Writing uses existing Writing interface/evaluation; individual Speaking uses animated room and existing Speaking Evaluation access/allowance. Source images remain externally hosted original URLs.
+
+---
+
 # CURRENT WORK — Reading production import COMPLETE — 2026-10-25
 
 Production has 84 Reading modules / 252 Parts and 84 unchanged Listening modules / 336 Parts. All Cambridge 1–21 tests expose both LR modules. Read [READING-HANDOFF.md](READING-HANDOFF.md) and [engnovate-reading.md](engnovate-reading.md) for release details. Do not restart imports. The older Listening release below is historical.

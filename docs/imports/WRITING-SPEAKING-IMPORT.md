@@ -16,7 +16,7 @@ Additive migration `scripts/migrations/cambridge-speaking-link.sql` links speaki
 
 `build-ws-sql.cjs` only inserts absent Writing modules / linked Speaking sets and appends sections; it does not overwrite existing modules, book status, access settings or attempts. Original Listening and Reading are protected and checked against `ws-production-before.json`. Full Test remains LR-only. Writing opens through the exam engine and existing evaluation path. Speaking opens the same animated room through a linked Speaking set. Admin Cambridge module management links to its Speaking editor.
 
-Validation database contains all 84 Writing modules and 84 linked Speaking sets. Production content publication follows deployment of the new renderer/routes; final production checks will be recorded separately.
+Production and validation databases both contain all 84 Writing modules and 84 linked Speaking sets (8 two-part, 76 three-part). PR #16 merged at ff40971f76b15ba44d27a8812a56b383d2380f70; production deployment dpl_Ce3wFL54y3C3SxkmNZLBYnqtVJ3f reached READY before the guarded insert-only content import. All 168 pre-existing Listening/Reading document MD5 hashes and revisions match the saved production baseline exactly. All 84 tests expose LRWS sections; original access remains 40 free / 44 premium.
 
 ## Verification
 
