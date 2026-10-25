@@ -27,7 +27,7 @@ export async function POST(req: NextRequest, c: Context) { try {
     const result = await advanceAttempt(id, body);
     // Writing feedback is automatic at submission, not triggered by another learner button.
     // It is deliberately best-effort: an AI/queue outage must not undo saved exam answers.
-    if (body.action === 'submit' && result.complete && result.results.some(r => r.module === 'writing')) {
+    if (body.action === 'submit' && result.complete && result.results.some((r: { module: string }) => r.module === 'writing')) {
         try {
             const session = await readSession();
             if (session && evaluationConfigured()) {
