@@ -38,3 +38,37 @@ test('Streaming measures text separately from keepalive and reports provider fai
 test('OpenRouter cannot run paid models',async()=>{
  await assert.rejects(()=>runBenchmark({...input,provider:'openrouter',model:'paid/model'}),/Only pinned/);
 });
+test('Gemini request uses documented stream endpoint, headers and model-specific thinking',async()=>{
+ const old=globalThis.fetch;let seen;
+ try{
+  globalThis.fetch=async(url,init)=>{seen={url,headers:init.headers,body:JSON.parse(init.body)};return new Response('',{status:404});};
+  await runBenchmark({...input,model:'gemini-3.8-flash',reasoning:'effort',level:'deep'});
+  assert.equal(seen.url,'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:streamGenerateContent?alt=sse');
+  assert.equal(seen.headers['x-goog-api-key'],'private-test-key');
+  assert.deepEqual(seen.body.generationConfig.thinkingConfig,{thinkingLevel:'MEDIUM'});
+  await runBenchmark({...input,model:'gemini-2.5-flash',reasoning:'budget',level:'maximum'});
+  assert.deepEqual(seen.body.generationConfig.thinkingConfig,{thinkingBudget:8192});
+  await assert.rejects(()=>runBenchmark({...input,model:'gemini-3.8-flash',reasoning:'budget'}),/Unsupported reasoning/);
+  await assert.rejects(()=>runBenchmark({...input,model:'gemini-2.5-flash',reasoning:'budget',maxThinking:32768}),/exceeds/);
+ }finally{globalThis.fetch=old;}
+});
+test('Error diagnostics preserve retry time without leaking provider messages or secrets',async()=>{
+ const {providerFailure}=mod.exports;
+ const d=await providerFailure(new Response(JSON.stringify({error:{message:'Daily quota exceeded private-test-key candidate-private-answer'}}),{status:429,headers:{'retry-after':'60'}}),'private-test-key');
+ assert.equal(d.category,'account_quota');assert.equal(d.retryAfterSeconds,60);
+ assert.equal(JSON.stringify(d).includes('private-test-key'),false);assert.equal(JSON.stringify(d).includes('candidate-private-answer'),false);
+ assert.equal((await providerFailure(new Response('upstream overloaded',{status:429}),'x')).category,'rate_limit');
+});
+test('OpenRouter pins a zero-price model and passes documented reasoning and routing controls',async()=>{
+ const old=globalThis.fetch;let body;
+ try{
+  globalThis.fetch=async(url,init)=>{
+   if(!init?.body)return Response.json({data:[{id:'test/model:free',pricing:{prompt:'0',completion:'0'},supported_parameters:['reasoning']}]});
+   body=JSON.parse(init.body);return new Response(JSON.stringify({error:{message:'Provider busy'}}),{status:429,headers:{'retry-after':'20'}});
+  };
+  const r=await runBenchmark({...input,provider:'openrouter',model:'test/model:free',reasoning:'effort',level:'maximum'});
+  assert.equal(body.model,'test/model:free');assert.deepEqual(body.reasoning,{effort:'high',exclude:true});
+  assert.equal(body.provider.allow_fallbacks,false);assert.deepEqual(body.provider.max_price,{prompt:0,completion:0});assert.equal(body.provider.require_parameters,true);
+  assert.equal(r.diagnostic.retryAfterSeconds,20);assert.equal(r.firstTextMs,null);
+ }finally{globalThis.fetch=old;}
+});
