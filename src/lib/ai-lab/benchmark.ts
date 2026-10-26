@@ -33,7 +33,7 @@ export async function providerFailure(response:Response,key:string){
  try{data=await response.json();}catch{}
  const message=String(data.error?.message||'').replaceAll(key,'[redacted]').toLowerCase();
  const source=data.error?.metadata?.limit_source;
- const category=response.status===429?(source==='openrouter'? 'account_quota':/daily|per.day|quota|credits/.test(message)?'account_quota':'rate_limit'):
+ const category=response.status===429?(source==='openrouter'? 'account_quota':/daily|per.day|limit[^.]*day/.test(message)?'account_quota':'rate_limit'):
  response.status===404?'model_unavailable':response.status===401?'authentication':response.status===403?'permission':response.status===402?'billing':response.status===400?'invalid_request':response.status>=500?'provider_unavailable':'provider_error';
  const hints:Record<string,string>={account_quota:'Account quota exhausted. Check provider usage and reset time.',rate_limit:'Rate limited by the platform or upstream provider. Wait before retrying; the exact scope is not confirmed.',model_unavailable:'Model is unavailable for this API/project. Choose a current model; Gemini 2.5 access may be restricted.',authentication:'Provider rejected authentication. Check the saved key.',permission:'Project or key lacks access. Check provider permissions and billing eligibility.',billing:'Provider requires billing or available credit. Paid fallback remains disabled.',invalid_request:'Provider rejected request settings. Check model capabilities.',provider_unavailable:'No suitable provider is available or the provider is temporarily unavailable.',provider_error:'Provider rejected the request.'};
  const retry=response.headers.get('retry-after');

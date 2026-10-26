@@ -30,3 +30,18 @@ Summary p50/p95 use successful runs only; success/total separately displays fail
 ## Validation
 
 `node --test tests/ai-lab.test.mjs` tests sample validation, invented Writing evidence, mandatory Speaking audio/timestamps, paid-model rejection, mocked streaming latency and sanitized HTTP failures. These are offline tests, not evidence of model quality. Run `npm run typecheck` and `npm run build` too. Live provider, encrypted vault/database and authenticated browser flows require the deployment configuration and provider keys above.
+
+## Provider compatibility update — 26 October 2026
+
+The catalog prioritises explicitly versioned Flash models over moving aliases and labels Gemini 2.5 as legacy access. Google notes that 2.5 access is limited to existing active users; catalog visibility is not proof that inference is enabled. TTS, image, transcription and specialised tool models are excluded from this evaluation picker.
+
+The existing Generate Content REST streaming API remains supported: `POST /v1beta/models/{model}:streamGenerateContent?alt=sse`, with `x-goog-api-key`. Gemini 2.5 uses `thinkingBudget` (Flash maximum 24,576; Pro 32,768); compatible newer text Gemini models use `thinkingLevel` LOW / MEDIUM / HIGH. Unsupported combinations are rejected. The default Maximum budget remains the configured cap, not a claim of maximum model capacity.
+
+OpenRouter retains pinned zero-price `:free` models, `allow_fallbacks:false`, `require_parameters:true`, and zero input/output price caps. Controlled reasoning is offered only when the live catalog advertises it. A 429 alone does not distinguish platform limits from upstream provider limits. Diagnostics retain a safe category and parsed Retry-After delay; raw provider messages, which may echo candidate content or credentials, are never retained. No automatic retry is included in benchmark timings.
+
+Official references checked:
+- https://ai.google.dev/api/generate-content
+- https://ai.google.dev/gemini-api/docs/generate-content/thinking
+- https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash
+- https://openrouter.ai/docs/api_reference/errors-and-debugging
+- https://openrouter.ai/docs/guides/routing/provider-selection
