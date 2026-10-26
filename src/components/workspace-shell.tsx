@@ -26,6 +26,7 @@ const admin = [
   ["/admin/subscriptions", "Plans & subscriptions", "chart"],
   ["/admin/evaluations", "Account overrides", "chart"],
   ["/admin/users", "Users & access", "users"],
+  ["/admin/ai-lab", "AI evaluation lab", "chart"],
   ["/admin/settings", "Settings", "settings"],
 ];
 export function WorkspaceShell({

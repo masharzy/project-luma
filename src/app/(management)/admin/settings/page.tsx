@@ -10,6 +10,7 @@ export default async function Page() {
         title="A few things, kept in order."
         description="বর্তমান access policy আর platform connection-এর অবস্থা।"
       />
+      <p><a href="/admin/ai-lab">Open AI evaluation lab — keys, Writing, Speaking and latency benchmarks</a></p>
       <div className="settings-grid">
         <section className="workspace-panel settings-panel">
           <span className="eyebrow">ACCESS CONTROL</span>
@@ -51,8 +52,7 @@ export default async function Page() {
             ))}
           </dl>
           <p className="security-note">
-            Secrets and provider configuration are managed outside this
-            interface. No credentials are returned to the browser.
+            AI benchmark credentials can be saved in the AI evaluation lab. Stored credentials are never returned to the browser.
           </p>
         </section>
       </div>
