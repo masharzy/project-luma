@@ -38,6 +38,7 @@ export default function Page() {
           <Link href="/cambridge">Explore the library ↓</Link>
         </div>
       </section>
+      <section className="section"><div className="container"><div className="section-head"><div><span className="eyebrow">OTHER BOOKS</span><h2>Your next book is here.</h2><p>Explore Collins, Barron’s and Practice Tests Plus. Find practice by book, module or question type.</p></div><Link className="button" href="/other-books">Explore Other Books ↗</Link></div></div></section>
       <section className="section" id="practice">
         <div className="container">
           <div className="section-head">

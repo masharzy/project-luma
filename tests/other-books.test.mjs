@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import {readFileSync} from 'node:fs';
+const m={exports:{}};
+new Function('exports',ts.transpileModule(readFileSync('src/lib/other-books.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText)(m.exports);
+const {otherBooks,validBookSlug,filterBookTests}=m.exports;
+const tests=[{id:'1',bookSlug:'collins-1',modules:[{module:'listening',types:['note_completion']},{module:'reading',types:['matching_headings']}]},{id:'2',bookSlug:'plus-2',modules:[{module:'reading',types:['note_completion']}]}];
+test('book registry has seven unique volumes in the three requested series',()=>{assert.equal(otherBooks.length,7);assert.equal(new Set(otherBooks.map(b=>b.slug)).size,7);assert.equal(new Set(otherBooks.map(b=>b.series)).size,3);assert.equal(validBookSlug('cambridge-1'),false);assert.equal(validBookSlug(null),false);assert.equal(validBookSlug('plus-2'),true);});
+test('book, module and question type filters intersect on the same module',()=>{assert.deepEqual(filterBookTests(tests,'collins-1','reading','note_completion'),[]);assert.deepEqual(filterBookTests(tests,'','reading','note_completion').map(t=>t.id),['2']);assert.deepEqual(filterBookTests(tests,'collins-1','','note_completion').map(t=>t.id),['1']);assert.equal(filterBookTests(tests,'','','').length,2);});

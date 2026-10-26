@@ -5,31 +5,25 @@ import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/client";
 
 const learnLinks = [
-  ["/resources", "All resources", "Your learning shelf"],
-  ["/resources/writing", "Writing samples", "Learn from a well-written answer"],
-  ["/vocabulary", "Vocabulary", "Find the right words"],
-  ["/grammar", "Grammar", "Build better sentences"],
-  ["/resources/ebooks", "Ebooks", "A little reading, a little progress"],
-  ["/blog", "Journal", "Ideas for your preparation"],
+ ["/vocabulary", "Vocabulary", "Build your word bank"],
+ ["/resources/cue-cards", "Cue Cards", "Prepare your speaking topics"],
+ ["/resources", "All resources", "Explore your learning shelf"],
 ];
-const mainLinks = [
-  ["/writing-evaluation", "Writing Evaluation"],
-  ["/speaking-evaluation", "Speaking Evaluation"],
-  ["/practice", "Practice"],
-  ["/cambridge", "Cambridge"],
-  ["/mocks", "Mock Tests"],
-];
+const aiLinks = [["/writing-evaluation","Writing Evaluation"],["/speaking-evaluation","Speaking Evaluation"]];
+const mainLinks = [["/cambridge","Cambridge"],["/other-books","Other Books"],["/practice","Practice"],["/mocks","Mock Tests"]];
 export function Header() {
   const [open, setOpen] = useState(false);
   const [learn, setLearn] = useState(false);
+  const [ai,setAi]=useState(false);
   const pathname = usePathname();
   const header = useRef<HTMLElement>(null);
   const learnButton = useRef<HTMLButtonElement>(null);
+  const aiButton = useRef<HTMLButtonElement>(null);
   const { data: session, isPending } = authClient.useSession();
   useEffect(() => {
     const outside = (e: PointerEvent) => {
       if (!header.current?.contains(e.target as Node)) {
-        setLearn(false);
+        setLearn(false);setAi(false);
         setOpen(false);
       }
     };
@@ -38,7 +32,7 @@ export function Header() {
   }, []);
   const close = () => {
     setOpen(false);
-    setLearn(false);
+    setLearn(false);setAi(false);
   };
   const active = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -48,8 +42,9 @@ export function Header() {
       className="site-header upgraded-header"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
+          const target=ai?aiButton.current:learnButton.current;
           close();
-          learnButton.current?.focus();
+          target?.focus();
         }
       }}
     >
@@ -67,13 +62,6 @@ export function Header() {
           id="main-navigation"
           aria-label="Main navigation"
         >
-          <Link
-            href="/free"
-            className={active("/free") ? "active free-nav" : "free-nav"}
-            onClick={close}
-          >
-            Start free <span>↗</span>
-          </Link>
           {mainLinks.map(([href, label]) => (
             <Link
               href={href}
@@ -85,6 +73,7 @@ export function Header() {
               {label}
             </Link>
           ))}
+          <div className="learn-navigation"><button ref={aiButton} type="button" className={aiLinks.some(([href])=>active(href))?"nav-learn active":"nav-learn"} aria-expanded={ai} aria-controls="ai-navigation" onClick={()=>{setAi(v=>!v);setLearn(false);}}>AI <span aria-hidden="true">{ai?"−":"+"}</span></button><div id="ai-navigation" className="learn-dropdown" hidden={!ai}>{aiLinks.map(([href,label])=><Link key={href} href={href} onClick={close}><b>{label}</b><span aria-hidden="true">↗</span></Link>)}</div></div>
           <div className="learn-navigation">
             <button
               ref={learnButton}
@@ -96,9 +85,9 @@ export function Header() {
                   ? "nav-learn active"
                   : "nav-learn"
               }
-              onClick={() => setLearn((v) => !v)}
+              onClick={() => {setLearn((v) => !v);setAi(false);}}
             >
-              Learn <span aria-hidden="true">{learn ? "−" : "+"}</span>
+              Resources <span aria-hidden="true">{learn ? "−" : "+"}</span>
             </button>
             <div
               id="learn-navigation"
@@ -117,13 +106,6 @@ export function Header() {
               ))}
             </div>
           </div>
-          <Link
-            href="/pricing"
-            className={active("/pricing") ? "active" : ""}
-            onClick={close}
-          >
-            Premium
-          </Link>
         </nav>
         <div className="header-actions">
           <Link
@@ -142,7 +124,7 @@ export function Header() {
             aria-expanded={open}
             onClick={() => {
               setOpen((v) => !v);
-              setLearn(false);
+              setLearn(false);setAi(false);
             }}
           >
             {open ? "Close ×" : "Menu ☰"}
