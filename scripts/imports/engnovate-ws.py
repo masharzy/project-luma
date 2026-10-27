@@ -30,13 +30,13 @@ def paragraphs(n):
  if not blocks:return [clean(n.text())]
  return [clean(x.text())for x in blocks if clean(x.text())]
 def image(n):return n.attrs.get('data-src')or n.attrs.get('src')
-def convert(kind,b,t,s,url):
- d=DOM(s).root;h=d.all(lambda x:x.tag=='h1');assert h and re.search(fr'Cambridge IELTS 0?{b} Academic {kind.title()} Test {t}\b',h[0].text()),'Identity mismatch'
+def convert(kind,b,t,s,url,series="cambridge",expected_title=None):
+ d=DOM(s).root;h=d.all(lambda x:x.tag=='h1');expected=fr'Collins Practice Tests For IELTS {b} Academic {kind.title()} Test {t}\b' if series=='collins' else fr'Cambridge IELTS 0?{b} Academic {kind.title()} Test {t}\b';assert h and (re.sub(r'\s*\(Online Test\)\s*$','',clean(h[0].text()),flags=re.I).lower()==clean(expected_title).lower() if expected_title else re.search(expected,h[0].text())),'Identity mismatch'
  if kind=='writing':
   sections=d.all(lambda x:x.has('ielts-writing-question-section'));assert len(sections)==2,'Expected two tasks';parts=[]
   for i,section in enumerate(sections):
    prompt=section.all(lambda x:x.has('ielts-writing-question'));assert len(prompt)==1,'Missing task prompt';text='\n\n'.join(paragraphs(prompt[0]));assert len(text)>30,'Empty task';images=[image(x)for x in section.all(lambda x:x.tag=='img'and x.has('ielts-writing-image'))];assert len(images)<=1,'Multiple reference images need explicit layout';assert i!=0 or images,'Task 1 image missing'
-   p={'id':f'en-c{b}-t{t}-w-p{i+1}','title':f'Task {i+1}','part_number':i+1,'passage_text':text,'question_groups':[]}
+   p={'id':f'en-{series if series=="collins" else "c"}{b}-t{t}-w-p{i+1}','title':f'Task {i+1}','part_number':i+1,'passage_text':text,'question_groups':[]}
    if images:p['image_url']=images[0]
    parts.append(p)
   return {'schemaVersion':1,'durationMinutes':60,'audioUrl':'','parts':parts,'questions':[]}

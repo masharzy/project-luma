@@ -52,8 +52,9 @@ function sanitize(host,imageUrls,issues){
 }
 
 function convert(html,identity,keys){
- const title=html.match(/<h1\b[^>]*>[\s\S]*?<\/h1>/)?.[0]||'',formStart=html.search(/<form[^>]*id\s*=\s*"ielts-reading-test-form"/),start=html.indexOf('<div id="ielts-reading-transcript-1"'),end=html.indexOf('</form>',formStart),parsed=new JSDOM(title+html.slice(start,end)),d=parsed.window.document,{book,test}=identity,prefix=`en-c${book}-t${test}-r`,issues=[...keys.issues],allNumbers=new Set(),imageUrls=new Set();
- if(!new RegExp(`Cambridge IELTS 0?${book} Academic Reading Test ${test}`).test(d.querySelector('h1')?.textContent||''))throw Error('Test identity mismatch');
+ const title=html.match(/<h1\b[^>]*>[\s\S]*?<\/h1>/)?.[0]||'',formStart=html.search(/<form[^>]*id\s*=\s*"ielts-reading-test-form"/),start=html.indexOf('<div id="ielts-reading-transcript-1"'),end=html.indexOf('</form>',formStart),parsed=new JSDOM(title+html.slice(start,end)),d=parsed.window.document,{book,test}=identity,prefix=`en-${identity.slug||((identity.series==='collins'?'collins':'c')+book)}-t${test}-r`,issues=[...keys.issues],allNumbers=new Set(),imageUrls=new Set();
+ const expectedTitle=identity.series==='collins'?`Collins Practice Tests For IELTS ${book} Academic Reading Test ${test}`:`Cambridge IELTS 0?${book} Academic Reading Test ${test}`;
+ if(identity.expectedTitle ? clean(d.querySelector('h1')?.textContent).replace(/\s*\(Online Test\)\s*$/i,'').toLowerCase().replace(/Test 0+(\d+)/gi,'test $1')!==clean(identity.expectedTitle).toLowerCase().replace(/Test 0+(\d+)/gi,'test $1') : !new RegExp(expectedTitle+'\\b').test(d.querySelector('h1')?.textContent||''))throw Error('Test identity mismatch');
  const sections=[...d.querySelectorAll('.ielts-reading-question-section')];if(sections.length!==3)throw Error('Expected three Parts');
  const document={schemaVersion:1,durationMinutes:60,audioUrl:'',parts:[],questions:[]};let ordinal=0;
  for(let pi=0;pi<3;pi++){
