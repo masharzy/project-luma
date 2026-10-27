@@ -18,8 +18,9 @@ function keysFor(root,b,t){
  return {answers:out,issues};
 }
 function convert(html,identity,keys){
- const title=html.match(/<h1\b[^>]*>[\s\S]*?<\/h1>/)?.[0]||'',form=html.match(/<form[^>]*id\s*=\s*"ielts-listening-test-form"[^>]*>[\s\S]*?<\/form>/)?.[0]||'',audios=(html.match(/<audio[^>]*id="ielts-listening-test-audio-\d+"[^>]*>[\s\S]*?<\/audio>/g)||[]).join('');const parsed=new JSDOM(title+audios+form),d=parsed.window.document,{book,test}=identity,prefix=`en-c${book}-t${test}-l`,issues=[...keys.issues],allNumbers=new Set(),imageUrls=new Set();
- if(!new RegExp(`Cambridge IELTS 0?${book} Academic Listening Test ${test}`).test(d.querySelector('h1')?.textContent||''))throw Error('Test identity mismatch');
+ const title=html.match(/<h1\b[^>]*>[\s\S]*?<\/h1>/)?.[0]||'',form=html.match(/<form[^>]*id\s*=\s*"ielts-listening-test-form"[^>]*>[\s\S]*?<\/form>/)?.[0]||'',audios=(html.match(/<audio[^>]*id="ielts-listening-test-audio-\d+"[^>]*>[\s\S]*?<\/audio>/g)||[]).join('');const parsed=new JSDOM(title+audios+form),d=parsed.window.document,{book,test}=identity,prefix=`en-${identity.slug||((identity.series==='collins'?'collins':'c')+book)}-t${test}-l`,issues=[...keys.issues],allNumbers=new Set(),imageUrls=new Set();
+ const expectedTitle=identity.series==='collins'?`Collins Practice Tests For IELTS ${book} Academic Listening Test ${test}`:`Cambridge IELTS 0?${book} Academic Listening Test ${test}`;
+ if(identity.expectedTitle ? clean(d.querySelector('h1')?.textContent).replace(/\s*\(Online Test\)\s*$/i,'').toLowerCase().replace(/Test 0+(\d+)/gi,'test $1')!==clean(identity.expectedTitle).toLowerCase().replace(/Test 0+(\d+)/gi,'test $1') : !new RegExp(expectedTitle+'\\b').test(d.querySelector('h1')?.textContent||''))throw Error('Test identity mismatch');
  const sections=[...d.querySelectorAll('.ielts-listening-question-section')];if(sections.length!==4)throw Error('Expected four Parts');
  const document={schemaVersion:1,durationMinutes:30,audioUrl:'',parts:[],questions:[]};let ordinal=0;
  for(let pi=0;pi<4;pi++){

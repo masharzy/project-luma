@@ -17,6 +17,8 @@ export async function listOtherBookTests(bookSlug?:string):Promise<BookTest[]> {
  for(const part of doc.parts||[])for(const group of part.question_groups||[])groups.set(group.id,group);
  const types=[...new Set<string>((doc.questions||[]).map((q:Record<string,any>)=>questionType(q,groups.get(q.group_id))))].sort();
  tests.get(id)!.modules.push({module:String(row.module),types});}
+ const speaking=await db().query(`SELECT s.id,s.practice_content_id FROM public.speaking_sets s JOIN public.admin_content c ON c.id=s.practice_content_id WHERE s.published=true AND s.document IS NOT NULL AND c.kind='practice' AND c.status='published' AND c.sections ? 'speaking' AND ($1::text IS NULL OR c.book_slug=$1)`,[bookSlug||null]);
+ for(const s of speaking){const t=tests.get(String(s.practice_content_id));if(t){t.speakingSetId=String(s.id);t.modules.push({module:'speaking',types:[]});}}
  // Metadata only: locked passages, questions and answer keys never cross this boundary.
  return [...tests.values()];
 }
