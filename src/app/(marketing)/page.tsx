@@ -95,7 +95,7 @@ export default function HomePage() {
             <Link href="/pricing" className="jt-pricing-link">Free & Premium <span aria-hidden="true">↗</span></Link>
           </div>
           <div className="jt-resource-line">
-            <p lang="bn">Vocabulary, grammar, writing guides আর study materials খুঁজছো?</p>
+            <p lang="bn">Speaking cue cards এখনই দেখো। অন্যান্য study materials ধীরে ধীরে যোগ হচ্ছে।</p>
             <Link href="/resources">Learning Resources <span aria-hidden="true">↗</span></Link>
           </div>
         </div>
