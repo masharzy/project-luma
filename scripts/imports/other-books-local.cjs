@@ -3,13 +3,14 @@ const fs=require('fs'),path=require('path');
 const {JSDOM}=require('node:module').createRequire(require.resolve('isomorphic-dompurify'))('jsdom');
 const {normalizeDocument}=require('./exam-loader.cjs')('document');
 const {gradeModule}=require('./exam-loader.cjs')('result');
-const config=require('./other-books-config.json');
+const config=require(process.env.IMPORT_CONFIG||'./other-books-config.json');
 const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
 const norm=s=>clean(s).toLowerCase().replace(/test 0+(\d+)/g,'test $1');
 const root=process.argv[2],out=process.argv[3]||'data/imports/other-books';
 fs.mkdirSync(out,{recursive:true});const reports=[];
 for(const book of config.filter(b=>!process.env.BOOK_SLUG||b.slug===process.env.BOOK_SLUG))for(let test=1;test<=book.tests;test++)for(const module of ['listening','reading']){
  const dir=path.join(root,book.folder,`Test-${test}`),expectedTitle=`${book.title} Academic ${module[0].toUpperCase()+module.slice(1)} Test ${test}`,r={slug:book.slug,title:book.title,test,module,issues:[]};
+ if(!fs.existsSync(path.join(dir,module+'.html')))continue;
  try{
   const answers={},byPart={},prefix=module==='listening'?'ila':'ira';
   for(let p=1;p<=(module==='listening'?4:3);p++){

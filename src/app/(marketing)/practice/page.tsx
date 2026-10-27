@@ -42,7 +42,7 @@ export default function Page() {
       <PracticeCatalog />
       <FeatureNote>
         Guest হিসেবেও free practice করা যাবে। Account ছাড়া দেওয়া test-এর history
-        save হবে না। Test content এখনো publish করা হয়নি।
+        save হবে না।
       </FeatureNote>
     </PageWrap>
   );
