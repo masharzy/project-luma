@@ -2,7 +2,9 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { BookOpenText, Headphones, LockKeyhole, Layers3, Shuffle, ArrowUpRight, LoaderCircle, SlidersHorizontal, CheckCircle2, Check, X } from 'lucide-react';
 import { usePracticeSelection } from './practice-selection-provider';
-import { QuestionPagePreview } from './question-page-preview';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+const QuestionPagePreview=dynamic(()=>import('./question-page-preview').then(m=>m.QuestionPagePreview));
 import { questionTypeLabel } from '@/lib/exam/question-types';
 
 type ModuleChoice='all'|'listening'|'reading';
@@ -10,13 +12,17 @@ type Kind={type:string;label:string;total:number;free:number;premium:number};
 type Question={sourceLabel?:string;key?:string;module:'listening'|'reading';type:string;book:number;test:number;number:string;preview:string;premium:boolean;previewKey?:string;questionCount:number};
 type Catalog={types:Kind[];items:Question[];total:number;free:number;premium:number;page:number;hasMore:boolean};
 
-type BankProps={collection?:'cambridge'|'other-books'|'practice';book?:string;series?:string};
-export function CambridgeQuestionPractice(props:BankProps){const [open,setOpen]=useState(false);return <details className="question-practice-disclosure" onToggle={e=>setOpen(e.currentTarget.open)}><summary><span><strong>Practise by question type</strong><small>Listening & Reading · choose complete question groups</small></span><span className="question-practice-toggle">{open?'Close −':'Explore +'}</span></summary>{open&&<QuestionPracticePanel {...props}/>}</details>;}
-function QuestionPracticePanel({collection='cambridge',book,series}:BankProps){
+type BankProps={collection?:'all'|'cambridge'|'other-books'|'practice';book?:string;series?:string};
+export function CambridgeQuestionPractice({collection='cambridge',book,series}:BankProps){
+ const args=new URLSearchParams({view:'questions',collection});if(book)args.set('book',book);if(series)args.set('series',series);
+ return <p className="question-practice-shortcut"><Link href={'/practice?'+args}>Practise by question type ↗</Link></p>;
+}
+export function QuestionPracticePanel({collection='all',book,series}:BankProps){
  const selection=usePracticeSelection();
  const picked=selection.items.map(g=>g.key);
- const [module,setModule]=useState<ModuleChoice>('all');
+ const [module,setModule]=useState<ModuleChoice>('listening');
  const [selected,setSelected]=useState<string[]>([]);
+ const [manual,setManual]=useState(false);
  const [count,setCount]=useState(1);
  const [catalog,setCatalog]=useState<Catalog|null>(null);
  const [questions,setQuestions]=useState<Question[]>([]);
@@ -71,46 +77,19 @@ function QuestionPracticePanel({collection='cambridge',book,series}:BankProps){
      window.location.assign(data.url);
    }catch(e){setError(e instanceof Error?e.message:'Unable to start practice.');setStarting(false);}
  };
- const changeType=(type:string)=>{
-   setSelected(v=>v.includes(type)?v.filter(t=>t!==type):[...v,type]);
- };
  const selectedQuestionCount=selection.items.reduce((n,q)=>n+q.questionCount,0);
  const enough=Boolean(catalog && catalog.free>=count);
  return <section className="cambridge-type-practice" id="question-type-practice" aria-label="Question type practice">
-   <div className="type-practice-controls">
-     <div className="type-practice-field">
-       <span className="type-field-title"><SlidersHorizontal size={16}/> Module</span>
-       <div className="type-module-tabs" aria-label="Filter question bank by module">
-         {([['all','All modules'],['listening','Listening'],['reading','Reading']] as const).map(([value,label])=>
-           <button key={value} type="button" aria-pressed={module===value} onClick={()=>{setModule(value);setSelected([]);}}>{value==='listening'?<Headphones size={16}/>:value==='reading'?<BookOpenText size={16}/>:<Layers3 size={16}/>} {label}</button>)}
-       </div>
-     </div>
-     <div className="type-practice-field">
-       <span className="type-field-title"><CheckCircle2 size={16}/> Question types <small>Multiple selections allowed</small></span>
-       <p className="type-list-hint">Scroll for more types. You can choose more than one.</p><div className="type-tags" aria-label="Question types">
-         <button type="button" className="type-tag" aria-pressed={selected.length===0} onClick={()=>{setSelected([]);}}>All types</button>
-         {catalog?.types.map(t=><button type="button" key={t.type} className="type-tag" aria-pressed={selected.includes(t.type)} onClick={()=>changeType(t.type)}>
-           {t.label}<span>{t.total===0?'Not added yet':t.free+' free'}{t.premium>0?' · '+t.premium+' locked':''}</span>
-         </button>)}
-         {!catalog && loading && <span className="type-loading-inline">Finding question types…</span>}
-       </div>
-     </div>
-     <div className="type-practice-start">
-       <div><label className="type-field-title" htmlFor="type-question-count">Number of groups</label>
-         <input id="type-question-count" type="number" min={1} max={10} disabled={starting||selection.busy} value={count} onChange={e=>setCount(Math.max(1,Math.min(10,Number(e.target.value)||1)))}/>
-         <p>Random complete groups · up to 40 questions; no group is split.</p>
-       </div>
-       <div className="type-practice-start-action">
-         <span>{catalog? <><strong>{catalog.free}</strong> free groups available · <strong>{catalog.premium}</strong> premium locked</>:'Loading availability…'}</span>
-         <button type="button" className="type-start-button" onClick={()=>void start()} disabled={starting||loading||!enough||selection.busy}>
-           {starting?<LoaderCircle className="type-spin" size={18}/>:<Shuffle size={18}/>}
-           {starting?'Preparing session…':'Start random practice'}<ArrowUpRight size={17}/>
-         </button>
-         {catalog&&!enough&&<small className="type-count-warning">Only {catalog.free} free groups match your selection. Select a smaller number or another type.</small>}
-       </div>
-     </div>
+   <div className="simple-question-controls">
+    <fieldset><legend>1. Module</legend><div className="type-module-tabs">{([['listening','Listening'],['reading','Reading']] as const).map(([value,label])=><button key={value} type="button" aria-pressed={module===value} onClick={()=>{setModule(value);setSelected([]);}}>{value==='listening'?<Headphones size={16}/>:<BookOpenText size={16}/>} {label}</button>)}</div></fieldset>
+    <label className="simple-question-type">2. Question type<select value={selected[0]||''} disabled={loading} onChange={e=>setSelected(e.target.value?[e.target.value]:[])}><option value="">All question types</option>{catalog?.types.filter(t=>t.total>0).map(t=><option key={t.type} value={t.type}>{t.label}</option>)}</select></label>
+    <div className="simple-question-action"><button type="button" className="type-start-button" onClick={()=>void start()} disabled={starting||loading||!enough||selection.busy}>{starting?<LoaderCircle className="type-spin" size={18}/>:<ArrowUpRight size={18}/>} {starting?'Preparing…':'Start practice'}</button><small>{loading?'Finding questions…':catalog?.free?`${catalog.free} practice sets available`:'No free questions match this choice.'}</small></div>
    </div>
-   <div className="type-practice-library">
+   {error&&<p className="type-error" role="alert">{error}</p>}
+   <details className="question-session-options"><summary>Session options</summary><label htmlFor="type-question-count">Practice sets in this session<input id="type-question-count" type="number" min={1} max={Math.min(10,catalog?.free||1)} disabled={starting||selection.busy} value={count} onChange={e=>setCount(Math.max(1,Math.min(10,Number(e.target.value)||1)))}/></label><p>Related questions stay together. Each session contains up to 40 questions.</p><nav aria-label="Question sources"><Link href="/practice?view=questions">All collections</Link><Link href="/practice?view=questions&collection=cambridge">Cambridge</Link><Link href="/practice?view=questions&collection=other-books">Other Books</Link><Link href="/practice?view=questions&collection=practice">Practice tests</Link></nav>{catalog&&!enough&&<p role="status">Choose fewer practice sets for these filters.</p>}</details>
+   <details className="manual-question-choice" onToggle={e=>setManual(e.currentTarget.open)}><summary>Choose questions yourself</summary>
+   {manual&&<div className="type-practice-library">
+
      <div className="type-library-heading">
        <div><span className="session-eyebrow">QUESTION EXPLORER</span><h3>{selected.length===1?questionTypeLabel(selected[0]):selected.length>1?selected.length+' selected question types':'All question types'}</h3></div>
        <span>{catalog?.total ?? 0} groups · {questions.length} shown</span>
@@ -124,9 +103,9 @@ function QuestionPracticePanel({collection='cambridge',book,series}:BankProps){
        </article>;})}
      </div>
      {!loading&&!questions.length&&!error&&<p className="type-empty">There are no published questions for these filters yet. Try another type or module.</p>}
-     {error&&<p className="type-error" role="alert">{error}</p>}
      {catalog?.hasMore&&<button type="button" className="type-load-more" disabled={loading} onClick={()=>void loadMore()}>{loading?'Loading questions…':'Load more questions ↓'}</button>}
      <p className="type-practice-footnote"><LockKeyhole size={15}/> Locked questions require Premium. Choose complete free groups (up to 40 questions); every field in a selected group is included.</p>
-   </div>
+   </div>}
+   </details>
  </section>;
 }

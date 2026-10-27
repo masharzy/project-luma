@@ -13,7 +13,7 @@ export function PracticeTestCards({tests,moduleFilter}:{tests:PracticeTestCard[]
      const content=<><span className={'module-letter module-icon-'+module}><Icon size={25}/></span><span><strong>{module[0].toUpperCase()+module.slice(1)}</strong><small>{minutes[module]} minutes{!available?' · Coming soon':locked?' · Premium':''}</small></span><ArrowUpRight size={19}/></>;
      return !locked&&available?<Link className="test-module-card" key={module} href={`/exam/practice/${test.id}/${module}`}>{content}</Link>:<div className="test-module-card unavailable" key={module} aria-disabled>{content}</div>;
     })}
-   </div></div>{!moduleFilter&&<div className="full-test-action"><span>{minutes.listening+minutes.reading} min · Listening + Reading</span>{!locked&&ready.has('listening')&&ready.has('reading')?<Link className="button" href={`/exam/practice/${test.id}/full`}>Start Full Test (LR only) ↗</Link>:<button className="button" disabled>{locked?'Premium access':'Full test coming soon'}</button>}</div>}</div>
+   </div></div>{!moduleFilter&&<div className="full-test-action"><span>{minutes.listening+minutes.reading} min · Listening + Reading</span>{!locked&&ready.has('listening')&&ready.has('reading')?<Link className="button" href={`/exam/practice/${test.id}/full`}>Listening + Reading ↗</Link>:<button className="button" disabled>{locked?'Premium access':'Full test coming soon'}</button>}</div>}</div>
   </article>;
  })}</div>;
 }
