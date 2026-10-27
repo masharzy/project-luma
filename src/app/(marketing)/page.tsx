@@ -1,30 +1,105 @@
-import Link from 'next/link';
-import {publicPlans,freePolicy} from '@/lib/products/plans';
-export default async function Page(){
- const [plans,free]=await Promise.all([publicPlans(),freePolicy()]);
- return <>
-  <section className="hero"><div className="chapter-mark" aria-hidden="true">স্বপ্ন →</div><div className="hero-orbit" aria-hidden="true"/><div className="hero-cross cross-left" aria-hidden="true">+</div><div className="hero-cross cross-right" aria-hidden="true">+</div><div className="doodle lines" aria-hidden="true"/><div className="doodle star" aria-hidden="true">✳</div><div className="hero-content"><div className="hero-kicker">IELTS PRACTICE, MADE SIMPLE</div><h1 lang="bn">IELTS প্রস্তুতিতে<br/><span>প্রতিদিন একটু এগিয়ে যাও।</span></h1><p className="hero-description">পুরো test দাও, নির্দিষ্ট ধরনের প্রশ্ন practice করো, অথবা Writing ও Speaking-এর feedback নাও। নিজের সময়ে, নিজের গতিতে।</p><div className="hero-ctas"><Link className="button" href="/practice">Practice শুরু করো <span>↗</span></Link></div></div><div className="hero-caption"><span>LISTENING / READING / WRITING / SPEAKING</span><span>Free tests · No account needed</span></div></section>
-  <section className="section simple-home-features"><div className="container"><div className="section-head"><div><span className="eyebrow">CHOOSE YOUR NEXT STEP</span><h2>কীভাবে প্রস্তুতি নিতে চাও?</h2></div></div><div className="services">
-   <article className="service cambridge"><div className="service-label"><span>BOOKS</span><span className="badge">FREE & PREMIUM</span></div><div className="books" aria-hidden="true"><div className="back-book">IELTS<br/><b>01</b></div><div className="front-book"><span>IELTS PRACTICE</span><strong>02</strong><span>BOOK COLLECTION</span></div></div><h3>চেনা বই।<br/>নিজের মতো প্রস্তুতি।</h3><p>Cambridge ও অন্যান্য বই থেকে বই এবং test নম্বর অনুযায়ী অনুশীলন করো।</p><div className="home-book-links"><Link className="service-bottom" href="/cambridge">Cambridge <span>↗</span></Link><Link className="service-bottom" href="/other-books">Other Books <span>↗</span></Link></div></article>
-   <div className="service-stack"><article className="service practice-entry"><div className="service-label"><span>PRACTICE</span></div><h3>পুরো test, অথবা<br/>এক ধরনের প্রশ্ন।</h3><p>Test Practice-এ চারটি module-এর সেট। Question Practice-এ Listening বা Reading-এর প্রশ্নের ধরন বেছে শুরু করো।</p><div className="home-book-links"><Link className="service-bottom" href="/practice">Test Practice <span>↗</span></Link><Link className="service-bottom" href="/practice?view=questions">Question Practice <span>↗</span></Link></div></article>
-   <article className="service writing"><div className="service-label"><span>AI FEEDBACK</span></div><h3>লিখে বা বলে,<br/>জেনে নাও উন্নতির জায়গা।</h3><p>Writing ও Speaking-এর মূল্যায়ন এবং feedback। AI evaluation-এর জন্য verified account ও আলাদা allowance প্রয়োজন।</p><div className="home-book-links"><Link className="service-bottom" href="/writing-evaluation">Writing <span>↗</span></Link><Link className="service-bottom" href="/speaking-evaluation">Speaking <span>↗</span></Link></div></article></div>
-  </div></div></section>
-  <section className="section home-practice-guide"><div className="container"><div className="section-head"><div><span className="eyebrow">HOW IT WORKS</span><h2>একটা লক্ষ্য। তিনটা সহজ ধাপ।</h2></div><p>সময় যতটুকু আছে, practice-ও হোক ততটুকু।</p></div><ol className="home-practice-steps">
-   <li><span className="home-step-number" aria-hidden="true">01</span><h3>আজকের লক্ষ্য বেছে নাও</h3><p>বই ধরে এগোতে চাইলে Books। একটি test দিতে চাইলে Test Practice। নির্দিষ্ট প্রশ্নে সমস্যা হলে Question Practice।</p></li>
-   <li><span className="home-step-number" aria-hidden="true">02</span><h3>নিজের মতো practice করো</h3><p>একটি module দিয়ে শুরু করো, অথবা Listening ও Reading একসঙ্গে দাও। ছোট session-এর জন্য প্রশ্নের ধরন বেছে নাও।</p></li>
-   <li><span className="home-step-number" aria-hidden="true">03</span><h3>ফল দেখে পরের ধাপ ঠিক করো</h3><p>Listening ও Reading-এর ফল দেখো। Writing ও Speaking-এর AI feedback নিলে উন্নতির জায়গাগুলো ধরে আবার অনুশীলন করো।</p></li>
-  </ol></div></section>
-  <section className="section home-skill-details"><div className="container"><div className="section-head"><div><span className="eyebrow">FOUR SKILLS, ONE PLACE</span><h2>প্রতিটি skill-এ কী থাকছে?</h2></div></div><div className="home-skills-grid">
-   <article><span className="home-skill-index" aria-hidden="true">L</span><div><h3>Listening</h3><p>অডিও শুনে প্রশ্নের উত্তর দাও। পুরো module-এর পাশাপাশি Multiple Choice, Note Completion বা Map Labelling-এর মতো ধরন ধরে practice করতে পারবে।</p></div></article>
-   <article><span className="home-skill-index" aria-hidden="true">R</span><div><h3>Reading</h3><p>Passage পড়ে test দাও, অথবা True / False / Not Given, Matching Headings ও অন্যান্য প্রশ্নের ধরন বেছে ছোট session করো।</p></div></article>
-   <article><span className="home-skill-index" aria-hidden="true">W</span><div><h3>Writing</h3><p>Task 1 ও Task 2 লিখে অনুশীলন করো। AI evaluation-এ task response, লেখার গঠন, vocabulary ও grammar-এর feedback এবং সংশোধনের পরামর্শ পাবে।</p></div></article>
-   <article><span className="home-skill-index" aria-hidden="true">S</span><div><h3>Speaking</h3><p>উত্তর রেকর্ড করে অনুশীলন করো। AI evaluation-এ fluency, vocabulary, grammar ও pronunciation-এর feedback এবং পরের অনুশীলনের পরামর্শ পাবে।</p></div></article>
-  </div><p className="home-details-note">AI evaluation-এর জন্য verified account ও allowance প্রয়োজন। পর্যাপ্ত উত্তর থাকলে estimated band দেওয়া হয়; এটি official IELTS score নয়।</p></div></section>
-  <section className="section simple-access"><div className="container"><div className="simple-access-panel"><div><span className="eyebrow">FREE & PREMIUM</span><h2>ফ্রিতে practice শুরু করো।</h2><p>Free Listening ও Reading test guest হিসেবেও করা যায়। Verified account-এ প্রতি মাসে Writing {free.free_writing}টি ও Speaking {free.free_speaking}টি AI evaluation।</p>{plans.length>0&&<p>আরও evaluation-এর জন্য Premium plan আছে।</p>}</div><Link className="button outline" href="/pricing">Plans & limits ↗</Link></div></div></section>
-  <section className="section answers-section"><div className="container"><div className="answers-head"><div><span className="eyebrow">BEFORE YOU BEGIN</span><h2>শুরু করার আগে</h2></div></div><div className="answer-list">
-   <details><summary><span className="question-number">01</span><span>Account লাগবে?</span><span className="question-toggle" aria-hidden="true"/></summary><p>Free Listening ও Reading practice করতে account লাগে না। History সংরক্ষণ ও AI feedback-এর জন্য account প্রয়োজন।</p></details>
-   <details><summary><span className="question-number">02</span><span>Test Practice আর Question Practice-এর পার্থক্য কী?</span><span className="question-toggle" aria-hidden="true"/></summary><p>Test Practice-এ একটি test-এর module বেছে দেবে। Question Practice-এ নির্দিষ্ট প্রশ্নের ধরন ধরে ছোট practice করবে।</p></details>
-   <details><summary><span className="question-number">03</span><span>AI feedback কি official IELTS score?</span><span className="question-toggle" aria-hidden="true"/></summary><p>এটি অনুশীলনের জন্য AI মূল্যায়ন ও feedback। Official IELTS পরীক্ষার ফল নয়।</p></details>
-  </div></div></section>
- </>;
+import type { Metadata } from "next";
+import Link from "next/link";
+import "@/styles/homepage.css";
+
+export const metadata: Metadata = {
+  title: "IELTS Practice, Question Types & AI Feedback",
+  description:
+    "JumpToNine-এ IELTS Listening, Reading, Writing ও Speaking practice করো। Test, question type, বই আর AI feedback—নিজের মতো শুরু করো।",
+};
+
+export default function HomePage() {
+  return (
+    <div className="jt-home">
+      <section className="jt-hero" aria-labelledby="jt-home-title">
+        <div className="jt-shell jt-hero-inner">
+          <p className="jt-eyebrow jt-hero-eyebrow"><span className="jt-eyebrow-mark" aria-hidden="true" /> JUMPTONINE / IELTS PRACTICE</p>
+          <h1 id="jt-home-title" lang="bn">IELTS প্রস্তুতি,<br /><span>তোমার গতিতে।</span></h1>
+          <p className="jt-hero-description" lang="bn">
+            পুরো test, নির্দিষ্ট question type, অথবা Writing ও Speaking feedback—যেটা প্রয়োজন, সেখান থেকেই শুরু করো।
+          </p>
+          <div className="jt-hero-actions">
+            <Link href="/practice" className="jt-primary-link">Practice শুরু করো <span aria-hidden="true">↗</span></Link>
+            <Link href="/cambridge" className="jt-secondary-link">বই থেকে শুরু করো <span aria-hidden="true">↗</span></Link>
+          </div>
+          <p className="jt-hero-skills">LISTENING <span aria-hidden="true">/</span> READING <span aria-hidden="true">/</span> WRITING <span aria-hidden="true">/</span> SPEAKING</p>
+        </div>
+        <span className="jt-hero-dash jt-hero-dash-left" aria-hidden="true">+</span>
+        <span className="jt-hero-dash jt-hero-dash-right" aria-hidden="true">✳</span>
+      </section>
+
+      <section className="jt-choices" aria-labelledby="jt-choices-title">
+        <div className="jt-shell">
+          <div className="jt-section-heading">
+            <div>
+              <p className="jt-eyebrow">CHOOSE YOUR PATH</p>
+              <h2 id="jt-choices-title" lang="bn">শুরু করার তিনটি পথ।</h2>
+            </div>
+            <p lang="bn">একসঙ্গে সবকিছু নয়। আজ তোমার যেটা দরকার, সেটাই বেছে নাও।</p>
+          </div>
+
+          <div className="jt-choices-grid">
+            <article className="jt-choice jt-choice-books">
+              <p className="jt-choice-index">01 <span>/ BOOK COLLECTION</span></p>
+              <div className="jt-book-scene" aria-hidden="true">
+                <div className="jt-book jt-book-back"><span>IELTS LIBRARY</span><strong>01</strong><small>PRACTICE COLLECTION</small></div>
+                <div className="jt-book jt-book-front"><span>IELTS</span><strong>02</strong><small>BOOK COLLECTION</small></div>
+                <span className="jt-book-spark">✳</span>
+              </div>
+              <div className="jt-choice-body">
+                <h3 lang="bn">বই ধরে অনুশীলন।</h3>
+                <p lang="bn">Cambridge কিংবা অন্য IELTS বইয়ের collection থেকে বই ও test বেছে practice করো।</p>
+                <div className="jt-choice-links">
+                  <Link href="/cambridge">Cambridge <span aria-hidden="true">↗</span></Link>
+                  <Link href="/other-books">Other Books <span aria-hidden="true">↗</span></Link>
+                </div>
+              </div>
+            </article>
+
+            <div className="jt-choice-stack">
+              <article className="jt-choice jt-choice-practice">
+                <p className="jt-choice-index">02 <span>/ PRACTICE</span></p>
+                <div className="jt-choice-body">
+                  <h3 lang="bn">পুরো test, অথবা শুধু একটি question type।</h3>
+                  <p lang="bn">Test Practice-এ একটি test বেছে নাও। Question Practice-এ Listening বা Reading-এর নির্দিষ্ট ধরনের প্রশ্ন অনুশীলন করো।</p>
+                </div>
+                <div className="jt-choice-links">
+                  <Link href="/practice">Test Practice <span aria-hidden="true">↗</span></Link>
+                  <Link href="/practice?view=questions">Question Practice <span aria-hidden="true">↗</span></Link>
+                </div>
+              </article>
+              <article className="jt-choice jt-choice-feedback">
+                <p className="jt-choice-index">03 <span>/ AI FEEDBACK</span></p>
+                <div className="jt-choice-body">
+                  <h3 lang="bn">Writing ও Speaking-এর feedback।</h3>
+                  <p lang="bn">লিখে বা বলে অনুশীলন করো, তারপর উন্নতির জায়গাগুলো বুঝে নাও। AI evaluation-এর জন্য verified account ও allowance প্রয়োজন।</p>
+                </div>
+                <div className="jt-choice-links">
+                  <Link href="/writing-evaluation">Writing <span aria-hidden="true">↗</span></Link>
+                  <Link href="/speaking-evaluation">Speaking <span aria-hidden="true">↗</span></Link>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="jt-starting" aria-labelledby="jt-starting-title">
+        <div className="jt-shell">
+          <div className="jt-starting-panel">
+            <div>
+              <p className="jt-eyebrow">GOOD TO KNOW</p>
+              <h2 id="jt-starting-title" lang="bn">ফ্রিতে শুরু করো। নিজের মতো এগোও।</h2>
+              <p lang="bn">Free Listening ও Reading practice করতে account লাগে না। Practice history সংরক্ষণ ও AI feedback-এর জন্য account প্রয়োজন। AI evaluation-এর সীমা ও Premium plan সম্পর্কে বিস্তারিত দেখো।</p>
+            </div>
+            <Link href="/pricing" className="jt-pricing-link">Free & Premium <span aria-hidden="true">↗</span></Link>
+          </div>
+          <div className="jt-resource-line">
+            <p lang="bn">Speaking cue cards এখনই দেখো। অন্যান্য study materials ধীরে ধীরে যোগ হচ্ছে।</p>
+            <Link href="/resources">Learning Resources <span aria-hidden="true">↗</span></Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }

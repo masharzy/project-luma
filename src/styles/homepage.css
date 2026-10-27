@@ -1,0 +1,353 @@
+/* JumpToNine landing page: isolated styles, independent of legacy marketing sections. */
+.jt-home {
+  --jt-ink: #261e22;
+  --jt-muted: #65585d;
+  --jt-accent: #ad183c;
+  --jt-stroke: #e9dde0;
+  color: var(--jt-ink);
+  overflow: clip;
+}
+.jt-home .jt-shell {
+  width: min(100% - 64px, 1130px);
+  margin-inline: auto;
+}
+.jt-home .jt-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #86233d;
+  font: 800 11px/1.4 "Manrope", sans-serif;
+  letter-spacing: 1.8px;
+}
+.jt-home .jt-eyebrow-mark {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  flex: none;
+  background: #b52b4b;
+}
+.jt-home h1,
+.jt-home h2,
+.jt-home h3 {
+  font-family: "Hind Siliguri", sans-serif;
+  letter-spacing: -.5px;
+}
+.jt-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid #e8dad9;
+  background: #fffaf7;
+  background-image:
+    linear-gradient(#a6767910 1px, transparent 1px),
+    linear-gradient(90deg, #a6767910 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+.jt-hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -390px;
+  width: 900px;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe9e8 0%, #fff1eb6b 48%, transparent 68%);
+  z-index: -1;
+  pointer-events: none;
+}
+.jt-home .jt-hero-inner {
+  max-width: 920px;
+  text-align: center;
+  padding-block: clamp(74px, 9vw, 116px) clamp(68px, 8vw, 94px);
+}
+.jt-home .jt-hero-eyebrow {
+  justify-content: center;
+  margin-bottom: 26px;
+}
+.jt-home .jt-hero h1 {
+  font-size: clamp(45px, 6.5vw, 83px);
+  font-weight: 700;
+  line-height: 1.24;
+  letter-spacing: -1.3px;
+  margin: 0 auto 20px;
+}
+.jt-home .jt-hero h1 span {
+  color: var(--jt-accent);
+}
+.jt-home .jt-hero-description {
+  font: 400 clamp(16px, 1.75vw, 20px)/1.9 "Hind Siliguri", sans-serif;
+  color: #5b4b50;
+  margin: 0 auto 29px;
+  max-width: 640px;
+}
+.jt-hero-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+.jt-home .jt-primary-link,
+.jt-home .jt-secondary-link {
+  min-height: 52px;
+  padding: 13px 22px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  border-radius: 9px;
+  font: 700 16px/1.3 "Hind Siliguri", sans-serif;
+  transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.jt-home .jt-primary-link {
+  background: #ab193f;
+  color: #fff;
+  border: 1px solid #ab193f;
+}
+.jt-home .jt-primary-link:hover { background: #84112f; transform: translateY(-1px); }
+.jt-home .jt-secondary-link {
+  background: #fff9f7;
+  color: #7a1934;
+  border: 1px solid #dcbfc5;
+}
+.jt-home .jt-secondary-link:hover { border-color: #a82848; background: #fff1f3; }
+.jt-home .jt-hero-skills {
+  font: 700 10px/1.6 "Manrope", sans-serif;
+  letter-spacing: 1.25px;
+  color: #8b737a;
+  margin: 32px 0 0;
+}
+.jt-home .jt-hero-skills span { padding-inline: 10px; color: #c6a7ae; }
+.jt-hero-dash { position: absolute; font: 46px/1 Georgia, serif; color: #c88f9f; opacity: .5; pointer-events: none; }
+.jt-hero-dash-left { left: 12%; bottom: 85px; }
+.jt-hero-dash-right { right: 11%; top: 104px; transform: rotate(15deg); }
+
+.jt-choices { padding: 86px 0 92px; background: #fff; }
+.jt-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+.jt-home .jt-section-heading h2 {
+  font-size: clamp(32px, 3.5vw, 45px);
+  line-height: 1.35;
+  margin: 12px 0 0;
+}
+.jt-home .jt-section-heading > p {
+  font: 400 16px/1.75 "Hind Siliguri", sans-serif;
+  max-width: 330px;
+  margin: 0 0 5px;
+  color: var(--jt-muted);
+}
+.jt-choices-grid {
+  display: grid;
+  grid-template-columns: 1.04fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+.jt-choice {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--jt-stroke);
+  border-radius: 16px;
+  padding: 29px 30px;
+  display: flex;
+  flex-direction: column;
+}
+.jt-choice-books { background: #f8f1e9; border-color: #e9dcd1; }
+.jt-choice-practice { background: #f4f6f8; border-color: #e4e9ef; }
+.jt-choice-feedback { background: #fff3f5; border-color: #f0dce2; }
+.jt-home .jt-choice-index {
+  color: #9b2041;
+  font: 800 12px/1.4 "Manrope", sans-serif;
+  letter-spacing: 1.3px;
+  margin: 0;
+}
+.jt-choice-index span { color: #77676a; font-size: 10px; letter-spacing: 1.1px; }
+.jt-choice-body { margin-top: auto; }
+.jt-home .jt-choice h3 {
+  font-size: clamp(26px, 2.55vw, 34px);
+  line-height: 1.35;
+  margin: 0 0 8px;
+}
+.jt-home .jt-choice p:not(.jt-choice-index) {
+  font: 400 15px/1.85 "Hind Siliguri", sans-serif;
+  color: #5d5255;
+  margin: 0 0 23px;
+  max-width: 460px;
+}
+.jt-choice-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  border-top: 1px solid #d7c8c9;
+  padding-top: 11px;
+}
+.jt-choice-links a {
+  display: inline-flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  color: #8b1b3b;
+  font: 800 13px/1.3 "Manrope", sans-serif;
+  padding: 9px 0;
+  min-height: 44px;
+  flex: 1 1 128px;
+}
+.jt-choice-links a:hover { color: #5d0f2a; text-decoration: underline; text-underline-offset: 4px; }
+.jt-choice-links a span { font-size: 19px; font-weight: 400; }
+.jt-choice-stack { display: grid; grid-template-rows: 1fr 1fr; gap: 20px; min-width: 0; }
+.jt-choice-stack .jt-choice-body { margin-top: 20px; }
+.jt-choice-stack .jt-choice h3 { max-width: 420px; }
+.jt-choice-stack .jt-choice p:not(.jt-choice-index) { margin-bottom: 17px; }
+
+.jt-book-scene {
+  position: relative;
+  height: 248px;
+  margin: 8px auto 15px;
+  width: min(100%, 380px);
+}
+.jt-book {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 154px;
+  height: 209px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  box-shadow: 9px 12px 0 #49313812, 0 16px 30px #49313825;
+}
+.jt-book span,
+.jt-book small { font: 700 10px/1.3 "Manrope", sans-serif; letter-spacing: 1px; }
+.jt-book strong { font: 400 84px/1.4 Georgia, serif; letter-spacing: -4px; }
+.jt-book small { margin-top: auto; font-size: 8px; }
+.jt-book-back {
+  margin-left: -117px;
+  transform: rotate(-12deg);
+  background: #761d39;
+}
+.jt-book-front {
+  margin-left: -12px;
+  transform: rotate(9deg);
+  background: #c62248;
+  border-left: 6px solid #a91a3e;
+}
+.jt-book-spark {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 35px;
+  color: #cd8f9d;
+}
+.jt-choices .jt-choice-books h3 { max-width: 400px; }
+
+.jt-starting { padding: 0 0 68px; background: #fff; }
+.jt-starting-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 34px;
+  padding: 37px 42px;
+  border-radius: 15px;
+  border: 1px solid #e9dfe1;
+  background: #fcf9f7;
+}
+.jt-home .jt-starting-panel h2 {
+  font-size: clamp(27px, 2.8vw, 36px);
+  line-height: 1.4;
+  margin: 10px 0 9px;
+}
+.jt-home .jt-starting-panel p:not(.jt-eyebrow) {
+  font: 400 15px/1.85 "Hind Siliguri", sans-serif;
+  color: #65585d;
+  margin: 0;
+  max-width: 720px;
+}
+.jt-home .jt-pricing-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 50px;
+  white-space: nowrap;
+  padding: 12px 17px;
+  border: 1px solid #bb96a1;
+  border-radius: 8px;
+  background: #fff;
+  color: #791936;
+  font: 800 13px/1.3 "Manrope", sans-serif;
+  transition: background-color .18s ease;
+}
+.jt-home .jt-pricing-link:hover { background: #fff0f3; }
+.jt-resource-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 23px 4px 0;
+}
+.jt-home .jt-resource-line p {
+  font: 400 15px/1.7 "Hind Siliguri", sans-serif;
+  color: #65585d;
+  margin: 0;
+}
+.jt-home .jt-resource-line a {
+  white-space: nowrap;
+  color: #861c3a;
+  font: 800 13px/1.6 "Manrope", sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.jt-home a:focus-visible { outline: 3px solid #a41d40; outline-offset: 4px; }
+@media (max-width: 900px) {
+  .jt-choices-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
+  .jt-choice { padding: 24px; }
+  .jt-choice-stack { gap: 16px; }
+  .jt-choice-links { gap: 0 14px; }
+  .jt-book-scene { height: 235px; }
+}
+@media (max-width: 700px) {
+  .jt-home .jt-shell { width: min(100% - 40px, 560px); }
+  .jt-home .jt-hero-inner { padding-block: 68px 62px; }
+  .jt-home .jt-hero h1 { font-size: clamp(40px, 9vw, 58px); line-height: 1.33; letter-spacing: -.5px; }
+  .jt-home .jt-hero-description { font-size: 17px; line-height: 1.8; }
+  .jt-home .jt-hero-skills { font-size: 9px; letter-spacing: .8px; }
+  .jt-home .jt-hero-skills span { padding-inline: 5px; }
+  .jt-hero-dash { display: none; }
+  .jt-choices { padding: 60px 0 65px; }
+  .jt-section-heading { align-items: start; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+  .jt-home .jt-section-heading > p { max-width: 520px; }
+  .jt-choices-grid { grid-template-columns: 1fr; }
+  .jt-choice-stack { grid-template-rows: auto; }
+  .jt-choice { padding: 26px; }
+  .jt-choice-books .jt-book-scene { height: 225px; }
+  .jt-choice-stack .jt-choice-body { margin-top: 19px; }
+  .jt-starting-panel { flex-direction: column; align-items: flex-start; padding: 28px; gap: 22px; }
+  .jt-resource-line { flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 25px; }
+  .jt-starting { padding-bottom: 56px; }
+}
+@media (max-width: 430px) {
+  .jt-home .jt-shell { width: min(100% - 32px, 560px); }
+  .jt-home .jt-hero-inner { padding-block: 57px 53px; }
+  .jt-home .jt-hero-eyebrow { letter-spacing: 1px; font-size: 9px; }
+  .jt-home .jt-hero h1 { font-size: clamp(35px, 9.8vw, 43px); }
+  .jt-home .jt-hero-description { font-size: 16px; }
+  .jt-hero-actions { gap: 9px; }
+  .jt-home .jt-primary-link, .jt-home .jt-secondary-link { width: 100%; min-height: 49px; }
+  .jt-home .jt-hero-skills { font-size: 8px; letter-spacing: .35px; }
+  .jt-choice { padding: 22px; }
+  .jt-choice-links a { flex-basis: 115px; font-size: 12px; }
+  .jt-book-scene { transform: scale(.9); transform-origin: center; }
+  .jt-starting-panel { padding: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jt-home .jt-primary-link, .jt-home .jt-secondary-link, .jt-home .jt-pricing-link { transition: none; }
+  .jt-home .jt-primary-link:hover { transform: none; }
+}
