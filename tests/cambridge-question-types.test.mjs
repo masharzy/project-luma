@@ -119,3 +119,33 @@ test('Selecting a group includes every field exactly once, including mixed-type 
  assert.equal(snapshot[0].document.questions.length,2);assert.deepEqual(snapshot[0].document.questions.map(q=>q.sourceNumbers),[[1],[2]]);
  await assert.rejects(p.startQuestionGroupAttempt(await p.loadQuestionIndex(),['reading'],[],1,'owner',null,[(await p.loadQuestionIndex()).find(q=>q.premium).key]),e=>e.status===409);
 });
+
+test('Mixed Cambridge and book/practice sources keep identical test, part, group and question IDs isolated',async()=>{
+ const document=structuredClone(freeDoc);
+ const index=p.buildQuestionIndex([
+  {test_id:1,book_number:1,test_number:1,module:'listening',premium:false,document},
+  {test_id:1,book_number:0,test_number:0,module:'listening',premium:false,kind:'practice',source_label:'Collins · Volume 1 · Test 1',document:{...document,audioUrl:'https://assets.example/collins.mp3',parts:document.parts.map(part=>({...part,audio_url:'https://assets.example/collins.mp3'}))}},
+ ]);
+ assert.equal(new Set(index.map(q=>q.key)).size,4);
+ const catalog=p.publicQuestionCatalog(index,['listening'],[],0);assert.equal(catalog.items.length,2);assert.ok(catalog.items.some(g=>g.sourceLabel.includes('Collins')));
+ const keys=catalog.items.map(g=>g.key);
+ await p.startQuestionGroupAttempt(index,['listening'],[],2,'owner',null,keys);
+ const snap=JSON.parse(calls.findLast(c=>c.sql.includes('INSERT INTO public.exam_attempts')).args[4])[0].document;
+ assert.equal(snap.parts.length,2);assert.equal(snap.questions.length,4);
+ assert.equal(new Set(snap.questions.map(q=>q.id)).size,4);
+ assert.notEqual(snap.parts[0].question_groups[0].sourceHtml,snap.parts[1].question_groups[0].sourceHtml);
+ assert.ok(snap.parts.some(part=>part.title.includes('Collins')&&part.audio_url.includes('collins.mp3')));
+});
+test('Shared selection rejects a stale group, premium tampering and oversized combined groups',async()=>{
+ const index=p.buildQuestionIndex([{test_id:1,kind:'practice',book_number:0,test_number:0,module:'listening',premium:false,document:freeDoc}]);
+ await assert.rejects(p.startQuestionGroupAttempt(index,['listening'],[],1,'owner',null,['practice:listening:999:q1']),e=>e.status===409);
+ await assert.rejects(p.startQuestionGroupAttempt(index.map(q=>({...q,premium:true})),['listening'],[],1,'owner',null,[index[0].key]),e=>e.status===409);
+ const huge=Array.from({length:41},(_,i)=>({...index[0],key:'practice:listening:1:q'+i,question:{...index[0].question,id:'q'+i}}));
+ await assert.rejects(p.startQuestionGroupAttempt(huge,['listening'],[],1,'owner',null,[huge[0].key]),e=>e.status===400);
+});
+
+test('Questions from separate practice sources remain contiguous inside mixed snapshots',()=>{
+ const index=p.buildQuestionIndex([1,2].map(id=>({test_id:id,book_number:0,test_number:0,module:'listening',premium:false,kind:'practice',source_label:'Source '+id,document:freeDoc})));
+ const document=p.buildQuestionSnapshots(index)[0].document;
+ assert.deepEqual(document.questions.map(q=>q.part_id),['qp-p-1','qp-p-1','qp-p-2','qp-p-2']);
+});

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { otherBookSeries } from "@/lib/other-books";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/client";
@@ -10,10 +11,12 @@ const learnLinks = [
  ["/resources", "All resources", "Explore your learning shelf"],
 ];
 const aiLinks = [["/writing-evaluation","Writing Evaluation"],["/speaking-evaluation","Speaking Evaluation"]];
-const mainLinks = [["/cambridge","Cambridge"],["/other-books","Other Books"],["/practice","Practice"],["/mocks","Mock Tests"]];
+const mainLinks = [["/cambridge","Cambridge"],["/practice","Practice"],["/mocks","Mock Tests"]];
 export function Header() {
   const [open, setOpen] = useState(false);
   const [learn, setLearn] = useState(false);
+  const [books,setBooks]=useState(false);
+  const booksButton=useRef<HTMLButtonElement>(null);
   const [ai,setAi]=useState(false);
   const pathname = usePathname();
   const header = useRef<HTMLElement>(null);
@@ -23,7 +26,7 @@ export function Header() {
   useEffect(() => {
     const outside = (e: PointerEvent) => {
       if (!header.current?.contains(e.target as Node)) {
-        setLearn(false);setAi(false);
+        setLearn(false);setAi(false);setBooks(false);
         setOpen(false);
       }
     };
@@ -32,7 +35,7 @@ export function Header() {
   }, []);
   const close = () => {
     setOpen(false);
-    setLearn(false);setAi(false);
+    setLearn(false);setAi(false);setBooks(false);
   };
   const active = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -42,7 +45,7 @@ export function Header() {
       className="site-header upgraded-header"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
-          const target=ai?aiButton.current:learnButton.current;
+          const target=books?booksButton.current:ai?aiButton.current:learnButton.current;
           close();
           target?.focus();
         }
@@ -62,18 +65,13 @@ export function Header() {
           id="main-navigation"
           aria-label="Main navigation"
         >
-          {mainLinks.map(([href, label]) => (
-            <Link
-              href={href}
-              key={href}
-              className={active(href) ? "active" : ""}
-              aria-current={active(href) ? "page" : undefined}
-              onClick={close}
-            >
-              {label}
-            </Link>
-          ))}
-          <div className="learn-navigation"><button ref={aiButton} type="button" className={aiLinks.some(([href])=>active(href))?"nav-learn active":"nav-learn"} aria-expanded={ai} aria-controls="ai-navigation" onClick={()=>{setAi(v=>!v);setLearn(false);}}>AI <span aria-hidden="true">{ai?"−":"+"}</span></button><div id="ai-navigation" className="learn-dropdown" hidden={!ai}>{aiLinks.map(([href,label])=><Link key={href} href={href} onClick={close}><b>{label}</b><span aria-hidden="true">↗</span></Link>)}</div></div>
+          <Link href="/cambridge" className={active('/cambridge')?'active':''} onClick={close}>Cambridge</Link>
+          <div className="learn-navigation other-books-navigation" onPointerEnter={e=>{if(e.pointerType==='mouse')setBooks(true);}} onPointerLeave={e=>{if(e.pointerType==='mouse')setBooks(false);}} onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget))setBooks(false);}}>
+           <div className="other-books-nav-label"><Link href="/other-books" className={active('/other-books')?'active':''} onClick={close}>Other Books</Link><button ref={booksButton} type="button" className="nav-learn" aria-label="Show Other Books collections" aria-controls="other-books-navigation" aria-expanded={books} onClick={()=>{setBooks(v=>!v);setAi(false);setLearn(false);}}><span aria-hidden="true">{books?'−':'+'}</span></button></div>
+           <div className="learn-dropdown" id="other-books-navigation" hidden={!books}>{otherBookSeries.map(series=><Link key={series.slug} href={'/other-books/'+series.slug} onClick={close}><b>{series.name}</b><span aria-hidden="true">↗</span></Link>)}</div>
+          </div>
+          {mainLinks.filter(([href])=>href!=='/cambridge').map(([href,label])=><Link key={href} href={href} className={active(href)?'active':''} onClick={close}>{label}</Link>)}
+          <div className="learn-navigation"><button ref={aiButton} type="button" className={aiLinks.some(([href])=>active(href))?"nav-learn active":"nav-learn"} aria-expanded={ai} aria-controls="ai-navigation" onClick={()=>{setAi(v=>!v);setLearn(false);setBooks(false);}}>AI <span aria-hidden="true">{ai?"−":"+"}</span></button><div id="ai-navigation" className="learn-dropdown" hidden={!ai}>{aiLinks.map(([href,label])=><Link key={href} href={href} onClick={close}><b>{label}</b><span aria-hidden="true">↗</span></Link>)}</div></div>
           <div className="learn-navigation">
             <button
               ref={learnButton}
@@ -85,7 +83,7 @@ export function Header() {
                   ? "nav-learn active"
                   : "nav-learn"
               }
-              onClick={() => {setLearn((v) => !v);setAi(false);}}
+              onClick={() => {setLearn((v) => !v);setAi(false);setBooks(false);}}
             >
               Resources <span aria-hidden="true">{learn ? "−" : "+"}</span>
             </button>
@@ -124,7 +122,7 @@ export function Header() {
             aria-expanded={open}
             onClick={() => {
               setOpen((v) => !v);
-              setLearn(false);setAi(false);
+              setLearn(false);setAi(false);setBooks(false);
             }}
           >
             {open ? "Close ×" : "Menu ☰"}

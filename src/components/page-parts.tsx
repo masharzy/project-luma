@@ -8,7 +8,7 @@ export function PageIntro({
 }: {
   eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   children?: React.ReactNode;
 }) {
   return (
@@ -20,7 +20,7 @@ export function PageIntro({
           <span>{eyebrow}</span>
         </div>
         <h1>{title}</h1>
-        <p lang="bn">{description}</p>
+        {description&&<p lang="bn">{description}</p>}
       </div>
       {children}
     </div>

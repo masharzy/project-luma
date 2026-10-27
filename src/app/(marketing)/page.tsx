@@ -39,6 +39,7 @@ export default function Page() {
         </div>
       </section>
       <section className="section"><div className="container"><div className="section-head"><div><span className="eyebrow">OTHER BOOKS</span><h2>Your next book is here.</h2><p>Explore Collins, Barron’s and Practice Tests Plus. Find practice by book, module or question type.</p></div><Link className="button" href="/other-books">Explore Other Books ↗</Link></div></div></section>
+      <section className="section shared-practice-home"><div className="container"><div className="section-head"><div><span className="eyebrow">BUILD YOUR OWN PRACTICE</span><h2>Different books. One practice.</h2><p>Cambridge, Collins, Barron’s, Practice Tests Plus এবং Practice থেকে question group বেছে নাও। পেজ বদলালেও তোমার selection থাকবে—সবগুলো নিয়ে একসঙ্গে practice শুরু করো।</p></div><Link className="button" href="/cambridge">Choose your questions ↗</Link></div><ol><li><b>01 / Find your type</b><span>Listening ও Reading-এ question type অনুযায়ী খোঁজো।</span></li><li><b>02 / Collect across books</b><span>বিভিন্ন বই থেকে পুরো question group select করো।</span></li><li><b>03 / Start together</b><span>নিচের selection bar থেকে নিজের practice শুরু করো।</span></li></ol></div></section>
       <section className="section" id="practice">
         <div className="container">
           <div className="section-head">
