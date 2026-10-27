@@ -4864,7 +4864,7 @@ export default function CDIAdminEditor({
     >
       <header className="bg-white border-b border-gray-200 px-4 py-3 shrink-0">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="min-w-0"><span className="text-xs font-semibold tracking-widest text-gray-600">LUMA / VISUAL EDITOR</span><h1 className="text-base font-semibold truncate">{testTitle} · {sectionType}</h1></div>
+          <div className="min-w-0"><span className="text-xs font-semibold tracking-widest text-gray-600">JUMPTONINE / VISUAL EDITOR</span><h1 className="text-base font-semibold truncate">{testTitle} · {sectionType}</h1></div>
           <div className="flex flex-wrap items-center gap-2">
             {moduleTimeMinutes !== undefined && onModuleTimeChange && <label className="flex items-center gap-2 text-sm">Time <Input aria-label="Module time in minutes" type="number" min={1} max={240} value={moduleTimeMinutes} onChange={e => onModuleTimeChange(e.target.value)} className="w-16 h-9 border px-2" /> min</label>}
             {onPreview && <Button type="button" variant="outline" onClick={() => { try {
