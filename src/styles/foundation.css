@@ -530,3 +530,14 @@ a:hover {
 .upgraded-header .header-actions > .nav-signin {
   display: inline-flex;
 }
+
+
+/* Keep the full JumpToNine wordmark and both mobile actions usable on narrow phones. */
+@media (max-width: 430px) {
+  .upgraded-header .header-inner { gap: 7px; padding-inline: 12px; }
+  .upgraded-header .brand { font-size: clamp(18px, 5.75vw, 24px); letter-spacing: -1.2px; }
+  .upgraded-header .header-actions { gap: 6px; }
+  .upgraded-header .nav-signin { min-width: 0; padding: 10px 11px; font-size: 10px; gap: 0; }
+  .upgraded-header .nav-signin span { display: none; }
+  .upgraded-header .menu-toggle { padding: 8px; }
+}
