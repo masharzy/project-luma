@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {readFileSync} from 'node:fs';
+import ts from 'typescript';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {createElement} from 'react';
+const require=createRequire(import.meta.url);
+const compile=(file,customRequire)=>{const m={exports:{}};const code=ts.transpileModule(readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2022}}).outputText;new Function('require','exports','module',code)(customRequire,m.exports,m);return m.exports;};
+const settings=compile('src/lib/cambridge-settings.ts',require);
+const {PracticeTestCards}=compile('src/components/practice-test-cards.tsx',name=>name==='next/link'?{default:({children,...p})=>createElement('a',p,children)}:name==='@/lib/cambridge-settings'?settings:require(name));
+const full={id:'86',title:'Test - 1',modules:['listening','reading','writing','speaking']};
+const render=props=>renderToStaticMarkup(createElement(PracticeTestCards,props));
+test('Practice uses full-width book cards and all four working module links',()=>{const html=render({tests:[full]});assert.match(html,/cambridge-test-row/);for(const m of full.modules)assert.match(html,new RegExp(`/exam/practice/86/${m}`));assert.match(html,/module-icon-listening/);assert.match(html,/90 min/);assert.match(html,/\/86\/full/);});
+test('locked tests cannot start and module-only views omit the full-test launch',()=>{const locked=render({tests:[{...full,access:'premium'}]});assert.doesNotMatch(locked,/href=/);assert.match(locked,/Premium/);const filtered=render({tests:[full],moduleFilter:'reading'});assert.match(filtered,/\/86\/reading/);assert.doesNotMatch(filtered,/\/86\/(full|listening|writing|speaking)/);});
