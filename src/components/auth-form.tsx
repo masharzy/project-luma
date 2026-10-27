@@ -111,7 +111,7 @@ export function AuthForm({
     <section className="auth-section">
       <div className="auth-layout">
         <aside className="auth-story">
-          <span className="eyebrow">LUMA / IELTS</span>
+          <span className="eyebrow">JUMPTONINE / IELTS</span>
           <h2 lang="bn">
             পরের গল্পটা তোমার।
             <br />
@@ -281,7 +281,7 @@ export function AuthForm({
             </>
           )}
           <Link href="/" className="auth-home">
-            ← Back to Luma
+            ← Back to JumpToNine
           </Link>
         </div>
       </div>

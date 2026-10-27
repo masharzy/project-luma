@@ -49,7 +49,7 @@ export function WorkspaceShell({
       <aside className={`workspace-sidebar ${open ? "sidebar-open" : ""}`}>
         <div className="sidebar-brand">
           <Link className="brand" href="/">
-            luma<span>/ {isAdmin ? "ADMIN" : "IELTS"}</span>
+            JumpToNine
           </Link>
           <button
             type="button"
@@ -117,7 +117,7 @@ export function WorkspaceShell({
             ☰ <span>Menu</span>
           </button>
           <span className="workspace-context">
-            {isAdmin ? "PLATFORM / ADMINISTRATION" : "LUMA / YOUR NEXT CHAPTER"}
+            {isAdmin ? "PLATFORM / ADMINISTRATION" : "JUMPTONINE / YOUR NEXT CHAPTER"}
           </span>
           <div className="workspace-identity">
             <span className="avatar">
