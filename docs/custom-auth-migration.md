@@ -2,7 +2,7 @@
 
 ## What this branch changes
 
-Luma owns its authentication handlers, password hashing, session/token lifecycle, email verification, password recovery, rate limits, profile updates and admin authorization. Neon is used only as PostgreSQL. No Neon Auth or Better Auth package/service is used by this branch at runtime. `jose` verifies Google's signed ID tokens; Nodemailer delivers application-authored SMTP messages.
+JumpToNine owns its authentication handlers, password hashing, session/token lifecycle, email verification, password recovery, rate limits, profile updates and admin authorization. Neon is used only as PostgreSQL. No Neon Auth or Better Auth package/service is used by this branch at runtime. `jose` verifies Google's signed ID tokens; Nodemailer delivers application-authored SMTP messages.
 
 ## Existing identity
 
