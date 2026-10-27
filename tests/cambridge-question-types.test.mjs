@@ -143,3 +143,9 @@ test('Shared selection rejects a stale group, premium tampering and oversized co
  const huge=Array.from({length:41},(_,i)=>({...index[0],key:'practice:listening:1:q'+i,question:{...index[0].question,id:'q'+i}}));
  await assert.rejects(p.startQuestionGroupAttempt(huge,['listening'],[],1,'owner',null,[huge[0].key]),e=>e.status===400);
 });
+
+test('Questions from separate practice sources remain contiguous inside mixed snapshots',()=>{
+ const index=p.buildQuestionIndex([1,2].map(id=>({test_id:id,book_number:0,test_number:0,module:'listening',premium:false,kind:'practice',source_label:'Source '+id,document:freeDoc})));
+ const document=p.buildQuestionSnapshots(index)[0].document;
+ assert.deepEqual(document.questions.map(q=>q.part_id),['qp-p-1','qp-p-1','qp-p-2','qp-p-2']);
+});

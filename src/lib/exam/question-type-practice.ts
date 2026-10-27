@@ -131,7 +131,7 @@ export function buildQuestionSnapshots(selected:IndexedQuestion[]):{module:Pract
   for (const module of ['listening','reading'] as const) {
     const chosen=byModule.get(module);
     if (!chosen?.length) continue;
-    chosen.sort((a,b)=>a.book-b.book || a.test-b.test || a.partOrder-b.partOrder || a.groupOrder-b.groupOrder || a.questionOrder-b.questionOrder);
+    chosen.sort((a,b)=>a.book-b.book || a.test-b.test || sourceIdentity(a).localeCompare(sourceIdentity(b),undefined,{numeric:true}) || a.partOrder-b.partOrder || a.groupOrder-b.groupOrder || a.questionOrder-b.questionOrder);
     const parts:any[]=[],questions:any[]=[];
     const partLookup=new Map<string,any>(),groupLookup=new Map<string,any>(),ids=new Map<string,string>();
     let serial=0;
