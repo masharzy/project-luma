@@ -1,11 +1,12 @@
 """Convert selected book Writing and Speaking files from the user-supplied ZIP offline."""
-import importlib.util,json,pathlib,sys,hashlib,re
+import importlib.util,json,pathlib,sys,hashlib,re,os
 spec=importlib.util.spec_from_file_location('ws',pathlib.Path(__file__).with_name('engnovate-ws.py'))
 ws=importlib.util.module_from_spec(spec);spec.loader.exec_module(ws)
-root=pathlib.Path(sys.argv[1]);out=pathlib.Path('data/imports/other-books');out.mkdir(parents=True,exist_ok=True);reports=[]
-for b in json.loads(pathlib.Path(__file__).with_name('other-books-config.json').read_text()):
+root=pathlib.Path(sys.argv[1]);out=pathlib.Path(os.environ.get('IMPORT_OUTPUT','data/imports/other-books'));out.mkdir(parents=True,exist_ok=True);reports=[]
+for b in json.loads(pathlib.Path(__file__).with_name(os.environ.get('IMPORT_CONFIG','other-books-config.json')).read_text()):
  for t in range(1,b['tests']+1):
   for module in ['writing','speaking']:
+   if not (root/b['folder']/f'Test-{t}'/f'{module}.html').exists():continue
    r=dict(slug=b['slug'],title=b['title'],test=t,module=module,issues=[])
    try:
     s=(root/b['folder']/f'Test-{t}'/f'{module}.html').read_text()
