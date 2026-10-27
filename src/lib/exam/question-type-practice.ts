@@ -7,7 +7,8 @@ import { isObjectiveQuestion } from '@/lib/exam/mock-scoring';
 import { questionType, questionTypeLabel, previewText, MAX_PRACTICE_QUESTIONS, PAGE_SIZE, listeningTypes, readingTypes, type PracticeModule } from './question-types';
 import type { ExamDocument } from './document';
 
-type SourceRow = {
+export type SourceRow = {
+  kind?: "cambridge"|"practice"; source_label?:string; book_slug?:string|null;
   test_id: string | number; book_number: number; test_number: number;
   module: PracticeModule; premium: boolean; document: ExamDocument;
 };
@@ -18,7 +19,7 @@ export type IndexedQuestion = {
 };
 type PublicQuestion = { key?: string; module: PracticeModule; type: string; book: number; test: number; number: string; preview: string; premium: boolean; previewKey?:string };
 
-export async function loadQuestionIndex(scope?:{testId:string;module:PracticeModule}): Promise<IndexedQuestion[]> {
+export async function loadQuestionIndex(scope?:{testId?:string;module?:PracticeModule;bookNumber?:number;testIds?:string[]}): Promise<IndexedQuestion[]> {
   // A book AND its test must be published. Both entitlement levels are checked on the server.
   const rows = await db().query(`
     SELECT t.id AS test_id,t.book_number,t.test_number,e.module,
@@ -29,7 +30,12 @@ export async function loadQuestionIndex(scope?:{testId:string;module:PracticeMod
     WHERE e.kind='cambridge' AND e.module IN ('listening','reading')
       AND e.revision>0 AND t.status='published' AND b.status='published'
       AND ($1::bigint IS NULL OR t.id=$1) AND ($2::text IS NULL OR e.module=$2)
-    ORDER BY t.book_number,t.test_number,e.module`,[scope?.testId||null,scope?.module||null]);
+    AND ($3::integer IS NULL OR t.book_number=$3) AND ($4::bigint[] IS NULL OR t.id=ANY($4))
+    ORDER BY t.book_number,t.test_number,e.module`,[scope?.testId||null,scope?.module||null,scope?.bookNumber||null,scope?.testIds||null]);
+  return buildQuestionIndex(rows as SourceRow[]);
+}
+
+export function buildQuestionIndex(rows:SourceRow[]):IndexedQuestion[]{
   const index: IndexedQuestion[] = [];
   for (const raw of rows) {
     const source = raw as SourceRow;
@@ -59,7 +65,7 @@ export async function loadQuestionIndex(scope?:{testId:string;module:PracticeMod
         : sourceHtml.slice(0,440);
       const preview = previewText(question.question_text || nearby || groupInfo.group.groupText || groupInfo.group.sourceHeading || located.part.title);
       index.push({
-        key: source.module+':'+source.test_id+':'+question.id,
+        key: (source.kind==='practice'?'practice:':'')+source.module+':'+source.test_id+':'+question.id,
         module: source.module,type,premium:Boolean(source.premium),
         book:Number(source.book_number),test:Number(source.test_number),
         number:numbers,preview,source,question,part:located.part,group:groupInfo.group,
@@ -70,7 +76,8 @@ export async function loadQuestionIndex(scope?:{testId:string;module:PracticeMod
   return index;
 }
 
-const groupIdentity=(q:IndexedQuestion)=>[q.module,q.source.test_id,q.part.id,q.group.id].join(':');
+export const sourceIdentity=(q:IndexedQuestion)=>[q.source.kind||'cambridge',q.module,q.source.test_id].join(':');
+const groupIdentity=(q:IndexedQuestion)=>[q.source.kind||'cambridge',q.module,q.source.test_id,q.part.id,q.group.id].join(':');
 export function indexedQuestionGroups(index:IndexedQuestion[]){const groups=new Map<string,IndexedQuestion[]>();for(const q of index){const id=groupIdentity(q);groups.set(id,[...(groups.get(id)||[]),q]);}return [...groups.values()];}
 const groupNumber=(rows:IndexedQuestion[])=>{const numbers=[...new Set(rows.flatMap(q=>q.question.sourceNumbers||[q.question.order_index||q.questionOrder+1]))].map(Number).sort((a,b)=>a-b);return numbers.length>1&&numbers.every((n,i)=>!i||n===numbers[i-1]+1)?numbers[0]+'–'+numbers.at(-1):numbers.join(', ');};
 export function publicQuestionCatalog(index: IndexedQuestion[], modules: PracticeModule[], selectedTypes: string[], page: number) {
@@ -80,7 +87,7 @@ export function publicQuestionCatalog(index: IndexedQuestion[], modules: Practic
  for(const type of new Set(modules.flatMap(m=>m==='listening'?listeningTypes:readingTypes)))if(!typeCounts.has(type))typeCounts.set(type,{type,label:questionTypeLabel(type),total:0,free:0,premium:0});
  const filtered=groups.filter(rows=>!selectedTypes.length||rows.some(q=>selectedTypes.includes(q.type)));
  const free=filtered.filter(rows=>!rows[0].premium).length;
- const items=filtered.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE).map(rows=>{const item=rows.find(q=>selectedTypes.includes(q.type))||rows[0],first=rows[0];const base={module:item.module,type:item.type,book:item.book,test:item.test,number:groupNumber(rows),questionCount:rows.length,preview:item.premium?'':item.preview,premium:item.premium};return item.premium?base:{...base,key:first.key,previewKey:first.key};});
+ const items=filtered.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE).map(rows=>{const item=rows.find(q=>selectedTypes.includes(q.type))||rows[0],first=rows[0];const base={sourceLabel:item.source.source_label||`Cambridge ${item.book} · Test ${item.test}`,module:item.module,type:item.type,book:item.book,test:item.test,number:groupNumber(rows),questionCount:rows.length,preview:item.premium?'':item.preview,premium:item.premium};return item.premium?base:{...base,key:first.key,previewKey:first.key};});
  return {types:[...typeCounts.values()].sort((a,b)=>b.total-a.total||a.label.localeCompare(b.label)),items,total:filtered.length,free,premium:filtered.length-free,page,pageSize:PAGE_SIZE,hasMore:(page+1)*PAGE_SIZE<filtered.length,questionTotal:filtered.reduce((n,g)=>n+g.length,0)};
 }
 
@@ -129,11 +136,11 @@ export function buildQuestionSnapshots(selected:IndexedQuestion[]):{module:Pract
     const partLookup=new Map<string,any>(),groupLookup=new Map<string,any>(),ids=new Map<string,string>();
     let serial=0;
     for (const item of chosen) {
-      const prefix=item.module+':'+item.source.test_id;
+      const prefix=sourceIdentity(item);
       const partKey=prefix+':'+item.part.id;
       let part=partLookup.get(partKey);
       if (!part) {
-        part={...item.part,audio_url:item.part.audio_url||item.source.document.audioUrl||'',id:'qp-p-'+(parts.length+1),title:'Cambridge '+item.book+' · Test '+item.test+' · '+(item.part.title||'Part '+(item.partOrder+1)),question_groups:[]};
+        part={...item.part,audio_url:item.part.audio_url||item.source.document.audioUrl||'',id:'qp-p-'+(parts.length+1),title:(item.source.source_label||'Cambridge '+item.book+' · Test '+item.test)+' · '+(item.part.title||'Part '+(item.partOrder+1)),question_groups:[]};
         parts.push(part);partLookup.set(partKey,part);
       }
       const groupKey=partKey+':'+item.group.id;
@@ -149,8 +156,8 @@ export function buildQuestionSnapshots(selected:IndexedQuestion[]):{module:Pract
     }
     // Same source question IDs can exist in different tests, so remap within each source document.
     for (const part of parts) {
-      const matching=chosen.find(item=>partLookup.get(item.module+':'+item.source.test_id+':'+item.part.id)===part)!;
-      const prefix=matching.module+':'+matching.source.test_id+':';
+      const matching=chosen.find(item=>partLookup.get(sourceIdentity(item)+':'+item.part.id)===part)!;
+      const prefix=sourceIdentity(matching)+':';
       const local=new Map<string,string>();
       for(const [key,value] of ids)if(key.startsWith(prefix))local.set(key.slice(prefix.length),value);
       part.passage_text=remapQuestionBindings(String(part.passage_text||''),local);
@@ -187,7 +194,7 @@ export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules
   }
   const groups=new Map<string,IndexedQuestion[]>();
   for(const item of pool){
-    const key=item.module+':'+item.source.test_id+':'+item.part.id;
+    const key=sourceIdentity(item)+':'+item.part.id;
     groups.set(key,[...(groups.get(key)||[]),item]);
   }
   const entries=shuffle([...groups.entries()]).sort((a,b)=>{
@@ -209,12 +216,12 @@ export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules
   const attemptId=randomUUID();
   const first=selected[0];
   const label=types.length ? types.map(questionTypeLabel).join(' + ') : 'Mixed question types';
-  const title='Cambridge Question Type Practice · '+label.slice(0,120);
+  const title='Question Type Practice · '+label.slice(0,120);
   // Uses the existing timed attempt + scoring infrastructure and anonymous ownership cookie.
   // parent_id is an existing, published, free source test; premium source rows are excluded.
   await db().query(`INSERT INTO public.exam_attempts
     (id,owner_hash,kind,parent_id,title,snapshot,user_id,deadline)
-    VALUES ($1,$2,'cambridge',$3,$4,$5::jsonb,$6::uuid,now()+($7::integer*interval '1 second'))`,
-    [attemptId,digest(owner),String(first.source.test_id),title,JSON.stringify(snapshot),userId,snapshot[0].document.durationMinutes*60]);
+    VALUES ($1,$2,$8,$3,$4,$5::jsonb,$6::uuid,now()+($7::integer*interval '1 second'))`,
+    [attemptId,digest(owner),String(first.source.test_id),title,JSON.stringify(snapshot),userId,snapshot[0].document.durationMinutes*60,first.source.kind||"cambridge"]);
   return attemptId;
 }

@@ -1,3 +1,4 @@
+import { CambridgeQuestionPractice } from "@/components/cambridge-question-practice";
 import Link from "next/link";
 import { PageIntro, PageWrap, FeatureNote } from "@/components/page-parts";
 import { modules } from "@/config/features";
@@ -12,6 +13,7 @@ export default function Page() {
         title="A little practice. A little closer."
         description="সময় যখন তোমার, practice-ও তোমার মতো। Listening অথবা Reading—বেছে নাও নিজের জায়গাটা।"
       />
+      <CambridgeQuestionPractice collection="practice"/>
       <div className="module-cards">
         {modules.filter(m=>m.id!=='writing').map((m) => (
           <Link

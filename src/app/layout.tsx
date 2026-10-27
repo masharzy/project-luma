@@ -6,6 +6,8 @@ import { SiteFrame } from "@/components/site-frame";
 import "@/styles/marketing.css";
 import "@/styles/foundation.css";
 import "@/styles/workspace.css";
+import "@/styles/cambridge-question-practice.css";
+import "@/styles/other-books.css";
 export const metadata: Metadata = {
   title: { default: `${site.name} IELTS`, template: `%s · ${site.name} IELTS` },
   description: site.description,

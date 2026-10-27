@@ -1,3 +1,9 @@
+export const otherBookSeries=[
+ {slug:"collins",name:"Collins",cover:"/images/books/collins-1.jpg"},
+ {slug:"barrons",name:"Barron's",cover:"/images/books/barrons.jpg"},
+ {slug:"practice-tests-plus",name:"Practice Tests Plus",cover:"/images/books/plus-1.jpg"},
+] as const;
+export function bookHref(slug:string){const book=otherBooks.find(b=>b.slug===slug);const series=otherBookSeries.find(s=>s.name===book?.series);return series?`/other-books/${series.slug}/${slug}`:'/other-books';}
 export const otherBooks = [
   {slug:"collins-1",series:"Collins",title:"IELTS Practice Tests",volume:"Volume 1",isbn:"9780007499694",cover:"/images/books/collins-1.jpg"},
   {slug:"collins-2",series:"Collins",title:"IELTS Practice Tests",volume:"Volume 2",isbn:"9780007598137",cover:"/images/books/collins-2.jpg"},
@@ -8,5 +14,5 @@ export const otherBooks = [
   {slug:"plus-3",series:"Practice Tests Plus",title:"IELTS Practice Tests Plus",volume:"Book 3",isbn:"9781408262535",cover:"/images/books/plus-3.jpg"},
 ] as const;
 export function validBookSlug(value:unknown):value is string {return typeof value === "string" && otherBooks.some(b=>b.slug===value);}
-export type BookTest={id:string;title:string;bookSlug:string;modules:{module:string;types:string[]}[]};
+export type BookTest={id:string;title:string;bookSlug:string;access?:"free"|"premium";sections?:string[];durations?:Record<string,number>;modules:{module:string;types:string[]}[]};
 export function filterBookTests(tests:BookTest[],book:string,module:string,type:string){return tests.filter(t=>(!book||t.bookSlug===book)&&t.modules.some(m=>(!module||m.module===module)&&(!type||m.types.includes(type))));}
