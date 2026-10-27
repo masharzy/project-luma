@@ -6,7 +6,7 @@ export function Footer() {
         <div className="footer-grid">
           <div>
             <Link className="brand" href="/">
-              luma<span>/ IELTS</span>
+              JumpToNine
             </Link>
             <p>Listening. Reading. Writing. Speaking.</p>
           </div>
@@ -29,7 +29,7 @@ export function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Luma IELTS</span>
+          <span>© {new Date().getFullYear()} JumpToNine</span>
           <span>Independent IELTS practice platform</span>
         </div>
       </div>

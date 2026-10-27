@@ -1,6 +1,6 @@
 # Shared question engine
 
-The original IELTSPracticeBDInterface and CDIAdminEditor from `masharzy/ieltspracticelab` are the reference for this implementation. Exam rendering preserves the original official theme. The admin toolbar, typography, identifiers and persistence are adapted for Luma.
+The original IELTSPracticeBDInterface and CDIAdminEditor from `masharzy/ieltspracticelab` are the reference for this implementation. Exam rendering preserves the original official theme. The admin toolbar, typography, identifiers and persistence are adapted for JumpToNine.
 
 - `components/exam/exam-interface.tsx`: controlled, data-driven exam view. It has no authentication/database dependency. Hosts supply parts, questions, answers, time and callbacks.
 - `components/exam/visual-editor.tsx`: visual parts/passages/group authoring. The same exam view is used for preview, with editor state retained while previewing.

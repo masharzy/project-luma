@@ -8,9 +8,11 @@ import "@/styles/foundation.css";
 import "@/styles/workspace.css";
 import "@/styles/cambridge-question-practice.css";
 import "@/styles/other-books.css";
+import "@/styles/resources-hub.css";
 export const metadata: Metadata = {
-  title: { default: `${site.name} IELTS`, template: `%s · ${site.name} IELTS` },
+  title: { default: site.name, template: `%s · ${site.name}` },
   description: site.description,
+  applicationName: site.name,
 };
 export default async function Layout({
   children,

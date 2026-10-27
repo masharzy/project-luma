@@ -19,7 +19,7 @@ Next.js App Router + strict TypeScript, deployed on Vercel from `master`. A sing
 
 ## Data and identity
 
-This branch stores identity in `app_auth` on PostgreSQL. Luma owns credential handling, opaque sessions and OAuth orchestration. Profile updates write the application users table. The old `neon_auth` schema is used only by the one-time import. No application content/history schema or seed data is introduced by this page milestone.
+This branch stores identity in `app_auth` on PostgreSQL. JumpToNine owns credential handling, opaque sessions and OAuth orchestration. Profile updates write the application users table. The old `neon_auth` schema is used only by the one-time import. No application content/history schema or seed data is introduced by this page milestone.
 
 All HTML opts into per-request rendering for nonce CSP. Private route responses are no-store. Learner guards check sessions; admin guards additionally validate the current database role. API authorization is enforced independently of page navigation.
 

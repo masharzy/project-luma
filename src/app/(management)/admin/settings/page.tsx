@@ -22,7 +22,7 @@ export default async function Page() {
             </div>
             <div>
               <dt>Role source</dt>
-              <dd>Luma PostgreSQL</dd>
+              <dd>JumpToNine PostgreSQL</dd>
             </div>
             <div>
               <dt>Role validation</dt>

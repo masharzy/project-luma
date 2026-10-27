@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { PageIntro, PageWrap } from "@/components/page-parts";
 import { EmptyCatalog } from "@/components/catalog-controls";
-export const metadata = { title: "The Luma Journal" };
+export const metadata = { title: "The JumpToNine Journal" };
 export default function Page() {
   return (
     <PageWrap tone="resources-page">
       <PageIntro
-        eyebrow="THE LUMA JOURNAL"
+        eyebrow="THE JUMPTONINE JOURNAL"
         title="A little reading for the road."
         description="IELTS প্রস্তুতি, শেখার অভ্যাস আর সামনে এগোনোর ভাবনা—একটু সময় নিয়ে পড়ো।"
       >

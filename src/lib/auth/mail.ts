@@ -21,12 +21,12 @@ export async function sendAuthMail(
     to: email,
     subject:
       kind === "verify_email"
-        ? "Verify your Luma email"
-        : "Reset your Luma password",
+        ? "Verify your JumpToNine email"
+        : "Reset your JumpToNine password",
     text:
       kind === "verify_email"
-        ? `Finish creating your Luma account:\n\n${url}\n\nThis link verifies your email only and does not sign you in. This link expires in 24 hours. If you did not request this, ignore this email.`
-        : `Set a new Luma password:\n\n${url}\n\nThis link expires in 20 minutes. If you did not request it, ignore this email.`,
+        ? `Finish creating your JumpToNine account:\n\n${url}\n\nThis link verifies your email only and does not sign you in. This link expires in 24 hours. If you did not request this, ignore this email.`
+        : `Set a new JumpToNine password:\n\n${url}\n\nThis link expires in 20 minutes. If you did not request it, ignore this email.`,
   };
   if (process.env.RESEND_API_KEY) {
     try {

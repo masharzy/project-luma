@@ -1,5 +1,5 @@
 export const site = {
-  name: "Luma",
+  name: "JumpToNine",
   product: "IELTS",
   description:
     "Listening, Reading ও Writing—নিজের মতো IELTS প্রস্তুতির একটি জায়গা।",

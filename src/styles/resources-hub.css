@@ -1,0 +1,50 @@
+/* JumpToNine brand and resources hub, layered after the existing site styles. */
+.brand,
+.upgraded-header .brand { font-size: clamp(22px, 2.4vw, 29px); letter-spacing: -1.4px; font-weight: 800; }
+.footer .brand { font-size: 29px; }
+.sidebar-brand .brand { font-size: clamp(20px, 2vw, 26px); letter-spacing: -1.1px; }
+.resources-hub-page { background: #fffdfb; }
+.resources-hub-page .page-intro { padding-bottom: 50px; }
+.resources-hub-heading { display: flex; align-items: end; justify-content: space-between; gap: 26px; margin-bottom: 26px; }
+.resources-hub-heading h2 { font-size: clamp(28px, 3.2vw, 38px); letter-spacing: -1.5px; margin: 8px 0 0; }
+.resources-hub-heading > p { max-width: 310px; font: 15px/1.8 "Hind Siliguri",sans-serif; margin: 0; color: #74656b; }
+.resources-hub-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; }
+.resources-hub-card { display: flex; flex-direction: column; min-width: 0; min-height: 302px; padding: 30px; background: #fff; border: 1px solid #e4dce0; border-radius: 14px; transition: border-color .2s ease,transform .2s ease,box-shadow .2s ease; }
+.resources-hub-card.is-ready { background: #fff6f7; border-color: #ebc6d0; }
+.resources-hub-card:hover { border-color: #b8647a; box-shadow: 0 16px 35px #5326370c; transform: translateY(-3px); }
+.resources-hub-card:focus-visible { outline: 3px solid #c60936; outline-offset: 3px; }
+.resources-hub-card-top,.resources-hub-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.resources-hub-card-top > span:first-child { font-size: 11px; font-weight: 800; letter-spacing: 1.4px; color: #9b3452; }
+.resources-hub-card-arrow { display: grid; place-items: center; flex: none; width: 35px; height: 35px; border-radius: 50%; border: 1px solid #e8d9df; font-size: 19px; color: #8b1231; }
+.resources-hub-card-body { padding: 38px 0 26px; flex: 1; }
+.resources-hub-card h3 { font-size: clamp(20px, 2vw, 25px); letter-spacing: -.8px; line-height: 1.25; margin: 0 0 13px; }
+.resources-hub-card p { font: 15px/1.75 "Hind Siliguri",sans-serif; color: #62565c; margin: 0; }
+.resources-hub-card-bottom { align-items: end; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid #eee5e8; }
+.resources-hub-status { color: #82757b; font-size: 10px; line-height: 1.5; }
+.resources-hub-card-bottom strong { font-size: 11px; color: #8b1231; white-space: nowrap; }
+.resources-hub-card-bottom strong span { font-size: 16px; margin-left: 4px; }
+@media (max-width: 1000px) {
+  .resources-hub-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+  .resources-hub-card { min-height: 284px; }
+}
+@media (max-width: 640px) {
+  .upgraded-header .brand { font-size: 22px; letter-spacing: -.9px; }
+  .resources-hub-page .page-intro { padding-bottom: 38px; }
+  .resources-hub-heading { align-items: start; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+  .resources-hub-grid { grid-template-columns: 1fr; gap: 16px; }
+  .resources-hub-card { min-height: 0; padding: 25px; }
+  .resources-hub-card-body { padding: 26px 0 24px; }
+  .resources-hub-card h3 { font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .resources-hub-card { transition: none; }
+  .resources-hub-card:hover { transform: none; }
+}
+
+/* Spacious prompt panel for the available cue-card resource. */
+.resources-cue { max-width: 840px; background: #fff; border: 1px solid #e5d9de; border-radius: 16px; padding: clamp(26px, 4vw, 44px); }
+.resources-cue h2 { font-size: clamp(26px, 3vw, 36px); letter-spacing: -1.2px; margin: 18px 0; }
+.resources-cue p { font-size: 17px; line-height: 1.85; margin: 0 0 30px; }
+.resources-cue-action { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-top: 24px; border-top: 1px solid #eee2e7; }
+.resources-cue-action > span { font-size: 12px; color: #78656d; }
+@media(max-width:640px){ .resources-cue-action { align-items: start; flex-direction: column; } }
