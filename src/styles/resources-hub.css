@@ -40,3 +40,11 @@
   .resources-hub-card { transition: none; }
   .resources-hub-card:hover { transform: none; }
 }
+
+/* Spacious prompt panel for the available cue-card resource. */
+.resources-cue { max-width: 840px; background: #fff; border: 1px solid #e5d9de; border-radius: 16px; padding: clamp(26px, 4vw, 44px); }
+.resources-cue h2 { font-size: clamp(26px, 3vw, 36px); letter-spacing: -1.2px; margin: 18px 0; }
+.resources-cue p { font-size: 17px; line-height: 1.85; margin: 0 0 30px; }
+.resources-cue-action { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-top: 24px; border-top: 1px solid #eee2e7; }
+.resources-cue-action > span { font-size: 12px; color: #78656d; }
+@media(max-width:640px){ .resources-cue-action { align-items: start; flex-direction: column; } }

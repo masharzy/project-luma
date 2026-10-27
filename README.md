@@ -1,4 +1,4 @@
-# Project Luma
+# JumpToNine
 
 A bilingual IELTS platform built with Next.js, React, TypeScript and custom PostgreSQL-backed auth, deployed from GitHub to Vercel.
 

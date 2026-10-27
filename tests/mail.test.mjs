@@ -7,7 +7,7 @@ import { emailReady } from '../src/lib/auth/config.ts';
 
 test('Resend sends canonical auth links and sanitizes provider errors', async () => {
   const calls=[];
-  const env={RESEND_API_KEY:'re_test_only',RESEND_FROM_EMAIL:'Luma <auth@example.test>'};
+  const env={RESEND_API_KEY:'re_test_only',RESEND_FROM_EMAIL:'JumpToNine <auth@example.test>'};
   const output=ts.transpileModule(readFileSync('src/lib/auth/mail.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
   const exports={};
   let fail=false;

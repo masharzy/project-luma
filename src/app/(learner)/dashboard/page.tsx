@@ -32,7 +32,7 @@ export default async function Page() {
           </Link>
         </div>
         <div className="welcome-book" aria-hidden="true">
-          <span>LUMA / FIELD NOTES</span>
+          <span>JUMPTONINE / FIELD NOTES</span>
           <strong>
             YOUR
             <br />

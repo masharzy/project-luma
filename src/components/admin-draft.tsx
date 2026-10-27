@@ -60,7 +60,7 @@ export function AdminDraft({ kind }: { kind: Kind }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "luma-" + kind + "-draft.json";
+    a.download = "jumptonine-" + kind + "-draft.json";
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setMessage(
