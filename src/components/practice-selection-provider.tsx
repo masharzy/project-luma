@@ -20,7 +20,7 @@ export function PracticeSelectionProvider({children}:{children:ReactNode}){
   // Clear only after the server successfully snapshots every selected source.
   try{sessionStorage.removeItem(selectionStorageKey);}catch{}setItems([]);router.push(data.url);
  }catch(e){setError(e instanceof Error?e.message:'Unable to start practice.');}finally{setBusy(false);}};
- const hidden=['/exam','/admin','/auth'].some(p=>pathname===p||pathname.startsWith(p+'/'));
+ const hidden=!['/practice','/cambridge','/other-books'].some(p=>pathname===p||pathname.startsWith(p+'/'));
  return <Context.Provider value={{items,toggle,busy}}>{children}{ready&&items.length>0&&!hidden&&<aside className="type-floating-selection is-visible shared-practice-bar" aria-label="Selected practice">
  <div><details><summary><strong>{items.length} groups selected</strong><small>{total} questions · across your collections</small></summary><div className="shared-practice-items">{items.map(g=><div key={g.key}><span><b>{g.sourceLabel}</b><small>{g.module} · {questionTypeLabel(g.type)} · Q {g.number}</small></span><button type="button" disabled={busy} aria-label={'Remove '+g.sourceLabel+', questions '+g.number} onClick={()=>toggle(g)}><X size={16}/></button></div>)}</div></details></div>
  <button type="button" className="type-start-button" disabled={busy} onClick={()=>void start()}>{busy?<LoaderCircle size={16} className="type-spin"/>:null}{busy?'Preparing…':'Start this Practice'}<ArrowUpRight size={16}/></button>

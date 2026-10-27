@@ -8,16 +8,17 @@ export function Footer() {
             <Link className="brand" href="/">
               luma<span>/ IELTS</span>
             </Link>
-            <p>Listening. Reading. Writing.</p>
+            <p>Listening. Reading. Writing. Speaking.</p>
           </div>
           <div>
             <h3>Practice</h3>
             <Link href="/cambridge">Cambridge library</Link>
-            <Link href="/mocks">Scheduled mocks</Link>
+            <Link href="/other-books">Other Books</Link>
+            <Link href="/practice">Test & Question Practice</Link>
           </div>
           <div>
             <h3>Learn</h3>
-            <Link href="/resources">Writing & resources</Link>
+            <Link href="/resources">Resources</Link>
             <Link href="/pricing">Free & Premium</Link>
           </div>
           <div>
