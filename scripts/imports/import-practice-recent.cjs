@@ -1,4 +1,4 @@
-/* Offline archive import: learner-visible labels are Test - 1 ... Test - 39. */
+/* Offline archive import: learner-visible labels are Test - 1 ... Test - 15. */
 const fs=require('fs'),path=require('path');
 const {neon}=require('@neondatabase/serverless');
 const {normalizeDocument}=require('./exam-loader.cjs')('document');
@@ -13,11 +13,11 @@ async function main(){
  for(const b of config)for(let test=1;test<=b.tests;test++){
   const available=reports.filter(r=>r.slug===b.slug&&r.test===test),docs={};
   for(const r of available){const raw=JSON.parse(fs.readFileSync(path.join(root,r.file)));docs[r.module]=r.module==='speaking'?normalizeSpeakingSet(raw):normalizeDocument(raw,r.module);}
-  if(!Object.keys(docs).length)throw Error('Empty source test');
+  if(!['listening','reading','writing','speaking'].every(module=>docs[module]))continue;
   if(/recent actual/i.test(JSON.stringify(docs)))throw Error('Source collection label must not appear in learner documents');
   sets.push({title:`Test - ${++number}`,source:`archive-${b.slug}-${test}`,docs});
  }
- if(number!==39)throw Error('Expected 39 source tests');
+ if(number!==15)throw Error('Expected 15 complete source tests');
  if(process.env.APPLY_MIGRATION==='1')await sql.transaction(fs.readFileSync('migrations/021_practice_import_source.sql','utf8').split(';').map(s=>s.trim()).filter(Boolean).map(s=>sql.query(s)));
  let pending=[],saved=0;
  for(const {title,source,docs} of sets){
