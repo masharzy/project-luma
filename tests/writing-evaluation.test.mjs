@@ -29,3 +29,5 @@ test('evaluation configuration uses the encrypted OpenRouter vault and fails clo
  const failed=loader({'@/lib/ai-lab/secrets':{keyStatus:async()=>{throw Error('Unavailable');}}})('lib/evaluation/provider');
  assert.equal(await failed.evaluationConfigured(),false);
 });
+
+test('evaluation diagnostics expose validation paths but never provider messages, values or credentials',()=>{const {evaluationDiagnostic}=load('lib/evaluation/diagnostic');const e={name:'AI_NoObjectGeneratedError',message:'secret-key candidate essay',responseBody:'private',cause:{name:'ZodError',issues:[{code:'invalid_type',path:['tasks',0,'grammar','band'],message:'secret',input:'private'}]}};const d=JSON.stringify(evaluationDiagnostic(e));assert.ok(d.includes('grammar'));assert.ok(!d.includes('secret'));assert.ok(!d.includes('private'));});
