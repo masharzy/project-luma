@@ -2,7 +2,7 @@ import 'server-only';
 import { speakingSystemPrompt, assessmentPromptVersion } from '@/lib/evaluation/prompts';
 import { z } from 'zod';
 import { generateText,Output,type UserContent } from 'ai';
-import { qwenProvider } from '@/lib/evaluation/provider';
+import { evaluationProvider, speakingModel } from '@/lib/evaluation/provider';
 import { getPrivate } from './storage';
 const criterion=z.object({band:z.number().min(0).max(9).multipleOf(.5),feedback:z.string().max(2000),evidence:z.array(z.string().max(800)).max(5)});
 export const speakingAssessmentSchema=z.object({scorable:z.boolean(),limitation:z.string().max(1000),confidence:z.enum(['low','medium','high']),transcripts:z.array(z.object({step:z.number().int(),verbatim:z.string().max(8000),uncertain:z.array(z.string().max(200)).max(10)})).max(40),fluency:criterion,lexicalResource:criterion,grammar:criterion,pronunciation:criterion,summary:z.string().max(2000),nextSteps:z.array(z.string().max(1000)).max(4)});
@@ -22,4 +22,4 @@ export function finalizeSpeaking(raw:unknown,input:SpeakingInput):SpeakingAssess
  return {...r,scorable,estimatedBand:reliable&&complete&&sourceCount===3?Math.round((r.fluency.band+r.lexicalResource.band+r.grammar.band+r.pronunciation.band)/4*2)/2:null,limitation:formatNote+evidenceNote+r.limitation};
 }
 export async function assessSpeaking(input:SpeakingInput){const content:UserContent=[{type:'text',text:JSON.stringify({sourceParts:input.sourceParts,cueCard:input.cueCard,answers:input.clips.map(({key,...c})=>c),expectedAnswers:input.expected})}];for(const clip of input.clips){const bytes=await getPrivate(clip.key);if(bytes.length>3900000)throw Error('Recording too large');content.push({type:'text',text:'Original recording for step '+clip.step+' / Part '+clip.part},{type:'file',mediaType:'audio/wav',data:bytes});}
- const result=await generateText({model:qwenProvider(false).chatModel('qwen3.8-omni-flash'),maxOutputTokens:7000,maxRetries:0,abortSignal:AbortSignal.timeout(90000),output:Output.object({schema:speakingAssessmentSchema}),system:speakingSystemPrompt+`\nRequired JSON schema: ${JSON.stringify(z.toJSONSchema(speakingAssessmentSchema))}`,messages:[{role:'user',content}]});return {result:finalizeSpeaking(result.output,input),usage:{...result.usage,promptVersion:assessmentPromptVersion},model:'qwen3.8-omni-flash'};}
+ const result=await generateText({model:(await evaluationProvider()).chatModel(speakingModel),maxOutputTokens:7000,maxRetries:0,abortSignal:AbortSignal.timeout(90000),output:Output.object({schema:speakingAssessmentSchema}),system:speakingSystemPrompt+`\nRequired JSON schema: ${JSON.stringify(z.toJSONSchema(speakingAssessmentSchema))}`,messages:[{role:'user',content}]});return {result:finalizeSpeaking(result.output,input),usage:{...result.usage,promptVersion:assessmentPromptVersion},model:speakingModel};}

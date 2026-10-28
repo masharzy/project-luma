@@ -12,7 +12,7 @@ export async function POST(req:NextRequest){try{
  requireSameOrigin(req);
  const session=await readSession();if(!session)throw new AuthHttpError(401,'Sign in with a verified account for AI feedback.');
  const body=await readBody(req);if(typeof body.attemptId!=='string'||!/^[a-f0-9-]{36}$/.test(body.attemptId))throw new AuthHttpError(400,'Invalid attempt');
- if(!evaluationConfigured())throw new AuthHttpError(503,'AI feedback is not enabled yet. Your answers remain saved.');
+ if(!await evaluationConfigured())throw new AuthHttpError(503,'AI feedback is not enabled yet. Your answers remain saved.');
  await limitMany([{key:'writing-eval:'+session.user.id,max:12,seconds:3600},{key:'writing-eval-net:'+networkKey(req),max:60,seconds:3600}]);
  const job=await createWritingEvaluation(body.attemptId,session.user.id);
  if(job.status==='pending')await enqueueWriting(String(job.id));

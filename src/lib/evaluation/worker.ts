@@ -14,7 +14,9 @@ export async function processWritingEvaluation(id:string){
  try{
   const evaluated=await assessWriting(rows[0].input);
   await db().query("UPDATE public.writing_evaluations SET status='completed',result=$2::jsonb,usage=$3::jsonb,lease_until=NULL,error_code=NULL,updated_at=now() WHERE id=$1::uuid AND status='running' AND tries=$4",[id,JSON.stringify(evaluated.result),JSON.stringify(evaluated.usage),rows[0].tries]);
- }catch{
+ }catch(error){
+  const status=typeof error==='object'&&error!==null&&'statusCode' in error&&typeof error.statusCode==='number'?error.statusCode:null;
+  console.warn('Evaluation provider request failed',{provider:'openrouter',status});
   if(Number(rows[0].tries)>=3){await failEvaluation(id);return;}
   await db().query("UPDATE public.writing_evaluations SET status='pending',lease_until=NULL,updated_at=now() WHERE id=$1::uuid AND status='running' AND tries=$2",[id,rows[0].tries]);
   throw Error('Writing evaluation will retry');

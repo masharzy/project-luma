@@ -7,7 +7,7 @@ import { products } from '@/lib/evaluation/store';
 import { evaluationConfigured,writingModel } from '@/lib/evaluation/provider';
 export async function GET(){const session=await readSession();if(!session||!hasAdminRole(session.user))return json({error:'Forbidden'},403);
  const grants=await db().query('SELECT u.email,g.product,g.monthly_limit,g.expires_at FROM public.evaluation_grants g JOIN app_auth.users u ON u.id=g.user_id ORDER BY g.updated_at DESC LIMIT 100');
- return json({configured:evaluationConfigured(),model:writingModel,grants});}
+ return json({configured:await evaluationConfigured(),model:writingModel,grants});}
 export async function POST(req:NextRequest){try{
  const session=await readSession();if(!session||!hasAdminRole(session.user))throw new AuthHttpError(403,'Forbidden');requireSameOrigin(req);
  const d=await readBody(req),email=parseEmail(d.email);
