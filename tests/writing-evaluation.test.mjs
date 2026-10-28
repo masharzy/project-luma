@@ -31,3 +31,5 @@ test('evaluation configuration uses the encrypted OpenRouter vault and fails clo
 });
 
 test('evaluation diagnostics expose validation paths but never provider messages, values or credentials',()=>{const {evaluationDiagnostic}=load('lib/evaluation/diagnostic');const e={name:'AI_NoObjectGeneratedError',message:'secret-key candidate essay',responseBody:'private',cause:{name:'ZodError',issues:[{code:'invalid_type',path:['tasks',0,'grammar','band'],message:'secret',input:'private'}]}};const d=JSON.stringify(evaluationDiagnostic(e));assert.ok(d.includes('grammar'));assert.ok(!d.includes('secret'));assert.ok(!d.includes('private'));});
+
+test('missing and null limitation notes normalize to empty text without relaxing score validation',()=>{const a=task(1,6),b=task(2,7);delete a.limitation;b.limitation=null;const result=finalizeAssessment({tasks:[a,b],summary:'Assessment'},input);assert.deepEqual(result.tasks.map(t=>t.limitation),['','']);assert.equal(result.estimatedBand,6.5);assert.throws(()=>finalizeAssessment({tasks:[{...a,grammar:{...a.grammar,band:'7'}},b],summary:'Assessment'},input));});

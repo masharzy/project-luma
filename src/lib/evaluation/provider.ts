@@ -4,7 +4,7 @@ import { getKey, keyStatus } from '@/lib/ai-lab/secrets';
 import { writingSystemPrompt, assessmentPromptVersion } from './prompts';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText, Output, type UserContent } from 'ai';
-import { writingAssessmentSchema,finalizeAssessment,type WritingInput } from './schema';
+import { writingAssessmentSchema,writingResponseSchema,finalizeAssessment,type WritingInput } from './schema';
 export const writingModel='qwen/qwen3.7-flash';
 export const speakingModel='qwen/qwen3.8-omni-flash';
 export async function evaluationConfigured(){
@@ -24,7 +24,7 @@ export async function assessWriting(input:WritingInput){
   // Leave remote image downloading to the provider. Never fetch arbitrary admin URLs on our server.
   content.push({type:'file',mediaType:'image',data:task.image.startsWith('data:')?task.image:new URL(task.image)});}
  const result=await generateText({model:provider.chatModel(writingModel),maxOutputTokens:4000,maxRetries:0,abortSignal:AbortSignal.timeout(90000),
-  output:Output.object({schema:writingAssessmentSchema}),
+  output:Output.object({schema:writingResponseSchema}),
   system:writingSystemPrompt+`\nRequired JSON schema: ${JSON.stringify(z.toJSONSchema(writingAssessmentSchema))}`,
   messages:[{role:'user',content}]});
  return {result:finalizeAssessment(result.output,input),usage:{...result.usage,promptVersion:assessmentPromptVersion},model:writingModel};
