@@ -13,13 +13,13 @@ export function Footer() {
           <div>
             <h3>Practice</h3>
             <Link href="/cambridge">Cambridge library</Link>
-            <Link href="/other-books">Other Books</Link>
+            <Link href="/other-books">More Books</Link>
             <Link href="/practice">Test & Question Practice</Link>
           </div>
           <div>
             <h3>Learn</h3>
             <Link href="/resources">Resources</Link>
-            <Link href="/pricing">Free & Premium</Link>
+            <Link href="/pricing">Pricing</Link>
           </div>
           <div>
             <h3>Your space</h3>

@@ -18,7 +18,7 @@ const learner = [
 const admin = [
   ["/admin", "Overview", "grid"],
   ["/admin/cambridge", "Cambridge", "book"],
-  ["/admin/other-books", "Other Books", "book"],
+  ["/admin/other-books", "More Books", "book"],
   ["/admin/practice", "Practice tests", "file"],
   ["/admin/mocks", "Mock exams", "clock"],
   ["/admin/vocabulary", "Vocabulary", "book"],

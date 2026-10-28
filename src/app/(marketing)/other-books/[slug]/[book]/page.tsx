@@ -6,7 +6,7 @@ import { CambridgeQuestionPractice } from '@/components/cambridge-question-pract
 import { otherBooks,otherBookSeries } from '@/lib/other-books';
 import { listOtherBookTests } from '@/lib/other-books-catalog';
 export const dynamic='force-dynamic';
-export async function generateMetadata({params}:{params:Promise<{slug:string;book:string}>}){const {book}=await params;const current=otherBooks.find(b=>b.slug===book);return {title:current?`${current.series} · ${current.volume}`:'Other Books'};}
+export async function generateMetadata({params}:{params:Promise<{slug:string;book:string}>}){const {book}=await params;const current=otherBooks.find(b=>b.slug===book);return {title:current?`${current.series} · ${current.volume}`:'More Books'};}
 export default async function Page({params}:{params:Promise<{slug:string;book:string}>}){
  const {slug,book}=await params,series=otherBookSeries.find(s=>s.slug===slug),current=otherBooks.find(b=>b.slug===book&&b.series===series?.name);if(!current||!series)notFound();
  const tests=await listOtherBookTests(book);
