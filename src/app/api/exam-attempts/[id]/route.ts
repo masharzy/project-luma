@@ -30,7 +30,7 @@ export async function POST(req: NextRequest, c: Context) { try {
     if (body.action === 'submit' && result.complete && result.results.some((r: { module: string }) => r.module === 'writing')) {
         try {
             const session = await readSession();
-            if (session && evaluationConfigured()) {
+            if (session && await evaluationConfigured()) {
                 await limitMany([
                     { key: 'writing-eval:' + session.user.id, max: 12, seconds: 3600 },
                     { key: 'writing-eval-net:' + networkKey(req), max: 60, seconds: 3600 },
