@@ -8,5 +8,5 @@ export function evaluationDiagnostic(error:unknown){
  if(typeof e.message==='string'&&reasons.has(e.message))item.reason=e.message;
  if(Array.isArray(e.issues))item.issues=e.issues.slice(0,12).map(v=>({code:typeof v?.code==='string'?v.code:'invalid',path:Array.isArray(v?.path)?v.path.filter((p:unknown)=>typeof p==='number'||['tasks','task','scorable','limitation','taskAchievement','coherence','lexicalResource','grammar','corrections','original','improved','reason','category','strengths','nextSteps','summary','band','evidence','feedback','confidence','transcripts','step','verbatim','uncertain','fluency','pronunciation'].includes(String(p))):[]}));
  chain.push(item);current=e.cause;}
- return {provider:'openrouter',chain};
+ return JSON.stringify({provider:'openrouter',chain});
 }
