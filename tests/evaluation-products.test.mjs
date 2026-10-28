@@ -39,3 +39,14 @@ test('Speaking withholds an overall band for low confidence, silent audio or mis
 });
 
 test('Speaking normalizes an absent limitation while retaining acoustic evidence checks',()=>{const r={...raw};delete r.limitation;assert.equal(finalizeSpeaking(r,input).limitation,'');assert.equal(finalizeSpeaking({...raw,limitation:null},input).estimatedBand,6);});
+
+test('chart lettering remains distinct without system fonts, including Bengali labels',async()=>{
+ const {chartText}=load('lib/products/chart-text');
+ assert.ok(!chartText('ABC 123',0,20,16,200).includes('<text'));
+ assert.notEqual(chartText('ABC',0,20,16,200),chartText('XYZ',0,20,16,200));
+ assert.doesNotThrow(()=>chartText('বাংলা ১২৩',0,20,16,200));
+ const sharp=native('sharp');const base={kind:'bar',title:'ABC',unit:'Percent',labels:['A','B'],series:[{name:'2025',values:[10,20]}]};
+ const a=Buffer.from((await chartImage(base)).split(',')[1],'base64'),b=Buffer.from((await chartImage({...base,title:'XYZ'})).split(',')[1],'base64');
+ const crop=bytes=>sharp(bytes).extract({left:45,top:5,width:150,height:35}).raw().toBuffer();
+ assert.notDeepEqual(await crop(a),await crop(b));
+});

@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
   poweredByHeader: false,
-  outputFileTracingIncludes: {"/speaking/evaluation/*": ["./src/lib/speaking/*.html","./src/lib/speaking/*.js"]},
+  outputFileTracingIncludes: {"/api/products/writing/tasks": ["./public/fonts/font-0.woff2","./public/fonts/font-2.woff2"],"/speaking/evaluation/*": ["./src/lib/speaking/*.html","./src/lib/speaking/*.js"]},
   async headers() {
     return [
       {
