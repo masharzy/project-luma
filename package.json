@@ -42,6 +42,7 @@
     "ai": "^7.0.152",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "fontkit": "^2.0.4",
     "get-nonce": "^1.0.1",
     "isomorphic-dompurify": "^2.35.0",
     "jose": "^6.2.13",
@@ -56,6 +57,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@types/fontkit": "^2.0.9",
     "@types/node": "^24.0.0",
     "@types/nodemailer": "^8.0.2",
     "@types/react": "^19.2.0",
