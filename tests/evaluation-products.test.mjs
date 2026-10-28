@@ -37,3 +37,5 @@ test('Speaking withholds an overall band for low confidence, silent audio or mis
  assert.equal(noPronunciation.scorable,false);assert.equal(noPronunciation.estimatedBand,null);
  assert.equal(finalizeSpeaking(raw,input).estimatedBand,6);
 });
+
+test('Speaking normalizes an absent limitation while retaining acoustic evidence checks',()=>{const r={...raw};delete r.limitation;assert.equal(finalizeSpeaking(r,input).limitation,'');assert.equal(finalizeSpeaking({...raw,limitation:null},input).estimatedBand,6);});
