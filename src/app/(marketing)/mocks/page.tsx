@@ -4,4 +4,4 @@ import { mockCatalog } from '@/lib/exam/mock-events';
 import { readSession } from '@/lib/auth/session';
 export const dynamic='force-dynamic';
 export const metadata={title:'Scheduled mock tests'};
-export default async function Page(){const s=await readSession();return <PageWrap><PageIntro eyebrow="THE MOCK EXPERIENCE" title="Make the real day feel familiar." description="আগে রেজিস্টার করো। নির্ধারিত সময়ে Listening → Reading → Writing দাও। অ্যাডমিন ফল প্রকাশ করলে নিজের ফল দেখো।"/><MockCatalog items={await mockCatalog(s?.user.id??null)}/></PageWrap>;}
+export default async function Page(){const s=await readSession();return <PageWrap><PageIntro eyebrow="THE MOCK EXPERIENCE" title="Your next IELTS mock." description="আগে রেজিস্টার করো। সবাই একই সময়ে Listening, Reading ও Writing দেবে। Speaking নিজের গতিতে শেষ করবে। ফল প্রকাশিত হলে এখানেই দেখবে।"/><MockCatalog items={await mockCatalog(s?.user.id??null)}/></PageWrap>;}

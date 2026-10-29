@@ -38,9 +38,10 @@ export async function settleAttempt(initial:any){
  let r=initial;
  for(let n=0;n<5;n++){
   const index=Number(r.current_index),snapshot=r.snapshot as Snapshot;
+  if(r.kind==='mock'&&snapshot[index]?.module==='speaking'){if(r.deadline){await db().query("UPDATE public.exam_attempts SET deadline=NULL WHERE id=$1 AND current_index=$2",[r.id,index]);r={...r,deadline:null};}return r;}
   if(index>=snapshot.length||!r.deadline||new Date(r.deadline).getTime()>Date.now())return r;
   const answers=r.answers?.[String(index)]||{},result=gradeModule(snapshot[index].module,snapshot[index].document,answers);
-  const next=index+1<snapshot.length?(r.kind==='mock'?new Date(moduleDeadline(snapshot,new Date(r.scheduled_start).getTime(),index+1)).toISOString():new Date(Date.now()+snapshot[index+1].document.durationMinutes*60000).toISOString()):null;
+  const next=index+1<snapshot.length?(snapshot[index+1].module==='speaking'?null:r.kind==='mock'?new Date(moduleDeadline(snapshot,new Date(r.scheduled_start).getTime(),index+1)).toISOString():new Date(Date.now()+snapshot[index+1].document.durationMinutes*60000).toISOString()):null;
   await db().query(`UPDATE public.exam_attempts SET current_index=current_index+1,deadline=$4::timestamptz,locked_index=NULL,results=results||$3::jsonb WHERE id=$1 AND current_index=$2 AND deadline<=now()`,[r.id,index,JSON.stringify([result]),next]);
   r=await attemptRow(r.id);
  }
@@ -68,6 +69,12 @@ export async function advanceAttempt(id:string,body:Record<string,unknown>){
  const r=await readAttempt(id),index=Number(r.current_index),snapshot=r.snapshot as Snapshot;
  if(index>=snapshot.length)return publicAttempt(r);
  if(body.index!==index)throw new AuthHttpError(409,'This module has already changed. Reload the test.');
+ if(r.kind==='mock'&&snapshot[index].module==='speaking'){
+  if(body.action==='save'||body.action==='start')return publicAttempt(r);
+  if(body.action!=='submit')throw new AuthHttpError(400,'Invalid action');
+  await db().query("UPDATE public.exam_attempts SET current_index=current_index+1,deadline=NULL,locked_index=NULL,results=results||$2::jsonb WHERE id=$1 AND current_index=3",[id,JSON.stringify([gradeModule('speaking',snapshot[index].document,{})])]);
+  return publicAttempt(await readAttempt(id));
+ }
  if(body.action==='start'){
   if(r.kind==='mock')return publicAttempt(r);
   if(!r.deadline)await db().query("UPDATE public.exam_attempts SET deadline=now()+($3::integer*interval '1 second') WHERE id=$1 AND current_index=$2 AND deadline IS NULL",[id,index,snapshot[index].document.durationMinutes*60]);

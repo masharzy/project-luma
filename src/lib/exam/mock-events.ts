@@ -30,7 +30,7 @@ export async function joinMock(id:string,userId:string){
  const e=await event(id);const now=Date.now();if(now<new Date(String(e.starts_at)).getTime())throw new AuthHttpError(409,'The mock has not started yet.');
  const r=(await db().query('SELECT attempt_id FROM public.mock_registrations WHERE mock_id=$1 AND user_id=$2',[id,userId]))[0];
  if(!r)throw new AuthHttpError(403,'Register before the scheduled start to join this mock.');if(r.attempt_id)return String(r.attempt_id);
- if(now>=new Date(String(e.ends_at)).getTime())throw new AuthHttpError(409,'This mock has ended.');
+ if((now>=new Date(String(e.ends_at)).getTime()&&(e.snapshot as any[]).length!==4)||e.results_published_at)throw new AuthHttpError(409,'This mock has ended.');
  const attempt=randomUUID(),snapshot=e.snapshot as AttemptSnapshot;
  // Registration row lock and one SQL statement make concurrent Join requests idempotent.
  const result=await db().query(`WITH registration AS (SELECT * FROM public.mock_registrations WHERE mock_id=$1 AND user_id=$2::uuid FOR UPDATE),
@@ -54,9 +54,9 @@ export async function prepareMock(id:string,adminId:string,speakingSetId?:string
  const speaking=(await db().query('SELECT id,document FROM public.speaking_sets WHERE id=$1 AND published=true AND document IS NOT NULL',[speakingSetId]))[0];
  if(!speaking)throw new AuthHttpError(400,'Choose a published Speaking question set.');
  const set=normalizeSpeakingSet(speaking.document);if(set.sourceParts)set.sourceParts=set.sourceParts.map((p,i)=>({...p,title:'Part '+(i+1)}));
- const minutes=Number(c.durations?.speaking)||15;if(!Number.isInteger(minutes)||minutes<5||minutes>60)throw new AuthHttpError(400,'Speaking must be 5–60 minutes.');
- snapshot.push({module:'speaking',document:{schemaVersion:1,durationMinutes:minutes,audioUrl:'',parts:[],questions:[],speakingSet:set,speakingSetId:String(speaking.id)}});
- const start=new Date(String(c.scheduled_at)).getTime(),end=moduleDeadline(snapshot,start,snapshot.length-1);
+ const minutes=15;
+ snapshot.push({module:'speaking',document:{schemaVersion:1,durationMinutes:minutes,audioUrl:'',parts:[],questions:[],speakingSet:set,speakingSetId:String(speaking.id),untimed:true}});
+ const start=new Date(String(c.scheduled_at)).getTime(),end=moduleDeadline(snapshot,start,2);
  const rows=await db().query(`WITH made AS (INSERT INTO public.mock_events(id,title,description,access,starts_at,ends_at,snapshot,prepared_by)
  SELECT $1,$2,$3,$4,$5,$6,$7::jsonb,$8 FROM public.admin_content WHERE id=$1 AND updated_at=$9::timestamptz ON CONFLICT(id) DO NOTHING RETURNING id) UPDATE public.admin_content SET status='published',sections='["listening","reading","writing","speaking"]'::jsonb WHERE id IN(SELECT id FROM made) RETURNING id`,[id,c.title,c.description,c.access,new Date(start).toISOString(),new Date(end).toISOString(),JSON.stringify(snapshot),adminId,c.version]);
  if(!rows.length)throw new AuthHttpError(409,'Registration is already open. This scheduled paper is frozen. Create another mock to change it.');
@@ -73,7 +73,7 @@ export async function mockAdminResults(id:string){
 export async function markMockWriting(id:string,attemptId:string,band:number,feedback:string,module:'writing'|'speaking'='writing'){
  if(!Number.isFinite(band)||band<0||band>9||band*2%1||feedback.length>2000)throw new AuthHttpError(400,'Use a band from 0 to 9 in half-band steps.');
  const rows=await db().query(`WITH writable_event AS (SELECT id FROM public.mock_events WHERE id=$1 AND ends_at<=now() AND results_published_at IS NULL FOR UPDATE) UPDATE public.exam_attempts a SET results=(SELECT jsonb_agg(CASE WHEN v->>'module'=$5::text THEN v||jsonb_build_object('bandScore',$3::numeric,'status','reviewed','feedback',$4::text) ELSE v END ORDER BY n) FROM jsonb_array_elements(a.results) WITH ORDINALITY AS t(v,n))
- FROM writable_event e WHERE a.id=$2::uuid AND a.kind='mock' AND a.parent_id=$1 AND e.id=a.parent_id AND a.current_index=jsonb_array_length(a.snapshot) RETURNING a.id`,[id,attemptId,band,feedback,module]);if(!rows.length)throw new AuthHttpError(409,'Finish the mock first; published results cannot be changed.');
+ FROM writable_event e WHERE a.id=$2::uuid AND a.kind='mock' AND a.parent_id=$1 AND e.id=a.parent_id AND a.current_index>=CASE WHEN $5::text='writing' THEN 3 ELSE jsonb_array_length(a.snapshot) END RETURNING a.id`,[id,attemptId,band,feedback,module]);if(!rows.length)throw new AuthHttpError(409,'Finish the mock first; published results cannot be changed.');
 }
 export async function publishMock(id:string){
  await mockAdminResults(id);

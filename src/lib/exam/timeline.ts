@@ -1,5 +1,5 @@
 import type { ExamDocument, Module } from './document';
-export type AttemptSnapshot={module:Module|'speaking';document:ExamDocument & {speakingSet?:any;speakingSetId?:string}}[];
+export type AttemptSnapshot={module:Module|'speaking';document:ExamDocument & {speakingSet?:any;speakingSetId?:string;untimed?:boolean}}[];
 export function moduleDeadline(snapshot:AttemptSnapshot,start:number,index:number){
  return start+snapshot.slice(0,index+1).reduce((n,s)=>n+s.document.durationMinutes*60000,0);
 }
