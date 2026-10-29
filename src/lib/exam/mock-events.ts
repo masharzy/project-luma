@@ -51,7 +51,7 @@ export async function prepareMock(id:string,adminId:string){
  snapshot.push({module,document});}
  const start=new Date(String(c.scheduled_at)).getTime(),end=moduleDeadline(snapshot,start,2);
  const rows=await db().query(`WITH made AS (INSERT INTO public.mock_events(id,title,description,access,starts_at,ends_at,snapshot,prepared_by)
- VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8) ON CONFLICT(id) DO NOTHING RETURNING id) UPDATE public.admin_content SET status='published',sections='["listening","reading","writing"]'::jsonb WHERE id IN(SELECT id FROM made) RETURNING id`,[id,c.title,c.description,c.access,new Date(start).toISOString(),new Date(end).toISOString(),JSON.stringify(snapshot),adminId]);
+ SELECT $1,$2,$3,$4,$5,$6,$7::jsonb,$8 FROM public.admin_content WHERE id=$1 AND updated_at=$9::timestamptz ON CONFLICT(id) DO NOTHING RETURNING id) UPDATE public.admin_content SET status='published',sections='["listening","reading","writing"]'::jsonb WHERE id IN(SELECT id FROM made) RETURNING id`,[id,c.title,c.description,c.access,new Date(start).toISOString(),new Date(end).toISOString(),JSON.stringify(snapshot),adminId,c.updated_at]);
  if(!rows.length)throw new AuthHttpError(409,'Registration is already open. This scheduled paper is frozen. Create another mock to change it.');
 }
 export async function mockAdminResults(id:string){
