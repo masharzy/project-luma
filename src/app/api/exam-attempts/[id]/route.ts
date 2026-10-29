@@ -25,9 +25,10 @@ export async function POST(req: NextRequest, c: Context) { try {
     const id = (await c.params).id;
     const body = await readBody(req, 512 * 1024);
     const result = await advanceAttempt(id, body);
+    if(body.action==='save')return json({saved:true});
     // Writing feedback is automatic at submission, not triggered by another learner button.
     // It is deliberately best-effort: an AI/queue outage must not undo saved exam answers.
-    if (body.action === 'submit' && result.complete && result.results.some((r: { module: string }) => r.module === 'writing')) {
+    if (result.kind !== 'mock' && body.action === 'submit' && result.complete && result.results.some((r: { module: string }) => r.module === 'writing')) {
         try {
             const session = await readSession();
             if (session && await evaluationConfigured()) {

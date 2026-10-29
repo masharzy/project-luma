@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { mockReturnPath } from "@/lib/auth/return-path";
 import { useState, type FormEvent } from "react";
 import { authClient } from "@/lib/auth/client";
 type Mode = "sign-in" | "sign-up" | "forgot-password" | "reset-password";
@@ -84,7 +85,7 @@ export function AuthForm({
       if (mode === "sign-up" || (mode === "sign-in" && result.data?.requiresVerification))
         window.location.assign("/auth/verify-email");
       else if (isForgot || isReset) setSuccess(true);
-      else window.location.assign("/dashboard");
+      else window.location.assign(mockReturnPath(new URLSearchParams(window.location.search).get("next")));
     } catch {
       setError("We couldn’t connect just now. Please try again.");
     } finally {

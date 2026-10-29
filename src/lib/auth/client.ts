@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { mockReturnPath } from "./return-path";
 import type { AuthResult, AuthSession } from "./types";
 async function request<T = Record<string, unknown>>(
   path: string,
@@ -78,7 +79,8 @@ export const authClient = {
           data: null,
           error: { message: "Google sign-in is not configured yet." },
         };
-      window.location.assign("/api/auth/google");
+      const next=mockReturnPath(new URLSearchParams(window.location.search).get("next"));
+      window.location.assign("/api/auth/google?next="+encodeURIComponent(next));
       return { data: null, error: null };
     },
   },

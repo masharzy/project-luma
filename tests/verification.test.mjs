@@ -27,18 +27,20 @@ test('verification requires a valid single-use token and never grants a session'
 });
 
 test('only a Google-verified identity gets a dashboard session without inbox verification',async()=>{
-  let verified=true,sessions=0,updates=0;
+  let verified=true,sessions=0,updates=0,returnPath;
+  const returnExports={};vm.runInNewContext(ts.transpileModule(readFileSync('src/lib/auth/return-path.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{exports:returnExports});
   const state=randomToken();
   const cookieChanges=[];
   const response=url=>({url:String(url),headers:new Headers(),cookies:{set:(...args)=>cookieChanges.push(args)}});
   const mocks={
     'jose':{createRemoteJWKSet:()=>({}),jwtVerify:async()=>({payload:{email_verified:verified,sub:'google-subject',email:'verified@example.test',nonce:'nonce'}})},
     'node:crypto':{},
+    './return-path':returnExports,
     'next/server':{NextResponse:{redirect:response}},
     './config':{appOrigin:()=> 'https://app.example.test',googleReady:()=>true,oauthCookieName:()=> 'oauth',sessionCookieName:()=> 'session',secureCookies:()=>true},
     './crypto':{validToken,digest,sameSecret:(a,b)=>a===b},
     './db':{db:()=>({query:async(sql)=>{
-      if(sql.includes('DELETE FROM app_auth.oauth_flows'))return [{verifier:'pkce',nonce:'nonce'}];
+      if(sql.includes('DELETE FROM app_auth.oauth_flows'))return [{verifier:'pkce',nonce:'nonce',return_path:returnPath}];
       if(sql.includes('SELECT u.id,u.banned'))return [{id:'google-user',banned:false}];
       if(sql.includes('UPDATE app_auth.users')){updates++;return [];}
       throw Error('Unexpected query');
@@ -52,5 +54,6 @@ test('only a Google-verified identity gets a dashboard session without inbox ver
   });
   const request={nextUrl:new URL('https://app.example.test/api/auth/google/callback?state='+state+'&code=code'),cookies:{get:()=>({value:state})}};
   let r=await exports.finishGoogle(request);assert.equal(r.url,'https://app.example.test/dashboard');assert.equal(sessions,1);assert.equal(updates,1);assert.ok(cookieChanges.some(c=>c[0]==='session'));
-  verified=false;r=await exports.finishGoogle(request);assert.match(r.url,/sign-in\?error=oauth/);assert.equal(sessions,1);
+  returnPath='/mocks/123';r=await exports.finishGoogle(request);assert.equal(r.url,'https://app.example.test/mocks/123');assert.equal(sessions,2);
+  verified=false;r=await exports.finishGoogle(request);assert.match(r.url,/sign-in\?error=oauth/);assert.equal(sessions,2);
 });

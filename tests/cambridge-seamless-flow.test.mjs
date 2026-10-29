@@ -22,14 +22,14 @@ function harness() {
         deadline: new Date(Date.now() + args[7] * 1000).toISOString(), results: [], answers: {} };
       return [];
     }
-    if (sql.includes('SELECT * FROM public.exam_attempts')) return row ? [row] : [];
+    if (sql.includes('SELECT a.*')) return row ? [row] : [];
     if (sql.includes('SET current_index=current_index+1')) {
       row.answers[String(row.current_index)] = JSON.parse(args[3]);
       row.results.push(...JSON.parse(args[2]));
       row.current_index += 1;
       row.deadline = row.current_index < row.snapshot.length
         ? new Date(Date.now() + args[5] * 1000).toISOString() : null;
-      return [];
+      return [{id:row.id}];
     }
     throw Error('Unexpected SQL in seamless-flow test: ' + sql);
   };
@@ -50,6 +50,7 @@ function harness() {
       loadExam: async (_kind, _id, module) => ({ document: docs[module], revision: 1 }),
       learnerDocument: document => document,
     },
+    './timeline': (()=>{const src=readFileSync(new URL('../src/lib/exam/timeline.ts',import.meta.url),'utf8');const m={exports:{}};new Function('require','module','exports',ts.transpileModule(src,{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText)(native,m,m.exports);return m.exports;})(),
     './result': { gradeModule: module => ({ module, total: 40, correct: 32, items: [], bandScore: 7, scorePercent: 80 }) },
   };
   const file = readFileSync(new URL('../src/lib/exam/attempts.ts', import.meta.url), 'utf8');
