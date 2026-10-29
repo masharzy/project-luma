@@ -13,5 +13,6 @@ export default function robots(): MetadataRoute.Robots {
         "/admin",
       ],
     },
+    sitemap: "https://jumptonine.com/sitemap.xml",
   };
 }
