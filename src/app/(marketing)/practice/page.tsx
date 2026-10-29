@@ -1,9 +1,10 @@
+import { publicPageMetadata } from "@/lib/seo";
 import Link from 'next/link';
 import {PageIntro,PageWrap} from '@/components/page-parts';
 import {PracticeCatalog} from '@/components/practice-catalog';
 import {QuestionPracticePanel} from '@/components/cambridge-question-practice';
 import {validBookSlug,otherBookSeries} from '@/lib/other-books';
-export const metadata={title:'Practice'};
+export const metadata = publicPageMetadata("IELTS Practice Tests ও Question Practice", "JumpToNine-এ IELTS Listening ও Reading test দাও, অথবা নির্দিষ্ট question type বেছে practice করো। ফ্রি টেস্টে অ্যাকাউন্ট ছাড়াই শুরু করা যায়।", "/practice");
 export default async function Page({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
  const p=await searchParams,questions=p.view==='questions';
  const collection=['cambridge','other-books','practice'].includes(String(p.collection))?p.collection as 'cambridge'|'other-books'|'practice':'all';

@@ -1,9 +1,10 @@
+import { publicPageMetadata } from "@/lib/seo";
 import { PageIntro, PageWrap } from "@/components/page-parts";
 import { CambridgeCatalog } from "@/components/catalog-controls";
 import { CambridgeQuestionPractice } from "@/components/cambridge-question-practice";
 import "@/styles/cambridge-question-practice.css";
 import { listCambridgeBooks, listCambridgeTests } from "@/lib/cambridge";
-export const metadata = { title: "Cambridge library" };
+export const metadata = publicPageMetadata("Cambridge IELTS Practice Tests", "Cambridge IELTS বই বেছে Listening, Reading ও Writing অনুশীলন করো। পুরো test অথবা নির্দিষ্ট question type দিয়ে প্রস্তুতি শুরু করো।", "/cambridge");
 export const dynamic = "force-dynamic";
 export default async function Page() {
     const tests = await listCambridgeTests();

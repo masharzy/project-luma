@@ -1,10 +1,8 @@
+import { publicPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { PageIntro, PageWrap } from "@/components/page-parts";
 
-export const metadata = {
-  title: "Resources",
-  description: "Speaking cue cards, writing guides, vocabulary, grammar, ebooks and study articles for IELTS preparation.",
-};
+export const metadata = publicPageMetadata("IELTS Resources ও Speaking Cue Cards", "IELTS Speaking cue cards দিয়ে অনুশীলন শুরু করো। JumpToNine-এর resource hub-এ প্রস্তুত উপকরণ ও তৈরি হচ্ছে এমন collection দেখো।", "/resources");
 
 const collections = [
   {
