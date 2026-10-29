@@ -4,6 +4,7 @@ import { PageIntro, PageWrap } from "@/components/page-parts";
 import styles from "../legal.module.css";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://jumptonine.com/tos" },
   title: "Terms of Service",
   description: "Terms and conditions for using JumpToNine IELTS practice, AI feedback, accounts, and plans.",
 };

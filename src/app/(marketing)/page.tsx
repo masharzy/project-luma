@@ -1,13 +1,33 @@
+import { headers } from "next/headers";
+import { publicPageMetadata } from "@/lib/seo";
+import { site } from "@/config/site";
 import Link from 'next/link';
 import { publicPlans, freePolicy } from '@/lib/products/plans';
+
+const homeTitle = "JumpToNine | IELTS Practice Tests ও AI Feedback";
+export const metadata = {
+ ...publicPageMetadata("IELTS Practice Tests ও AI Feedback", site.description, "/"),
+ title: { absolute: homeTitle },
+ openGraph: { type: "website" as const, siteName: site.name, locale: "bn_BD", title: homeTitle, description: site.description, url: "https://jumptonine.com/" },
+ twitter: { card: "summary" as const, title: homeTitle, description: site.description },
+};
+const brandData = {
+ "@context": "https://schema.org",
+ "@graph": [
+  { "@type": "WebSite", "@id": "https://jumptonine.com/#website", name: "JumpToNine", alternateName: ["Jump To Nine", "jumptonine.com"], url: "https://jumptonine.com/", description: site.description, inLanguage: ["bn", "en"], publisher: { "@id": "https://jumptonine.com/#organization" } },
+  { "@type": "Organization", "@id": "https://jumptonine.com/#organization", name: "JumpToNine", url: "https://jumptonine.com/" },
+ ],
+};
 
 export const dynamic = 'force-dynamic';
 const limit = (value: number | null) => value === null ? 'সীমাহীন' : String(value);
 
 export default async function Page() {
+ const nonce = (await headers()).get("x-nonce") ?? undefined;
  const [plans, free] = await Promise.all([publicPlans(), freePolicy()]);
  const premium = plans[0];
  return <>
+  <script type="application/ld+json" nonce={nonce} dangerouslySetInnerHTML={{ __html: JSON.stringify(brandData).replace(/</g, "\\u003c") }}/>
   <section className="hero home-final-hero">
    <div className="chapter-mark" aria-hidden="true">স্বপ্ন →</div><div className="hero-orbit" aria-hidden="true"/><div className="hero-cross cross-left" aria-hidden="true">+</div><div className="hero-cross cross-right" aria-hidden="true">+</div><div className="doodle lines" aria-hidden="true"/><div className="doodle star" aria-hidden="true">✳</div>
    <div className="hero-content"><div className="hero-kicker">IELTS PRACTICE, MADE SIMPLE</div><h1 lang="bn">IELTS প্রস্তুতিতে<br/><span>প্রতিদিন একটু এগিয়ে যাও।</span></h1><p className="home-hero-poem" lang="bn">এক ঝিমধরা দিবা স্বপনে<br/>নয় ব্যান্ডের ছবি ভাসে নয়নে।</p><div className="hero-ctas"><Link className="button home-primary-cta" href="/practice">Take a free test <span aria-hidden="true">↗</span></Link><a className="home-secondary-cta" href="#pricing">View plans <span aria-hidden="true">↓</span></a></div><p className="home-cta-note">অ্যাকাউন্ট লাগবে না</p></div>

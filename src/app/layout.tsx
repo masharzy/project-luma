@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: { default: site.name, template: `%s · ${site.name}` },
   description: site.description,
   applicationName: site.name,
+  metadataBase: new URL("https://jumptonine.com"),
 };
 export default async function Layout({
   children,

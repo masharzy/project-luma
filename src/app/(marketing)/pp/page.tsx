@@ -4,6 +4,7 @@ import { PageIntro, PageWrap } from "@/components/page-parts";
 import styles from "../legal.module.css";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://jumptonine.com/pp" },
   title: "Privacy Policy",
   description: "How JumpToNine collects, uses, shares, and protects information for IELTS practice, Google sign-in, and AI evaluation.",
 };
