@@ -71,6 +71,6 @@ export async function markMockWriting(id:string,attemptId:string,band:number,fee
 export async function publishMock(id:string){
  await mockAdminResults(id);
  const rows=await db().query(`UPDATE public.mock_events e SET results_published_at=now() WHERE e.id=$1 AND e.ends_at<=now() AND e.results_published_at IS NULL AND NOT EXISTS(
- SELECT 1 FROM public.exam_attempts a WHERE a.kind='mock' AND a.parent_id=e.id AND (a.current_index<3 OR NOT EXISTS(SELECT 1 FROM jsonb_array_elements(a.results) v WHERE v->>'module'='writing' AND v->>'status'='reviewed'))) RETURNING id`,[id]);
- if(!rows.length)throw new AuthHttpError(409,'Wait until the scheduled end and grade every submitted Writing paper before publishing.');
+ SELECT 1 FROM public.exam_attempts a WHERE a.kind='mock' AND a.parent_id=e.id AND (a.current_index<3 OR NOT EXISTS(SELECT 1 FROM jsonb_array_elements(a.results) v WHERE v->>'module'='writing' AND v->>'status' IN ('reviewed','ai_reviewed')))) RETURNING id`,[id]);
+ if(!rows.length)throw new AuthHttpError(409,'Wait until the scheduled end and finish AI evaluation or review every submitted Writing paper before publishing.');
 }

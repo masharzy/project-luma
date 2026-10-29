@@ -150,7 +150,7 @@ export function WritingEvaluation({ attemptId, source = 'attempt', tasks = [] }:
   </section>;
 }
 
-function TaskAssessment({ feedback }: { feedback: TaskFeedback }) {
+export function TaskAssessment({ feedback }: { feedback: TaskFeedback }) {
   return <div className="writing-assessment-details">
     {feedback.limitation && <p className="writing-feedback-warning">{feedback.limitation}</p>}
     <h4>Band criteria</h4>
