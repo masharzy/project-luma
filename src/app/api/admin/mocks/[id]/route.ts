@@ -5,13 +5,15 @@ import { json,AuthHttpError,requireSameOrigin,readBody,audit } from '@/lib/auth/
 import { prepareMock,mockAdminResults,markMockWriting,publishMock } from '@/lib/exam/mock-events';
 import { enqueueMockEvaluation } from '@/lib/exam/mock-evaluation';
 import { db } from '@/lib/auth/db';
+import { mockSources,copyMockSource } from '@/lib/exam/mock-sources';
 export const dynamic='force-dynamic';
 type Context={params:Promise<{id:string}>};
 async function admin(){const s=await readSession();if(!s||!hasAdminRole(s.user))throw new AuthHttpError(403,'Forbidden');return s.user;}
 const failure=(e:unknown)=>e instanceof AuthHttpError?json({error:e.message},e.status):json({error:'Unable to update this mock.'},503);
-export async function GET(_:Request,c:Context){try{await admin();return json(await mockAdminResults((await c.params).id));}catch(e){return failure(e)}}
+export async function GET(req:Request,c:Context){try{await admin();if(new URL(req.url).searchParams.get('view')==='sources')return json({sources:await mockSources()});return json(await mockAdminResults((await c.params).id));}catch(e){return failure(e)}}
 export async function POST(req:NextRequest,c:Context){try{const u=await admin();requireSameOrigin(req);const id=(await c.params).id;if(!/^\d{1,16}$/.test(id))throw new AuthHttpError(400,'Invalid mock');const d=await readBody(req);
  if(d.action==='prepare')await prepareMock(id,u.id);
+ else if(d.action==='copy')await copyMockSource(id,d.sourceKind,d.sourceId,d.modules,u.id);
  else if(d.action==='publish')await publishMock(id);
  else if(d.action==='evaluate'){
  if(typeof d.attemptId!=='string'||!/^[a-f0-9-]{36}$/.test(d.attemptId))throw new AuthHttpError(400,'Invalid attempt');
