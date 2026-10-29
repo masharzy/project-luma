@@ -11,7 +11,7 @@ export function Footer() {
             <p>Listening. Reading. Writing. Speaking.</p>
           </div>
           <div>
-            <h3>Practice</h3>
+            <h3>Practice</h3><Link href="/mocks">Mock exams</Link>
             <Link href="/cambridge">Cambridge library</Link>
             <Link href="/other-books">More Books</Link>
             <Link href="/practice">Test & Question Practice</Link>

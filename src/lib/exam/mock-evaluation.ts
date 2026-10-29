@@ -11,9 +11,9 @@ import { speakingSteps } from '@/lib/speaking/flow';
 import { settleAttempt } from './attempts';
 export const mockEvaluationTopic='jumptonine-mock-evaluation';
 export async function enqueueMockEvaluation(attemptId:string,retry=false){
- const row=(await db().query("SELECT a.id,e.ends_at,jsonb_array_length(a.snapshot) AS module_count FROM public.exam_attempts a JOIN public.mock_events e ON e.id=a.parent_id WHERE a.id=$1::uuid AND a.kind='mock' AND e.results_published_at IS NULL",[attemptId]))[0];
+ const row=(await db().query("SELECT a.id,e.ends_at,jsonb_array_length(a.snapshot) AS module_count,a.current_index FROM public.exam_attempts a JOIN public.mock_events e ON e.id=a.parent_id WHERE a.id=$1::uuid AND a.kind='mock' AND e.results_published_at IS NULL",[attemptId]))[0];
  if(!row)return;
- await Promise.all((Number(row.module_count)===4?['writing','speaking']:['writing']).map(module=>send(mockEvaluationTopic,{attemptId,module},{idempotencyKey:'mock-'+module+':'+attemptId+(retry?':'+randomUUID():''),delaySeconds:Math.max(0,Math.ceil((new Date(String(row.ends_at)).getTime()-Date.now())/1000)),retentionSeconds:86400})));
+ await Promise.all((Number(row.module_count)===4&&Number(row.current_index)>=4?['writing','speaking']:['writing']).map(module=>send(mockEvaluationTopic,{attemptId,module},{idempotencyKey:'mock-'+module+(module==='speaking'?'-submitted':'')+':'+attemptId+(retry?':'+randomUUID():''),delaySeconds:Math.max(0,Math.ceil((new Date(String(row.ends_at)).getTime()-Date.now())/1000)),retentionSeconds:86400})));
 }
 // This worker needs no browser session and runs even if the candidate has closed the tab.
 export async function processMockEvaluation(attemptId:string,module:'writing'|'speaking'='writing'){
@@ -29,7 +29,7 @@ export async function processMockEvaluation(attemptId:string,module:'writing'|'s
  const tries=Number(writing.aiTries||0)+1;
  const claim=await db().query(`WITH event_lock AS (SELECT id FROM public.mock_events WHERE id=$2 AND results_published_at IS NULL FOR UPDATE)
  UPDATE public.exam_attempts a SET results=jsonb_set(a.results,'{${index}}',(a.results->${index})||jsonb_build_object('status','ai_running','aiTries',$3::integer,'aiLeaseUntil',now()+interval '180 seconds'))
- FROM event_lock e WHERE a.id=$1::uuid AND a.parent_id=e.id AND a.current_index=jsonb_array_length(a.snapshot) AND (a.results->${index}->>'status'='unmarked' OR (a.results->${index}->>'status'='ai_running' AND (a.results->${index}->>'aiLeaseUntil')::timestamptz<now())) RETURNING a.id`,[attemptId,row.parent_id,tries]);
+ FROM event_lock e WHERE a.id=$1::uuid AND a.parent_id=e.id AND a.current_index>=${index+1} AND (a.results->${index}->>'status'='unmarked' OR (a.results->${index}->>'status'='ai_running' AND (a.results->${index}->>'aiLeaseUntil')::timestamptz<now())) RETURNING a.id`,[attemptId,row.parent_id,tries]);
  if(!claim.length)throw Error('Mock evaluation changed; retry');
  let patch:Record<string,unknown>;
  try{
