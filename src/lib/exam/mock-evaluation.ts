@@ -11,9 +11,9 @@ import { speakingSteps } from '@/lib/speaking/flow';
 import { settleAttempt } from './attempts';
 export const mockEvaluationTopic='jumptonine-mock-evaluation';
 export async function enqueueMockEvaluation(attemptId:string,retry=false){
- const row=(await db().query("SELECT a.id,e.ends_at,jsonb_array_length(a.snapshot) AS module_count,a.current_index FROM public.exam_attempts a JOIN public.mock_events e ON e.id=a.parent_id WHERE a.id=$1::uuid AND a.kind='mock' AND e.results_published_at IS NULL",[attemptId]))[0];
+ const row=(await db().query("SELECT a.id,e.ends_at,a.snapshot,a.current_index FROM public.exam_attempts a JOIN public.mock_events e ON e.id=a.parent_id WHERE a.id=$1::uuid AND a.kind='mock' AND e.results_published_at IS NULL",[attemptId]))[0];
  if(!row)return;
- await Promise.all((Number(row.module_count)===4&&Number(row.current_index)>=4?['writing','speaking']:['writing']).map(module=>send(mockEvaluationTopic,{attemptId,module},{idempotencyKey:'mock-'+module+(module==='speaking'?'-submitted':'')+':'+attemptId+(retry?':'+randomUUID():''),delaySeconds:Math.max(0,Math.ceil((new Date(String(row.ends_at)).getTime()-Date.now())/1000)),retentionSeconds:86400})));
+ await Promise.all(row.snapshot.filter((s:any,i:number)=>s.module==='writing'||(s.module==='speaking'&&Number(row.current_index)>i)).map((s:any)=>s.module).map((module:string)=>send(mockEvaluationTopic,{attemptId,module},{idempotencyKey:'mock-'+module+(module==='speaking'?'-submitted':'')+':'+attemptId+(retry?':'+randomUUID():''),delaySeconds:Math.max(0,Math.ceil((new Date(String(row.ends_at)).getTime()-Date.now())/1000)),retentionSeconds:86400})));
 }
 // This worker needs no browser session and runs even if the candidate has closed the tab.
 export async function processMockEvaluation(attemptId:string,module:'writing'|'speaking'='writing'){
@@ -22,7 +22,7 @@ export async function processMockEvaluation(attemptId:string,module:'writing'|'s
  if(!row||row.results_published_at)return;
  if(new Date(String(row.ends_at)).getTime()>Date.now())throw Error('Mock has not ended');
  const settled=await settleAttempt(row);
- const index=module==='writing'?2:3;
+ const index=settled.snapshot.findIndex((s:any)=>s.module===module);if(index<0)return;
  const writing=settled.results.find((r:any)=>r.module===module);
  if(!writing||['reviewed','ai_reviewed','ai_needs_review','ai_failed'].includes(writing.status))return;
  if(writing.status==='ai_running'&&new Date(writing.aiLeaseUntil).getTime()>Date.now())throw Error('Mock evaluation lease active');
@@ -35,12 +35,12 @@ export async function processMockEvaluation(attemptId:string,module:'writing'|'s
  try{
   if(tries>3)throw Error('Evaluation retry limit reached');
   if(module==='speaking'){
-   const set=normalizeSpeakingSet(settled.snapshot[3].document.speakingSet),steps=speakingSteps(set);
+   const set=normalizeSpeakingSet(settled.snapshot[index].document.speakingSet),steps=speakingSteps(set);
    const clips=await db().query('SELECT step,object_key,seconds FROM public.speaking_recordings WHERE attempt_id=$1 ORDER BY step',[attemptId]);
    if(!clips.length)patch={status:'ai_reviewed',bandScore:0,feedback:'No Speaking recordings were submitted.'};
    else {const input={sourceParts:set.sourceParts||null,cueCard:set.cueCard,expected:steps.filter(s=>s.t==='ask').length,clips:clips.map(c=>({step:Number(c.step),part:steps[Number(c.step)].p,question:steps[Number(c.step)].q||'',seconds:Number(c.seconds),key:String(c.object_key)}))};const assessment=await assessSpeaking(input);patch={status:assessment.result.estimatedBand===null?'ai_needs_review':'ai_reviewed',bandScore:assessment.result.estimatedBand,feedback:assessment.result.summary,speakingAssessment:assessment.result,aiModel:assessment.model,aiUsage:assessment.usage};}
   }else{
-  const input=writingInput(settled.snapshot[2].document,settled.answers['2']||{});
+  const input=writingInput(settled.snapshot[index].document,settled.answers[String(index)]||{});
   if(!input.tasks.some(t=>t.answer.trim()))patch={status:'ai_reviewed',bandScore:0,feedback:'No Writing response was submitted.'};
   else {const assessment=await assessWriting(input);patch={status:assessment.result.estimatedBand===null?'ai_needs_review':'ai_reviewed',bandScore:assessment.result.estimatedBand,feedback:assessment.result.summary,aiAssessment:assessment.result,aiModel:assessment.model,aiUsage:assessment.usage};}
   }

@@ -17,13 +17,15 @@ export async function POST(req:NextRequest,c:Context){try{const u=await admin();
  else if(d.action==='copy')await copyMockSource(id,d.sourceKind,d.sourceId,d.modules,u.id);
  else if(d.action==='finishSpeaking'){
  if(typeof d.attemptId!=='string'||!/^[a-f0-9-]{36}$/.test(d.attemptId))throw new AuthHttpError(400,'Invalid attempt');
- const rows=await db().query(`WITH event_lock AS(SELECT id FROM public.mock_events WHERE id=$1 AND ends_at<=now() AND results_published_at IS NULL FOR UPDATE) UPDATE public.exam_attempts a SET current_index=4,deadline=NULL,locked_index=NULL,results=results||'[{"module":"speaking","correct":null,"total":null,"scorePercent":null,"bandScore":null,"status":"unmarked","items":[]}]'::jsonb FROM event_lock e WHERE a.id=$2::uuid AND a.parent_id=e.id AND a.kind='mock' AND a.current_index=3 AND jsonb_array_length(a.snapshot)=4 RETURNING a.id`,[id,d.attemptId]);
+ const rows=await db().query(`WITH event_lock AS(SELECT id FROM public.mock_events WHERE id=$1 AND ends_at<=now() AND results_published_at IS NULL FOR UPDATE) UPDATE public.exam_attempts a SET current_index=current_index+1,deadline=NULL,locked_index=NULL,results=results||'[{"module":"speaking","correct":null,"total":null,"scorePercent":null,"bandScore":null,"status":"unmarked","items":[]}]'::jsonb FROM event_lock e WHERE a.id=$2::uuid AND a.parent_id=e.id AND a.kind='mock' AND a.snapshot->a.current_index->>'module'='speaking' RETURNING a.id`,[id,d.attemptId]);
  if(!rows.length)throw new AuthHttpError(409,'Speaking is not open or has already been submitted.');await enqueueMockEvaluation(d.attemptId);
  }
  else if(d.action==='publish')await publishMock(id);
  else if(d.action==='evaluate'){
  if(typeof d.attemptId!=='string'||!/^[a-f0-9-]{36}$/.test(d.attemptId)||(d.module!==undefined&&!['writing','speaking'].includes(String(d.module))))throw new AuthHttpError(400,'Invalid attempt');
- const index=d.module==='speaking'?3:2;
+ const module=d.module==='speaking'?'speaking':'writing';
+ const paper=(await db().query("SELECT snapshot FROM public.exam_attempts WHERE id=$1::uuid AND parent_id=$2 AND kind='mock'",[d.attemptId,id]))[0];
+ const index=paper?.snapshot.findIndex((s:any)=>s.module===module)??-1;if(index<0)throw new AuthHttpError(400,'Module is not included in this mock.');
  const rows=await db().query(`WITH event_lock AS (SELECT id FROM public.mock_events WHERE id=$1 AND ends_at<=now() AND results_published_at IS NULL FOR UPDATE) UPDATE public.exam_attempts a SET results=jsonb_set(a.results,'{${index}}',(a.results->${index})||'{"status":"unmarked","aiTries":0}'::jsonb) FROM event_lock e WHERE a.id=$2::uuid AND a.parent_id=e.id AND a.kind='mock' AND a.current_index>=${index+1} AND a.results->${index}->>'status' IN ('unmarked','ai_failed','ai_needs_review') RETURNING a.id`,[id,d.attemptId]);
  if(!rows.length)throw new AuthHttpError(409,'This paper cannot be queued for evaluation.');
  await enqueueMockEvaluation(d.attemptId,true);
