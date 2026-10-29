@@ -21,8 +21,8 @@ export async function POST(req:NextRequest){try{
 export async function GET(req:NextRequest){try{
  const session=await readSession();if(!session)throw new AuthHttpError(401,'Sign in to view this evaluation.');
  const id=req.nextUrl.searchParams.get('attemptId')||'';if(!/^[a-f0-9-]{36}$/.test(id))throw new AuthHttpError(400,'Invalid attempt');
+ const attempt=await readAttempt(id);if(attempt.kind==='mock')throw new AuthHttpError(409,'View Writing feedback through your published mock result.');
  const existing=await evaluationForAttempt(id,session.user.id);if(existing)return json({evaluation:existing});
- const attempt=await readAttempt(id);
  if(attempt.user_id!==session.user.id)throw new AuthHttpError(404,'Evaluation unavailable');
  return json({evaluation:await evaluationForAttempt(id,session.user.id)});
  }catch(e){return failure(e)}}

@@ -11,10 +11,7 @@ import { gradeModule } from './result';
 import { cleanAnswers, moduleDeadline } from './timeline';
 import type { ExamDocument, Module } from './document';
 export const ownerCookie = 'luma_exam_owner';
-type Snapshot = {
-    module: Module;
-    document: ExamDocument;
-}[];
+type Snapshot = import('./timeline').AttemptSnapshot;
 export async function startAttempt(kind: string, parentId: string, selection: string, owner: string, userId: string | null) {
     if (!['cambridge', 'practice'].includes(kind) || !/^\d{1,16}$/.test(parentId) || ![...moduleOrder, 'full'].includes(selection as any))
         throw new AuthHttpError(400, 'Invalid test');
@@ -39,7 +36,7 @@ async function attemptRow(id:string){return (await db().query(`SELECT a.*,e.resu
 // A browser timer is advisory. Expired modules are graded from the last server save.
 export async function settleAttempt(initial:any){
  let r=initial;
- for(let n=0;n<4;n++){
+ for(let n=0;n<5;n++){
   const index=Number(r.current_index),snapshot=r.snapshot as Snapshot;
   if(index>=snapshot.length||!r.deadline||new Date(r.deadline).getTime()>Date.now())return r;
   const answers=r.answers?.[String(index)]||{},result=gradeModule(snapshot[index].module,snapshot[index].document,answers);

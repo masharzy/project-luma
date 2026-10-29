@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import type { SpeakingMode,SpeakingSet } from './schema';
 import { speakingSteps } from './flow';
-export async function renderSpeakingRoom(mode:SpeakingMode,testId:string,questions:SpeakingSet,nonce:string,preview=false,durationMinutes=15,product:{savedSteps:number[];storageReady:boolean}={savedSteps:[],storageReady:false}){
+export async function renderSpeakingRoom(mode:SpeakingMode,testId:string,questions:SpeakingSet,nonce:string,preview=false,durationMinutes=15,product:{savedSteps:number[];storageReady:boolean;mockDeadline?:number;mockAttemptId?:string;mockServerNow?:number}={savedSteps:[],storageReady:false}){
  let html=await readFile(path.join(process.cwd(),'src/lib/speaking/approved-room.html'),'utf8');
  const controller=await readFile(path.join(process.cwd(),'src/lib/speaking/controller.js'),'utf8');
  const config=JSON.stringify({...product,mode,testId,durationMinutes,voiceVersion:createHash('sha256').update(JSON.stringify(questions)).digest('hex').slice(0,16),questions,steps:speakingSteps(questions),preview}).replace(/</g,'\\u003c');

@@ -12,6 +12,7 @@ export async function evaluationForAttempt(attemptId:string,userId:string){
 }
 export async function createWritingEvaluation(attemptId:string,userId:string){
  const attempt=await readAttempt(attemptId);
+ if(attempt.kind==='mock')throw new AuthHttpError(409,'Mock feedback is released through the mock result after admin publication.');
  if(attempt.user_id!==userId)throw new AuthHttpError(403,'Sign in before starting a Writing attempt to receive AI feedback.');
  const existing=await evaluationForAttempt(attemptId,userId);if(existing)return existing;
  const snapshot=attempt.snapshot as {module:string;document:any}[];
