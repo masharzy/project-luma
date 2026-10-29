@@ -28,6 +28,14 @@
           "topic": "jumptonine-mock-reminders"
         }
       ]
+    },
+    "src/app/api/queues/mock-evaluation/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "jumptonine-mock-evaluation"
+        }
+      ]
     }
   }
 }
