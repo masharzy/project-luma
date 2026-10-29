@@ -6,3 +6,17 @@ test('invalid schedule cannot leave a half-published mock behind',async()=>{cons
 test('Save draft does not open registration',async()=>{const h=harness();await h.api.saveMockBuilder({...input,intent:'draft'},'admin');const c=h.calls.find(c=>c.sql.startsWith('WITH created'));assert.equal(c.args[4],'draft');assert.equal(c.args[11],false);});
 
 test('a manually authored mock publishes without importing a test or choosing an existing Speaking bank',async()=>{const h=harness();const speakingDocument={part1:['Where do you live?',''],cueCard:{topic:'A journey',points:['Where',''],explain:'Why'},part3:['Why travel?'],rounding:[]};await h.api.saveMockBuilder({...input,id:'202',mode:'manual',sourceKind:'',sourceId:'',speakingSetId:'',speakingDocument},'admin');const c=h.calls.find(c=>c.sql.startsWith('WITH created'));assert.equal(c.args[11],true);assert.ok(c.sql.includes('custom_speaking AS'));const own=JSON.parse(c.args[12]);assert.deepEqual(own.part1,['Where do you live?']);assert.deepEqual(own.cueCard.points,['Where']);const snapshot=JSON.parse(c.args[8]);assert.equal(snapshot[3].module,'speaking');assert.equal(snapshot[3].document.speakingSet.cueCard.topic,'A journey');assert.equal(JSON.parse(c.args[7])[2].document.mockSetup.mode,'manual');});
+
+test('every nonempty module combination publishes only selected papers and sums only their timed durations',async()=>{
+ const order=['listening','reading','writing','speaking'];
+ for(let mask=1;mask<16;mask++){
+  const modules=order.filter((_,i)=>mask&(1<<i)),h=harness();
+  await h.api.saveMockBuilder({...input,modules,speakingSetId:modules.includes('speaking')?'9':''},'admin');
+  const c=h.calls.find(c=>c.sql.startsWith('WITH created'));
+  assert.deepEqual(JSON.parse(c.args[8]).map(s=>s.module),modules);
+  assert.deepEqual(JSON.parse(c.args[13]),modules);
+  assert.equal(Date.parse(c.args[10])-Date.parse(c.args[5]),Math.max(1000,modules.reduce((n,m)=>n+(input.durations[m]||0),0)*60000));
+ }
+});
+test('reject an empty, duplicate or unknown module selection',async()=>{for(const modules of [[],['reading','reading'],['invalid']]){const h=harness();await assert.rejects(h.api.saveMockBuilder({...input,modules},'admin'),e=>e.status===400);assert.ok(!h.calls.some(c=>c.sql.startsWith('WITH created')));}});
+test('Reading-only ignores incomplete own Speaking and disabled-module times',async()=>{const h=harness();await h.api.saveMockBuilder({...input,mode:'manual',modules:['reading'],speakingSetId:'',speakingDocument:{},durations:{reading:40,listening:0,writing:0}},'admin');const c=h.calls.find(c=>c.sql.startsWith('WITH created'));assert.deepEqual(JSON.parse(c.args[8]).map(s=>s.module),['reading']);assert.equal(c.args[12],null);});

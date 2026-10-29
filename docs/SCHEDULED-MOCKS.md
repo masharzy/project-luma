@@ -13,3 +13,5 @@ Navbar, homepage and footer link to `/mocks`. The public catalog has upcoming, r
 No new schema migration is required beyond migration 022. Builder preferences live in private admin module metadata and are excluded from the learner snapshot. Existing three-module frozen exams remain three-module exams. The new untimed Speaking behavior applies to unfinished Speaking in four-module mocks.
 
 Validation: `node --test tests/mock-builder.test.mjs tests/scheduled-mocks.test.mjs`; complete non-HTTP suite and production build. The isolated integration harness uses only `MOCK_TEST_DATABASE_URL`, never production credentials.
+
+Mock creation supports any nonempty selection of Listening, Reading, Writing and Speaking. Disabled modules retain their draft questions but are excluded from publication validation, the candidate snapshot, timed boundaries and evaluation. Speaking-only opens at the scheduled start without a total deadline. Results require review only for included Writing/Speaking modules. Registration freezes the selected paper and module list.

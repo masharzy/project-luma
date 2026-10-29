@@ -72,7 +72,7 @@ export async function advanceAttempt(id:string,body:Record<string,unknown>){
  if(r.kind==='mock'&&snapshot[index].module==='speaking'){
   if(body.action==='save'||body.action==='start')return publicAttempt(r);
   if(body.action!=='submit')throw new AuthHttpError(400,'Invalid action');
-  await db().query("UPDATE public.exam_attempts SET current_index=current_index+1,deadline=NULL,locked_index=NULL,results=results||$2::jsonb WHERE id=$1 AND current_index=3",[id,JSON.stringify([gradeModule('speaking',snapshot[index].document,{})])]);
+  await db().query("UPDATE public.exam_attempts SET current_index=current_index+1,deadline=NULL,locked_index=NULL,results=results||$2::jsonb WHERE id=$1 AND current_index=$3",[id,JSON.stringify([gradeModule('speaking',snapshot[index].document,{})]),index]);
   return publicAttempt(await readAttempt(id));
  }
  if(body.action==='start'){
