@@ -20,6 +20,8 @@ export function Footer() {
             <h3>Learn</h3>
             <Link href="/resources">Resources</Link>
             <Link href="/pricing">Pricing</Link>
+            <Link href="/pp">Privacy Policy</Link>
+            <Link href="/tos">Terms of Service</Link>
           </div>
           <div>
             <h3>Your space</h3>
