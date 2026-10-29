@@ -28,6 +28,11 @@ export async function sendAuthMail(
         ? `Finish creating your JumpToNine account:\n\n${url}\n\nThis link verifies your email only and does not sign you in. This link expires in 24 hours. If you did not request this, ignore this email.`
         : `Set a new JumpToNine password:\n\n${url}\n\nThis link expires in 20 minutes. If you did not request it, ignore this email.`,
   };
+  await sendNotificationMail(message.to,message.subject,message.text);
+}
+export async function sendNotificationMail(to:string,subject:string,text:string,idempotencyKey?:string){
+  assertMailReady();
+  const message={to,subject,text};
   if (process.env.RESEND_API_KEY) {
     try {
       const response = await fetch("https://api.resend.com/emails", {
@@ -35,6 +40,7 @@ export async function sendAuthMail(
         headers: {
           Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
           "Content-Type": "application/json",
+          ...(idempotencyKey?{"Idempotency-Key":idempotencyKey}:{}),
         },
         body: JSON.stringify({ ...message, from: process.env.RESEND_FROM_EMAIL }),
         signal: AbortSignal.timeout(15000),

@@ -1,0 +1,15 @@
+# Scheduled mocks
+
+Admin flow: create a mock with a Bangladesh-time start, complete Listening (40 scored answers and audio), Reading (40 scored answers), and Writing (Task 1+2), then open `/admin/mocks/<id>` and select **Open registration**. That action atomically freezes the paper, access tier and absolute timetable and publishes its public waiting room. Editing source modules afterward does not change a scheduled paper. Create a new mock for a different paper/time.
+
+Candidate flow: verified login → register before the start → waiting room → join/resume. Premium registration requires an active subscription at registration. A booked registration remains valid if the subscription expires before the exam. Concurrent joins reuse one attempt. A late join receives the current stage, not a fresh timer. Full practice tests remain Listening/Reading only; scheduled mocks always contain Listening/Reading/Writing.
+
+All stages use absolute deadlines calculated from the scheduled start. An early Submit locks the stage until its deadline. Expired stages are settled on the server from the most recent autosave, including when the browser was closed. Late request bodies are never accepted as a replacement for expired answers. Autosaves are sent after a short typing pause, periodically while typing, and more frequently in the final seconds; offline answers also remain in sessionStorage. Candidates must reconnect before the deadline for unsaved device-only edits to count.
+
+Listening/Reading are scored automatically. Writing is reviewed in **Schedule & results**. Publication is blocked until the timetable has ended and every joined candidate's Writing has a saved grade. Results and answer keys are withheld by the API until publication; published results are account-owned and retained rather than relying on the guest attempt's 24-hour expiry. Published Writing grades cannot be edited. No-show registrations have no scored attempt.
+
+Registration schedules a transactional reminder approximately ten minutes before the start. The signed Vercel Queue callback uses a database lease and Resend idempotency key. Dates over the seven-day queue retention limit are handled by six-day delayed continuation messages. Delivery uses the existing Resend/SMTP configuration; no cron or new email key is required. No real reminder emails are sent by the integration test.
+
+Apply `migrations/022_scheduled_mocks.sql` before deploying the routes. It extends the attempt kind constraint and adds mock events, registrations, locks, and an allowlisted OAuth return path. Existing practice answers and modules are not rewritten. Vercel must deploy the new queue trigger in `vercel.json`.
+
+Tests: `node --test tests/scheduled-mocks.test.mjs tests/cambridge-seamless-flow.test.mjs tests/verification.test.mjs`. Database lifecycle test: `MOCK_TEST_DATABASE_URL=<isolated test branch URL> node scripts/test-scheduled-mocks.cjs`. This script creates synthetic records and changes their timestamps only in the supplied isolated database; never pass production credentials.

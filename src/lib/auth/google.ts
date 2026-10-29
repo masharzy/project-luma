@@ -1,4 +1,5 @@
 import "server-only";
+import { mockReturnPath } from "./return-path";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { createHash } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
@@ -28,8 +29,8 @@ export async function beginGoogle(request: NextRequest) {
     verifier = randomToken(),
     nonce = randomToken();
   await db().query(
-    `INSERT INTO app_auth.oauth_flows(state_hash,verifier,nonce,expires_at) VALUES($1,$2,$3,now()+interval '10 minutes')`,
-    [digest(state), verifier, nonce],
+    `INSERT INTO app_auth.oauth_flows(state_hash,verifier,nonce,expires_at,return_path) VALUES($1,$2,$3,now()+interval '10 minutes',$4)`,
+    [digest(state), verifier, nonce, mockReturnPath(request.nextUrl.searchParams.get("next"))],
   );
   const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
   url.search = new URLSearchParams({
@@ -84,7 +85,7 @@ export async function finishGoogle(request: NextRequest) {
     )
       return fail();
     const flows = await db().query(
-      `DELETE FROM app_auth.oauth_flows WHERE state_hash=$1 AND expires_at>now() RETURNING verifier,nonce`,
+      `DELETE FROM app_auth.oauth_flows WHERE state_hash=$1 AND expires_at>now() RETURNING verifier,nonce,return_path`,
       [digest(state)],
     );
     if (!flows[0]) return fail();
@@ -146,7 +147,7 @@ export async function finishGoogle(request: NextRequest) {
     );
     const token = await createSession(String(rows[0].id));
     await audit(String(rows[0].id), "google_sign_in");
-    const response = NextResponse.redirect(appOrigin() + "/dashboard");
+    const response = NextResponse.redirect(appOrigin() + mockReturnPath(flows[0].return_path));
     response.headers.set("Cache-Control", "no-store");
     response.cookies.set(sessionCookieName(), token, sessionCookieOptions());
     response.cookies.set(oauthCookieName(), "", {

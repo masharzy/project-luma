@@ -20,6 +20,14 @@
           "topic": "luma-speaking-evaluation"
         }
       ]
+    },
+    "src/app/api/queues/mock-reminders/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "jumptonine-mock-reminders"
+        }
+      ]
     }
   }
 }
