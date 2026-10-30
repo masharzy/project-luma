@@ -1,6 +1,7 @@
 import {NextRequest} from "next/server";
 import {db} from "@/lib/auth/db";
 import {readSession} from "@/lib/auth/session";
+import {hasAdminRole} from "@/lib/auth/policy";
 import {getPrivate,storageConfigured} from "@/lib/products/storage";
 export const runtime="nodejs";
 export const dynamic="force-dynamic";
@@ -13,8 +14,10 @@ export async function GET(_:NextRequest,c:Context){
   const media=rows[0];
   if(media.access==="premium"){
    const session=await readSession();if(!session?.user)return new Response("Sign in required",{status:401});
-   const grant=await db().query("SELECT 1 FROM public.evaluation_subscriptions WHERE user_id=$1::uuid AND status='active' AND starts_at<=now() AND expires_at>now() LIMIT 1",[session.user.id]);
-   if(!grant.length)return new Response("Premium membership required",{status:403});
+   if(!hasAdminRole(session.user)){
+    const grant=await db().query("SELECT 1 FROM public.evaluation_subscriptions WHERE user_id=$1::uuid AND status='active' AND starts_at<=now() AND expires_at>now() LIMIT 1",[session.user.id]);
+    if(!grant.length)return new Response("Premium membership required",{status:403});
+   }
   }
   if(!storageConfigured())return new Response("Media unavailable",{status:503});
   const bytes=await getPrivate(String(media.object_key));
