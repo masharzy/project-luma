@@ -15,7 +15,7 @@ export async function POST(req:NextRequest,context:Context){
   if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))throw new AuthHttpError(400,"Invalid user");
   if(id===session.user.id)throw new AuthHttpError(409,"You cannot change your own account from this panel.");
   const body=await readBody(req);
-  const action=body.action;
+  const action=String(body.action);
   if(!["ban","unban","revoke_sessions","role"].includes(action))throw new AuthHttpError(400,"Invalid action");
   let rows;
   if(action==="ban"||action==="unban"||action==="revoke_sessions"){
