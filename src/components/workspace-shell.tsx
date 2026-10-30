@@ -21,6 +21,7 @@ const admin = [
   ["/admin/other-books", "More Books", "book"],
   ["/admin/practice", "Practice tests", "file"],
   ["/admin/import", "Import tests", "file"],
+  ["/admin/media", "Media library", "file"],
   ["/admin/mocks", "Mock exams", "clock"],
   ["/admin/results", "Results review", "chart"],
   ["/admin/vocabulary", "Vocabulary", "book"],
