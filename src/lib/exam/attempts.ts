@@ -20,8 +20,22 @@ export async function startAttempt(kind: string, parentId: string, selection: st
     if (!parent || parent.status !== 'published' || parent.access !== 'free')
         throw new AuthHttpError(404, 'Test unavailable');
     const chosen = selectedModules(parent.modules, selection);
-    if (!chosen.length)
-        throw new AuthHttpError(404, 'Module unavailable');
+    if (!chosen.length || (selection === 'full' && chosen.length !== moduleOrder.length))
+        throw new AuthHttpError(404, 'Full test requires Listening, Reading and Writing.');
+    // A Full Test automatically evaluates Writing; individual modules remain guest-accessible.
+    if (selection === 'full') {
+        if (!userId) throw new AuthHttpError(401, 'Sign in with a verified account to start a Full Test with AI Writing feedback.');
+        const allowance = (await db().query("SELECT monthly_limit FROM public.evaluation_allowance($1::uuid,'writing_product')",[userId]))[0];
+        if (!allowance || allowance.monthly_limit === 0)
+            throw new AuthHttpError(403, 'Your plan does not include AI Writing Evaluation.','EVALUATION_ACCESS_REQUIRED');
+        if (allowance.monthly_limit !== null) {
+            const usage = (await db().query(`SELECT COALESCE(SUM(count),0)::int AS used FROM public.evaluation_usage
+                WHERE user_id=$1::uuid AND product IN ('writing_product','cambridge_writing','practice_writing')
+                  AND period=date_trunc('month',now() AT TIME ZONE 'UTC')::date`,[userId]))[0];
+            if (Number(usage?.used||0)>=Number(allowance.monthly_limit))
+                throw new AuthHttpError(403, 'Your Writing Evaluation limit is reached. Reset or upgrade your plan to take another Full Test.','EVALUATION_LIMIT');
+        }
+    }
     const snapshot: Snapshot = await Promise.all(chosen.map(async module => {
         const { document, revision } = await loadExam(k, parentId, module);
         if (!revision || !document.parts.length || (module !== 'writing' && !document.questions.length))

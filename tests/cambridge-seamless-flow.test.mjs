@@ -12,10 +12,13 @@ function harness() {
   const docs = {
     listening: { durationMinutes: 30, parts: [{ id: 'p1' }], questions: [{ id: 'q1' }] },
     reading: { durationMinutes: 60, parts: [{ id: 'p2' }], questions: [{ id: 'q2' }] },
+    writing: { durationMinutes: 60, parts: [{ id: 'p3' }], questions: [] },
   };
   let row = null;
   const query = async (sql, args) => {
     calls.push({ sql, args });
+    if (sql.includes('SELECT monthly_limit')) return [{ monthly_limit: 5 }];
+    if (sql.includes('SELECT COALESCE(SUM(count)')) return [{ used: 0 }];
     if (sql.includes('INSERT INTO public.exam_attempts')) {
       row = { id: args[0], kind: args[2], parent_id: args[3], title: args[4],
         snapshot: JSON.parse(args[5]), user_id: args[6], current_index: 0,
@@ -43,10 +46,10 @@ function harness() {
     '@/lib/auth/http': { AuthHttpError },
     '@/lib/cambridge-settings': {
       moduleOrder: ['listening', 'reading', 'writing'],
-      selectedModules: (_modules, selection) => selection === 'full' ? ['listening', 'reading'] : [selection],
+      selectedModules: (_modules, selection) => selection === 'full' ? ['listening', 'reading', 'writing'] : [selection],
     },
     './store': {
-      examParent: async () => ({ title: 'Cambridge 1 Test 1', status: 'published', access: 'free', modules: ['listening', 'reading'] }),
+      examParent: async () => ({ title: 'Cambridge 1 Test 1', status: 'published', access: 'free', modules: ['listening', 'reading', 'writing'] }),
       loadExam: async (_kind, _id, module) => ({ document: docs[module], revision: 1 }),
       learnerDocument: document => document,
     },
@@ -71,7 +74,7 @@ test('Begin Practice creates an attempt with Listening already timed, without a 
   const first = h.api.publicAttempt(h.row);
   assert.equal(first.current.module, 'listening');
   assert.equal(first.complete, false);
-  assert.equal(first.modules.length, 2);
+  assert.equal(first.modules.length, 3);
   assert.equal(id, h.row.id);
 });
 
@@ -81,13 +84,15 @@ test('Listening submission starts Reading in the same atomic database update, wi
   const reading = await h.api.advanceAttempt(id, { action: 'submit', index: 0, answers: { q1: 'A' } });
   const transition = h.calls.find(call => call.sql.includes('SET current_index=current_index+1'));
   assert.match(transition.sql, /deadline=CASE WHEN current_index\+1<\$5::integer/);
-  assert.equal(transition.args[4], 2);
+  assert.equal(transition.args[4], 3);
   assert.equal(transition.args[5], 60 * 60);
   assert.equal(reading.current.module, 'reading');
   assert.ok(reading.deadline);
   assert.equal(reading.index, 1);
-  const finished = await h.api.advanceAttempt(id, { action: 'submit', index: 1, answers: { q2: 'B' } });
+  const writing = await h.api.advanceAttempt(id, { action: 'submit', index: 1, answers: { q2: 'B' } });
+  assert.equal(writing.current.module, 'writing');
+  const finished = await h.api.advanceAttempt(id, { action: 'submit', index: 2, answers: { writing_draft_p3: 'Writing answer' } });
   assert.equal(finished.complete, true);
   assert.equal(finished.deadline, null);
-  assert.equal(finished.results.length, 2);
+  assert.equal(finished.results.length, 3);
 });
