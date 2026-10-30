@@ -222,7 +222,8 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 .jtn-design.jtn-footer ul a{text-decoration:none;color:var(--mute)}.jtn-design.jtn-footer ul a:hover{color:var(--c)}
 .jtn-design .jtn-fg .jtn-logo{font-size:1.7rem}.jtn-design .jtn-fg p{color:var(--mute);font-size:.9rem;margin-top:.4rem}
 .jtn-design .jtn-legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--line);padding:18px 0;font-size:.8rem;color:var(--mute)}
-.jtn-design .jtn-mark{font:700 19vw/.78 var(--d);letter-spacing:-.07em;color:var(--blush);white-space:nowrap;margin:0 0 -.07em -.04em;user-select:none}
+.jtn-design .jtn-mark{width:100%;color:var(--blush);margin:0;line-height:0;user-select:none}
+.jtn-design .jtn-mark svg{display:block;width:100%;height:clamp(120px,18.85vw,380px)}
 
 @media(max-width:1000px){
 .jtn-design .jtn-fg{grid-template-columns:repeat(2,1fr)}.jtn-design .jtn-fg>div:first-child{grid-column:1/-1}
