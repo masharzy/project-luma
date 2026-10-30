@@ -1,12 +1,13 @@
 import { Suspense } from 'react';
 import { headers } from 'next/headers';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { homeMarkup, homeStructuredData } from '@/lib/home-prototype';
 import { getHomeShelf, getHomeAllowance, shelfMarkup, shelfStyles, allowanceMarkup } from '@/lib/home-data';
 import { HomeInteractions } from '@/components/home-interactions';
 const title='JumpToNine: Free IELTS Practice Tests with AI Writing and Speaking Feedback';
 const description='Practise IELTS Listening, Reading, Writing and Speaking online. Cambridge 1–21, question-type practice, scheduled mock exams and AI feedback with an estimated band.';
 export const metadata:Metadata={title:{absolute:title},description,alternates:{canonical:'https://jumptonine.com/'},openGraph:{type:'website',url:'https://jumptonine.com/',siteName:'JumpToNine',title:'JumpToNine: IELTS practice, one step at a time',description:'Cambridge 1–21, mock exams and AI feedback for all four IELTS modules. Start with a free test.'},twitter:{card:'summary',title,description}};
+export const viewport:Viewport={themeColor:'#FDFBF7'};
 export const dynamic='force-dynamic';
 const booksAt=homeMarkup.indexOf('<section id="books"');
 const heroMarkup=homeMarkup.slice(0,booksAt);

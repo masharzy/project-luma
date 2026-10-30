@@ -287,7 +287,7 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 
 /* The existing sticky header stays untouched. */
 .jtn-home{--header-h:83px;isolation:isolate;overflow-x:clip}
-.jtn-home .jtn-hero{min-height:calc(100vh - var(--header-h));min-height:calc(100svh - var(--header-h));padding-top:21px;text-align:left;border:0}
+.jtn-home .jtn-hero{min-height:calc(100vh - var(--header-h));min-height:calc(100svh - var(--header-h));padding-top:calc(104px - var(--header-h));text-align:left;border:0}
 .jtn-home .jtn-hero h1{letter-spacing:normal;max-width:none;font-size:inherit;line-height:normal}
 .jtn-home .jtn-hero h1 span:after{content:none}
 .jtn-home .jtn-hero h1 span{letter-spacing:normal}
@@ -305,7 +305,7 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 .jtn-design .jtn-wave{min-width:0}
 .jtn-home :is(#plans,#books,#practice,#tools,#ai,#mocks,#resources,#faq){scroll-margin-top:100px}
 @media(max-width:940px){.jtn-home{--header-h:75px}}
-@media(max-width:560px){.jtn-home .jtn-hero{padding-top:17px}.jtn-design .jtn-shelf{height:300px}.jtn-design .jtn-spec div{font-size:1rem}.jtn-design .jtn-spec span{font-size:.85rem}}
+@media(max-width:560px){.jtn-home .jtn-hero{padding-top:calc(92px - var(--header-h))}.jtn-design .jtn-shelf{height:300px}.jtn-design .jtn-spec div{font-size:1rem}.jtn-design .jtn-spec span{font-size:.85rem}}
 @media(max-height:450px){.jtn-home .jtn-hero{min-height:calc(100svh - var(--header-h));padding-top:24px;padding-bottom:32px}}
 @media(prefers-reduced-motion:reduce){html:has(.jtn-home){scroll-behavior:auto}}
 
