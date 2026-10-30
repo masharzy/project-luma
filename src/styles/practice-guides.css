@@ -39,30 +39,31 @@
 .practice-guide a:focus-visible,.practice-guide summary:focus-visible,.guide-links a:focus-visible {outline:3px solid var(--deep);outline-offset:5px;}
 @media(max-width:760px) {.guide-layout{grid-template-columns:1fr;gap:28px}.guide-intro{padding-bottom:28px;margin-bottom:28px}.guide-intro h1{letter-spacing:-.8px}.guide-example{padding:20px}.practice-guide{padding-top:24px;padding-bottom:48px}.guide-article p,.guide-article li{font-size:17px}}
 
-/* One compact homepage overview, with native expandable details. */
-.home-feature-overview{background:var(--white)}
-.home-overview-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:36px}
-.home-overview-heading h2{font:700 clamp(28px,3vw,40px)/1.2 Manrope,Arial,sans-serif;letter-spacing:-1px;margin:12px 0 0}
-.home-overview-heading>p{font-family:"Hind Siliguri",sans-serif;max-width:350px;font-size:17px;line-height:1.8;margin:0}
-.home-feature-list{border-top:1px solid var(--line)}
-.home-feature-row{border-bottom:1px solid var(--line)}
-.home-feature-row>summary{display:flex;align-items:center;gap:26px;list-style:none;cursor:pointer;padding:27px 0}
-.home-feature-row>summary::-webkit-details-marker{display:none}
-.home-feature-index{align-self:flex-start;padding-top:5px;color:var(--deep);font:600 11px/1.5 Manrope,Arial,sans-serif}
-.home-feature-summary{display:grid;gap:9px;flex:1;min-width:0}
-.home-feature-title{font:700 22px/1.3 Manrope,Arial,sans-serif;color:var(--deep)}
-.home-feature-description{font-family:"Hind Siliguri",sans-serif;font-size:17px;line-height:1.7;color:var(--body)}
-.home-feature-toggle{width:28px;height:28px;position:relative;flex-shrink:0}
-.home-feature-toggle:before,.home-feature-toggle:after{content:"";position:absolute;background:var(--deep);left:7px;top:13px;width:14px;height:1px}
-.home-feature-toggle:after{transform:rotate(90deg)}
-.home-feature-row[open] .home-feature-toggle:after{transform:rotate(0deg)}
-.home-feature-content{padding:0 54px 30px 43px}
-.home-feature-content dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 36px;margin:0}
-.home-feature-content dt{font:700 14px/1.5 Manrope,Arial,sans-serif;margin-bottom:8px}
-.home-feature-content dd{font-family:"Hind Siliguri",sans-serif;font-size:16px;line-height:1.9;margin:0;color:var(--body)}
-.home-feature-content nav{display:flex;flex-wrap:wrap;gap:14px 26px;margin-top:28px}
-.home-feature-content a{font-size:13px;font-weight:700;color:var(--deep);text-decoration:underline;text-underline-offset:4px}
-.home-feature-footnote{font-family:"Hind Siliguri",sans-serif;font-size:14px;line-height:1.9;margin:24px 0 0;color:var(--body)}
-.home-feature-footnote a{color:var(--deep);text-decoration:underline;text-underline-offset:4px}
-.home-feature-row>summary:focus-visible,.home-feature-overview a:focus-visible{outline:3px solid var(--deep);outline-offset:5px}
-@media(max-width:760px){.home-overview-heading{display:block;margin-bottom:28px}.home-overview-heading>p{max-width:100%;margin-top:18px}.home-feature-row>summary{gap:16px;padding:24px 0}.home-feature-title{font-size:19px}.home-feature-description{font-size:16px}.home-feature-content{padding:0 0 26px 32px}.home-feature-content dl{grid-template-columns:1fr;gap:20px}.home-feature-content nav{gap:14px 20px}.home-feature-toggle{width:24px}}
+/* Visual discovery cards complement the original book illustration. */
+.home-card-tags{display:flex;flex-wrap:wrap;gap:7px 14px;margin:18px 0 4px}
+.home-card-tags span{font-size:10px;font-weight:600;line-height:1.5;color:var(--deep);border-bottom:1px solid #a719432e;padding-bottom:4px}
+.home-discovery{padding-top:0}
+.home-discovery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.home-discovery-card{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--white);min-width:0}
+.home-discovery-art{height:164px;padding:26px;display:flex;flex-wrap:wrap;align-content:center;align-items:center;justify-content:space-between;gap:18px;color:var(--deep);border-bottom:1px solid var(--line);overflow:hidden}
+.home-speaking-card .home-discovery-art{background:#f6e9ee}
+.home-mock-card .home-discovery-art{background:#f3eddf}
+.home-resource-card .home-discovery-art{background:#e9efe9}
+.home-art-label{flex-basis:100%;font-size:8px;font-weight:700;letter-spacing:1.4px}
+.home-wave{display:flex;align-items:center;gap:5px;height:44px}
+.home-wave i{width:3px;height:16px;background:currentColor}
+.home-wave i:nth-child(2n){height:32px}.home-wave i:nth-child(3n){height:44px}
+.home-mock-line{font:700 12px/1.5 Manrope,Arial,sans-serif;max-width:110px;letter-spacing:2px}
+.home-resource-lines{width:95px;display:grid;gap:10px}.home-resource-lines i{height:1px;background:currentColor}.home-resource-lines i:last-child{width:60%}
+.home-discovery-copy{padding:28px;display:flex;flex-direction:column;flex:1}
+.home-discovery-copy h3{font:700 24px/1.25 Manrope,Arial,sans-serif;letter-spacing:-.6px;margin:14px 0 18px;color:var(--deep)}
+.home-discovery-copy p,.home-discovery-copy li{font-family:"Hind Siliguri",sans-serif;font-size:16px;line-height:1.85}
+.home-discovery-copy p{margin:0}.home-discovery-copy ul{padding-left:18px;margin:18px 0 26px}.home-discovery-copy li+li{margin-top:8px}
+.home-discovery-copy>a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:18px;border-top:1px solid var(--line);margin-top:auto;font-size:12px;font-weight:700;color:var(--deep)}
+.home-access-caption{display:flex;align-items:center;justify-content:space-between;gap:30px;border-bottom:1px solid var(--line);padding:26px 0}
+.home-access-caption p{font-family:"Hind Siliguri",sans-serif;font-size:14px;line-height:1.8;max-width:750px;margin:0}
+.home-access-caption>a{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:12px;font-weight:700;color:var(--deep)}
+.home-discovery a:focus-visible{outline:3px solid var(--deep);outline-offset:5px}
+@media(max-width:1000px){.home-discovery-grid{gap:16px}.home-discovery-copy{padding:22px}.home-discovery-copy h3{font-size:21px}.home-discovery-art{padding:22px}.home-mock-line{max-width:90px;font-size:10px}.home-access-caption{align-items:flex-start;flex-direction:column;gap:14px}}
+@media(max-width:760px){.home-discovery-grid{grid-template-columns:1fr}.home-discovery-card{display:grid;grid-template-columns:140px minmax(0,1fr)}.home-discovery-art{height:auto;border-bottom:0;border-right:1px solid var(--line);align-content:start;padding:24px 18px;justify-content:flex-start}.home-art-label{font-size:7px;line-height:1.8}.home-discovery-copy{padding:24px}.home-discovery-copy h3{font-size:22px}.home-resource-lines{width:70px}}
+@media(max-width:450px){.home-discovery-card{display:flex}.home-discovery-art{height:124px;border-right:0;border-bottom:1px solid var(--line);align-content:center;justify-content:space-between;padding:20px 24px}.home-art-label{flex-basis:100%}.home-discovery-copy{padding:24px}}
