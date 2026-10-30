@@ -1,5 +1,2 @@
-import { AdminList } from "@/components/admin-list";
-export const metadata = { title: "Manage questions" };
-export default function Page() {
-  return <AdminList kind="questions" />;
-}
+import {redirect} from "next/navigation";
+export default function Page(){redirect("/admin/practice");}
