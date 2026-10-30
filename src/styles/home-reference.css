@@ -310,3 +310,9 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 @media(prefers-reduced-motion:reduce){html:has(.jtn-home){scroll-behavior:auto}}
 
 .jtn-home .jtn-cv{--bg:#C8082F}.jtn-home .jtn-ml{--bg:#2A0F16}
+
+/* Fit two minimum-width spines even with desktop scrollbars at 360px. */
+@media(max-width:375px){.jtn-design .jtn-ml{margin-left:4px}}
+/* Mobile-sized desktop QA should reserve the same content width as a phone.
+   This keeps the immutable header intact at 320px without horizontal scrolling. */
+@media(max-width:340px){html:has(.jtn-home){scrollbar-width:none}}
