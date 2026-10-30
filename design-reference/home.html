@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>JumpToNine: Free IELTS Practice Tests with AI Writing and Speaking Feedback</title>
+<meta name="description" content="Practise IELTS Listening, Reading, Writing and Speaking online. Cambridge 1–21, question-type practice, scheduled mock exams and AI feedback with an estimated band.">
+<!-- Replace with your real domain -->
+<link rel="canonical" href="https://jumptonine.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JumpToNine: IELTS practice, one step at a time">
+<meta property="og:description" content="Cambridge 1–21, mock exams and AI feedback for all four IELTS modules. Start with a free test.">
+<meta name="theme-color" content="#FDFBF7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@800&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","name":"JumpToNine","url":"https://jumptonine.com/","description":"Independent IELTS practice platform for Listening, Reading, Writing and Speaking."},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. You can take Listening and Reading tests without an account. AI Writing and Speaking evaluation needs a verified account and a plan allowance, and your past AI feedback is kept in your account."}},
+{"@type":"Question","name":"What is the difference between Test Practice and Question Practice?","acceptedAnswer":{"@type":"Answer","text":"Test Practice runs a full test or a single module in exam conditions. Question Practice lets you choose question types, or pick individual questions, to build a custom session."}},
+{"@type":"Question","name":"Is AI feedback an official IELTS score?","acceptedAnswer":{"@type":"Answer","text":"No. AI feedback gives an estimated band to guide your practice. It is not an official IELTS score."}}]}]}
+</script>
+<style>
+:root{--gx:calc(max(0px,(100vw - 1160px)/2) + clamp(20px,4vw,40px));--paper:#FDFBF7;--c:#C8082F;--w:#7B1230;--ink:#2A0F16;--sand:#F3EADC;--blush:#FBE6EA;--mist:#EBEFF6;--sage:#E6EEE6;--mute:#6A4852;--line:rgba(123,18,48,.18);--d:'Bricolage Grotesque','Instrument Sans',system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.6 'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit}
+a:focus-visible,button:focus-visible,summary:focus-visible,textarea:focus-visible,mark:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+section{padding:clamp(72px,10vw,140px) 0}
+h2,h3{font-family:var(--d);font-weight:600;letter-spacing:-.035em;margin:0}
+h2{font-size:clamp(2rem,4.8vw,4rem);line-height:1;max-width:13ch}
+h3{font-size:1.5rem;line-height:1.1;letter-spacing:-.025em}
+p{margin:0}
+.lead{color:var(--mute);max-width:44ch;font-size:1.05rem}
+.head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.btn{display:inline-block;background:var(--c);color:#fff;padding:.95em 1.6em;border-radius:2px;font-weight:600;text-decoration:none;transition:background .2s}
+.btn:hover{background:var(--w)}
+.btn.s{padding:.6em 1.1em;font-size:.85rem}
+.link{color:var(--w);font-weight:600;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:1px}
+.link:hover{color:var(--c)}
+
+/* NAV */
+.nav{position:absolute;inset:0 0 auto 0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:22px var(--gx)}
+.logo{font:700 1.45rem var(--d);letter-spacing:-.05em;text-decoration:none}
+.nl{display:flex;gap:1.7rem;list-style:none;margin:0;padding:0;font-size:.86rem;font-weight:500}
+.nl a{text-decoration:none;color:var(--mute)}.nl a:hover{color:var(--c)}
+.nav-r{display:flex;align-items:center;gap:1.4rem}
+.mnav{display:none;position:relative}
+.mnav summary{list-style:none;cursor:pointer;font:600 .88rem var(--d);padding:.5em .2em}
+.mnav summary::-webkit-details-marker{display:none}
+.mnav ul{position:absolute;right:0;top:calc(100% + 8px);margin:0;padding:8px 20px;list-style:none;background:var(--paper);border:1px solid var(--line);min-width:180px;box-shadow:6px 6px 0 var(--blush)}
+.mnav li a{display:block;padding:.55rem 0;text-decoration:none;font-size:.95rem}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;min-height:100svh;padding:104px var(--gx) max(40px,env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;overflow:hidden;
+background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56px,linear-gradient(90deg,rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56px,var(--paper)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(var(--paper),transparent 22%);pointer-events:none}
+.hero h1{position:relative;z-index:2;margin:0;font-family:'Anek Bangla',sans-serif;font-weight:800}
+.hero h1 span{display:block;overflow:hidden;padding:.14em 0 .05em;line-height:1.05;margin-bottom:-.06em}
+.hero h1 b{display:block;font-weight:800;transform:translateY(110%);animation:up .95s cubic-bezier(.2,.8,.2,1) forwards}
+.hero h1 span:nth-child(1){font-size:clamp(1.7rem,min(4.4vw,7.5vh),4rem);color:#B5617A}
+.hero h1 span:nth-child(2){font-size:clamp(2.3rem,min(6.4vw,11vh),6rem);color:#D03A5C}
+.hero h1 span:nth-child(3){font-size:clamp(3.2rem,min(11vw,18vh),10rem);color:var(--c)}
+.hero h1 span:nth-child(2) b{animation-delay:.25s}.hero h1 span:nth-child(3) b{animation-delay:.5s}
+.en{position:relative;z-index:2;max-width:38ch;margin-top:1.6rem;color:var(--mute);font-size:1.08rem}
+.act{position:relative;z-index:2;display:flex;align-items:center;flex-wrap:wrap;gap:1rem 1.6rem;margin-top:1.8rem}
+.en,.act{opacity:0;animation:fade .8s 1.2s forwards}
+.stairs{position:absolute;right:0;bottom:0;width:min(66vw,125vh);height:auto;z-index:1}
+.stairs .fill{fill:var(--blush);opacity:.75}
+.stairs .st{fill:none;stroke:var(--c);stroke-width:2;opacity:.5;stroke-dasharray:2400;stroke-dashoffset:2400;animation:draw 2.6s .4s cubic-bezier(.6,0,.2,1) forwards}
+.stairs .n{font-family:var(--d);font-weight:700;fill:none;stroke:var(--c);stroke-width:1.3;opacity:.6;text-anchor:middle}
+.stairs .n9{fill:var(--c);stroke:none;opacity:1}
+.stairs .dot{fill:var(--c);animation:hop 9s 3.2s infinite;opacity:0}
+@keyframes up{to{transform:none}}
+@keyframes fade{to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes hop{
+0%{opacity:0;transform:translate(0,0)}2%,6%{opacity:1;transform:translate(0,0);animation-timing-function:ease-out}
+9%{transform:translate(65px,-130px);animation-timing-function:ease-in}12%,19%{transform:translate(130px,-85px);animation-timing-function:ease-out}
+22%{transform:translate(195px,-215px);animation-timing-function:ease-in}25%,32%{transform:translate(260px,-170px);animation-timing-function:ease-out}
+35%{transform:translate(325px,-300px);animation-timing-function:ease-in}38%,45%{transform:translate(390px,-255px);animation-timing-function:ease-out}
+48%{transform:translate(455px,-385px);animation-timing-function:ease-in}51%,58%{transform:translate(520px,-340px);animation-timing-function:ease-out}
+61%{transform:translate(585px,-470px);animation-timing-function:ease-in}64%,92%{opacity:1;transform:translate(650px,-425px)}
+97%{opacity:0;transform:translate(650px,-425px)}97.1%,100%{opacity:0;transform:translate(0,0)}}
+
+/* BOOKS */
+.sand{background:var(--sand)}
+.shelf{display:flex;align-items:flex-end;gap:clamp(5px,.8vw,9px);padding-top:38px;border-bottom:12px solid var(--w)}
+.bk{position:relative;flex:none;display:flex;flex-direction:column;justify-content:space-between;color:#fff;text-decoration:none;background:var(--bg);border-radius:2px 5px 5px 2px;box-shadow:inset 6px 0 0 rgba(0,0,0,.16),inset 8px 0 0 rgba(255,255,255,.1);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.bk:hover,.bk:focus-visible{transform:translateY(-16px) rotate(-1.2deg)}
+.bk[hidden]{display:none}
+.bk i,.bk em{font:600 .55rem/1.3 'Instrument Sans';letter-spacing:.1em;text-transform:uppercase;font-style:normal;opacity:.85}
+.cv{width:clamp(116px,26vw,200px);height:clamp(250px,34vw,320px);padding:14px 12px 14px 20px}
+.cv b{display:block;font:600 clamp(1rem,2vw,1.4rem)/1 var(--d);letter-spacing:-.02em}
+.cv strong{display:block;font:700 clamp(2.6rem,6vw,4.6rem)/.9 var(--d);letter-spacing:-.07em;margin-top:6px}
+.sn{flex:1 1 0;min-width:52px;max-width:76px;height:var(--h);align-items:center;justify-content:flex-start;padding:14px 4px;border-top:5px solid rgba(255,255,255,.3)}
+.sn b{writing-mode:vertical-rl;transform:rotate(180deg);font:600 .88rem/1.2 var(--d);letter-spacing:-.01em;max-height:calc(100% - 8px)}
+.sn::after{content:"";margin-top:auto;width:55%;height:3px;background:rgba(255,255,255,.35)}
+.ml{width:clamp(66px,9vw,96px);height:clamp(160px,18vw,200px);padding:12px 8px 12px 14px;margin-left:8px;transform-origin:bottom left}
+.ml strong{display:block;font:600 clamp(1.8rem,3.4vw,2.8rem)/1 var(--d);letter-spacing:-.04em}
+.cap{margin-top:1.6rem}
+
+/* PRACTICE */
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.tabs button{font:600 clamp(.85rem,2.4vw,1rem) var(--d);letter-spacing:-.02em;padding:1em .4em;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;color:var(--mute);cursor:pointer;text-align:center}
+.tabs button[aria-selected=true]{color:var(--c);border-color:var(--c)}
+.pane{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(24px,5vw,72px);align-items:center;padding:clamp(28px,5vw,56px) 0}
+.pane>*{min-width:0}
+.pane[hidden]{display:none}
+.pane h3{margin-bottom:1.2rem;max-width:18ch}
+.run{display:flex;height:150px;gap:4px}
+.run div{flex:var(--n);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;font:600 1.05rem/1.1 var(--d);letter-spacing:-.02em;min-width:0;background:var(--bg)}
+.run small{font:400 .8rem 'Instrument Sans';color:var(--mute);letter-spacing:0}
+.pickset{display:grid;gap:8px}
+.pick{display:flex;justify-content:space-between;align-items:center;gap:1rem;width:100%;text-align:left;padding:1.05em 1.2em;background:none;border:1px solid var(--line);font:600 1.2rem var(--d);letter-spacing:-.025em;color:var(--ink);cursor:pointer;transition:.2s}
+.pick span{font:400 .85rem 'Instrument Sans';color:var(--mute);letter-spacing:0}
+.pick[aria-pressed=true]{background:var(--c);border-color:var(--c);color:#fff}.pick[aria-pressed=true] span{color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:.55em 1em;border:1px solid var(--line);border-radius:99px;background:none;font:500 .92rem 'Instrument Sans';cursor:pointer;color:var(--ink);transition:.2s}
+.chip[aria-pressed=true]{background:var(--w);border-color:var(--w);color:#fff}
+.cnt{margin-top:1.2rem;font:600 .95rem var(--d);color:var(--c)}
+
+/* TOOLS */
+.mist{background:var(--mist)}
+.tools{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(28px,6vw,88px);align-items:start}
+.tools dl{margin:2.2rem 0 0;display:grid;gap:1.4rem}
+.tools dt{font:600 1.15rem var(--d);letter-spacing:-.02em}
+.tools dd{margin:.15rem 0 0;color:var(--mute);max-width:36ch}
+.sheet{background:var(--paper);padding:clamp(20px,3vw,36px);box-shadow:10px 10px 0 var(--w);min-width:0}
+.sbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px;font:600 1rem var(--d)}
+.timer{font:700 1.6rem var(--d);letter-spacing:-.03em;color:var(--c);font-variant-numeric:tabular-nums}
+#passage{font:400 1.08rem/1.8 Georgia,'Times New Roman',serif;max-width:60ch}
+#passage mark{background:#FFE27A;color:inherit;cursor:pointer;padding:0 1px}
+.hint{font-size:.82rem;color:var(--mute);margin:12px 0 18px}
+.sheet textarea{width:100%;min-height:78px;border:1px solid var(--line);background:var(--mist);padding:12px;font:inherit;font-size:.92rem;resize:vertical;color:var(--ink)}
+.saved{display:flex;justify-content:space-between;font-size:.8rem;color:var(--mute);margin-top:6px}
+.saved output{color:var(--c);font-weight:600}
+
+/* AI */
+.ai{display:grid;grid-template-columns:1fr 1fr;padding:0}
+.ai>div{padding:clamp(56px,8vw,112px) clamp(20px,5vw,72px);min-width:0}
+.wr{background:var(--blush)}
+.sp{background:var(--paper)}
+.ai>.wr{padding-left:var(--gx)}
+.ai>.sp{padding-right:var(--gx)}
+.ai .lead{margin:1rem 0 2rem}
+.card{position:relative;background:var(--paper);padding:22px;border:1px solid var(--line)}
+.essay{font:400 1.02rem/2 Georgia,serif}
+.essay mark{color:inherit;cursor:help;padding:2px 3px;border-radius:2px;text-decoration-line:underline;text-decoration-thickness:2px;text-underline-offset:4px;transition:background .2s,box-shadow .2s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.essay .r{background:rgba(200,8,47,.12);text-decoration-style:wavy;text-decoration-color:#C8082F}
+.essay .y{background:#FFF1B8;text-decoration-color:#E0A800}
+.essay .g{background:#D3EBD8;text-decoration-color:#2E8B4E}
+.essay .r:hover,.essay .r:focus{background:rgba(200,8,47,.24)}
+.essay .y:hover,.essay .y:focus{background:#FFE37A}
+.essay .g:hover,.essay .g:focus{background:#B3DDBC}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:.8rem;color:var(--mute)}
+.key span{display:flex;align-items:center;gap:7px}
+.key i{width:10px;height:10px;border-radius:50%;background:var(--k)}
+.tip{position:absolute;z-index:6;width:min(264px,calc(100% - 16px));background:var(--ink);color:#fff;padding:12px 14px;border-radius:4px;font-size:.84rem;line-height:1.45;opacity:0;transform:translateY(8px) scale(.96);transform-origin:50% 100%;pointer-events:none;transition:opacity .2s,transform .25s cubic-bezier(.2,.8,.2,1)}
+.tip.show{opacity:1;transform:none}
+.tip b{display:flex;align-items:center;gap:7px;font:600 .8rem var(--d);margin-bottom:3px}
+.tip b::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--k)}
+.band{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;margin-top:18px;border-top:1px solid var(--line);padding-top:18px}
+.band strong{font:700 4.2rem/.9 var(--d);letter-spacing:-.06em;color:var(--c)}
+.band small{display:block;font:400 .78rem 'Instrument Sans';color:var(--mute);letter-spacing:0;margin-top:4px}
+.crit{display:grid;gap:7px;font-size:.78rem}
+.crit div{display:grid;grid-template-columns:92px 1fr;gap:8px;align-items:center}
+.crit i{display:block;height:5px;background:var(--blush)}
+.crit i::after{content:"";display:block;height:100%;width:var(--v);background:var(--c)}
+.note{font-size:.8rem;margin-top:12px;color:var(--mute)}
+.sp h2{max-width:11ch}
+.rl{display:flex;align-items:center;gap:18px;margin-bottom:12px}
+.rec{flex:none;width:58px;height:58px;border-radius:50%;border:0;background:var(--c);cursor:pointer;display:grid;place-items:center;transition:background .2s}
+.rec:hover{background:var(--w)}
+.rec::after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;transition:border-radius .2s}
+.live .rec::after{border-radius:3px}
+.wave{flex:1;display:flex;align-items:center;gap:3px;height:58px;overflow:hidden}
+.wave i{flex:none;width:2px;border-radius:2px;background:#E9AEBB;height:var(--a);transform-origin:center}
+.live .wave i{background:var(--c);animation:wv .9s var(--t) infinite alternate ease-in-out}
+@keyframes wv{from{transform:scaleY(.2)}to{transform:scaleY(1.2)}}
+.rtxt{font-size:.85rem;color:var(--mute);margin-bottom:22px}
+.say{font:italic 400 1.1rem/1.5 Georgia,serif;margin-bottom:26px;max-width:36ch}
+.say[hidden]{display:none}
+.skills{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);margin-bottom:2rem}
+.skills span{padding:.9rem 0;border-bottom:1px solid var(--line);font:600 1.05rem var(--d);letter-spacing:-.02em}
+
+/* MOCKS */
+.sage{background:var(--sage)}
+.pass{--dir:0deg;display:grid;grid-template-columns:1.3fr 1fr 130px;background:var(--paper)}
+.pass>div{position:relative;padding:clamp(24px,4vw,40px);min-width:0}
+.pass>div+div{border-left:2px dashed var(--line)}
+.pass>div+div::before,.pass>div+div::after{content:"";position:absolute;left:-13px;width:24px;height:24px;border-radius:50%;background:var(--sage)}
+.pass>div+div::before{top:-13px}
+.pass>div+div::after{bottom:-13px}
+.pass small{display:block;font-size:.85rem;color:var(--mute)}
+.tc{display:block;font:700 clamp(4rem,10vw,7.5rem)/.9 var(--d);letter-spacing:-.06em;color:var(--c);font-variant-numeric:tabular-nums;margin:10px 0 8px}
+.tm{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.tm li{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font:600 1.15rem var(--d);letter-spacing:-.02em}
+.tm small{display:inline;font:400 .85rem 'Instrument Sans'}
+.st3{display:flex;padding:28px 24px!important}
+.bc{flex:1;min-height:80px;opacity:.85;background:repeating-linear-gradient(var(--dir),var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 6px,transparent 6px 10px,var(--ink) 10px 13px,transparent 13px 16px)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);list-style:none;margin:2.4rem 0 0;padding:0;counter-reset:f;border-top:1px solid rgba(123,18,48,.3)}
+.flow li{counter-increment:f;padding:1rem 1rem 0 0;font:600 1.15rem var(--d);letter-spacing:-.02em}
+.flow li::before{content:counter(f);display:block;font:700 .85rem 'Instrument Sans';color:var(--c);margin-bottom:.3rem}
+
+/* RESOURCES */
+.res{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,7vw,100px);align-items:center}
+.res>*{min-width:0}
+.deck{position:relative;height:clamp(290px,56vw,330px);max-width:460px;width:100%}
+.cue{position:absolute;inset:0 28px 28px 0;display:block;text-align:left;font:inherit;color:inherit;background:#fff;border:1px solid var(--line);padding:clamp(20px,3.5vw,36px);cursor:pointer;z-index:calc(3 - var(--i));transform:translate(calc(var(--i)*14px),calc(var(--i)*14px)) rotate(calc(var(--i)*2.4deg - 2.4deg));transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.cue:nth-child(2){background:var(--blush)}.cue:nth-child(3){background:var(--sand)}
+.ck{display:block;margin-bottom:1rem;color:var(--c);font-weight:600;font-size:.85rem}
+.ct{display:block;font:600 clamp(1.5rem,3vw,2rem)/1.1 var(--d);letter-spacing:-.03em;margin-bottom:1rem}
+.cl{display:block;color:var(--mute);font-size:.95rem}
+.hintc{font-size:.82rem;color:var(--mute);margin-top:1rem}
+.rows{border-top:1px solid var(--line)}
+.rows a{display:block;padding:1.15rem 0;border-bottom:1px solid var(--line);text-decoration:none;font:600 1.35rem var(--d);letter-spacing:-.025em;transition:padding .25s,color .2s}
+.rows a:hover{padding-left:12px;color:var(--c)}
+
+/* PLANS */
+.plans{border-top:1px solid var(--line)}
+.plans h2{max-width:none;font:700 clamp(3.2rem,12vw,10rem)/.85 var(--d);letter-spacing:-.065em;color:var(--c);margin-bottom:clamp(28px,5vw,56px)}
+.pl{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,6vw,88px);align-items:end}
+.spec{border-top:1px solid var(--ink)}
+.spec div{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.05rem 0;border-bottom:1px solid var(--line);font:600 1.15rem var(--d);letter-spacing:-.02em}
+.spec span{font:400 .95rem 'Instrument Sans';color:var(--mute);letter-spacing:0;text-align:right}
+.spec .dots{display:flex;gap:6px}
+.dots i{width:14px;height:14px;border-radius:50%;background:var(--c)}
+.up p{font:600 clamp(1.3rem,2.6vw,1.9rem)/1.15 var(--d);letter-spacing:-.03em;margin-bottom:1.4rem;max-width:16ch}
+.up div{display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap}
+.fine{margin-top:clamp(28px,4vw,48px);font-size:.82rem;color:var(--mute)}
+
+/* FAQ */
+.faq{max-width:820px;margin-left:auto}
+details{border-top:1px solid var(--w)}details:last-child{border-bottom:1px solid var(--w)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.4rem 0;font:600 clamp(1.15rem,2.2vw,1.5rem) var(--d);letter-spacing:-.025em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.8rem;font-weight:400;color:var(--c);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 3rem 1.6rem 0;color:var(--mute);max-width:60ch}
+.fh{display:grid;grid-template-columns:1fr 2fr;gap:2rem}
+
+/* CTA + FOOTER */
+.cta{position:relative;overflow:hidden;background:var(--sand);padding:clamp(80px,12vw,160px) 0}
+.cta .wrap{position:relative;z-index:1}
+.cta h2{max-width:11ch;font-size:clamp(2.6rem,7vw,6rem)}
+.cta p{margin:1.2rem 0 2rem;color:var(--mute)}
+.cta .nine{position:absolute;right:-2vw;bottom:-.2em;font:700 clamp(16rem,42vw,40rem)/.8 var(--d);letter-spacing:-.08em;color:transparent;-webkit-text-stroke:2px rgba(200,8,47,.35);pointer-events:none;user-select:none}
+footer{padding:64px 0 0;overflow:hidden}
+.fg{display:grid;grid-template-columns:1.3fr repeat(4,1fr);gap:2rem;padding-bottom:56px}
+footer h4{margin:0 0 .9rem;font:600 .95rem var(--d)}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem;font-size:.9rem}
+footer ul a{text-decoration:none;color:var(--mute)}footer ul a:hover{color:var(--c)}
+.fg .logo{font-size:1.7rem}.fg p{color:var(--mute);font-size:.9rem;margin-top:.4rem}
+.legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--line);padding:18px 0;font-size:.8rem;color:var(--mute)}
+.mark{font:700 19vw/.78 var(--d);letter-spacing:-.07em;color:var(--blush);white-space:nowrap;margin:0 0 -.07em -.04em;user-select:none}
+
+@media(max-width:1000px){
+.fg{grid-template-columns:repeat(2,1fr)}.fg>div:first-child{grid-column:1/-1}
+}
+@media(max-width:860px){
+.nl{display:none}.mnav{display:block}
+.head,.pane,.tools,.ai,.res,.pl,.fh{grid-template-columns:1fr}
+.head{gap:1rem}
+.ai>.wr,.ai>.sp{padding-left:var(--gx);padding-right:var(--gx)}
+.stairs{width:140vw;opacity:.3}
+.faq{margin:0}
+}
+@media(max-width:760px){
+.pass{grid-template-columns:1fr;--dir:90deg}
+.pass>div+div{border-left:0;border-top:2px dashed var(--line)}
+.pass>div+div::before{left:-13px;top:-13px}
+.pass>div+div::after{left:auto;right:-13px;top:-13px;bottom:auto}
+.bc{min-height:44px;height:44px}
+}
+@media(min-width:700px){.ml{transform:rotate(7deg);margin-right:18px}.ml:hover,.ml:focus-visible{transform:rotate(4deg)}}
+@media(max-width:560px){
+.hero{padding-top:92px}
+.en{font-size:1rem}
+.sn{height:calc(var(--h)*.86)}
+.run{flex-direction:column;height:auto}
+.run div{flex:none;width:var(--p);min-height:64px;justify-content:center}
+.flow{grid-template-columns:repeat(2,1fr);row-gap:1rem}
+.band{grid-template-columns:1fr}
+.nav{padding-top:16px}
+.deck{margin-bottom:8px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero h1 b{transform:none}.en,.act{opacity:1}.stairs .st{stroke-dashoffset:0}.stairs .dot{opacity:1}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="/" aria-label="JumpToNine home">JumpToNine</a>
+  <div class="nav-r">
+    <nav aria-label="Main"><ul class="nl">
+      <li><a href="#practice">Practice</a></li>
+      <li><a href="#mocks">Mock exams</a></li>
+      <li><a href="#books">Books</a></li>
+      <li><a href="#ai">AI feedback</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#plans">Plans</a></li>
+    </ul></nav>
+    <details class="mnav"><summary>Menu</summary><ul>
+      <li><a href="#practice">Practice</a></li>
+      <li><a href="#mocks">Mock exams</a></li>
+      <li><a href="#books">Books</a></li>
+      <li><a href="#ai">AI feedback</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#plans">Plans</a></li>
+    </ul></details>
+    <a class="btn s" href="/dashboard">Dashboard</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <svg class="stairs" viewBox="0 0 900 700" aria-hidden="true" focusable="false">
+    <path class="fill" d="M90 600H220V515H350V430H480V345H610V260H740V175H870V700H90Z"/>
+    <path class="st" d="M90 600H220V515H350V430H480V345H610V260H740V175H870"/>
+    <text class="n" x="155" y="586" font-size="58">4</text>
+    <text class="n" x="285" y="501" font-size="68">5</text>
+    <text class="n" x="415" y="416" font-size="80">6</text>
+    <text class="n" x="545" y="331" font-size="94">7</text>
+    <text class="n" x="675" y="246" font-size="112">8</text>
+    <text class="n n9" x="805" y="161" font-size="136">9</text>
+    <circle class="dot" cx="116" cy="590" r="10"/>
+  </svg>
+
+  <h1 lang="bn"><span><b>প্রতিদিন</b></span><span><b>একটু</b></span><span><b>এগিয়ে যাও।</b></span></h1>
+  <p class="en">IELTS practice for Listening, Reading, Writing and Speaking. Every test brings your target band a little closer.</p>
+  <div class="act">
+    <a class="btn" href="/practice/free-test">Take a free test</a>
+    <a class="link" href="#plans">View plans</a>
+  </div>
+</section>
+
+<section id="books" class="sand">
+  <div class="wrap">
+    <div class="head">
+      <h2>One shelf, every IELTS book.</h2>
+      <p class="lead">Start with Cambridge 1–21, or pick any book. Free and premium, side by side.</p>
+    </div>
+    <!-- Cambridge is featured. Other books link to /books/more#slug until they get their own page. The script shows only the books that fit the screen; "More books" is always last. -->
+    <div class="shelf" id="shelf" role="list" aria-label="Book library">
+      <a role="listitem" class="bk cv" aria-label="Cambridge IELTS 1 to 21, featured" style="--bg:#C8082F" href="/books/cambridge"><i>Featured</i><div><b>Cambridge</b><strong>1–21</strong></div><em>IELTS practice tests</em></a>
+      <a role="listitem" class="bk sn" style="--h:250px;--bg:#3C5A80" href="/books/more#achieve-ielts"><b>Achieve IELTS</b></a>
+      <a role="listitem" class="bk sn" style="--h:286px;--bg:#46634F" href="/books/more#barrons"><b>Barron’s</b></a>
+      <a role="listitem" class="bk sn" style="--h:234px;--bg:#B9770E" href="/books/more#collins"><b>Collins</b></a>
+      <a role="listitem" class="bk sn" style="--h:298px;--bg:#5B3A78" href="/books/more#ielts-simulation-tests"><b>IELTS Simulation Tests</b></a>
+      <a role="listitem" class="bk sn" style="--h:262px;--bg:#1F6F78" href="/books/more#ielts-trainer"><b>IELTS Trainer</b></a>
+      <a role="listitem" class="bk sn" style="--h:278px;--bg:#7A8F3C" href="/books/more#more-ielts-practice-plus"><b>More IELTS Practice Plus</b></a>
+      <a role="listitem" class="bk sn" style="--h:302px;--bg:#7B1230" href="/books/more#official-cambridge-guide"><b>Official Cambridge Guide</b></a>
+      <a role="listitem" class="bk sn" style="--h:310px;--bg:#8B5E3C" href="/books/more#official-ielts-practice-materials"><b>Official IELTS Practice Materials</b></a>
+      <a role="listitem" class="bk sn" style="--h:244px;--bg:#C23B7A" href="/books/more#succeed-in-ielts"><b>Succeed in IELTS</b></a>
+      <a role="listitem" class="bk ml" style="--bg:#2A0F16" href="/books/more"><i>Library</i><strong id="mn">+</strong><em>More books</em></a>
+    </div>
+    <p class="cap"><a class="link" href="/books/more">Browse the full library</a></p>
+  </div>
+</section>
+
+<section id="practice">
+  <div class="wrap">
+    <h2 style="margin-bottom:clamp(28px,4vw,48px)">Practise the way you need to.</h2>
+    <div class="tabs" role="tablist" aria-label="Practice modes">
+      <button role="tab" aria-selected="true" aria-controls="p0">Full test</button>
+      <button role="tab" aria-selected="false" aria-controls="p1">One module</button>
+      <button role="tab" aria-selected="false" aria-controls="p2">Question types</button>
+    </div>
+    <div class="pane" id="p0" role="tabpanel">
+      <div><h3>A whole test, start to finish.</h3><a class="link" href="/practice/full-tests">Start a full test</a></div>
+      <div class="run" aria-label="Exam timings: Listening 30 minutes, Reading 60 minutes, Writing 60 minutes">
+        <div style="--n:30;--p:50%;--bg:var(--mist)">Listening<small>30 min</small></div>
+        <div style="--n:60;--p:100%;--bg:var(--sand)">Reading<small>60 min</small></div>
+        <div style="--n:60;--p:100%;--bg:var(--blush)">Writing<small>60 min</small></div>
+      </div>
+    </div>
+    <div class="pane" id="p1" role="tabpanel" hidden>
+      <div><h3>One module, nothing else.</h3><a class="link" href="/practice/modules">Choose a module</a></div>
+      <div class="pickset">
+        <button class="pick" aria-pressed="true">Listening <span>4 sections</span></button>
+        <button class="pick" aria-pressed="false">Reading <span>3 passages</span></button>
+        <button class="pick" aria-pressed="false">Writing <span>Task 1 and 2</span></button>
+      </div>
+    </div>
+    <div class="pane" id="p2" role="tabpanel" hidden>
+      <div><h3>Drill only what you miss.</h3><a class="link" href="/practice/questions">Build a session</a></div>
+      <div>
+        <div class="chips">
+          <button class="chip" aria-pressed="true">True / False / Not Given</button>
+          <button class="chip" aria-pressed="false">Matching headings</button>
+          <button class="chip" aria-pressed="true">Multiple choice</button>
+          <button class="chip" aria-pressed="false">Sentence completion</button>
+          <button class="chip" aria-pressed="false">Map labelling</button>
+          <button class="chip" aria-pressed="false">Form completion</button>
+          <button class="chip" aria-pressed="false">Short answer</button>
+        </div>
+        <p class="cnt" id="cnt">2 types selected</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tools" class="mist">
+  <div class="wrap tools">
+    <div>
+      <h2>Built like the real exam screen.</h2>
+      <dl>
+        <div><dt>Timer</dt><dd>A countdown that runs in the corner while you work.</dd></div>
+        <div><dt>Highlights and notes</dt><dd>Mark the passage and keep notes beside it.</dd></div>
+        <div><dt>Answers saved</dt><dd>Every answer is stored as you type, so nothing is lost.</dd></div>
+        <div><dt>Answer review</dt><dd>After you submit, go back through every answer.</dd></div>
+      </dl>
+    </div>
+    <div class="sheet">
+      <div class="sbar"><span>Reading passage 1</span><span class="timer" id="tm">60:00</span></div>
+      <p id="passage">Tea reached Europe in the seventeenth century as a luxury of the wealthy, carried in small quantities by Dutch traders. Within a hundred years it had become an everyday drink, and the demand it created reshaped trade routes, farming and even the design of ships.</p>
+      <p class="hint">Try it: select any text to highlight it. Click a highlight to remove it.</p>
+      <textarea id="nt" aria-label="Notes" placeholder="Notes for this passage"></textarea>
+      <div class="saved"><span>Notes</span><output id="sv">Saved</output></div>
+    </div>
+  </div>
+</section>
+
+<section id="ai" class="ai">
+  <div class="wr">
+    <h2>Writing, marked line by line.</h2>
+    <p class="lead">Choose Task 1 or Task 2. Use your own prompt, a Cambridge prompt or an AI prompt, add an image, and watch the word count as you write.</p>
+    <div class="card" id="card">
+      <p class="essay" id="essay">Some people believe that online learning is better than classroom teaching. <mark class="g" tabindex="0" data-k="Strong" data-t="A clear position, backed by a reason. This is exactly what Task 2 rewards.">I partly agree, because it gives students flexibility and access to excellent teachers.</mark> However, many students <mark class="r" tabindex="0" data-k="Grammar" data-t="Write “don’t have”. After “do not”, the verb stays in its base form.">doesn’t has</mark> a stable internet connection, so they <mark class="y" tabindex="0" data-k="Needs an update" data-t="“A lot” is vague. Try “fall behind in their studies”.">get left behind a lot</mark>. <mark class="y" tabindex="0" data-k="Needs an update" data-t="Correct, but very common. Tie it back to your opening position instead.">In conclusion</mark>, a blend of both approaches is the most <mark class="r" tabindex="0" data-k="Word form" data-t="Use the adjective “effective”. “Effectives” is not a word.">effectives</mark> solution.</p>
+      <div class="key">
+        <span style="--k:#C8082F"><i></i>Mistake</span>
+        <span style="--k:#E0A800"><i></i>Needs an update</span>
+        <span style="--k:#2E8B4E"><i></i>Strong</span>
+      </div>
+      <div class="band">
+        <strong>6.5<small>Estimated band</small></strong>
+        <div class="crit">
+          <div>Task response<i style="--v:68%"></i></div>
+          <div>Coherence<i style="--v:60%"></i></div>
+          <div>Vocabulary<i style="--v:74%"></i></div>
+          <div>Grammar<i style="--v:64%"></i></div>
+        </div>
+      </div>
+      <p class="note">Hover or tap a highlight for details. An AI estimate, not an official IELTS score.</p>
+      <div class="tip" id="tip" role="status"></div>
+    </div>
+    <p style="margin-top:1.6rem;display:flex;gap:1.6rem;flex-wrap:wrap"><a class="link" href="/writing">Open Writing</a><a class="link" href="/writing/task-2-guide">Task 2 guide</a></p>
+  </div>
+  <div class="sp" id="spk">
+    <h2>Say it. See how it sounded.</h2>
+    <p class="lead">Record your answer. AI gives you the transcript, a playback and feedback by skill.</p>
+    <div class="rl"><button class="rec" id="rec" aria-pressed="false" aria-label="Try a sample recording"></button><div class="wave" id="wave" aria-hidden="true"></div></div>
+    <p class="rtxt" id="rtxt">Tap to try a sample</p>
+    <p class="say" id="say" hidden>“I like the river, because in the evening everyone walks along it.”</p>
+    <div class="skills"><span>Fluency</span><span>Vocabulary</span><span>Grammar</span><span>Pronunciation</span></div>
+    <a class="link" href="/speaking">Enter Speaking</a>
+  </div>
+</section>
+
+<section id="mocks" class="sage">
+  <div class="wrap">
+    <div class="head">
+      <h2>Mock exams.</h2>
+      <p class="lead">Scheduled and timed. Results appear once they are published.</p>
+    </div>
+    <div class="pass">
+      <div><small>Waiting room</small><output class="tc" id="cd" aria-hidden="true">09:59</output><small>until the exam opens</small></div>
+      <div><ul class="tm"><li>Listening<small>30 min</small></li><li>Reading<small>60 min</small></li><li>Writing<small>60 min</small></li></ul></div>
+      <div class="st3"><div class="bc" aria-hidden="true"></div></div>
+    </div>
+    <ol class="flow"><li>Register</li><li>Waiting room</li><li>Timed exam</li><li>Result</li></ol>
+    <p style="margin-top:2rem"><a class="link" href="/mock-exams">Explore mock exams</a></p>
+  </div>
+</section>
+
+<section id="resources">
+  <div class="wrap res">
+    <div>
+      <div class="deck">
+        <button class="cue" style="--i:0"><span class="ck">Speaking cue card</span><span class="ct">Describe a book that changed how you think.</span><span class="cl">What it was, when you read it, why it mattered.</span></button>
+        <button class="cue" style="--i:1"><span class="ck">Speaking cue card</span><span class="ct">Describe a place you would like to visit.</span><span class="cl">Where it is, why you want to go, what you would do.</span></button>
+        <button class="cue" style="--i:2"><span class="ck">Speaking cue card</span><span class="ct">Describe a person who helped you learn.</span><span class="cl">Who they are, how they helped, what you learned.</span></button>
+      </div>
+      <p class="hintc">Tap a card for the next topic.</p>
+    </div>
+    <div>
+      <h2 style="margin-bottom:1.6rem">Learn between tests.</h2>
+      <div class="rows">
+        <a href="/resources/guides">Practice guides</a>
+        <a href="/resources/worked-examples">Worked examples</a>
+        <a href="/resources/speaking-cue-cards">Speaking cue cards</a>
+        <a href="/resources">Vocabulary, grammar and ebooks</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="plans" class="plans">
+  <div class="wrap">
+    <h2>Start free.</h2>
+    <div class="pl">
+      <div class="spec">
+        <div>Listening and Reading<span>No account needed</span></div>
+        <div>Writing<span class="dots" role="img" aria-label="5 AI evaluations each month"><i></i><i></i><i></i><i></i><i></i></span></div>
+        <div>Speaking<span class="dots" role="img" aria-label="2 AI evaluations each month"><i></i><i></i></span></div>
+      </div>
+      <div class="up">
+        <p>Need more tests and feedback?</p>
+        <div><a class="btn" href="/plans">View all plans</a><a class="link" href="/practice/free-test">Take a free test</a></div>
+      </div>
+    </div>
+    <p class="fine">Dots show free AI evaluations each month, with a verified account. AI feedback is an estimate, not an official IELTS score.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap fh">
+    <h2>Before you begin.</h2>
+    <div class="faq">
+      <details><summary>Do I need an account?</summary><p>No. Take Listening and Reading tests without one. AI Writing and Speaking evaluation needs a verified account and a plan allowance, and your past AI feedback is kept in your account.</p></details>
+      <details><summary>Test Practice vs Question Practice?</summary><p>Test Practice runs a full test or a single module in exam conditions. Question Practice lets you choose question types, or pick individual questions, to build a custom session.</p></details>
+      <details><summary>Is AI feedback an official IELTS score?</summary><p>No. It gives an estimated band to guide your practice. JumpToNine is an independent practice platform and is not the official IELTS test.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Ready for your first test?</h2>
+    <p>Start with a Listening or Reading test. No account needed.</p>
+    <a class="btn" href="/practice/free-test">Take a free test</a>
+  </div>
+  <div class="nine" aria-hidden="true">9</div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><a class="logo" href="/">JumpToNine</a><p>Listening. Reading. Writing. Speaking.</p></div>
+      <nav aria-label="Practice"><h4>Practice</h4><ul>
+        <li><a href="/books/cambridge">Cambridge 1–21</a></li>
+        <li><a href="/books/more">More books</a></li>
+        <li><a href="/mock-exams">Mock exams</a></li>
+        <li><a href="/practice/full-tests">Full tests and modules</a></li>
+        <li><a href="/practice/questions">Question practice</a></li>
+        <li><a href="/writing">AI Writing</a></li>
+        <li><a href="/speaking">AI Speaking</a></li></ul></nav>
+      <nav aria-label="Learn"><h4>Learn</h4><ul>
+        <li><a href="/resources">Resources</a></li>
+        <li><a href="/ielts-listening-practice">IELTS Listening practice</a></li>
+        <li><a href="/ielts-reading-practice">IELTS Reading practice</a></li>
+        <li><a href="/writing/task-2-guide">Writing Task 2 guide</a></li>
+        <li><a href="/about">About JumpToNine</a></li></ul></nav>
+      <nav aria-label="Account"><h4>Account</h4><ul>
+        <li><a href="/plans">Plans</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/signup">Create an account</a></li>
+        <li><a href="/recover">Password recovery</a></li></ul></nav>
+      <nav aria-label="Legal"><h4>Legal</h4><ul>
+        <li><a href="/privacy">Privacy policy</a></li>
+        <li><a href="/terms">Terms of service</a></li></ul></nav>
+    </div>
+    <div class="legal"><span>© 2026 JumpToNine</span><span>Independent IELTS practice platform. Not the official IELTS test.</span></div>
+  </div>
+  <div class="mark" aria-hidden="true">JumpToNine</div>
+</footer>
+
+<script>
+(function(){
+var $=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+/* mobile menu */
+$('.mnav a').forEach(function(a){a.onclick=function(){a.closest('details').open=false}});
+/* practice tabs */
+var tabs=$('[role=tab]'),panes=$('.pane');
+tabs.forEach(function(t,i){t.onclick=function(){tabs.forEach(function(x,j){x.setAttribute('aria-selected',i==j);panes[j].hidden=i!=j})}});
+$('.pick').forEach(function(b){b.onclick=function(){$('.pick',b.parentNode).forEach(function(x){x.setAttribute('aria-pressed',x==b)})}});
+var cnt=document.getElementById('cnt');
+$('.chip').forEach(function(c){c.onclick=function(){c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');
+var n=$('.chip[aria-pressed=true]').length;cnt.textContent=n?n+' type'+(n>1?'s':'')+' selected':'Pick a type to start'}});
+/* highlight */
+var ps=document.getElementById('passage'),just=false;
+function hl(){var s=getSelection();if(!s.rangeCount||s.isCollapsed||!ps.contains(s.anchorNode)||!ps.contains(s.focusNode))return;
+var m=document.createElement('mark');try{s.getRangeAt(0).surroundContents(m)}catch(e){}s.removeAllRanges();just=true;setTimeout(function(){just=false},50)}
+ps.addEventListener('mouseup',hl);ps.addEventListener('touchend',function(){setTimeout(hl,10)});
+ps.addEventListener('click',function(e){var m=e.target.closest('mark');if(m&&!just){m.replaceWith.apply(m,m.childNodes);ps.normalize()}});
+/* timer + notes */
+var t=3600,tm=document.getElementById('tm');
+function f(n){return(n/60|0).toString().padStart(2,'0')+':'+(n%60).toString().padStart(2,'0')}
+setInterval(function(){t=t?t-1:3600;tm.textContent=f(t)},1000);
+var sv=document.getElementById('sv'),to;
+document.getElementById('nt').addEventListener('input',function(){sv.textContent='Saving…';clearTimeout(to);to=setTimeout(function(){sv.textContent='Saved'},600)});
+/* writing marks: details on hover or focus */
+var card=document.getElementById('card'),tip=document.getElementById('tip'),col={r:'#FF6B86',y:'#F5C518',g:'#5CC47F'};
+function show(m){
+tip.innerHTML='<b></b><span></span>';tip.firstChild.textContent=m.dataset.k;tip.lastChild.textContent=m.dataset.t;
+tip.style.setProperty('--k',col[m.className]);
+var r=m.getClientRects()[0],c=card.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
+var x=r.left-c.left+r.width/2-w/2;x=Math.max(8,Math.min(x,c.width-w-8));
+var y=r.top-c.top-h-10;if(y<8){y=r.bottom-c.top+10;tip.style.transformOrigin='50% 0'}else tip.style.transformOrigin='50% 100%';
+tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('show')}
+function hide(){tip.classList.remove('show')}
+$('#essay mark').forEach(function(m){m.addEventListener('mouseenter',function(){show(m)});m.addEventListener('focus',function(){show(m)});
+m.addEventListener('mouseleave',hide);m.addEventListener('blur',hide);m.addEventListener('keydown',function(e){if(e.key==='Escape')hide()})});
+/* waveform (sample) */
+var w=document.getElementById('wave'),n=Math.max(30,Math.floor(w.parentNode.offsetWidth/5));
+for(var i=0;i<90;i++){var b=document.createElement('i');b.style.setProperty('--a',(14+Math.abs(Math.sin(i*1.3)*60+Math.cos(i*.45)*20))+'%');b.style.setProperty('--t',(Math.random()*.7)+'s');w.appendChild(b)}
+var rec=document.getElementById('rec'),sp=document.getElementById('spk'),say=document.getElementById('say'),rt=document.getElementById('rtxt');
+rec.onclick=function(){var on=!sp.classList.contains('live');sp.classList.toggle('live',on);say.hidden=!on;rec.setAttribute('aria-pressed',on);rt.textContent=on?'Recording a sample. Tap to stop.':'Tap to try a sample'};
+/* bookshelf: show only what fits */
+var sh=document.getElementById('shelf'),sn=$('.sn',sh),cv=$('.cv',sh)[0],ml=$('.ml',sh)[0],mn=document.getElementById('mn');
+function fit(){
+sn.forEach(function(s){s.hidden=false});
+var g=parseFloat(getComputedStyle(sh).columnGap)||8,cs=getComputedStyle(ml);
+var used=cv.offsetWidth+ml.offsetWidth+(parseFloat(cs.marginLeft)||0)+(parseFloat(cs.marginRight)||0)+g*2;
+var n=Math.max(0,Math.min(sn.length,Math.floor((sh.clientWidth-used+g)/(52+g))));
+sn.forEach(function(s,i){s.hidden=i>=n});
+mn.textContent=n<sn.length?'+'+(sn.length-n):'+'}
+fit();window.addEventListener('resize',fit);if(window.ResizeObserver)new ResizeObserver(fit).observe(sh);
+/* cue cards */
+var cues=$('.cue');
+cues.forEach(function(c){c.onclick=function(){cues.forEach(function(x){var i=parseInt(x.style.getPropertyValue('--i'),10);x.style.setProperty('--i',(i+2)%3)})}});
+/* mock countdown */
+var c=599,cd=document.getElementById('cd');
+setInterval(function(){c=c?c-1:599;cd.textContent=f(c)},1000);
+})();
+</script>
+</body>
+</html>

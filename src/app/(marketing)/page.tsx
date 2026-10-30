@@ -1,58 +1,32 @@
-import { headers } from "next/headers";
-import { publicPageMetadata } from "@/lib/seo";
-import { site } from "@/config/site";
-import Link from 'next/link';
-import { Mic2, CalendarDays, BookOpenText, ArrowUpRight } from 'lucide-react';
-import { publicPlans, freePolicy } from '@/lib/products/plans';
-
-const homeTitle = "JumpToNine | IELTS Practice Tests ও AI Feedback";
-export const metadata = {
- ...publicPageMetadata("IELTS Practice Tests ও AI Feedback", site.description, "/"),
- title: { absolute: homeTitle },
- openGraph: { type: "website" as const, siteName: site.name, locale: "bn_BD", title: homeTitle, description: site.description, url: "https://jumptonine.com/" },
- twitter: { card: "summary" as const, title: homeTitle, description: site.description },
-};
-const brandData = {
- "@context": "https://schema.org",
- "@graph": [
-  { "@type": "WebSite", "@id": "https://jumptonine.com/#website", name: "JumpToNine", alternateName: ["Jump To Nine", "jumptonine.com"], url: "https://jumptonine.com/", description: site.description, inLanguage: ["bn", "en"], publisher: { "@id": "https://jumptonine.com/#organization" } },
-  { "@type": "Organization", "@id": "https://jumptonine.com/#organization", name: "JumpToNine", url: "https://jumptonine.com/" },
- ],
-};
-
-export const dynamic = 'force-dynamic';
-const limit = (value: number | null) => value === null ? 'সীমাহীন' : String(value);
-
-export default async function Page() {
- const nonce = (await headers()).get("x-nonce") ?? undefined;
- const [plans, free] = await Promise.all([publicPlans(), freePolicy()]);
- const premium = plans[0];
- return <>
-  <script type="application/ld+json" nonce={nonce} dangerouslySetInnerHTML={{ __html: JSON.stringify(brandData).replace(/</g, "\\u003c") }}/>
-  <section className="hero home-final-hero">
-   <div className="chapter-mark" aria-hidden="true">স্বপ্ন →</div><div className="hero-orbit" aria-hidden="true"/><div className="hero-cross cross-left" aria-hidden="true">+</div><div className="hero-cross cross-right" aria-hidden="true">+</div><div className="doodle lines" aria-hidden="true"/><div className="doodle star" aria-hidden="true">✳</div>
-   <div className="hero-content"><div className="hero-kicker">IELTS PRACTICE, MADE SIMPLE</div><h1 lang="bn">IELTS প্রস্তুতিতে<br/><span>প্রতিদিন একটু এগিয়ে যাও।</span></h1><p className="home-hero-poem" lang="en">Every practice brings you closer.<br/>Your next chapter starts here.</p><div className="hero-ctas"><Link className="button home-primary-cta" href="/practice">Take a free test <span aria-hidden="true">↗</span></Link><a className="home-secondary-cta" href="#pricing">View plans <span aria-hidden="true">↓</span></a></div></div>
-   <div className="hero-caption"><span>LISTENING / READING / WRITING / SPEAKING</span><span>Free practice tests</span></div>
-  </section>
-  <section className="section simple-home-features"><div className="container"><div className="section-head"><div><span className="eyebrow">GET STARTED</span><h2>How do you want to practice?</h2></div></div><div className="services">
-   <article className="service cambridge"><div className="service-label"><span>BOOKS</span><span className="badge">FREE & PREMIUM</span></div><div className="books" aria-hidden="true"><div className="back-book">IELTS<br/><b>01</b></div><div className="front-book"><span>IELTS PRACTICE</span><strong>02</strong><span>BOOK COLLECTION</span></div></div><h3>Cambridge &amp; More Books</h3><p>বই খুলে নিজের পরের test খুঁজে নাও। Listening, Reading ও Writing—উপলব্ধ module এবং free/premium access দেখে শুরু করো।</p><div className="home-book-links"><Link className="service-bottom" href="/cambridge">Cambridge <span aria-hidden="true">↗</span></Link><Link className="service-bottom" href="/other-books">More Books <span aria-hidden="true">↗</span></Link></div></article>
-   <div className="service-stack"><article className="service practice-entry"><div className="service-label"><span>PRACTICE</span></div><h3>Full tests &amp; question types</h3><p>পূর্ণ test বা আলাদা module দাও। Question type বেছে, preview দেখে একাধিক collection থেকে নিজের session সাজাও।</p><div className="home-book-links"><Link className="service-bottom" href="/practice">Test Practice <span aria-hidden="true">↗</span></Link><Link className="service-bottom" href="/practice?view=questions">Question Practice <span aria-hidden="true">↗</span></Link></div><div className="home-card-tags"><span>Custom question sets</span><span>Timer &amp; answer review</span><span>Reading highlights &amp; notes</span></div></article>
-   <article className="service writing"><div className="service-label"><span>AI FEEDBACK</span></div><h3>Writing, with a clearer next step.</h3><p>নিজের প্রশ্ন, Cambridge task বা AI practice prompt নিয়ে লেখো। Task 1/2, reference image, word count ও optional timer—সব একই writing space-এ।</p><div className="home-card-tags"><span>Highlighted corrections</span><span>Band criteria</span><span>Strengths &amp; next steps</span></div><div className="home-book-links"><Link className="service-bottom" href="/writing-evaluation">Writing <span aria-hidden="true">↗</span></Link><Link className="service-bottom" href="/ielts-writing-task-2">Task 2 guide <span aria-hidden="true">↗</span></Link></div></article>
-  </div></div></div></section>
-  <section className="section home-discovery"><div className="container"><div className="home-discovery-grid">
-   <article className="home-discovery-card home-speaking-card"><div className="home-discovery-art" aria-hidden="true"><Mic2 size={44} strokeWidth={1.3}/><span className="home-wave"><i/><i/><i/><i/><i/><i/><i/></span><span className="home-art-label">YOUR VOICE. YOUR PROGRESS.</span></div><div className="home-discovery-copy"><span className="eyebrow">SPEAKING</span><h3>A room to find your voice.</h3><p lang="bn">Virtual examiner-এর প্রশ্ন শুনে record করো। Cue card ও discussion থেকে নিজের performance review পর্যন্ত।</p><ul lang="bn"><li>Transcript ও recording playback</li><li>Fluency, vocabulary, grammar ও pronunciation feedback</li><li>আনুমানিক band ও next steps; আগের AI feedback Dashboard Results-এ</li></ul><Link href="/speaking-evaluation">Enter Speaking <ArrowUpRight size={16}/></Link></div></article>
-   <article className="home-discovery-card home-mock-card"><div className="home-discovery-art" aria-hidden="true"><CalendarDays size={44} strokeWidth={1.3}/><span className="home-mock-line">READY. SET. BEGIN.</span><span className="home-art-label">A REAL ROUTINE FOR TEST DAY</span></div><div className="home-discovery-copy"><span className="eyebrow">SCHEDULED MOCKS</span><h3>Make test day feel familiar.</h3><p lang="bn">Mock-এর সময় ও module দেখে register করো। Waiting room-এর countdown শেষে একই schedule-এ পরীক্ষা দাও।</p><ul lang="bn"><li>Listening → Reading → Writing, উপলব্ধ module অনুযায়ী</li><li>Speaking থাকলে পরে নিজের গতিতে শেষ করো</li><li>Admin publish করার পর result ও feedback দেখো</li></ul><Link href="/mocks">Explore mock exams <ArrowUpRight size={16}/></Link></div></article>
-   <article className="home-discovery-card home-resource-card"><div className="home-discovery-art" aria-hidden="true"><BookOpenText size={44} strokeWidth={1.3}/><span className="home-resource-lines"><i/><i/><i/></span><span className="home-art-label">SMALL LESSONS. STEADY STEPS.</span></div><div className="home-discovery-copy"><span className="eyebrow">LEARNING RESOURCES</span><h3>Something to learn between tests.</h3><p lang="bn">Listening, Reading ও Writing guide-এর worked example পড়ো। Speaking cue card দিয়ে topic practice করো।</p><ul lang="bn"><li>Example, answer explanation ও review plan</li><li>প্রকাশিত Writing, vocabulary ও grammar materials</li><li>Ebook ও study journal collection ধাপে ধাপে যোগ হচ্ছে</li></ul><Link href="/resources">Open your toolkit <ArrowUpRight size={16}/></Link></div></article>
-  </div><div className="home-access-caption"><p lang="bn">AI evaluation-এর জন্য verified account ও plan allowance দরকার। AI band একটি practice estimate। সাধারণ practice result এই browser-এ ২৪ ঘণ্টা পাওয়া যায়।</p><Link href="/pricing">Plans &amp; allowances <ArrowUpRight size={15}/></Link></div></div></section>
-  <section className="section home-final-pricing" id="pricing" aria-labelledby="home-pricing-title"><div className="container"><div className="section-head"><div><span className="eyebrow">PRICING</span><h2 id="home-pricing-title">Start free, upgrade when you need more</h2></div></div><div className="home-plan-grid">
-   <article className="home-plan"><h3>Free</h3><p>অ্যাকাউন্ট ছাড়াই প্র্যাকটিস শুরু করো।</p><div className="home-plan-price">Free</div><ul><li>Listening আর Reading টেস্ট, অ্যাকাউন্ট ছাড়াই</li><li>ভেরিফাইড অ্যাকাউন্টে প্রতি মাসে Writing-এর {free.free_writing}টি আর Speaking-এর {free.free_speaking}টি AI মূল্যায়ন</li><li>ফ্রি বইয়ের টেস্ট</li></ul><Link className="button outline" href="/practice">Start free <span aria-hidden="true">↗</span></Link></article>
-   <article className="home-plan home-plan-premium"><span className="home-plan-label">PREMIUM</span><h3>Premium</h3><p>বেশি টেস্ট আর বেশি ফিডব্যাক দরকার হলে।</p>{premium ? <><div className="home-plan-price">৳{Number(premium.price_bdt).toLocaleString('en-BD')}<small> / 30 days{plans.length > 1 ? ' · From' : ''}</small></div><ul><li>প্রতি মাসে Writing-এর {limit(premium.writing_limit)}টি AI মূল্যায়ন</li><li>প্রতি মাসে Speaking-এর {limit(premium.speaking_limit)}টি AI মূল্যায়ন</li><li>প্ল্যান: {String(premium.name)}</li></ul><Link className="button" href="/dashboard/subscription">Get Premium <span aria-hidden="true">↗</span></Link></> : <><div className="home-plan-price home-plan-unavailable">Not available yet</div><p>প্রিমিয়াম প্ল্যান প্রকাশিত হলে দাম ও বাড়তি মূল্যায়নের সীমা এখানে দেখতে পাবে।</p><Link className="button outline" href="/pricing">View plans <span aria-hidden="true">↗</span></Link></>}</article>
-  </div><div className="home-pricing-note"><p>AI মূল্যায়ন একটা আনুমানিক ব্যান্ড দেয়, এটা অফিশিয়াল IELTS স্কোর নয়।</p><Link href="/pricing">Compare all limits →</Link></div></div></section>
-  <section className="section answers-section"><div className="container"><div className="answers-head"><div><span className="eyebrow">FAQ</span><h2>Before you begin</h2></div></div><div className="answer-list">
-   <details><summary><span className="question-number">01</span><span>Do I need an account?</span><span className="question-toggle" aria-hidden="true"/></summary><p>ফ্রি Listening ও Reading practice অ্যাকাউন্ট ছাড়াই শুরু করা যায়। সাধারণ practice result এই browser-এ ২৪ ঘণ্টা পাওয়া যায়। Writing ও Speaking AI feedback-এর জন্য verified account এবং plan অনুযায়ী allowance দরকার। আগের AI evaluation Dashboard Results থেকে দেখা যায়।</p></details>
-   <details><summary><span className="question-number">02</span><span>Test Practice vs Question Practice?</span><span className="question-toggle" aria-hidden="true"/></summary><p>Test Practice-এ একটি টেস্টের মডিউল বেছে সময় ধরে অনুশীলন করো। Question Practice-এ Listening বা Reading-এর নির্দিষ্ট প্রশ্নের ধরন বেছে ছোট অনুশীলন করো।</p></details>
-   <details><summary><span className="question-number">03</span><span>Is AI feedback an official IELTS score?</span><span className="question-toggle" aria-hidden="true"/></summary><p>না। AI ফিডব্যাক তোমার উত্তরের ওপর ভিত্তি করে আনুমানিক ব্যান্ড ও উন্নতির পরামর্শ দেয়। এটা অফিশিয়াল IELTS স্কোর নয়।</p></details>
-  </div></div></section>
-  <section className="home-final-cta"><div className="container"><div><h2>Ready for your first test?</h2><p>অ্যাকাউন্ট ছাড়াই Listening বা Reading টেস্ট দিয়ে শুরু করো।</p></div><Link className="button" href="/practice">Take a free test <span aria-hidden="true">↗</span></Link></div></section>
- </>;
+import { Suspense } from 'react';
+import { headers } from 'next/headers';
+import type { Metadata, Viewport } from 'next';
+import { homeMarkup, homeStructuredData } from '@/lib/home-prototype';
+import { getHomeShelf, getHomeAllowance, shelfMarkup, shelfStyles, allowanceMarkup } from '@/lib/home-data';
+import { HomeInteractions } from '@/components/home-interactions';
+const title='JumpToNine: Free IELTS Practice Tests with AI Writing and Speaking Feedback';
+const description='Practise IELTS Listening, Reading, Writing and Speaking online. Cambridge 1–21, question-type practice, scheduled mock exams and AI feedback with an estimated band.';
+export const metadata:Metadata={title:{absolute:title},description,alternates:{canonical:'https://jumptonine.com/'},openGraph:{type:'website',url:'https://jumptonine.com/',siteName:'JumpToNine',title:'JumpToNine: IELTS practice, one step at a time',description:'Cambridge 1–21, mock exams and AI feedback for all four IELTS modules. Start with a free test.'},twitter:{card:'summary',title,description}};
+export const viewport:Viewport={themeColor:'#FDFBF7'};
+export const dynamic='force-dynamic';
+const booksAt=homeMarkup.indexOf('<section id="books"');
+const heroMarkup=homeMarkup.slice(0,booksAt);
+const bodyMarkup=homeMarkup.slice(booksAt);
+async function HomeBody({nonce}:{nonce?:string}){
+ const [shelf,allowance]=await Promise.allSettled([getHomeShelf(),getHomeAllowance()]);
+ const data=shelf.status==='fulfilled'?shelf.value:{range:'',total:0,series:[]};
+ const policy=allowance.status==='fulfilled'?allowance.value:null;
+ const shelfHtml=(shelf.status==='fulfilled'?shelfMarkup(data):'<p class="jtn-lead">The library is temporarily unavailable. <a href="/other-books">Browse the library</a></p>');
+ const body=bodyMarkup.replace('__BOOKS__',shelfHtml).replaceAll('__RANGE__',data.range||'books').replace('__WRITING_DOTS__',allowanceMarkup(policy?.writing??null)).replace('__SPEAKING_DOTS__',allowanceMarkup(policy?.speaking??null));
+ return <><style nonce={nonce}>{shelfStyles(data)}</style><div className="jtn-home-body" dangerouslySetInnerHTML={{__html:body}}/><HomeInteractions/></>;
+}
+export default async function Page(){
+ const nonce=(await headers()).get('x-nonce')??undefined;
+ return <div className="jtn-design jtn-home" lang="en">
+  <link rel="preload" href="/fonts/home/home-0.woff2" as="font" type="font/woff2" crossOrigin="anonymous"/>
+  <link rel="preload" href="/fonts/home/bricolage-variable.woff2" as="font" type="font/woff2" crossOrigin="anonymous"/>
+  <script nonce={nonce} type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(homeStructuredData).replace(/</g,'\\u003c')}}/>
+  <div dangerouslySetInnerHTML={{__html:heroMarkup}}/>
+  <Suspense fallback={<div className="jtn-wrap jtn-loading" role="status">Loading the library and practice tools…</div>}><HomeBody nonce={nonce}/></Suspense>
+ </div>;
 }
