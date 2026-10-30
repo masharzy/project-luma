@@ -5,6 +5,9 @@ import { PageIntro, PageWrap } from "@/components/page-parts";
 export const metadata = publicPageMetadata("IELTS Resources ও Speaking Cue Cards", "IELTS Speaking cue cards দিয়ে অনুশীলন শুরু করো। JumpToNine-এর resource hub-এ প্রস্তুত উপকরণ ও তৈরি হচ্ছে এমন collection দেখো।", "/resources");
 
 const collections = [
+{"id":"G1","category":"PRACTICE GUIDE","title":"IELTS Listening Practice","description":"শুধু score দেখলে বোঝা যায় কতটি উত্তর ঠিক হয়েছে। কেন ভুল হলো বুঝতে পারলেই পরের practice-এ পরিবর্তন আনা যায়। একটি test বেছে নাও, নিজের ভুলের কারণ লেখো, তারপর একই দক্ষতা আবার অনুশীলন করো।","href":"/ielts-listening-practice","action":"Read guide","ready":true},
+{"id":"G2","category":"PRACTICE GUIDE","title":"IELTS Reading Practice","description":"Reading-এ উত্তরটি passage-এর evidence দিয়ে প্রমাণ করতে হয়। নিজের সাধারণ জ্ঞান বা অনুমান দিয়ে ফাঁকা জায়গা পূরণ করলে ভুল হতে পারে। ছোট exercise দিয়ে শুরু করে সময় ধরে পূর্ণ module-এ যাও।","href":"/ielts-reading-practice","action":"Read guide","ready":true},
+{"id":"G3","category":"PRACTICE GUIDE","title":"IELTS Writing Task 2 Practice","description":"ভালো essay শুধু কঠিন vocabulary-এর তালিকা নয়। প্রশ্নের প্রতিটি অংশের উত্তর, পরিষ্কার অবস্থান এবং যুক্তির ব্যাখ্যা দরকার। লেখার আগে ছোট plan তৈরি করো, পরে সেই plan অনুযায়ী উত্তরটি যাচাই করো।","href":"/ielts-writing-task-2","action":"Read guide","ready":true},
   {
     id: "01",
     category: "SPEAKING",
@@ -89,7 +92,7 @@ export default function ResourcesPage() {
                 <p lang="bn">{item.description}</p>
               </div>
               <div className="resources-hub-card-bottom">
-                <span className="resources-hub-status">{item.ready ? "Practice available" : "Collection in progress"}</span>
+                <span className="resources-hub-status">{item.ready ? "Available now" : "Collection in progress"}</span>
                 <strong>{item.action} <span aria-hidden="true">→</span></strong>
               </div>
             </Link>

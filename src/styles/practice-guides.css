@@ -1,0 +1,40 @@
+/* Desktop: the sticky header and hero fill the first viewport together. */
+@media (min-width: 941px) {
+ .home-final-hero { min-height: calc(100vh - 83px); min-height: calc(100svh - 83px); display:flex; flex-direction:column; }
+ .home-final-hero .hero-content { flex:1; width:100%; max-width:1000px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px 24px; margin:0 auto; }
+ .home-final-hero h1 { font-size:clamp(44px,4.5vw,62px); line-height:1.3; margin-bottom:18px; }
+ .home-final-hero .hero-kicker { font-size:9px; margin-bottom:18px; }
+ .home-final-hero .home-hero-poem { font-family:Manrope,Arial,sans-serif; font-size:18px; line-height:1.7; margin:16px auto 24px; }
+ .home-final-hero .home-primary-cta { min-height:52px; padding:15px 26px; font-size:15px; gap:20px; }
+ .home-final-hero .home-secondary-cta { font-size:13px; padding:10px 0; }
+ .home-final-hero .hero-caption { flex-shrink:0; width:calc(100% - 84px); max-width:1096px; margin:0 auto; padding:18px 12px; }
+}
+.practice-guide {padding-top:36px;padding-bottom:80px;}
+.guide-breadcrumb {font-size:12px;line-height:1.8;color:var(--body);margin-bottom:32px;display:flex;gap:8px;flex-wrap:wrap;}
+.guide-breadcrumb a {text-decoration:underline;text-underline-offset:3px;}
+.guide-intro {max-width:840px;padding-bottom:40px;border-bottom:1px solid var(--line);margin-bottom:40px;}
+.guide-intro h1 {font-family:Manrope,Arial,sans-serif;font-size:clamp(32px,4vw,52px);line-height:1.15;letter-spacing:-1.5px;margin:16px 0 24px;color:var(--deep);}
+.guide-intro>p {font-family:"Hind Siliguri",sans-serif;font-size:19px;line-height:1.9;margin:0 0 24px;}
+.guide-layout {display:grid;grid-template-columns:minmax(0,2fr) minmax(220px,1fr);gap:64px;align-items:start;}
+.guide-article {max-width:860px;}
+.guide-article>section {margin-bottom:40px;scroll-margin-top:110px;}
+.guide-article h2,.guide-sidebar h2 {font-family:Manrope,Arial,sans-serif;font-size:24px;line-height:1.35;margin:0 0 18px;}
+.guide-article p,.guide-article li {font-family:"Hind Siliguri",sans-serif;font-size:18px;line-height:1.95;}
+.guide-article ul {padding-left:24px;}
+.guide-article li+li {margin-top:10px;}
+.guide-article a,.guide-sidebar a {color:var(--deep);text-decoration:underline;text-underline-offset:4px;}
+.guide-example {padding:24px;background:var(--paper);border-left:3px solid var(--red);margin-top:24px;}
+.guide-example h3 {font:700 14px Manrope,Arial,sans-serif;margin:0 0 16px;}
+.guide-example p {white-space:pre-line;}
+.guide-example p[lang=en] {font-family:Manrope,Arial,sans-serif;font-size:15px;line-height:1.9;}
+.guide-example details {border-top:1px solid var(--line);padding-top:18px;}
+.guide-example summary {cursor:pointer;font:700 14px Manrope,Arial,sans-serif;color:var(--deep);}
+.guide-sidebar {padding:26px;border:1px solid var(--line);background:var(--paper);}
+.guide-sidebar h2 {font-size:17px;}
+.guide-sidebar h2:not(:first-child) {margin-top:32px;}
+.guide-sidebar a {display:block;font-size:14px;line-height:1.7;margin-top:18px;}
+.guide-source {border-top:1px solid var(--line);padding-top:28px;}
+.guide-links {display:flex;gap:12px 22px;flex-wrap:wrap;margin-top:24px;}
+.guide-links a {font-size:13px;font-weight:600;color:var(--deep);text-decoration:underline;text-underline-offset:4px;}
+.practice-guide a:focus-visible,.practice-guide summary:focus-visible,.guide-links a:focus-visible {outline:3px solid var(--deep);outline-offset:5px;}
+@media(max-width:760px) {.guide-layout{grid-template-columns:1fr;gap:28px}.guide-intro{padding-bottom:28px;margin-bottom:28px}.guide-intro h1{letter-spacing:-.8px}.guide-example{padding:20px}.practice-guide{padding-top:24px;padding-bottom:48px}.guide-article p,.guide-article li{font-size:17px}}

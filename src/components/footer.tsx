@@ -19,6 +19,10 @@ export function Footer() {
           <div>
             <h3>Learn</h3>
             <Link href="/resources">Resources</Link>
+            <Link href="/ielts-listening-practice">IELTS Listening Practice</Link>
+            <Link href="/ielts-reading-practice">IELTS Reading Practice</Link>
+            <Link href="/ielts-writing-task-2">Writing Task 2 Guide</Link>
+            <Link href="/about">About JumpToNine</Link>
             <Link href="/pricing">Pricing</Link>
             <Link href="/pp">Privacy Policy</Link>
             <Link href="/tos">Terms of Service</Link>
