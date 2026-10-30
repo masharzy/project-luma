@@ -1,24 +1,6 @@
 import Link from "next/link";
-import { PageIntro, PageWrap } from "@/components/page-parts";
-import { EmptyCatalog } from "@/components/catalog-controls";
-export const metadata = { title: "The JumpToNine Journal" };
-export default function Page() {
-  return (
-    <PageWrap tone="resources-page">
-      <PageIntro
-        eyebrow="THE JUMPTONINE JOURNAL"
-        title="A little reading for the road."
-        description="IELTS প্রস্তুতি, শেখার অভ্যাস আর সামনে এগোনোর ভাবনা—একটু সময় নিয়ে পড়ো।"
-      >
-        <Link href="/resources" className="text-link">
-          All resources ↗
-        </Link>
-      </PageIntro>
-      <div className="collection-intro">
-        <span className="collection-type">BLOG / LUMA</span>
-        <h2>Keep learning, one page at a time.</h2>
-      </div>
-      <EmptyCatalog kind="blog" />
-    </PageWrap>
-  );
-}
+import {PageIntro,PageWrap} from "@/components/page-parts";
+import {PublicResourceList} from "@/components/public-resource-list";
+export const dynamic="force-dynamic";
+export const metadata={title:"Study Journal"};
+export default function Page(){return <PageWrap tone="resources-page"><PageIntro eyebrow="THE JUMPTONINE JOURNAL" title="Study Journal" description="IELTS প্রস্তুতির কৌশল ও শেখার অভ্যাস।"><Link href="/resources" className="text-link">All resources ↗</Link></PageIntro><PublicResourceList category="journal"/></PageWrap>;}
