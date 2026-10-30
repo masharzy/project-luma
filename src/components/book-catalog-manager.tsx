@@ -1,0 +1,23 @@
+"use client";
+import {useState} from "react";
+import type {CatalogSeries,CatalogVolume} from "@/lib/other-books-registry";
+const blank=()=>({type:"volume",slug:"",name:"",seriesSlug:"",title:"",volume:"",isbn:"",cover:"",status:"draft",edit:false});
+export function BookCatalogManager({initialSeries,initialVolumes}:{initialSeries:CatalogSeries[];initialVolumes:CatalogVolume[]}){
+ const [series,setSeries]=useState(initialSeries),[volumes,setVolumes]=useState(initialVolumes);
+ const [form,setForm]=useState(blank),[busy,setBusy]=useState(false),[message,setMessage]=useState("");
+ const set=(values:Partial<ReturnType<typeof blank>>)=>setForm(f=>({...f,...values}));
+ async function refresh(){const res=await fetch("/api/admin/book-catalog",{cache:"no-store"});const d=await res.json();if(!res.ok)throw Error(d.error);setSeries(d.series);setVolumes(d.volumes);}
+ async function save(e:React.FormEvent){e.preventDefault();setBusy(true);setMessage("");try{const r=await fetch("/api/admin/book-catalog",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)}),d=await r.json();if(!r.ok)throw Error(d.error||"Unable to save book");await refresh();setForm(blank());setMessage("Book catalog updated. Existing test records were not modified.");}catch(e){setMessage(e instanceof Error?e.message:"Unable to save");}finally{setBusy(false);}}
+ const editSeries=(s:CatalogSeries)=>{set({type:"series",slug:s.slug,name:s.name,cover:s.cover,status:s.status,edit:true});window.scrollTo({top:0,behavior:"smooth"});};
+ const editVolume=(v:CatalogVolume)=>{set({type:"volume",slug:v.slug,seriesSlug:v.seriesSlug,title:v.title,volume:v.volume,isbn:v.isbn,cover:v.cover,status:v.status,edit:true});window.scrollTo({top:0,behavior:"smooth"});};
+ return <section className="workspace-panel admin-editor"><h2>Book series & volume catalog</h2><p>Add or edit book metadata here. Slugs cannot be renamed after creation because existing tests and URLs depend on them. Hiding a series does not delete its tests.</p>
+  <form onSubmit={save}><div className="admin-user-filters"><label>Entry type<select value={form.type} onChange={e=>setForm({...blank(),type:e.target.value})}><option value="volume">Book / volume</option><option value="series">Series</option></select></label><label>Slug<input required disabled={form.edit} placeholder="unique-lowercase-slug" pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={80} value={form.slug} onChange={e=>set({slug:e.target.value})}/></label></div>
+  {form.type==="series"?<label>Series name<input required minLength={2} maxLength={120} value={form.name} onChange={e=>set({name:e.target.value})}/></label>:<><label>Series<select required value={form.seriesSlug} onChange={e=>set({seriesSlug:e.target.value})}><option value="">Choose series</option>{series.map(s=><option key={s.slug} value={s.slug}>{s.name}</option>)}</select></label><div className="form-two"><label>Book title<input required minLength={2} maxLength={180} value={form.title} onChange={e=>set({title:e.target.value})}/></label><label>Volume / edition<input required maxLength={80} value={form.volume} onChange={e=>set({volume:e.target.value})}/></label></div><label>ISBN (optional)<input maxLength={50} value={form.isbn} onChange={e=>set({isbn:e.target.value})}/></label></>}
+  <label>Cover URL (HTTPS) or local /images/books/…<input maxLength={2000} value={form.cover} onChange={e=>set({cover:e.target.value})}/></label>
+  <label>Visibility<select value={form.status} onChange={e=>set({status:e.target.value})}><option value="draft">Draft / hidden</option><option value="published">Published</option></select></label>
+  <div className="admin-user-filters"><button className="button" disabled={busy}>{busy?"Saving…":form.edit?"Update catalog entry":"Create catalog entry"}</button><button type="button" onClick={()=>setForm(blank())}>Clear</button></div></form>
+  {message&&<p role="status">{message}</p>}
+  <h3>Series ({series.length})</h3><div className="admin-item-grid">{series.map(s=><article className="workspace-panel admin-item-card" key={s.slug}><span className="access-pill">{s.status}</span><h4>{s.name}</h4><p>{s.slug}</p><button type="button" onClick={()=>editSeries(s)}>Edit series ↗</button></article>)}</div>
+  <h3>Books & volumes ({volumes.length})</h3><div className="admin-item-grid">{volumes.map(v=><article className="workspace-panel admin-item-card" key={v.slug}><span className="access-pill">{v.status}</span><h4>{v.series} · {v.volume}</h4><p>{v.title} · {v.slug}</p><button type="button" onClick={()=>editVolume(v)}>Edit volume ↗</button></article>)}</div>
+ </section>;
+}

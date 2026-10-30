@@ -1,8 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { otherBooks,otherBookSeries,bookHref } from '@/lib/other-books';
-import { bookCoverCrops } from '@/lib/other-book-covers';
-export function OtherBooksCatalog({series}:{series?:string}){
- const entries=series?otherBooks.filter(b=>otherBookSeries.find(s=>s.slug===series)?.name===b.series).map(b=>({key:b.slug,title:`${b.series} · ${b.volume}`,cover:b.cover,href:bookHref(b.slug)})):otherBookSeries.map(s=>({key:s.slug,title:s.name,cover:s.cover,href:'/other-books/'+s.slug}));
- return <div className="other-book-shelf">{entries.map(item=>{const crop=bookCoverCrops[item.cover];return <Link className="other-book" key={item.key} href={item.href}><span className="other-book-cover">{crop?<span className={"book-cover-crop "+crop.className}><Image src={item.cover} alt={item.title+' book cover'} width={crop.sourceWidth} height={crop.sourceHeight} sizes="240px"/></span>:<Image src={item.cover} alt={item.title+' book cover'} width={240} height={320}/>}</span><div className="book-caption"><h2>{item.title}</h2><span aria-hidden="true">↗</span></div></Link>;})}</div>;
+import {bookCoverCrops} from '@/lib/other-book-covers';
+export type BookCatalogCard={key:string;title:string;cover:string;href:string};
+export function OtherBooksCatalog({entries}:{entries:BookCatalogCard[]}){
+ return <div className="other-book-shelf">{entries.map(item=>{
+  const crop=bookCoverCrops[item.cover];
+  const alt=item.title+' book cover';
+  return <Link className="other-book" key={item.key} href={item.href}>
+   <span className="other-book-cover">{item.cover.startsWith("https://")?<img src={item.cover} alt={alt} loading="lazy" width={240} height={320}/>:crop?<span className={"book-cover-crop "+crop.className}><Image src={item.cover} alt={alt} width={crop.sourceWidth} height={crop.sourceHeight} sizes="240px"/></span>:item.cover?<Image src={item.cover} alt={alt} width={240} height={320}/>:<span className="catalog-book-missing-cover">{item.title}</span>}</span>
+   <div className="book-caption"><h2>{item.title}</h2><span aria-hidden="true">↗</span></div>
+  </Link>;
+ })}</div>;
 }

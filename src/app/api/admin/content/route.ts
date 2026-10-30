@@ -1,4 +1,4 @@
-import { validBookSlug } from "@/lib/other-books";
+import {registeredVolumeSlug} from "@/lib/other-books-registry";
 import { NextRequest } from "next/server";
 import { defaultDurations, validDurations } from "@/lib/cambridge-settings";
 import { requireSameOrigin, readBody, AuthHttpError } from "@/lib/auth/http";
@@ -19,7 +19,7 @@ export async function POST(request:NextRequest){
  let data:Record<string,unknown>;
  try{requireSameOrigin(request);data=await readBody(request);}catch(e){return Response.json({error:"Invalid request"},{status:e instanceof AuthHttpError?e.status:400});}
  const {bookSlug,kind,title,description,access,status,sections,scheduledAt,durations}=data;
- if((bookSlug!=null&&(kind!=="practice"||!validBookSlug(bookSlug)))||(durations!==undefined&&!validDurations(durations))||!kinds.includes(String(kind))||typeof title!=="string"||!title.trim()||title.length>180||
+ if((bookSlug!=null&&(kind!=="practice"||typeof bookSlug!=="string"||!(await registeredVolumeSlug(bookSlug))))||(durations!==undefined&&!validDurations(durations))||!kinds.includes(String(kind))||typeof title!=="string"||!title.trim()||title.length>180||
  typeof description!=="string"||description.length>5000||
  (access!=="free"&&access!=="premium")||(status!=="draft"&&status!=="published")||
  !Array.isArray(sections)||sections.length>4||!sections.every(s=>["listening","reading","writing","speaking"].includes(s))||

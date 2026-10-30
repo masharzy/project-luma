@@ -1,5 +1,4 @@
-import { AdminList } from "@/components/admin-list";
-export const metadata = { title: "Manage resources" };
-export default function Page() {
-  return <AdminList kind="resources" />;
-}
+import {ResourceManager} from "@/components/resource-manager";
+export const dynamic="force-dynamic";
+export const metadata={title:"Manage learning resources"};
+export default function Page(){return <ResourceManager/>;}

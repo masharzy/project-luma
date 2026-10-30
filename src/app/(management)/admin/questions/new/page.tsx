@@ -1,5 +1,2 @@
-import { AdminDraft } from "@/components/admin-draft";
-export const metadata = { title: "Draft questions" };
-export default function Page() {
-  return <AdminDraft kind="questions" />;
-}
+import {redirect} from "next/navigation";
+export default function Page(){redirect("/admin/practice");}

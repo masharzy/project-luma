@@ -1,4 +1,4 @@
-import { validBookSlug } from "@/lib/other-books";
+import {registeredVolumeSlug} from "@/lib/other-books-registry";
 import { validDurations } from "@/lib/cambridge-settings";
 import { NextRequest } from "next/server";
 import { readSession } from "@/lib/auth/session";
@@ -12,7 +12,7 @@ export async function PATCH(request:NextRequest,c:Context){try{
  const id=await authorize(request,c),d=await readBody(request);
  const rows=await db().query("SELECT kind,sections FROM public.admin_content WHERE id=$1",[id]);if(!rows[0])return reply({error:"Not found"},404);
  const allowed=["bookSlug","kind","title","description","sections","access","status","scheduledAt","durations"];
- if((d.bookSlug!==undefined&&d.bookSlug!==null&&(rows[0].kind!=="practice"||!validBookSlug(d.bookSlug)))||(d.durations!==undefined&&!validDurations(d.durations))||!Object.keys(d).length||Object.keys(d).some(k=>!allowed.includes(k))||
+ if((d.bookSlug!==undefined&&d.bookSlug!==null&&(rows[0].kind!=="practice"||typeof d.bookSlug!=="string"||!(await registeredVolumeSlug(d.bookSlug))))||(d.durations!==undefined&&!validDurations(d.durations))||!Object.keys(d).length||Object.keys(d).some(k=>!allowed.includes(k))||
  (d.kind!==undefined&&d.kind!==rows[0].kind)||
  (rows[0].kind==='practice'&&((Array.isArray(d.sections)&&d.sections.includes('speaking'))||(d.durations!=null&&Object.hasOwn(d.durations as object,'speaking'))))||
  (d.title!==undefined&&(typeof d.title!=="string"||!d.title.trim()||d.title.length>180))||
