@@ -47,6 +47,7 @@ All destinations exist. No new APIs or application routes. No OG image existed i
 - One H1 and no horizontal page overflow at all six implementation widths.
 - Header + hero ends exactly at viewport height at all six sizes (800, 844, 1024, 768, 900, 1080 respectively).
 - Production data: Cambridge 1–21; 10 published other-series links SSR; Writing 5 / Speaking 2 monthly free evaluations. At 390px two spines show and More books reads +8; at desktop all 10 current series show.
+- At 320px, a desktop scrollbar consumed the 15px needed by the existing header. Home-only scrollbar suppression below 340px preserves the header markup/styles and phone-like content width. Landscape 667×375 may grow taller (measured 486px including header), keeping all content visible.
 - 360px scrollbar accounting required reducing the More books left margin by 4px to fit two 52px spines. This small adaptation is required by the narrow-screen acceptance criteria.
 - Browser checks passed: arrow-key tab activation; module/chip toggle and count; selecting/removing a Reading highlight; notes save indicator; Writing tooltip text and clamped position; 90 sample waveform bars with transcript and record-state toggle; cue rotation. Countdown timers run. No microphone permission request occurs.
 - Preview browser logs showed only unrelated Grammarly extension warnings, no application errors/hydration warnings.
