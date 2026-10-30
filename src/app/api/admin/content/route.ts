@@ -23,11 +23,12 @@ export async function POST(request:NextRequest){
  typeof description!=="string"||description.length>5000||
  (access!=="free"&&access!=="premium")||(status!=="draft"&&status!=="published")||
  !Array.isArray(sections)||sections.length>4||!sections.every(s=>["listening","reading","writing","speaking"].includes(s))||
+ (kind==='practice'&&(sections.includes('speaking')||(durations!=null&&Object.hasOwn(durations as object,'speaking'))))||
  new Set(sections).size!==sections.length||
  (kind!=="vocabulary"&&sections.length===0)||
  (scheduledAt!==null&&scheduledAt!==undefined&&(typeof scheduledAt!=="string"||!Number.isFinite(Date.parse(scheduledAt)))))
  return Response.json({error:"Invalid content fields"},{status:400});
  const rows=await db().query(`INSERT INTO public.admin_content(kind,title,description,access,status,sections,scheduled_at,durations,book_slug)
- VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::timestamptz,$8::jsonb,$9) RETURNING id`,[kind,title.trim(),description,access,status,JSON.stringify(sections),scheduledAt||null,JSON.stringify({...defaultDurations,...(durations as object||{})}),bookSlug??null]);
+ VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::timestamptz,$8::jsonb,$9) RETURNING id`,[kind,title.trim(),description,access,status,JSON.stringify(sections),scheduledAt||null,JSON.stringify({...(kind==='practice'?{listening:30,reading:60,writing:60}:defaultDurations),...(durations as object||{})}),bookSlug??null]);
  return Response.json({id:String(rows[0].id)},{status:201});
 }
