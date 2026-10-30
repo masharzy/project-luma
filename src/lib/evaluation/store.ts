@@ -20,7 +20,8 @@ export async function createWritingEvaluation(attemptId:string,userId:string){
  if(index<0||Number(attempt.current_index)<=index)throw new AuthHttpError(409,'Submit your Writing answers first.');
  const input=writingInput(snapshot[index].document,attempt.answers[String(index)]||{});
  if(!input.tasks.some(t=>t.answer.trim()))throw new AuthHttpError(400,'Write an answer before requesting evaluation.');
- const product=attempt.kind==='cambridge'?'writing_product':'practice_writing';
+ // Practice, Cambridge and dedicated AI Writing share one account allowance.
+ const product='writing_product';
  const grant=(await db().query('SELECT monthly_limit FROM public.evaluation_allowance($1::uuid,$2::text)',[userId,product]))[0];
  if(!grant)throw new AuthHttpError(403,'AI feedback is not included in your current access. Your Writing answers are still available.','EVALUATION_ACCESS_REQUIRED');
  try {
