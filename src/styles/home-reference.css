@@ -316,3 +316,6 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 /* Mobile-sized desktop QA should reserve the same content width as a phone.
    This keeps the immutable header intact at 320px without horizontal scrolling. */
 @media(max-width:340px){html:has(.jtn-home){scrollbar-width:none}}
+/* Preserve the reference document's horizontal clipping around the unchanged
+   header as well as the page sections; clip does not create a scroll container. */
+body:has(.jtn-home){overflow-x:clip}
