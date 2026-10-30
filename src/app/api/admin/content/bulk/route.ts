@@ -9,7 +9,7 @@ export async function POST(req:NextRequest){
   const session=await readSession();
   if(!session?.user||!hasAdminRole(session.user))throw new AuthHttpError(403,"Forbidden");
   requireSameOrigin(req);
-  const d=await readBody(req),kind=d.kind,status=d.status,ids=d.ids;
+  const d=await readBody(req),kind=String(d.kind),status=String(d.status),ids=d.ids;
   if(!["practice","vocabulary"].includes(kind)||!["draft","published","archived"].includes(status)||
    !Array.isArray(ids)||ids.length<1||ids.length>50||new Set(ids).size!==ids.length||
    !ids.every((s:unknown)=>typeof s==="string"&&/^\d{1,16}$/.test(s)))
