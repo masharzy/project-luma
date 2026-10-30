@@ -8,5 +8,5 @@ export function validDurations(value: unknown): value is Partial<Record<Cambridg
  return Object.entries(value).every(([k,v]) => testModuleOrder.includes(k as CambridgeSection) && Number.isInteger(v) && v >= 1 && v <= 240);
 }
 export function selectedModules(modules: string[], selection: string) {
- return moduleOrder.filter(m => modules.includes(m) && (selection === 'full' ? objectiveModules.includes(m as typeof objectiveModules[number]) : selection === m));
+ return moduleOrder.filter(m => modules.includes(m) && (selection === 'full' || selection === m));
 }
