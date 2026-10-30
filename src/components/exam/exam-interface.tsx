@@ -56,7 +56,7 @@ export interface ExamInterfaceProps {
   reviewMode?: boolean;
   waitForAudioStart?: boolean;
   sectionAudioUrl?: string;
-  onAudioPlaybackStarted?: () => void;
+  onAudioPlaybackStarted?: () => void | Promise<void>;
   autoStartTimerOnAudioBlock?: boolean;
 }
 
@@ -639,11 +639,9 @@ export default function ExamInterface({
       if (audio.src !== audioUrl) audio.src = audioUrl;
       if (audio.error) audio.load();
       if (audio.paused) await audio.play();
-      setAudioStarted(true);
-      onAudioPlaybackStarted?.();
+      // Only the HTMLMediaElement "playing" event is allowed to start the clock.
     } catch (error) {
       if (source === 'manual') audioAttemptedForRef.current = null;
-      if (autoStartTimerOnAudioBlock) onAudioPlaybackStarted?.();
       const fallbackText = autoStartTimerOnAudioBlock
         ? 'Audio did not start automatically. Press Play to continue listening.'
         : source === 'auto'
@@ -669,10 +667,11 @@ export default function ExamInterface({
       audio.load();
     }
 
+    // Load media early, but require user interaction before starting the first clip.
+    if (waitForAudioStart) return;
     const id = window.setTimeout(() => {
       void attemptListeningAudioPlayback('auto');
     }, 300);
-
     return () => window.clearTimeout(id);
   }, [attemptListeningAudioPlayback, listeningAudioUrl, reviewMode, waitForAudioStart]);
 
@@ -3024,7 +3023,14 @@ export default function ExamInterface({
             src={listeningAudioUrl}
             onCanPlayThrough={() => setAudioReady(true)}
             onCanPlay={() => setAudioReady(true)}
-            onPlaying={() => { setAudioStarted(true); onAudioPlaybackStarted?.(); }}
+            onPlaying={() => {
+              setAudioStarted(true);
+              void Promise.resolve(onAudioPlaybackStarted?.()).catch(() => {
+                audioRef.current?.pause();
+                setAudioStarted(false);
+                setAudioError('Could not start the test clock. Tap Play to retry.');
+              });
+            }}
             onEnded={()=>{if(!sectionAudioUrl && audioPartIndex<parts.length-1){setAudioFallbackIndex(0);setAudioPartIndex(i=>i+1);setCurrentPartIndex(audioPartIndex+1);}}}
             onError={() => {if(audioFallbackIndex<listeningSources.length-1)setAudioFallbackIndex(i=>i+1);else setAudioError('Audio could not load. Please check your connection and try again.');}}
           />
