@@ -38,3 +38,18 @@
 .guide-links a {font-size:13px;font-weight:600;color:var(--deep);text-decoration:underline;text-underline-offset:4px;}
 .practice-guide a:focus-visible,.practice-guide summary:focus-visible,.guide-links a:focus-visible {outline:3px solid var(--deep);outline-offset:5px;}
 @media(max-width:760px) {.guide-layout{grid-template-columns:1fr;gap:28px}.guide-intro{padding-bottom:28px;margin-bottom:28px}.guide-intro h1{letter-spacing:-.8px}.guide-example{padding:20px}.practice-guide{padding-top:24px;padding-bottom:48px}.guide-article p,.guide-article li{font-size:17px}}
+
+/* Homepage feature descriptions stay separate from the compact hero. */
+.home-feature-details{background:var(--paper);border-top:1px solid var(--line)}
+.home-feature-intro{max-width:760px;font-family:"Hind Siliguri",sans-serif;font-size:19px;line-height:1.9;margin:0 0 36px}
+.home-feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 32px}
+.home-feature-item{display:flex;flex-direction:column;min-width:0;border-top:1px solid var(--line);padding-top:24px}
+.home-feature-number{font:700 11px Manrope,Arial,sans-serif;letter-spacing:1px;color:var(--deep);margin-bottom:18px}
+.home-feature-item h3{font:700 21px/1.4 Manrope,Arial,sans-serif;margin:0 0 14px;color:var(--deep)}
+.home-feature-item p{font-family:"Hind Siliguri",sans-serif;font-size:17px;line-height:1.9;margin:0 0 22px}
+.home-feature-item>a{align-self:flex-start;margin-top:auto;font-size:13px;font-weight:700;color:var(--deep);text-decoration:underline;text-underline-offset:4px}
+.home-feature-access{font-family:"Hind Siliguri",sans-serif;font-size:15px;line-height:1.9;border-top:1px solid var(--line);margin:36px 0 0;padding-top:24px;max-width:900px}
+.home-feature-access a{color:var(--deep);text-decoration:underline;text-underline-offset:4px}
+.home-feature-details a:focus-visible{outline:3px solid var(--deep);outline-offset:5px}
+@media(max-width:1000px){.home-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}}
+@media(max-width:600px){.home-feature-grid{grid-template-columns:1fr;gap:28px}.home-feature-intro{font-size:18px}.home-feature-item h3{font-size:20px}}
