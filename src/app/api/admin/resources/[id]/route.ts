@@ -3,7 +3,7 @@ import {db} from "@/lib/auth/db";
 import {readSession} from "@/lib/auth/session";
 import {hasAdminRole} from "@/lib/auth/policy";
 import {AuthHttpError,readBody,requireSameOrigin,json,audit} from "@/lib/auth/http";
-import {validateResource} from "../route";
+import {validateResource} from "@/lib/admin/resource-validation";
 export const runtime="nodejs";
 type Context={params:Promise<{id:string}>};
 async function admin(req:NextRequest,c:Context){const s=await readSession();if(!s?.user||!hasAdminRole(s.user))throw new AuthHttpError(403,"Forbidden");requireSameOrigin(req);const {id}=await c.params;if(!/^\d{1,16}$/.test(id))throw new AuthHttpError(400,"Invalid resource");return {user:s.user,id};}
