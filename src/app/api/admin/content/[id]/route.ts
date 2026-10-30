@@ -14,6 +14,7 @@ export async function PATCH(request:NextRequest,c:Context){try{
  const allowed=["bookSlug","kind","title","description","sections","access","status","scheduledAt","durations"];
  if((d.bookSlug!==undefined&&d.bookSlug!==null&&(rows[0].kind!=="practice"||!validBookSlug(d.bookSlug)))||(d.durations!==undefined&&!validDurations(d.durations))||!Object.keys(d).length||Object.keys(d).some(k=>!allowed.includes(k))||
  (d.kind!==undefined&&d.kind!==rows[0].kind)||
+ (rows[0].kind==='practice'&&((Array.isArray(d.sections)&&d.sections.includes('speaking'))||(d.durations!=null&&Object.hasOwn(d.durations as object,'speaking'))))||
  (d.title!==undefined&&(typeof d.title!=="string"||!d.title.trim()||d.title.length>180))||
  (d.description!==undefined&&(typeof d.description!=="string"||d.description.length>5000))||
  (d.access!==undefined&&!['free','premium'].includes(String(d.access)))||
