@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth/guards";
 import { WorkspaceHeading } from "@/components/page-parts";
 import { db } from "@/lib/auth/db";
 import { keyStatus } from "@/lib/ai-lab/secrets";
+import {storageConfigured} from "@/lib/products/storage";
 export const dynamic="force-dynamic";
 export const metadata = { title: "Platform settings" };
 export default async function Page(){
@@ -20,12 +21,12 @@ export default async function Page(){
   ["Speaking queue",Number(state.speaking_pending||0)+" active jobs; worker connectivity not confirmed"],
   ["AI OpenRouter",(keys?.openrouter&&keys?.vaultReady)?"Key stored securely":"Not verified/configured"],
   ["AI Google",(keys?.google&&keys?.vaultReady)?"Key stored securely":"Not verified/configured"],
-  ["Cloudflare R2","No live media health probe configured"],
+  ["Cloudflare R2",storageConfigured()?"Credentials configured; actual media health not probed":"Credentials not configured"],
   ["Payments","No gateway/transaction records configured"]
  ];
  return <div className="admin-refactor"><WorkspaceHeading eyebrow="PLATFORM / SETTINGS" title="Platform status" description="Database-backed counts. Unknown external integrations are labeled as unverified, not presented as live."/>
   <div className="settings-grid">
    <section className="workspace-panel settings-panel"><span className="eyebrow">ADMINISTRATION</span><h2>Account & security</h2><dl className="settings-list"><div><dt>Signed in</dt><dd>{user.email}</dd></div><div><dt>Role</dt><dd>Server-validated administrator</dd></div><div><dt>Public admin signup</dt><dd>Disabled</dd></div></dl><Link href="/admin/users">Manage users ↗</Link></section>
-   <section className="workspace-panel settings-panel"><span className="eyebrow">CONNECTION HEALTH</span><h2>Platform services</h2><dl className="settings-list">{rows.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><p className="security-note">Provider credentials are never returned to the browser. Counts do not prove queue delivery or external media availability.</p><Link href="/admin/ai-lab">Manage AI credentials ↗</Link></section>
+   <section className="workspace-panel settings-panel"><span className="eyebrow">CONNECTION HEALTH</span><h2>Platform services</h2><dl className="settings-list">{rows.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><p className="security-note">Provider credentials are never returned to the browser. Counts do not prove queue delivery or external media availability.</p><Link href="/admin/ai-lab">Manage AI credentials ↗</Link> · <Link href="/admin/media">R2 media library ↗</Link></section>
   </div></div>;
 }
