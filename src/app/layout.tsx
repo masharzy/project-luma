@@ -10,6 +10,8 @@ import "@/styles/cambridge-question-practice.css";
 import "@/styles/other-books.css";
 import "@/styles/resources-hub.css";
 import "@/styles/practice-guides.css";
+import "@/styles/home-fonts.css";
+import "@/styles/home-reference.css";
 export const metadata: Metadata = {
   title: { default: site.name, template: `%s · ${site.name}` },
   description: site.description,
