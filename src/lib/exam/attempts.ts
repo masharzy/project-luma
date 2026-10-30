@@ -29,7 +29,12 @@ export async function startAttempt(kind: string, parentId: string, selection: st
         return { module, document };
     }));
     const id = randomUUID();
-    await db().query("INSERT INTO public.exam_attempts(id,owner_hash,kind,parent_id,title,snapshot,user_id,deadline) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::uuid,now()+($8::integer * interval '1 second'))", [id, digest(owner), kind, parentId, parent.title, JSON.stringify(snapshot), userId, snapshot[0].document.durationMinutes * 60]);
+    // For audio-backed Listening, the server deadline starts when playback starts.
+    // Once started it stays server-authoritative across reloads/background tabs.
+    const first = snapshot[0];
+    const waitForAudio = first.module === 'listening' &&
+        Boolean(first.document.audioUrl || first.document.parts.some((p: any) => p.audio_url));
+    await db().query("INSERT INTO public.exam_attempts(id,owner_hash,kind,parent_id,title,snapshot,user_id,deadline) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::uuid,CASE WHEN $9::boolean THEN NULL ELSE now()+($8::integer * interval '1 second') END)", [id, digest(owner), kind, parentId, parent.title, JSON.stringify(snapshot), userId, first.document.durationMinutes * 60, waitForAudio]);
     return id;
 }
 async function attemptRow(id:string){return (await db().query(`SELECT a.*,e.results_published_at FROM public.exam_attempts a LEFT JOIN public.mock_events e ON a.kind='mock' AND e.id=a.parent_id WHERE a.id=$1`,[id]))[0];}
