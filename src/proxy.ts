@@ -37,9 +37,11 @@ export default async function proxy(request: NextRequest) {
     // A cookie check only avoids unnecessary unauthenticated page work.
     // Server layouts and APIs always validate the opaque token in PostgreSQL.
     if (!request.cookies.get(sessionCookieName())?.value) {
-      const redirect = NextResponse.redirect(
-        new URL("/auth/sign-in", request.url),
-      );
+      const signInUrl = new URL("/auth/sign-in", request.url);
+      if (request.nextUrl.pathname === "/dashboard/subscription") {
+        signInUrl.searchParams.set("next", request.nextUrl.pathname + request.nextUrl.search);
+      }
+      const redirect = NextResponse.redirect(signInUrl);
       redirect.headers.set("Cache-Control", "private, no-store");
       return redirect;
     }

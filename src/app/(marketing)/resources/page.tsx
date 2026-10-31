@@ -1,104 +1,25 @@
-import { publicPageMetadata } from "@/lib/seo";
-import Link from "next/link";
-import { PageIntro, PageWrap } from "@/components/page-parts";
+import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+import { ResourceDeck } from '@/components/resource-deck';
+import { resourcesMarkup, resourcesStructuredData, resourceAvailability } from '@/lib/resources-reference';
 
-export const metadata = publicPageMetadata("IELTS Resources ও Speaking Cue Cards", "IELTS Speaking cue cards দিয়ে অনুশীলন শুরু করো। JumpToNine-এর resource hub-এ প্রস্তুত উপকরণ ও তৈরি হচ্ছে এমন collection দেখো।", "/resources");
-
-const collections = [
-{"id":"G1","category":"PRACTICE GUIDE","title":"IELTS Listening Practice","description":"শুধু score দেখলে বোঝা যায় কতটি উত্তর ঠিক হয়েছে। কেন ভুল হলো বুঝতে পারলেই পরের practice-এ পরিবর্তন আনা যায়। একটি test বেছে নাও, নিজের ভুলের কারণ লেখো, তারপর একই দক্ষতা আবার অনুশীলন করো।","href":"/ielts-listening-practice","action":"Read guide","ready":true},
-{"id":"G2","category":"PRACTICE GUIDE","title":"IELTS Reading Practice","description":"Reading-এ উত্তরটি passage-এর evidence দিয়ে প্রমাণ করতে হয়। নিজের সাধারণ জ্ঞান বা অনুমান দিয়ে ফাঁকা জায়গা পূরণ করলে ভুল হতে পারে। ছোট exercise দিয়ে শুরু করে সময় ধরে পূর্ণ module-এ যাও।","href":"/ielts-reading-practice","action":"Read guide","ready":true},
-{"id":"G3","category":"PRACTICE GUIDE","title":"IELTS Writing Task 2 Practice","description":"ভালো essay শুধু কঠিন vocabulary-এর তালিকা নয়। প্রশ্নের প্রতিটি অংশের উত্তর, পরিষ্কার অবস্থান এবং যুক্তির ব্যাখ্যা দরকার। লেখার আগে ছোট plan তৈরি করো, পরে সেই plan অনুযায়ী উত্তরটি যাচাই করো।","href":"/ielts-writing-task-2","action":"Read guide","ready":true},
-  {
-    id: "01",
-    category: "SPEAKING",
-    title: "Speaking Cue Cards",
-    description: "Part 2-এর topic বেছে এক মিনিট প্রস্তুতি নাও, তারপর নিজের উত্তর practice করো।",
-    href: "/resources/cue-cards",
-    action: "Practice cue cards",
-    ready: true,
-  },
-  {
-    id: "02",
-    category: "WRITING",
-    title: "Writing Samples & Guides",
-    description: "Task 1 ও Task 2-এর structure, ideas এবং sample answer এক জায়গায়।",
-    href: "/resources/writing",
-    action: "Explore writing",
-    ready: false,
-  },
-  {
-    id: "03",
-    category: "VOCABULARY",
-    title: "Vocabulary",
-    description: "Topic অনুযায়ী দরকারি শব্দ আর সঠিক ব্যবহার শেখার collection।",
-    href: "/vocabulary",
-    action: "Explore vocabulary",
-    ready: false,
-  },
-  {
-    id: "04",
-    category: "GRAMMAR",
-    title: "Grammar",
-    description: "Grammar-এর সাধারণ ভুল আর আরও পরিষ্কার বাক্য তৈরির practice।",
-    href: "/grammar",
-    action: "Explore grammar",
-    ready: false,
-  },
-  {
-    id: "05",
-    category: "READING",
-    title: "Ebook Shelf",
-    description: "IELTS প্রস্তুতির জন্য বই আর workbook রাখার আলাদা জায়গা।",
-    href: "/resources/ebooks",
-    action: "Browse ebooks",
-    ready: false,
-  },
-  {
-    id: "06",
-    category: "ARTICLES",
-    title: "Study Journal",
-    description: "প্রস্তুতির কৌশল, পড়াশোনার অভ্যাস আর ছোট ছোট learning notes।",
-    href: "/blog",
-    action: "Read journal",
-    ready: false,
-  },
-] as const;
-
-export default function ResourcesPage() {
-  return (
-    <PageWrap tone="resources-hub-page">
-      <PageIntro
-        eyebrow="RESOURCES"
-        title="Your learning toolkit."
-        description="এক জায়গায় Speaking, Writing, Vocabulary ও Grammar-এর সহায়ক উপকরণ। যা প্রস্তুত আছে, সেখান থেকেই শুরু করো।"
-      />
-      <section className="resources-hub" aria-labelledby="resources-hub-heading">
-        <div className="resources-hub-heading">
-          <div>
-            <span className="eyebrow">LEARN AT YOUR PACE</span>
-            <h2 id="resources-hub-heading">Pick a resource</h2>
-          </div>
-          <p>ছোট একটি topic দিয়েও আজকের practice শুরু করা যায়।</p>
-        </div>
-        <div className="resources-hub-grid">
-          {collections.map((item) => (
-            <Link key={item.id} href={item.href} className={`resources-hub-card ${item.ready ? "is-ready" : ""}`}>
-              <div className="resources-hub-card-top">
-                <span>{item.id} / {item.category}</span>
-                <span className="resources-hub-card-arrow" aria-hidden="true">↗</span>
-              </div>
-              <div className="resources-hub-card-body">
-                <h3>{item.title}</h3>
-                <p lang="bn">{item.description}</p>
-              </div>
-              <div className="resources-hub-card-bottom">
-                <span className="resources-hub-status">{item.ready ? "Available now" : "Collection in progress"}</span>
-                <strong>{item.action} <span aria-hidden="true">→</span></strong>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-    </PageWrap>
-  );
+const title = 'IELTS Learning Resources: Speaking Cue Cards, Vocabulary, Grammar and Ebooks | JumpToNine';
+const description = 'Free IELTS learning resources in one place: Speaking cue cards, Writing samples, Vocabulary, Grammar, an ebook shelf and a study journal. Start with what is ready.';
+export const metadata: Metadata = {
+  title: { absolute: title }, description,
+  alternates: { canonical: 'https://jumptonine.com/resources' },
+  openGraph: { type: 'website', siteName: 'JumpToNine', title: 'IELTS learning resources | JumpToNine', description, url: 'https://jumptonine.com/resources', images: [{url:'/images/og-jumptonine.png',width:1200,height:630,alt:'JumpToNine — IELTS practice'}] },
+  twitter: { card: 'summary', title, description },
+};
+export default async function ResourcesPage() {
+  const nonce = (await headers()).get('x-nonce') ?? undefined;
+  let markup = resourcesMarkup;
+  for (const [key, ready] of Object.entries(resourceAvailability)) {
+    markup = markup.replace('__STATUS_' + key.toUpperCase() + '__', `<span class="r-st" data-ready="${ready}"><i aria-hidden="true"></i>${ready ? 'Available now' : 'Collection in progress'}</span>`);
+  }
+  return <div className="jtn-design jtn-resources" lang="en">
+    <script nonce={nonce} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(resourcesStructuredData).replace(/</g, '\\u003c') }} />
+    <div dangerouslySetInnerHTML={{ __html: markup }} />
+    <ResourceDeck />
+  </div>;
 }
