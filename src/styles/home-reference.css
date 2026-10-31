@@ -320,3 +320,5 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 /* Preserve the reference document's horizontal clipping around the unchanged
    header as well as the page sections; clip does not create a scroll container. */
 body:has(.jtn-home){overflow-x:clip}
+
+.jtn-design.jtn-footer ul a[aria-current="page"]{color:var(--c)}
