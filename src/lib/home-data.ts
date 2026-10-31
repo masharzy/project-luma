@@ -6,11 +6,11 @@ export type HomeShelfData = {range:string;total:number;series:{slug:string;name:
 export const getHomeShelf = unstable_cache(async ():Promise<HomeShelfData> => {
  const [books,series]=await Promise.all([
   db().query("SELECT book_number FROM public.cambridge_books WHERE status='published' ORDER BY book_number"),
-  db().query("SELECT slug,name FROM public.book_series WHERE status='published' ORDER BY created_at,slug")
+  db().query("SELECT slug,name FROM public.book_series WHERE status='published' ORDER BY CASE slug WHEN 'official-guide' THEN 0 WHEN 'practice-tests-plus' THEN 1 ELSE 2 END,created_at,slug")
  ]);
  const nums=books.map(b=>Number(b.book_number));
- return {range:nums.length?(nums[0]===nums[nums.length-1]?String(nums[0]):`${nums[0]}–${nums[nums.length-1]}`):'',total:series.length+Number(nums.length>0),series:series.map(s=>({slug:String(s.slug),name:String(s.name)}))};
-},['home-books-v1'],{revalidate:300});
+ return {range:nums.length?(nums[0]===nums[nums.length-1]?String(nums[0]):`${nums[0]}–${nums[nums.length-1]}`):'',total:series.length+Number(nums.length>0),series:series.map(s=>({slug:String(s.slug),name:s.slug==='official-guide'?'Official Cambridge Guide':s.slug==='practice-tests-plus'?'Practice Tests Plus':String(s.name)}))};
+},['home-books-v2'],{revalidate:300});
 export const getHomeAllowance=unstable_cache(async()=>{
  const p=await freePolicy();return {writing:Number(p.free_writing),speaking:Number(p.free_speaking)};
 },['home-free-allowance-v1'],{revalidate:60});
