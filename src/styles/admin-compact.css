@@ -216,3 +216,8 @@ html:has(.adm-drawer[open]){overflow:hidden}
 .admin-app .admin-item-card .button{margin-top:8px}
 @media(max-width:500px){.admin-app .admin-book-grid{grid-template-columns:1fr}.admin-app .adm-book-card{gap:4px}.admin-app .adm-book-card>.text-link{margin-top:-6px}}
 @media(pointer:coarse){.admin-app .adm-help>summary,.admin-app .adm-book-card>.text-link{min-height:44px}}
+.admin-app .membership-admin{gap:12px}
+.admin-app .membership-admin>.admin-disclosure,.admin-app .membership-admin>.membership-panel{margin:0}
+.admin-app .membership-plan-grid:empty{display:none}
+.admin-app .membership-section-heading{gap:10px;align-items:center}
+.admin-app .membership-section-heading form{display:flex;gap:8px;align-items:center}
