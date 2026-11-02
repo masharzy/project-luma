@@ -10,7 +10,7 @@ const learner = [
   ["/dashboard", "Overview", "grid"],
   ["/dashboard/practice", "My practice", "book"],
   ["/dashboard/mocks", "My mocks", "clock"],
-  ["/dashboard/results", "Results", "chart"],
+  ["/dashboard/results", "Mock results", "chart"],
   ["/dashboard/saved", "Saved resources", "heart"],
   ["/dashboard/subscription", "My subscription", "chart"],
   ["/settings", "Settings", "settings"],

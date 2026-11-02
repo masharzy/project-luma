@@ -1,0 +1,8 @@
+import {ArrowUpRight,RotateCcw,Clock3} from 'lucide-react';
+import type {Attempt} from '@/lib/learner/data';
+import {resultBadge,retakePath} from '@/lib/learner/results';
+import {day} from '@/lib/learner/presentation';
+export function LearnerScoreCard({attempt:a,retake=false}:{attempt:Attempt;retake?:boolean}){
+ const score=resultBadge(a),path=retakePath(a);
+ return <article className="study-result-card"><div className="study-result-top"><span className="study-kicker">{a.kind==='mock'?'MOCK EXAM':a.kind==='cambridge'?'CAMBRIDGE':'PRACTICE'}</span><time>{day(a.created_at)}</time></div><h2>{a.title}</h2><div className="study-result-score" data-empty={score.band===null}><strong>{score.band===null?'—':score.band.toFixed(1)}</strong><div><span>{score.label}</span>{score.reason&&<p>{score.reason}</p>}</div></div><div className="study-skill-scores">{a.modules.map(module=>{const r=a.results.find(r=>r.module===module);return <div key={module}><span>{module}</span><b>{a.published&&typeof r?.bandScore==='number'?r.bandScore.toFixed(1):'—'}</b></div>})}</div><footer>{a.available?<a href={'/exam/attempt/'+a.id}>View result <ArrowUpRight size={14}/></a>:<span><Clock3 size={14}/> {a.notStarted?'No submitted attempt':'Result link expired'}</span>}{retake&&path&&<a className="study-retake" href={path}><RotateCcw size={14}/> Retake</a>}</footer></article>;
+}

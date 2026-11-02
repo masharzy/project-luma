@@ -1,13 +1,15 @@
 'use client';
 import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 import { useCallback,useEffect,useState } from 'react';
 type Event={title:string;description:string;access:string;startsAt:string;endsAt:string;phase:string;serverNow:number;registered:boolean;attemptId:string|null;signedIn:boolean;published:boolean;modules:{module:string;minutes:number}[]};
 export function MockRoom({id}:{id:string}){
+ const router=useRouter();
  const [event,setEvent]=useState<Event|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[now,setNow]=useState(Date.now()),[offset,setOffset]=useState(0);
  const load=useCallback(async()=>{try{const r=await fetch('/api/mocks/'+id,{cache:'no-store'}),d=await r.json();if(!r.ok)throw Error(d.error);setEvent(d);setOffset(d.serverNow-Date.now());setError('');}catch(e){setError(e instanceof Error?e.message:'Unable to load mock');}},[id]);
  useEffect(()=>{void load();const poll=setInterval(()=>void load(),15000);return()=>clearInterval(poll);},[load]);
  useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()+offset),1000);return()=>clearInterval(timer);},[offset]);
- async function action(action:string){setBusy(true);setError('');try{const r=await fetch('/api/mocks/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action})}),d=await r.json();if(!r.ok)throw Error(d.error);if(d.attemptId)window.location.assign('/exam/attempt/'+d.attemptId);else await load();}catch(e){setError(e instanceof Error?e.message:'Please retry');}finally{setBusy(false);}}
+ async function action(action:string){setBusy(true);setError('');try{const r=await fetch('/api/mocks/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action})}),d=await r.json();if(!r.ok)throw Error(d.error);if(d.attemptId)window.location.assign('/exam/attempt/'+d.attemptId);else {await load();router.refresh();}}catch(e){setError(e instanceof Error?e.message:'Please retry');}finally{setBusy(false);}}
  if(!event)return <section className="workspace-panel"><p role="status">{error||'Loading mock…'}</p><button className="button" onClick={()=>void load()}>Retry</button></section>;
  const hasSpeaking=event.modules.some(m=>m.module==='speaking');
  const start=new Date(event.startsAt).getTime(),end=new Date(event.endsAt).getTime(),phase=now<start?'waiting':now<end?'live':'ended',left=Math.max(0,Math.ceil((start-now)/1000));
