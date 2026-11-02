@@ -1,8 +1,16 @@
 import Link from 'next/link';
-import {permanentRedirect} from 'next/navigation';
+import {QuestionPracticePanel} from '@/components/cambridge-question-practice';
+import {validBookSlug,otherBookSeries} from '@/lib/other-books';
+import '@/styles/type-wise-question-practice.css';
 import {publicPageMetadata} from '@/lib/seo';
 import {PageIntro,PageWrap} from '@/components/page-parts';
 import {PracticeCatalog} from '@/components/practice-catalog';
-import {legacyPracticeDestination} from '@/lib/practice-routes';
 export const metadata=publicPageMetadata('IELTS Recent Tests','IELTS Listening, Reading ও Writing-এর Recent Tests বেছে প্রস্তুতি নাও।','/recent-tests');
-export default async function Page({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){const p=await searchParams;if(p.view==='questions')permanentRedirect(legacyPracticeDestination(p));return <PageWrap><PageIntro eyebrow="RECENT TESTS" title="Recent Tests" description="Listening, Reading ও Writing—নিজের পরের test বেছে নাও।"/><nav className="practice-view-tabs" aria-label="Test and question practice"><Link href="/recent-tests" aria-current="page">Recent Tests</Link><Link href="/type-wise-question-practice">Type Wise Question Practice</Link></nav><PracticeCatalog/></PageWrap>}
+export default async function Page({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
+ const p=await searchParams,questions=p.view==='questions';
+ const raw=p.collection==='practice'?'recent-tests':p.collection;
+ const collection=['cambridge','other-books','recent-tests'].includes(String(raw))?raw as 'cambridge'|'other-books'|'recent-tests':'all';
+ const book=typeof p.book==='string'&&((collection==='cambridge'&&/^\d{1,4}$/.test(p.book))||(collection==='other-books'&&validBookSlug(p.book)))?p.book:undefined;
+ const series=collection==='other-books'&&typeof p.series==='string'&&otherBookSeries.some(s=>s.slug===p.series)?p.series:undefined;
+ return <PageWrap><PageIntro eyebrow="RECENT TESTS" title="Recent Tests" description="পুরো test দাও, অথবা question type বেছে practice করো।"/><nav className="practice-view-tabs" aria-label="Test and question practice"><Link href="/recent-tests" aria-current={!questions?'page':undefined}>Recent Tests</Link><Link href="/recent-tests?view=questions" aria-current={questions?'page':undefined}>Type Wise Question Practice</Link></nav>{questions?<><div className="typewise-heading"><div><h2>Type Wise Question Practice</h2><p>১. Module ও type বাছো → ২. প্রশ্নের card select করো → ৩. Start practice চাপো।</p></div></div><QuestionPracticePanel collection={collection} book={book} series={series}/></>:<PracticeCatalog/>}</PageWrap>
+}
