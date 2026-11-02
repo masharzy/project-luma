@@ -1,6 +1,7 @@
 import { requireUser } from "@/lib/auth/guards";
 import { LearnerShell } from "@/components/learner-shell";
 import "@/styles/student-dashboard.css";
+import "@/styles/student-redesign.css";
 export const metadata = { robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 export default async function Layout({

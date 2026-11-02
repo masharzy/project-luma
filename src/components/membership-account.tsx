@@ -4,7 +4,7 @@ import { useCallback,useEffect,useState } from 'react';
 import {useRouter} from 'next/navigation';
 type Allowance={product:string;monthly_limit:number|null;used:number;source:string};
 type Plan={id:string;name:string;description:string;price_bdt:number;writing_limit:number|null;speaking_limit:number|null};
-type Subscription={id:string;plan_name:string;price_bdt:number;status:string;expires_at:string|null};
+type Subscription={id:string;plan_name:string;price_bdt:number;status:string;starts_at?:string|null;expires_at:string|null};
 export type MembershipData={allowances:Allowance[];plans:Plan[];subscriptions:Subscription[]};
 const limitText=(n:number|null)=>n===null?'Unlimited':String(n);
 export function AllowanceCards({allowances,dashboard=false}:{allowances:Allowance[];dashboard?:boolean}){return <div className="membership-allowances">{allowances.map(a=>{const writing=a.product==='writing_product',used=Number(a.used),max=a.monthly_limit===null?null:Number(a.monthly_limit);return <article className="membership-allowance" key={a.product}><span className="eyebrow">{writing?'WRITING':'SPEAKING'} EVALUATION</span><div><strong>{max===null?'Unlimited':Math.max(0,max-used)}</strong><span>{max===null?'monthly evaluations':'evaluations left'}</span></div>{max!==null&&<progress aria-label={(writing?'Writing':'Speaking')+' monthly usage'} value={Math.min(used,max)} max={Math.max(1,max)}/>}<p>{used} used · {limitText(max)} per month · {a.source==='override'?'Custom access':a.source==='subscription'?'Premium':'Free'}</p><Link href={dashboard?(writing?'/dashboard/writing':'/dashboard/speaking'):(writing?'/writing-evaluation':'/speaking-evaluation')} prefetch={true}>Open practice ↗</Link></article>;})}</div>}
