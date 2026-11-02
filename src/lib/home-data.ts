@@ -20,7 +20,7 @@ const heights=[250,286,234,298,262,278,302,310,244];
 export function shelfMarkup(data:HomeShelfData){
  const spines=data.series.slice(0,12).map((book,i)=>`<a role="listitem" class="jtn-bk jtn-sn jtn-book-${i}" href="/other-books/${encodeURIComponent(book.slug)}"><b>${escapeHtml(book.name)}</b></a>`).join('');
  const range=escapeHtml(data.range);
- return `<div class="jtn-shelf" id="jtn-shelf" role="list" aria-label="Book library" data-total="${data.total}">${range?`<a role="listitem" class="jtn-bk jtn-cv" aria-label="Cambridge IELTS ${range}, featured" href="/cambridge"><i>Featured</i><div><b>Cambridge</b><strong>${range}</strong></div><em>IELTS practice tests</em></a>`:''}${spines}<a role="listitem" class="jtn-bk jtn-ml" href="/other-books"><i>Library</i><strong id="jtn-mn">+</strong><em>More books</em></a></div>`;
+ return `<div class="jtn-shelf" id="jtn-shelf" role="list" aria-label="Book library" data-total="${data.total}">${range?`<a role="listitem" class="jtn-bk jtn-cv" aria-label="Cambridge IELTS ${range}, featured" href="/cambridge"><i>Featured</i><div><b>Cambridge</b><strong>${range}</strong></div><em>Academic IELTS</em></a>`:''}${spines}<a role="listitem" class="jtn-bk jtn-ml" href="/other-books"><i>Library</i><strong id="jtn-mn">+</strong><em>More books</em></a></div>`;
 }
 export function shelfStyles(data:HomeShelfData){return data.series.slice(0,12).map((b,i)=>`.jtn-home .jtn-book-${i}{--bg:${colors[i%colors.length]};--h:${Math.min(310,Math.max(heights[i%heights.length],120+5.5*b.name.length))}px}`).join('');}
 export function allowanceMarkup(count:number|null){

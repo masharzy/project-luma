@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
         </div>
         <p>
           JumpToNine ("we", "us", or "our") provides online IELTS preparation,
-          practice tests, and AI-assisted Writing and Speaking feedback. This
+          Recent Tests, and AI-assisted Writing and Speaking feedback. This
           policy explains what information we process when you visit or use
           JumpToNine and what choices you have.
         </p>

@@ -38,10 +38,10 @@ test("unknown page is a real 404", async () => {
 
 for (const path of [
   "/free",
-  "/practice",
-  "/practice/listening",
-  "/practice/reading",
-  "/practice/writing",
+  "/recent-tests",
+  "/recent-tests/listening",
+  "/recent-tests/reading",
+  "/recent-tests/writing",
   "/cambridge",
   "/mocks",
   "/resources",
@@ -61,7 +61,7 @@ for (const path of [
 }
 for (const path of [
   "/dashboard",
-  "/dashboard/practice",
+  "/dashboard/my-tests",
   "/dashboard/results",
   "/dashboard/mocks",
   "/dashboard/saved",
@@ -102,7 +102,7 @@ test("CSP uses a fresh nonce and binds rendered scripts", async () => {
   assert.notEqual(csp, second.headers.get("content-security-policy"));
 });
 test("out-of-range book and unsupported module return 404", async () => {
-  for (const path of ["/cambridge/22", "/cambridge/0", "/practice/speaking"]) {
+  for (const path of ["/cambridge/22", "/cambridge/0", "/recent-tests/speaking"]) {
     const r = await fetch(base + path);
     assert.equal(r.status, 404);
   }

@@ -216,7 +216,7 @@ export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules
   const attemptId=randomUUID();
   const first=selected[0];
   const label=types.length ? types.map(questionTypeLabel).join(' + ') : 'Mixed question types';
-  const title='Question Type Practice · '+label.slice(0,120);
+  const title='Type Wise Question Practice · '+label.slice(0,120);
   // Uses the existing timed attempt + scoring infrastructure and anonymous ownership cookie.
   // parent_id is an existing, published, free source test; premium source rows are excluded.
   await db().query(`INSERT INTO public.exam_attempts

@@ -20,7 +20,7 @@ export function resultBadge(a:Attempt){
 export function retakePath(a:Attempt){
  if(!['cambridge','practice'].includes(a.kind)||!a.parentId)return null;
  const selection=['listening','reading','writing'].every(m=>a.modules.includes(m))?'full':a.modules.length===1?a.modules[0]:null;
- return selection?`/exam/${a.kind}/${a.parentId}/${selection}`:null;
+ return selection?`/exam/${a.kind==='practice'?'recent-tests':a.kind}/${a.parentId}/${selection}`:null;
 }
 export function speakingGroup(title:string){
  if(/official.*(?:cambridge|guide)|cambridge.*guide/i.test(title))return {key:'official',label:'Official Cambridge Guide',order:1};
@@ -32,5 +32,5 @@ export function speakingGroup(title:string){
 export function speakingBook(title:string){return title.replace(/\s*[·–—-]\s*Test\s*\d+.*$/i,'').replace(/\s*[·–—-]\s*Speaking.*$/i,'').trim();}
 export function retakeChoices(a:Attempt){
  if(!['cambridge','practice'].includes(a.kind)||!a.parentId)return [];
- return [...new Set(a.modules)].filter(m=>['listening','reading','writing'].includes(m)).map(module=>({module,path:`/exam/${a.kind}/${a.parentId}/${module}`}));
+ return [...new Set(a.modules)].filter(m=>['listening','reading','writing'].includes(m)).map(module=>({module,path:`/exam/${a.kind==='practice'?'recent-tests':a.kind}/${a.parentId}/${module}`}));
 }

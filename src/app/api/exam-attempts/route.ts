@@ -1,3 +1,4 @@
+import {storageExamKind} from '@/lib/practice-routes';
 import { NextRequest } from 'next/server';
 import { secureCookies } from '@/lib/auth/config';
 import { cookies } from 'next/headers';
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
         await limit('exam-start:' + networkKey(req), 20);
         const owner = newOwner((await cookies()).get(ownerCookie)?.value);
         const session = await readSession();
-        const id = await startAttempt(String(d.kind), String(d.parentId), String(d.selection), owner, session?.user.id ?? null);
+        const id = await startAttempt(storageExamKind(String(d.kind)), String(d.parentId), String(d.selection), owner, session?.user.id ?? null);
         const response = json({ id }, 201);
         response.cookies.set(ownerCookie, owner, { httpOnly: true, secure: secureCookies(), sameSite: 'lax', path: '/', maxAge: 86400 });
         return response;

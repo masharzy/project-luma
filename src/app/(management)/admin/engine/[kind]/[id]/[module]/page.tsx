@@ -1,3 +1,5 @@
+import {storageExamKind} from '@/lib/practice-routes';
+import {permanentRedirect} from 'next/navigation';
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { requireAdmin } from "@/lib/auth/guards";
@@ -6,6 +8,8 @@ import { kinds, modules, type ExamKind, type Module } from "@/lib/exam/document"
 import { EngineWorkspace } from "@/components/exam/engine-workspace";
 export default async function Page({ params }: { params: Promise<{ kind: string; id: string; module: string }> }) {
   await requireAdmin(); const p = await params;
+  if(p.kind==='practice')permanentRedirect(`/admin/engine/recent-tests/${p.id}/${p.module}`);
+  p.kind=storageExamKind(p.kind);
   if (!kinds.includes(p.kind as ExamKind) || !modules.includes(p.module as Module)) notFound();
   const parent = await examParent(p.kind as ExamKind, p.id);
   if (!parent || !parent.modules.includes(p.module)) notFound();

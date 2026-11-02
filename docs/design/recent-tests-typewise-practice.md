@@ -1,0 +1,9 @@
+# Recent Tests and Type Wise Question Practice
+
+The standalone test catalog is now Recent Tests at `/recent-tests`. Question practice has its own `/type-wise-question-practice` page and API. Navigation, learner actions, admin links, exam launch URLs, metadata and sitemap use the canonical names and routes. Legacy links permanently redirect and preserve filters; legacy API requests use a method-preserving 308.
+
+The question practice page provides Listening/Reading selection, source filters, multiple question types, a quick session builder, and readable manual set cards. Its summary shows the current selection and enforces existing 10-set/40-question limits. Premium question content stays locked. The desktop summary becomes a stacked section on mobile, with keyboard focus and reduced-motion support.
+
+Migration 030 adds the canonical `recent_tests` view and persisted catalog labels and updates standalone catalog and attempt display titles. It was applied to the isolated QA branch and production. The view contains the existing 88 standalone tests. Shared historical `practice` engine identifiers remain stable because More Books, saved attempts, result snapshots and usage contracts share that discriminator. Proper published book titles, including Practice Tests Plus, are preserved.
+
+Validation: TypeScript, production build, 154 unit/security tests, desktop and 390px mobile UI inspection, and manual selection summary interaction. The standalone HTTP integration suite requires a running application and is checked separately against the released routes; it cannot run against an absent localhost:3000 server. No paid AI evaluation or exam attempt was triggered during visual QA.
