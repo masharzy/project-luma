@@ -1,5 +1,6 @@
 import { requireUser } from "@/lib/auth/guards";
-import { WorkspaceShell } from "@/components/workspace-shell";
+import { LearnerShell } from "@/components/learner-shell";
+import "@/styles/student-dashboard.css";
 export const metadata = { robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 export default async function Layout({
@@ -9,8 +10,8 @@ export default async function Layout({
 }) {
   const user = await requireUser();
   return (
-    <WorkspaceShell name={user.name || "Learner"} email={user.email}>
+    <LearnerShell name={user.name || "Learner"}>
       {children}
-    </WorkspaceShell>
+    </LearnerShell>
   );
 }
