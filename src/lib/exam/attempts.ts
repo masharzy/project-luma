@@ -1,4 +1,5 @@
 import 'server-only';
+import {canOpenTest} from '@/lib/learner/test-access';
 import { randomUUID } from 'node:crypto';
 import { cookies } from 'next/headers';
 import { readSession } from '@/lib/auth/session';
@@ -17,7 +18,7 @@ export async function startAttempt(kind: string, parentId: string, selection: st
         throw new AuthHttpError(400, 'Invalid test');
     const k = kind as 'cambridge' | 'practice';
     const parent = await examParent(k, parentId);
-    if (!parent || parent.status !== 'published' || parent.access !== 'free')
+    if (!parent || parent.status !== 'published' || !(await canOpenTest(parent.access,userId)))
         throw new AuthHttpError(404, 'Test unavailable');
     const chosen = selectedModules(parent.modules, selection);
     if (!chosen.length || (selection === 'full' && chosen.length !== moduleOrder.length))
