@@ -1,38 +1,31 @@
-import Link from "next/link";
-import { WorkspaceHeading } from "@/components/page-parts";
-import { db } from "@/lib/auth/db";
-import { listCambridgeTests } from "@/lib/cambridge";
-export const dynamic = "force-dynamic";
-export default async function Page(){
- const [cambridge,users,inventory,mocks,evaluations] = await Promise.all([
-  listCambridgeTests(false),
-  db().query("SELECT count(*)::int total,count(*) FILTER(WHERE created_at >= date_trunc('day',now() AT TIME ZONE 'Asia/Dhaka') AT TIME ZONE 'Asia/Dhaka')::int today FROM app_auth.users"),
-  db().query(`SELECT
-    (SELECT count(*)::int FROM public.admin_content WHERE kind='practice' AND book_slug IS NULL) AS independent,
-    (SELECT count(*)::int FROM public.admin_content WHERE kind='practice' AND book_slug IS NOT NULL) AS more_books,
-    (SELECT count(*)::int FROM public.admin_content WHERE kind='mock') AS mocks,
-    (SELECT count(*)::int FROM public.exam_modules) AS modules,
-    (SELECT coalesce(sum(jsonb_array_length(document->'questions')),0)::int FROM public.exam_modules WHERE jsonb_typeof(document->'questions')='array') AS questions`),
-  db().query("SELECT count(*)::int scheduled,count(*) FILTER(WHERE results_published_at IS NULL AND ends_at<=now())::int awaiting_review FROM public.mock_events"),
-  db().query("SELECT count(*)::int total,count(*) FILTER(WHERE status IN ('pending','running'))::int pending FROM public.writing_evaluations")
- ]);
- const numbers=inventory[0]||{}, events=mocks[0]||{}, jobs=evaluations[0]||{};
+import Link from 'next/link';
+import { WorkspaceHeading } from '@/components/page-parts';
+import { db } from '@/lib/auth/db';
+export const dynamic='force-dynamic';
+export default async function Page() {
+ const [rows]=await db().query(`SELECT
+  (SELECT count(*)::int FROM app_auth.users) users,
+  (SELECT count(*)::int FROM app_auth.users WHERE created_at >= date_trunc('day',now() AT TIME ZONE 'Asia/Dhaka') AT TIME ZONE 'Asia/Dhaka') users_today,
+  (SELECT count(*)::int FROM public.cambridge_books) cambridge_books,
+  (SELECT count(*)::int FROM public.cambridge_tests) cambridge_tests,
+  (SELECT count(*)::int FROM public.admin_content WHERE kind='practice' AND book_slug IS NOT NULL) more_books,
+  (SELECT count(*)::int FROM public.admin_content WHERE kind='practice' AND book_slug IS NULL) practice,
+  (SELECT count(*)::int FROM public.mock_events) mocks,
+  (SELECT coalesce(sum(jsonb_array_length(document->'questions')),0)::int FROM public.exam_modules WHERE jsonb_typeof(document->'questions')='array') questions,
+  (SELECT count(*)::int FROM public.mock_events WHERE results_published_at IS NULL AND ends_at<=now()) results_pending,
+  (SELECT count(*)::int FROM public.writing_evaluations WHERE status IN ('pending','running')) writing_pending,
+  (SELECT count(*)::int FROM public.evaluation_subscriptions WHERE status='pending') subscriptions_pending`);
  const cards=[
-  ["Total users",Number(users[0]?.total||0),"/admin/users"],
-  ["New users today",Number(users[0]?.today||0),"/admin/users"],
-  ["Cambridge books",new Set(cambridge.map(t=>t.bookNumber)).size,"/admin/cambridge"],
-  ["Cambridge tests",cambridge.length,"/admin/cambridge"],
-  ["More Books tests",Number(numbers.more_books||0),"/admin/other-books"],
-  ["Independent Practice",Number(numbers.independent||0),"/admin/practice"],
-  ["Question items",Number(numbers.questions||0),"/admin/practice"],
-  ["Exam modules",Number(numbers.modules||0),"/admin/practice"],
-  ["Mock exams",Number(numbers.mocks||0),"/admin/mocks"],
-  ["Mock results awaiting review",Number(events.awaiting_review||0),"/admin/results"],
-  ["Writing jobs in queue",Number(jobs.pending||0),"/admin/ai-operations"]
+  ['Users',rows.users,'/admin/users'],['New users today',rows.users_today,'/admin/users'],
+  ['Cambridge books',rows.cambridge_books,'/admin/cambridge'],['Cambridge tests',rows.cambridge_tests,'/admin/cambridge'],
+  ['More Books tests',rows.more_books,'/admin/other-books'],['Practice tests',rows.practice,'/admin/practice'],
+  ['Mock exams',rows.mocks,'/admin/mocks'],['Question items',rows.questions,'/admin/practice'],
  ] as const;
- return <div className="admin-refactor"><WorkspaceHeading eyebrow="BUSINESS DASHBOARD" title="Platform overview" description="Live inventory, learners, evaluation operations and mock review. Values come directly from PostgreSQL."/>
-  <div className="admin-kpi-grid">{cards.map(([label,value,href])=><Link href={href} className="admin-kpi" key={label}><span>{label}</span><strong>{value.toLocaleString()}</strong><small>View details ↗</small></Link>)}</div>
-  <section className="workspace-panel admin-business-note"><h2>Revenue & purchases</h2><p>Payment provider is not connected. Today's purchases and revenue are unavailable—not zero. Transaction verification and payment history require an approved gateway connection.</p><Link href="/admin/subscriptions">Manage plans & manual subscriptions ↗</Link></section>
-  <section className="workspace-panel admin-business-note"><h2>Operational overview</h2><p>{Number(events.scheduled||0)} scheduled mock events · {Number(jobs.total||0)} Writing evaluation jobs recorded.</p><Link href="/admin/results">Review mock results ↗</Link> · <Link href="/admin/activity">Audit activity ↗</Link></section>
+ return <div className="admin-refactor"><WorkspaceHeading eyebrow="ADMIN" title="Overview" description="Tests, learners and work awaiting review." />
+  <div className="adm-quick-actions"><Link className="button" href="/admin/cambridge">Manage Cambridge</Link><Link className="button outline" href="/admin/mocks/new">Create mock</Link><Link className="button outline" href="/admin/import">Import tests</Link><Link className="button outline" href="/admin/resources">Manage resources</Link></div>
+  <div className="admin-kpi-grid">{cards.map(([label,value,href])=><Link href={href} className="admin-kpi" key={label}><span>{label}</span><strong>{Number(value||0).toLocaleString('en-US')}</strong></Link>)}</div>
+  <section aria-labelledby="review-title"><h2 id="review-title">Needs attention</h2><div className="adm-operations">{[
+   ['Mock results to review',rows.results_pending,'/admin/results'],['Writing jobs queued',rows.writing_pending,'/admin/ai-operations'],['Subscription requests',rows.subscriptions_pending,'/admin/subscriptions'],
+  ].map(([label,count,href])=><Link className="adm-operation" href={String(href)} key={String(href)}><span>{label}</span><strong>{Number(count||0).toLocaleString('en-US')}</strong></Link>)}</div></section>
  </div>;
 }

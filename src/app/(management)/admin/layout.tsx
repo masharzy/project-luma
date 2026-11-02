@@ -1,6 +1,10 @@
 import "@/styles/admin-refactor.css";
 import { requireAdmin } from "@/lib/auth/guards";
-import { WorkspaceShell } from "@/components/workspace-shell";
+import { cookies } from "next/headers";
+import { AdminShell } from "@/components/admin-shell";
+import { adminTheme } from "@/lib/admin/navigation";
+import "@/styles/admin-theme-bridge.css";
+import "@/styles/admin-compact.css";
 export const metadata = { robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 export default async function Layout({
@@ -9,13 +13,13 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const user = await requireAdmin();
+  const theme = adminTheme((await cookies()).get("jtn_admin_theme")?.value);
   return (
-    <WorkspaceShell
+    <AdminShell
       name={user.name || "Administrator"}
-      email={user.email}
-      isAdmin
+      initialTheme={theme}
     >
       {children}
-    </WorkspaceShell>
+    </AdminShell>
   );
 }
