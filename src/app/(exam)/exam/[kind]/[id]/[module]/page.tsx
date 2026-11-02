@@ -1,3 +1,5 @@
+import {readSession} from '@/lib/auth/session';
+import {canOpenTest} from '@/lib/learner/test-access';
 import { notFound } from 'next/navigation';
 import {db}from'@/lib/auth/db';
 import {SpeakingStart}from'@/components/speaking-start';
@@ -17,8 +19,9 @@ export default async function Page({ params }: {
     if (!['cambridge', 'practice'].includes(p.kind) || ![...moduleOrder, 'speaking', 'full'].includes(p.module as any))
         notFound();
     const kind = p.kind as 'cambridge' | 'practice';
+    const user=(await readSession())?.user;
     const parent = await examParent(kind, p.id);
-    if (!parent || parent.status !== 'published' || parent.access !== 'free')
+    if (!parent || parent.status !== 'published' || !(await canOpenTest(parent.access,user?.id??null)))
         notFound();
     if(p.module==='speaking'){if(kind==='practice'||!parent.modules.includes('speaking'))notFound();const set=(await db().query(`SELECT id,document FROM public.speaking_sets WHERE ${kind==='cambridge'?'cambridge_test_id':'practice_content_id'}=$1 AND published=true AND document IS NOT NULL`,[p.id]))[0];if(!set)notFound();const count=set.document.sourceParts?.length||3;return <section className="exam-session-shell"><div className="exam-session-sheet"><a className="session-back" href={kind==='cambridge'?'/cambridge':'/other-books'}>← Test library</a><span className="session-eyebrow">SPEAKING · ANIMATED ROOM</span><h1>{parent.title} · Speaking</h1><p>{count} parts in source order. Listen to each question, then record your answer. Task cards and notes appear on the desk.</p><p>Sign in with Speaking Evaluation access to enter. AI feedback uses your separate Speaking Evaluation allowance.</p><SpeakingStart testId={String(set.id)}/></div></section>;}
     const chosen = selectedModules(parent.modules, p.module);
@@ -29,5 +32,5 @@ export default async function Page({ params }: {
         if(!data.revision||!data.document.parts.length||(module!=='writing'&&!data.document.questions.length))notFound();
         return {module,minutes:data.document.durationMinutes};
     }));
-    return <AttemptLauncher kind={kind} parentId={p.id} selection={p.module} title={parent.title} modules={modules}/>;
+    return <AttemptLauncher backHref={user?'/dashboard/practice':undefined} kind={kind} parentId={p.id} selection={p.module} title={parent.title} modules={modules}/>;
 }

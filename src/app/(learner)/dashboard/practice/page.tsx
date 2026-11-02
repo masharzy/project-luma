@@ -1,6 +1,13 @@
-import Link from 'next/link';
 import {requireUser} from '@/lib/auth/guards';
 import {learnerData} from '@/lib/learner/data';
+import {learnerCatalog} from '@/lib/learner/catalog';
 import {StudentHeading,AttemptsList} from '@/components/learner-panels';
+import {LearnerTestLibrary} from '@/components/learner-test-library';
 export const metadata={title:'My tests'};
-export default async function Page({searchParams}:{searchParams:Promise<{status?:string;page?:string}>}){const u=await requireUser();const[data,q]=await Promise.all([learnerData(u.id),searchParams]);const status=['active','completed'].includes(q.status||'')?q.status:'all';const items=data.attempts.filter(a=>status==='active'?!a.complete&&a.available:status==='completed'?a.complete:true);const pages=Math.max(1,Math.ceil(items.length/15)),page=Math.min(pages,Math.max(1,Math.floor(Number(q.page))||1));return <><StudentHeading title="My tests" description="অসমাপ্ত test চালিয়ে যাও, শেষ করা test দেখো।"><Link href="/practice" className="student-button">Find a test ↗</Link></StudentHeading><div className="student-tabs">{[['all','All tests'],['active','In progress'],['completed','Completed']].map(([key,label])=><Link href={'?status='+key} aria-current={status===key?'page':undefined} key={key}>{label}</Link>)}</div><section className="student-panel"><AttemptsList items={items.slice((page-1)*15,page*15)}/></section><div className="student-pagination"><span>Latest 100 tests · Page {page} / {pages}</span><div>{page>1&&<Link href={`?status=${status}&page=${page-1}`}>← Previous</Link>}{page<pages&&<Link href={`?status=${status}&page=${page+1}`}>Next →</Link>}</div></div></>}
+export default async function Page(){
+ const u=await requireUser();const [data,catalog]=await Promise.all([learnerData(u.id),learnerCatalog(u.id)]);
+ return <><StudentHeading title="My tests"/>
+ <LearnerTestLibrary {...catalog}/>
+ <section className="student-panel"><div className="student-panel-title"><h2>Continue a test</h2><span>{data.attempts.filter(a=>!a.complete&&a.available).length} in progress</span></div><AttemptsList items={data.attempts.filter(a=>!a.complete&&a.available)} empty="No unfinished tests"/></section>
+ <details className="student-panel student-free-tests"><summary><strong>Test history</strong><span>{data.attempts.filter(a=>a.complete).length} completed</span></summary><AttemptsList items={data.attempts.filter(a=>a.complete)} empty="No completed tests"/></details></>;
+}

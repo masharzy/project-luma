@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 
 const native = createRequire(import.meta.url);
 
-function harness() {
+function harness({access='free',premium=false}={}) {
   const calls = [];
   const ownerId = '00000000-0000-4000-8000-000000000001';
   const docs = {
@@ -39,6 +39,7 @@ function harness() {
   class AuthHttpError extends Error { constructor(status, message) { super(message); this.status = status; } }
   const mocks = {
     'server-only': {},
+    '@/lib/learner/test-access': {canOpenTest: async a => a==='free'||(a==='premium'&&premium)},
     'next/headers': { cookies: async () => ({ get: () => ({ value: 'owner-token' }) }) },
     '@/lib/auth/session': { readSession: async () => ({ user: { id: ownerId } }) },
     '@/lib/auth/db': { db: () => ({ query }) },
@@ -49,7 +50,7 @@ function harness() {
       selectedModules: (_modules, selection) => selection === 'full' ? ['listening', 'reading', 'writing'] : [selection],
     },
     './store': {
-      examParent: async () => ({ title: 'Cambridge 1 Test 1', status: 'published', access: 'free', modules: ['listening', 'reading', 'writing'] }),
+      examParent: async () => ({ title: 'Cambridge 1 Test 1', status: 'published', access, modules: ['listening', 'reading', 'writing'] }),
       loadExam: async (_kind, _id, module) => ({ document: docs[module], revision: 1 }),
       learnerDocument: document => document,
     },
@@ -95,4 +96,16 @@ test('Listening submission starts Reading in the same atomic database update, wi
   assert.equal(finished.complete, true);
   assert.equal(finished.deadline, null);
   assert.equal(finished.results.length, 3);
+});
+
+
+test('Premium tests cannot create snapshots without active test access',async()=>{
+ const denied=harness({access:'premium'});
+ await assert.rejects(()=>denied.api.startAttempt('cambridge','44','reading','owner-token',denied.ownerId),e=>e.status===404);
+ assert.equal(denied.row,null);
+ assert.equal(denied.calls.length,0);
+ const allowed=harness({access:'premium',premium:true});
+ await allowed.api.startAttempt('cambridge','44','reading','owner-token',allowed.ownerId);
+ assert.equal(allowed.row.snapshot[0].module,'reading');
+ assert.equal(allowed.row.user_id,allowed.ownerId);
 });
