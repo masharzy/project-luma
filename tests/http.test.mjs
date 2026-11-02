@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
 for (const [path, content] of [
-  ["/", "IELTS প্রস্তুতিতে"],
+  ["/", "প্রতিদিন"],
   ["/auth/sign-in", "Pick up where you left off."],
   ["/auth/sign-up", "Your next chapter starts here."],
   ["/auth/forgot-password", "Forgot your password?"],
