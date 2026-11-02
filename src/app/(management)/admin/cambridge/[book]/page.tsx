@@ -9,7 +9,8 @@ export default async function Page({ params }: {
     const { book } = await params;
     if (!/^\d{1,4}$/.test(book) || Number(book) < 1)
         notFound();
-    if (!(await listCambridgeBooks(false)).some(b => b.bookNumber === Number(book)))
+    const [books, tests] = await Promise.all([listCambridgeBooks(false), listCambridgeTests(false)]);
+    if (!books.some(b => b.bookNumber === Number(book)))
         notFound();
-    return <CambridgeTestManager key={book} initialBooks={await listCambridgeBooks(false)} initialTests={await listCambridgeTests(false)} initialBook={Number(book)}/>;
+    return <CambridgeTestManager key={book} initialBooks={books} initialTests={tests} initialBook={Number(book)}/>;
 }

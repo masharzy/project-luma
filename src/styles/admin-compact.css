@@ -221,3 +221,10 @@ html:has(.adm-drawer[open]){overflow:hidden}
 .admin-app .membership-plan-grid:empty{display:none}
 .admin-app .membership-section-heading{gap:10px;align-items:center}
 .admin-app .membership-section-heading form{display:flex;gap:8px;align-items:center}
+
+/* Keep the current route visible until the server transition commits. */
+.admin-app .adm-route-progress{position:fixed;inset:0 0 auto;height:3px;z-index:10000;pointer-events:none;overflow:hidden}
+.admin-app .adm-route-progress>span{display:block;height:100%;width:100%;background:var(--adm-accent,#c8082f);transform-origin:left;transform:scaleX(1);transition:transform .18s ease-out;box-shadow:0 0 7px currentColor}
+.admin-app .adm-route-progress[data-pending="true"]>span{animation:adm-route-advance 12s cubic-bezier(.12,.65,.2,1) forwards}
+@keyframes adm-route-advance{0%{transform:scaleX(.08)}40%{transform:scaleX(.65)}100%{transform:scaleX(.92)}}
+@media(prefers-reduced-motion:reduce){.admin-app .adm-route-progress[data-pending="true"]>span{animation:none;transform:scaleX(.65)}.admin-app .adm-route-progress>span{transition:none}}

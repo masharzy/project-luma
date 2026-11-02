@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useId, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useId, useRef, useState, useTransition, type MouseEvent } from 'react';
 import { Menu, X, Search, Sun, Moon, Monitor, ExternalLink } from 'lucide-react';
 import { Icon } from '@/components/ui/icon';
 import { SignOut } from '@/components/sign-out';
@@ -22,6 +22,28 @@ function Navigation({ path, onNavigate }: { path: string; onNavigate?: () => voi
 }
 export function AdminShell({ children, name, initialTheme }: { children: React.ReactNode; name: string; initialTheme: AdminTheme }) {
   const path = usePathname();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [showProgress, setShowProgress] = useState(false);
+  useEffect(() => {
+    if (isPending || !showProgress) return;
+    const timer = window.setTimeout(() => setShowProgress(false), 220);
+    return () => window.clearTimeout(timer);
+  }, [isPending, showProgress]);
+  function navigate(event: MouseEvent<HTMLDivElement>) {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const link = target.closest<HTMLAnchorElement>('a[href]');
+    if (!link || !link.closest('.adm-sidebar, .adm-drawer') || link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin || !(url.pathname === '/admin' || url.pathname.startsWith('/admin/'))) return;
+    if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+    event.preventDefault();
+    setOpen(false);
+    setShowProgress(true);
+    startTransition(() => router.push(url.pathname + url.search + url.hash));
+  }
   const [theme, setTheme] = useState<AdminTheme>(initialTheme);
   const [open, setOpen] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -36,7 +58,8 @@ export function AdminShell({ children, name, initialTheme }: { children: React.R
     setTheme(value);
     document.cookie=`jtn_admin_theme=${value}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol==='https:'?'; Secure':''}`;
   }
-  return <div className="admin-app" data-theme={theme}>
+  return <div className="admin-app" data-theme={theme} onClickCapture={navigate}>
+    {showProgress && <div className="adm-route-progress" data-pending={isPending} role="progressbar" aria-label="Loading admin page" aria-valuetext={isPending ? 'Loading' : 'Complete'}><span /></div>}
     <aside className="adm-sidebar" aria-label="Admin sidebar"><Link className="adm-brand" href="/admin">JumpToNine <span>Admin</span></Link><Navigation path={path} /><div className="adm-sidebar-bottom"><Link href="/" target="_blank" rel="noopener noreferrer"><ExternalLink size={14} aria-hidden="true" />View website</Link><Link href="/dashboard">Learner dashboard</Link></div></aside>
     <div className="adm-main"><header className="adm-topbar">
       <button type="button" className="adm-menu-button" aria-label="Open admin menu" aria-controls={drawerId} aria-expanded={open} onClick={()=>setOpen(true)}><Menu size={19} aria-hidden="true" /></button>
