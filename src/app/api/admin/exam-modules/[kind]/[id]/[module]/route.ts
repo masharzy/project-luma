@@ -1,3 +1,4 @@
+import {storageExamKind} from '@/lib/practice-routes';
 import { NextRequest } from "next/server";
 import { readSession } from "@/lib/auth/session";
 import { hasAdminRole } from "@/lib/auth/policy";
@@ -9,7 +10,7 @@ export const dynamic = "force-dynamic";
 type Context = { params: Promise<{ kind: string; id: string; module: string }> };
 const reply = (data: unknown, status = 200) => Response.json(data, { status, headers: { "Cache-Control": "private, no-store" } });
 async function context(c: Context) {
-  const p = await c.params;
+  const p = await c.params;p.kind=storageExamKind(p.kind);
   if (!kinds.includes(p.kind as ExamKind) || !modules.includes(p.module as Module)) return null;
   const parent = await examParent(p.kind as ExamKind, p.id);
   return parent && parent.modules.includes(p.module) ? { ...p, kind: p.kind as ExamKind, module: p.module as Module } : null;

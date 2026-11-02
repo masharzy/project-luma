@@ -1,4 +1,2 @@
-import { ContentManager } from "@/components/content-manager";
-import { listContent } from "@/lib/admin/content";
-export const dynamic="force-dynamic";
-export default async function Page(){return <ContentManager kind="practice" initialItems={await listContent("practice")}/>;}
+import {permanentRedirect} from 'next/navigation';
+export default function Page(){permanentRedirect('/admin/recent-tests');}

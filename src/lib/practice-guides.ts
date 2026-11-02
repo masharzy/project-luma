@@ -6,7 +6,7 @@ export const practiceGuides: PracticeGuide[] = [
     "description": "IELTS Listening practice করো একটি সহজ study plan দিয়ে। Form completion-এর worked example, ভুল বিশ্লেষণ ও Listening test-এর link পাবে এখানে।",
     "intro": "শুধু score দেখলে বোঝা যায় কতটি উত্তর ঠিক হয়েছে। কেন ভুল হলো বুঝতে পারলেই পরের practice-এ পরিবর্তন আনা যায়। একটি test বেছে নাও, নিজের ভুলের কারণ লেখো, তারপর একই দক্ষতা আবার অনুশীলন করো।",
     "cta": "Start Listening practice",
-    "href": "/practice",
+    "href": "/recent-tests",
     "sections": [
       {
         "title": "Build a repeatable routine",
@@ -30,7 +30,7 @@ export const practiceGuides: PracticeGuide[] = [
       },
       {
         "title": "Choose full tests or focused practice",
-        "body": "পূর্ণ Listening test তোমার মনোযোগ ও ধারাবাহিকতা যাচাই করতে সাহায্য করে। Question Practice নির্দিষ্ট দুর্বলতা নিয়ে কাজের জন্য ব্যবহার করো। Cambridge library বা More Books থেকে module বেছে নেওয়ার আগে free/premium access দেখো। নতুন test দেওয়ার আগে আগেরটির অন্তত কয়েকটি ভুল ব্যাখ্যা করতে পারছ কি না, নিজেকে জিজ্ঞেস করো."
+        "body": "পূর্ণ Listening test তোমার মনোযোগ ও ধারাবাহিকতা যাচাই করতে সাহায্য করে। Type Wise Question Practice নির্দিষ্ট দুর্বলতা নিয়ে কাজের জন্য ব্যবহার করো। Cambridge library বা More Books থেকে module বেছে নেওয়ার আগে free/premium access দেখো। নতুন test দেওয়ার আগে আগেরটির অন্তত কয়েকটি ভুল ব্যাখ্যা করতে পারছ কি না, নিজেকে জিজ্ঞেস করো."
       }
     ]
   },
@@ -40,7 +40,7 @@ export const practiceGuides: PracticeGuide[] = [
     "description": "IELTS Reading practice-এর study plan, True/False/Not Given worked example এবং evidence খোঁজার কৌশল। JumpToNine-এ Reading test শুরু করো।",
     "intro": "Reading-এ উত্তরটি passage-এর evidence দিয়ে প্রমাণ করতে হয়। নিজের সাধারণ জ্ঞান বা অনুমান দিয়ে ফাঁকা জায়গা পূরণ করলে ভুল হতে পারে। ছোট exercise দিয়ে শুরু করে সময় ধরে পূর্ণ module-এ যাও।",
     "cta": "Start Reading practice",
-    "href": "/practice",
+    "href": "/recent-tests",
     "sections": [
       {
         "title": "Read for structure before details",

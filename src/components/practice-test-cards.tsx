@@ -12,9 +12,9 @@ export function PracticeTestCards({tests,moduleFilter}:{tests:PracticeTestCard[]
     {practiceModules.filter(module=>!moduleFilter||module===moduleFilter).map(module=>{
      const Icon=module==='listening'?Headphones:module==='reading'?BookOpenText:PenLine,available=ready.has(module);
      const content=<><span className={'module-letter module-icon-'+module}><Icon size={25}/></span><span><strong>{module[0].toUpperCase()+module.slice(1)}</strong><small>{minutes[module]} minutes{!available?' · Coming soon':locked?' · Premium':''}</small></span><ArrowUpRight size={19}/></>;
-     return !locked&&available?<Link className="test-module-card" key={module} href={`/exam/practice/${test.id}/${module}`}>{content}</Link>:<div className="test-module-card unavailable" key={module} aria-disabled>{content}</div>;
+     return !locked&&available?<Link className="test-module-card" key={module} href={`/exam/recent-tests/${test.id}/${module}`}>{content}</Link>:<div className="test-module-card unavailable" key={module} aria-disabled>{content}</div>;
     })}
-   </div></div>{!moduleFilter&&<div className="full-test-action"><span>{minutes.listening+minutes.reading+minutes.writing} min · Listening + Reading + Writing</span>{!locked&&ready.has('listening')&&ready.has('reading')&&ready.has('writing')?<Link className="button" href={`/exam/practice/${test.id}/full`}>Start Full Test ↗</Link>:<button className="button" disabled>{locked?'Premium access':'Full test coming soon'}</button>}</div>}</div>
+   </div></div>{!moduleFilter&&<div className="full-test-action"><span>{minutes.listening+minutes.reading+minutes.writing} min · Listening + Reading + Writing</span>{!locked&&ready.has('listening')&&ready.has('reading')&&ready.has('writing')?<Link className="button" href={`/exam/recent-tests/${test.id}/full`}>Start Full Test ↗</Link>:<button className="button" disabled>{locked?'Premium access':'Full test coming soon'}</button>}</div>}</div>
   </article>;
  })}</div>;
 }

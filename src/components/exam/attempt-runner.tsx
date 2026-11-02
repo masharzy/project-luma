@@ -144,7 +144,7 @@ export function AttemptRunner({ id, nonce }: {
         }
     } }, [time, state, busy, error, action]);
     // The writing draft is copied into the answer state on every edit in the shared renderer.
-    const back = state?.kind==='mock'?'/mocks/'+state.parentId:state?.kind === 'cambridge' ? '/cambridge' : '/practice';
+    const back = state?.kind==='mock'?'/mocks/'+state.parentId:state?.kind === 'cambridge' ? '/cambridge' : '/recent-tests';
     if (!state)
         return <section className="exam-session-shell"><div className="exam-session-sheet"><h1>{error ? 'Unable to open this attempt' : 'Preparing your test…'}</h1>{error && <><p role="alert">{error}</p><button className="session-primary" onClick={() => void load()}>Try again</button></>}</div></section>;
     if(state.complete&&state.kind==='mock'&&!state.resultPublished)return <section className="exam-session-shell"><div className="exam-session-sheet"><span className="session-eyebrow">MOCK SUBMITTED</span><h1>Your paper is submitted.</h1><p>অ্যাডমিন ফল প্রকাশ করলে এখানে তোমার স্কোর ও feedback দেখতে পাবে।</p><button className="session-primary" onClick={()=>void load()}>Check published result</button><a href={back}>Back to mock ↗</a></div></section>;

@@ -4,7 +4,7 @@ export const adminNavigation: { label: string; links: AdminLink[] }[] = [
   { label: 'Tests & content', links: [
     { href: '/admin/cambridge', label: 'Cambridge', icon: 'book' },
     { href: '/admin/other-books', label: 'More Books', icon: 'book', keywords: 'series volumes collins barrons' },
-    { href: '/admin/practice', label: 'Practice tests', icon: 'file', keywords: 'questions modules full tests' },
+    { href: '/admin/recent-tests', label: 'Recent Tests', icon: 'file', keywords: 'questions modules full tests' },
     { href: '/admin/mocks', label: 'Mock exams', icon: 'clock', keywords: 'schedule registrations candidates' },
     { href: '/admin/speaking-tests', label: 'Speaking tests', icon: 'file', keywords: 'question bank cue cards parts' },
     { href: '/admin/resources', label: 'Learning resources', icon: 'pen', keywords: 'writing samples grammar ebooks journal articles' },

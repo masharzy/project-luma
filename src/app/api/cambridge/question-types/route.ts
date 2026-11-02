@@ -23,7 +23,7 @@ function typesFromQuery(raw:string|null):string[]{
 function fail(e:unknown){
   if(e instanceof AuthHttpError)return json({error:e.message,code:e.code},e.status);
   console.error('Question type practice failed',e);
-  return json({error:'Question Type Practice is temporarily unavailable. Please retry.'},503);
+  return json({error:'Type Wise Question Practice is temporarily unavailable. Please retry.'},503);
 }
 export async function GET(req:NextRequest){
   try{

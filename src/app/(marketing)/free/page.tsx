@@ -19,9 +19,9 @@ export default function Page() {
           ],
           [
             "02",
-            "Practice tests",
+            "Recent Tests",
             "নিজের সময় অনুযায়ী তিনটি module থেকে বেছে নাও।",
-            "/practice",
+            "/recent-tests",
           ],
           [
             "03",

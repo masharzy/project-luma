@@ -1,3 +1,5 @@
+import {storageExamKind} from '@/lib/practice-routes';
+import {permanentRedirect} from 'next/navigation';
 import {readSession} from '@/lib/auth/session';
 import {canOpenTest} from '@/lib/learner/test-access';
 import { notFound } from 'next/navigation';
@@ -16,6 +18,8 @@ export default async function Page({ params }: {
     }>;
 }) {
     const p = await params;
+    if(p.kind==='practice')permanentRedirect(`/exam/recent-tests/${p.id}/${p.module}`);
+    p.kind=storageExamKind(p.kind);
     if (!['cambridge', 'practice'].includes(p.kind) || ![...moduleOrder, 'speaking', 'full'].includes(p.module as any))
         notFound();
     const kind = p.kind as 'cambridge' | 'practice';
@@ -32,5 +36,5 @@ export default async function Page({ params }: {
         if(!data.revision||!data.document.parts.length||(module!=='writing'&&!data.document.questions.length))notFound();
         return {module,minutes:data.document.durationMinutes};
     }));
-    return <AttemptLauncher backHref={user?'/dashboard/practice':undefined} kind={kind} parentId={p.id} selection={p.module} title={parent.title} modules={modules}/>;
+    return <AttemptLauncher backHref={user?'/dashboard/my-tests':undefined} kind={kind} parentId={p.id} selection={p.module} title={parent.title} modules={modules}/>;
 }

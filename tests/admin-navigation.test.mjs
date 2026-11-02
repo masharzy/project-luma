@@ -11,7 +11,7 @@ test('all admin destinations are real, unique routes and all management sections
  assert.equal(links.length,18);assert.equal(new Set(links.map(l=>l.href)).size,links.length);
  for(const link of links)assert.ok(fs.existsSync('src/app/(management)'+link.href+'/page.tsx'),link.href+' must exist');
  const dirs=fs.readdirSync('src/app/(management)/admin',{withFileTypes:true}).filter(d=>d.isDirectory()&&!['engine','tests','questions'].includes(d.name));
- for(const dir of dirs)assert.ok(links.some(l=>l.href==='/admin/'+dir.name),dir.name+' missing from menu');
+ for(const dir of dirs.filter(d=>!fs.readFileSync('src/app/(management)/admin/'+d.name+'/page.tsx','utf8').includes('permanentRedirect')))assert.ok(links.some(l=>l.href==='/admin/'+dir.name),dir.name+' missing from menu');
 });
 test('nested pages keep the correct active section, without matching other prefixes',()=>{
  assert.equal(adminLinkActive('/admin/cambridge/21','/admin/cambridge'),true);
