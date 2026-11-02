@@ -1,26 +1,6 @@
-import Link from "next/link";
-import { WorkspaceHeading, EmptyState } from "@/components/page-parts";
-export const metadata = { title: "Practice" };
-export default function Page() {
-  return (
-    <>
-      <WorkspaceHeading
-        eyebrow="YOUR SPACE / PRACTICE"
-        title="Your practice journal."
-      />
-      <section className="workspace-panel">
-        <div className="panel-heading">
-          <h2>Practice</h2>
-          <Link href="/practice">Browse practice ↗</Link>
-        </div>
-        <EmptyState
-          title="Nothing here just yet."
-          description="এখনো কোনো practice attempt নেই। Test available হলে এখান থেকে history, module আর progress দেখতে পাবে।"
-          icon="book"
-          href="/practice"
-          action="Browse practice"
-        />
-      </section>
-    </>
-  );
-}
+import Link from 'next/link';
+import {requireUser} from '@/lib/auth/guards';
+import {learnerData} from '@/lib/learner/data';
+import {StudentHeading,AttemptsList} from '@/components/learner-panels';
+export const metadata={title:'My tests'};
+export default async function Page({searchParams}:{searchParams:Promise<{status?:string;page?:string}>}){const u=await requireUser();const[data,q]=await Promise.all([learnerData(u.id),searchParams]);const status=['active','completed'].includes(q.status||'')?q.status:'all';const items=data.attempts.filter(a=>status==='active'?!a.complete&&a.available:status==='completed'?a.complete:true);const pages=Math.max(1,Math.ceil(items.length/15)),page=Math.min(pages,Math.max(1,Math.floor(Number(q.page))||1));return <><StudentHeading title="My tests" description="অসমাপ্ত test চালিয়ে যাও, শেষ করা test দেখো।"><Link href="/practice" className="student-button">Find a test ↗</Link></StudentHeading><div className="student-tabs">{[['all','All tests'],['active','In progress'],['completed','Completed']].map(([key,label])=><Link href={'?status='+key} aria-current={status===key?'page':undefined} key={key}>{label}</Link>)}</div><section className="student-panel"><AttemptsList items={items.slice((page-1)*15,page*15)}/></section><div className="student-pagination"><span>Latest 100 tests · Page {page} / {pages}</span><div>{page>1&&<Link href={`?status=${status}&page=${page-1}`}>← Previous</Link>}{page<pages&&<Link href={`?status=${status}&page=${page+1}`}>Next →</Link>}</div></div></>}
