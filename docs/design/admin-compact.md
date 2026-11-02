@@ -25,3 +25,12 @@ Visual QA uses the actual production shell and management components with explic
 The available cloud browser reaches the real production admin sign-in wall and has no authenticated admin session. Live authenticated CRUD actions have not been executed as part of this redesign. No account, role, subscription, question, resource or upload was created/deleted for the visual tests. Existing API authorization and confirmation mechanisms remain enforced.
 
 Primary files: admin layout/overview/loading/error routes; admin-shell.tsx; lib/admin/navigation.ts; admin-compact.css; generated admin-theme-bridge.css and its generator; targeted disclosure changes in ContentManager, BookCatalogManager, ResourceManager and MembershipManager; mock CSS module; EngineSurface theme propagation; migration 028; admin-navigation tests.
+
+## Responsive QA evidence
+
+Desktop, 768px tablet, 390px and 360px iframe viewports were checked. At 360px the document client/scroll widths were both 345px (the remaining width is the browser scrollbar); at 390px both were 375px. Mobile navigation opened, Escape dismissed it and focus returned to the menu button. Selecting a management destination closed the drawer. Theme selection survived a reload, and resource Edit opened the native disclosure automatically.
+
+The following screenshots show a **synthetic-data UI fixture**, not live users, revenue or activity. They are retained for visual review only:
+
+![Light theme QA fixture](admin-preview/light.jpg)
+![Dark theme QA fixture](admin-preview/dark.jpg)
