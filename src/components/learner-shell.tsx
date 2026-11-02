@@ -1,0 +1,19 @@
+'use client';
+import Link from 'next/link';
+import {usePathname,useRouter} from 'next/navigation';
+import {useEffect,useId,useRef,useState,useTransition,type MouseEvent} from 'react';
+import {Menu,X,ArrowUpRight,LayoutDashboard,BookOpen,ChartNoAxesCombined,Bookmark,CalendarDays,CreditCard,Settings,TrendingUp} from 'lucide-react';
+import {SignOut} from './sign-out';
+const links=[['/dashboard','Overview',LayoutDashboard],['/dashboard/practice','My tests',BookOpen],['/dashboard/results','Results',ChartNoAxesCombined],['/dashboard/progress','Study progress',TrendingUp],['/dashboard/saved','Saved resources',Bookmark],['/dashboard/mocks','Mock exams',CalendarDays],['/dashboard/subscription','Subscription',CreditCard],['/settings','Account',Settings]] as const;
+function Navigation({path,close}:{path:string;close?:()=>void}){return <nav aria-label="Student dashboard">{links.map(([href,label,Icon])=><Link key={href} href={href} aria-current={path===href||(href!=='/dashboard'&&path.startsWith(href+'/'))?'page':undefined} onClick={close}><Icon size={17} aria-hidden="true"/>{label}</Link>)}</nav>}
+export function LearnerShell({children,name}:{children:React.ReactNode;name:string}){
+ const path=usePathname(),router=useRouter();const[open,setOpen]=useState(false),[pending,startTransition]=useTransition(),[progress,setProgress]=useState(false);const dialog=useRef<HTMLDialogElement>(null);const id=useId();
+ useEffect(()=>{if(open&&!dialog.current?.open)dialog.current?.showModal();else if(!open&&dialog.current?.open)dialog.current.close();},[open]);
+ useEffect(()=>{if(pending||!progress)return;const timer=setTimeout(()=>setProgress(false),200);return()=>clearTimeout(timer);},[pending,progress]);
+ function navigate(e:MouseEvent<HTMLDivElement>){if(e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||!(e.target instanceof Element))return;const a=e.target.closest<HTMLAnchorElement>('a[href]');if(!a||!a.closest('.student-nav-area')||a.target||a.hasAttribute('download'))return;const u=new URL(a.href,location.href);if(u.origin!==location.origin||(!u.pathname.startsWith('/dashboard')&&u.pathname!=='/settings')||u.pathname===path)return;e.preventDefault();setOpen(false);setProgress(true);startTransition(()=>router.push(u.pathname+u.search));}
+ const label=links.find(([href])=>path===href||(href!=='/dashboard'&&path.startsWith(href+'/')))?.[1]||'Dashboard';
+ return <div className="student-app" onClickCapture={navigate}>{progress&&<div className="student-progress" data-pending={pending} role="progressbar" aria-label="Loading page"><span/></div>}
+ <aside className="student-sidebar student-nav-area"><Link href="/" className="student-brand">JumpToNine<span>STUDENT SPACE</span></Link><Navigation path={path}/><div className="student-sidebar-bottom"><Link href="/">Back to website <ArrowUpRight size={14}/></Link></div></aside>
+ <div className="student-main"><header className="student-topbar"><button className="student-menu" aria-label="Open dashboard menu" aria-expanded={open} aria-controls={id} onClick={()=>setOpen(true)}><Menu size={20}/></button><span>My workspace <span className="student-crumb">/</span> <strong>{label}</strong></span><div className="student-identity"><span className="student-avatar">{name.slice(0,1).toUpperCase()}</span><span>{name}</span><SignOut/></div></header><div className="student-content" id="student-content">{children}</div></div>
+ <dialog ref={dialog} id={id} className="student-drawer student-nav-area" aria-label="Dashboard menu" onCancel={()=>setOpen(false)} onClose={()=>setOpen(false)}><div className="student-drawer-heading"><strong>JumpToNine</strong><button aria-label="Close dashboard menu" onClick={()=>setOpen(false)}><X size={20}/></button></div><Navigation path={path} close={()=>setOpen(false)}/><Link href="/">Back to website</Link></dialog></div>
+}

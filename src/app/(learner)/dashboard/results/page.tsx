@@ -1,35 +1,9 @@
-import { requireUser } from '@/lib/auth/guards';
-import { db } from '@/lib/auth/db';
-import { WritingEvaluation } from '@/components/writing-evaluation';
+import Link from 'next/link';
+import {day} from '@/lib/learner/presentation';
+import {requireUser} from '@/lib/auth/guards';
+import {learnerData,evaluationHistory} from '@/lib/learner/data';
+import {StudentHeading,AttemptsList} from '@/components/learner-panels';
+import {WritingEvaluation} from '@/components/writing-evaluation';
 import '@/styles/exam-session.css';
-import Link from "next/link";
-import { WorkspaceHeading, EmptyState } from "@/components/page-parts";
-export const metadata = { title: "Results" };
-export default async function Page() {
-  const user=await requireUser();
-  const writing=await db().query('SELECT COALESCE(e.attempt_id,e.submission_id) AS id,e.product,e.status,e.created_at FROM public.writing_evaluations e WHERE e.user_id=$1 ORDER BY e.created_at DESC LIMIT 20',[user.id]);
-  const speaking=await db().query('SELECT attempt_id,status,created_at FROM public.speaking_evaluations WHERE user_id=$1 ORDER BY created_at DESC LIMIT 20',[user.id]);
-  return (
-    <>
-      <WorkspaceHeading
-        eyebrow="YOUR SPACE / RESULTS"
-        title="A clearer picture of your progress."
-      />
-      <section className="workspace-panel"><h2>Speaking feedback</h2>{speaking.map(e=><p key={String(e.attempt_id)}><Link href={'/speaking-evaluation/results/'+e.attempt_id}>Speaking · {new Date(String(e.created_at)).toLocaleDateString('en-GB')} · {String(e.status)} ↗</Link></p>)}{!speaking.length&&<p>Your Speaking evaluations will appear here.</p>}</section>
-      <section className="workspace-panel"><h2>Writing feedback</h2>{writing.length?writing.map(e=><details key={String(e.id)}><summary>{e.product==='writing_product'?'Standalone':e.product==='cambridge_writing'?'Cambridge':'Practice'} Writing · {new Date(String(e.created_at)).toLocaleDateString('en-GB')} · {String(e.status)}</summary><WritingEvaluation attemptId={String(e.id)} source={e.product==='writing_product'?'submission':'attempt'}/></details>):<p>Your Writing evaluations will appear here.</p>}</section>
-      <section className="workspace-panel">
-        <div className="panel-heading">
-          <h2>Results</h2>
-          <Link href="/practice">Explore practice ↗</Link>
-        </div>
-        <EmptyState
-          title="Results stay private until published."
-          description="এখনো কোনো result প্রকাশিত হয়নি। Mock শেষ হলেও admin publish করার আগে result এখানে দেখা যাবে না।"
-          icon="chart"
-          href="/practice"
-          action="Explore practice"
-        />
-      </section>
-    </>
-  );
-}
+export const metadata={title:'Results'};
+export default async function Page(){const u=await requireUser();const[d,h]=await Promise.all([learnerData(u.id),evaluationHistory(u.id)]);return <><StudentHeading title="Results" description="Test scores ও AI feedback, এক জায়গায়।"/><section className="student-panel"><div className="student-panel-title"><h2>Test results</h2><Link href="/dashboard/practice">My tests ↗</Link></div><AttemptsList items={d.attempts.filter(a=>a.complete&&a.published).slice(0,15)} empty="No completed results yet"/>{d.attempts.some(a=>a.complete&&!a.published)&&<p className="student-note">Mock results প্রকাশের অপেক্ষায় আছে।</p>}</section><section className="student-panel"><div className="student-panel-title"><h2>Writing feedback</h2><Link href="/writing-evaluation">New evaluation ↗</Link></div>{h.writing.map(e=><details className="student-feedback" id={'writing-'+e.id} key={String(e.id)}><summary><span>{e.product==='writing_product'?'Writing evaluation':'Test Writing'} · {day(String(e.created_at))}</span><span className="student-tag">{String(e.status)}</span></summary><WritingEvaluation attemptId={String(e.id)} source={e.product==='writing_product'?'submission':'attempt'}/></details>)}{!h.writing.length&&<p className="student-note">এখনো Writing evaluation নেই।</p>}</section><section className="student-panel"><div className="student-panel-title"><h2>Speaking feedback</h2><Link href="/speaking-evaluation">New evaluation ↗</Link></div>{h.speaking.map(e=><Link className="student-list-row" key={String(e.id)} href={'/speaking-evaluation/results/'+e.id}><span>Speaking · {day(String(e.created_at))}</span><span className="student-tag">{String(e.status)}</span><span>↗</span></Link>)}{!h.speaking.length&&<p className="student-note">এখনো Speaking evaluation নেই।</p>}</section></>}
