@@ -29,11 +29,11 @@ export function AdminImportCenter(){
    else {setMessage(data.inserted+" draft tests imported, "+data.skipped+" skipped. "+(data.errors?.length?data.errors.join("; "):"Review and publish tests from Practice admin."));setSummary([]);setRecords([]);}
   }catch(e){setMessage(e instanceof Error?e.message:"Import failed");}finally{setBusy(false);}
  }
- return <div className="admin-refactor"><WorkspaceHeading eyebrow="CONTENT / IMPORT" title="Practice Full Test Import" description="Securely preview and import Listening, Reading and Writing tests. Speaking is never imported here."/>
-  <section className="workspace-panel admin-editor"><h2>Upload prepared Full Test JSON</h2><p>Use the platform ExamDocument JSON format: each record has docs.listening, docs.reading, docs.writing and an optional unique sourceKey. ZIPs of unknown formats cannot be imported without preparation. Import only files you have rights to use.</p>
+ return <div className="admin-refactor"><WorkspaceHeading eyebrow="CONTENT / IMPORT" title="Import tests" />
+  <section className="workspace-panel admin-editor"><h2>Import JSON</h2><details className="adm-help"><summary>JSON format</summary><p>Required: docs.listening, docs.reading and docs.writing. sourceKey is optional.</p></details>
    <label>JSON files<input type="file" multiple accept=".json,application/json" disabled={busy} onChange={e=>void choose(e.target.files)}/></label>{filename&&<p>{filename}</p>}
    <div className="admin-user-filters"><button className="button" type="button" disabled={busy||!records.length} onClick={()=>void run("preview")}>{busy?"Checking…":"Preview duplicates & validate"}</button><button type="button" disabled={busy||!records.length||!summary.length} onClick={()=>void run("apply")}>Import ready tests as drafts ↗</button></div>
-   <p role="status">{message}</p><p>No existing test is modified. Only records with three complete modules are eligible. All imported tests stay in Draft until explicitly published.</p>
+   <p role="status">{message}</p><p className="adm-note">Imports are saved as drafts. Existing tests stay unchanged.</p>
   </section>
   {!!summary.length&&<section className="workspace-panel"><h2>Validation report</h2><div className="table-scroll"><table className="admin-users-table"><thead><tr><th>TEST</th><th>SOURCE KEY</th><th>STATUS</th></tr></thead><tbody>{summary.map(r=><tr key={r.sourceKey}><td>{r.title}</td><td>{r.sourceKey}</td><td>{r.duplicate?"Duplicate: "+r.reason:"Ready (draft)"}</td></tr>)}</tbody></table></div></section>}
  </div>;

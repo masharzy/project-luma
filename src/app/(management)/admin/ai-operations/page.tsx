@@ -16,9 +16,9 @@ export default async function Page(){
  ]);
  const c=counts[0]||{};
  const jobs=[...writing,...speaking].sort((a,b)=>new Date(b.updated_at).getTime()-new Date(a.updated_at).getTime()).slice(0,100);
- return <div className="admin-refactor"><WorkspaceHeading eyebrow="AI / OPERATIONS" title="Evaluation job monitoring" description="Inspect recent Writing and Speaking jobs without exposing learner answers, audio recordings or provider credentials."/>
+ return <div className="admin-refactor"><WorkspaceHeading eyebrow="AI / OPERATIONS" title="AI jobs" />
   <div className="admin-kpi-grid">{[["Writing pending",c.writing_queued],["Writing failed",c.writing_failed],["Speaking pending",c.speaking_queued],["Speaking failed",c.speaking_failed]].map(([k,v])=><div className="admin-kpi" key={String(k)}><span>{k}</span><strong>{Number(v||0)}</strong></div>)}</div>
-  <section className="workspace-panel"><h2>Recent evaluation jobs</h2><p>Automatic retries and refunds are handled by the queue workers. Failed jobs are shown here for investigation; this page does not automatically re-charge users.</p>
+  <section className="workspace-panel"><h2>Recent evaluation jobs</h2>
   <div className="table-scroll"><table className="admin-users-table"><thead><tr><th>SKILL</th><th>ACCOUNT</th><th>STATUS</th><th>TRIES</th><th>ERROR CODE</th><th>UPDATED (BD)</th></tr></thead><tbody>{jobs.map(j=><tr key={j.skill+":"+j.id}><td>{j.skill}</td><td>{j.email||"Deleted account"}</td><td>{j.status}</td><td>{Number(j.tries||0)}</td><td>{j.error_code||"—"}</td><td>{new Intl.DateTimeFormat("en-GB",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Dhaka"}).format(new Date(j.updated_at))}</td></tr>)}{!jobs.length&&<tr><td colSpan={6}>No evaluation jobs yet.</td></tr>}</tbody></table></div></section>
   <Link href="/admin/ai-lab">Benchmark & configure providers ↗</Link>
  </div>;
