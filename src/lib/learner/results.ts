@@ -30,3 +30,7 @@ export function speakingGroup(title:string){
  return {key:'other',label:'More collections',order:4};
 }
 export function speakingBook(title:string){return title.replace(/\s*[·–—-]\s*Test\s*\d+.*$/i,'').replace(/\s*[·–—-]\s*Speaking.*$/i,'').trim();}
+export function retakeChoices(a:Attempt){
+ if(!['cambridge','practice'].includes(a.kind)||!a.parentId)return [];
+ return [...new Set(a.modules)].filter(m=>['listening','reading','writing'].includes(m)).map(module=>({module,path:`/exam/${a.kind}/${a.parentId}/${module}`}));
+}
