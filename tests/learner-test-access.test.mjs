@@ -15,3 +15,12 @@ test('Learner catalog separates free tests and excludes Premium tests from accou
  let result=await a.learnerCatalog('account');assert.deepEqual(result.included,[]);assert.deepEqual(result.free,[rows[0]]);
  premium=true;result=await a.learnerCatalog('account');assert.deepEqual(result.included,[rows[1]]);assert.deepEqual(result.free,[rows[0]]);
 });
+
+test('Exam entry requests the exam document policy while dashboard navigation stays prefetched',()=>{
+ const library=readFileSync('src/components/learner-test-library.tsx','utf8');
+ assert.match(library,/<a key=\{module\} href=\{`\/exam\//);
+ assert.match(library,/<a className="student-full-test"/);
+ const launcher=readFileSync('src/components/exam/attempt-launcher.tsx','utf8');
+ assert.match(launcher,/window\.location\.assign\('\/exam\/attempt\//);
+ const shell=readFileSync('src/components/learner-shell.tsx','utf8');assert.match(shell,/prefetch=\{true\}/);
+});

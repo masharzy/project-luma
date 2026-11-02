@@ -1,6 +1,5 @@
 "use client";
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
 import { useState } from 'react';
 import { Headphones, BookOpenText, PenLine, Clock3, Play } from 'lucide-react';
 export function AttemptLauncher({ kind, parentId, selection, title, modules, backHref }: {
@@ -14,14 +13,13 @@ export function AttemptLauncher({ kind, parentId, selection, title, modules, bac
         minutes: number;
     }[];
 }) {
-    const router=useRouter();
     const [busy, setBusy] = useState(false), [error, setError] = useState('');
     async function start() { setBusy(true); setError(''); try {
         const r = await fetch('/api/exam-attempts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind, parentId, selection }) });
         const d = await r.json();
         if (!r.ok)
             throw Error(d.error);
-        router.push('/exam/attempt/' + d.id);
+        window.location.assign('/exam/attempt/' + d.id);
     }
     catch (e) {
         setError(e instanceof Error ? e.message : 'Please try again');
