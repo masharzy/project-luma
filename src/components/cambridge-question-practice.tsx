@@ -29,7 +29,7 @@ export function QuestionPracticePanel({collection='all',book,series}:BankProps){
    const args=new URLSearchParams({module,page:String(p),collection});
    if(book)args.set("book",book);if(series)args.set("series",series);
    if(selected.length)args.set('types',selected.join(','));
-   return '/api/recent-tests?view=questions&'+args;
+   return '/api/type-wise-question-practice?'+args;
  },[module,selected,collection,book,series]);
  const latestQuery=useRef(query(0));latestQuery.current=query(0);
  useEffect(()=>{

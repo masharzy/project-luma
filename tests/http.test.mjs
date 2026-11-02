@@ -121,3 +121,14 @@ test("anonymous verification resend is denied by the API", async () => {
   assert.equal(r.status,401);
   assert.match(r.headers.get("cache-control"), /no-store/);
 });
+
+test("type wise catalog returns selectable groups as JSON", async () => {
+  const response = await fetch(base + "/api/type-wise-question-practice?module=listening&page=0&collection=all");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type"), /application\/json/);
+  const catalog = await response.json();
+  assert.ok(Array.isArray(catalog.types));
+  assert.ok(Array.isArray(catalog.items));
+  assert.ok(catalog.items.some(item => !item.premium && item.key && item.questionCount > 0));
+  assert.ok(catalog.items.every(item => !("correct_answer" in item)));
+});
