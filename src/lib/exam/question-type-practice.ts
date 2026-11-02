@@ -58,12 +58,7 @@ export function buildQuestionIndex(rows:SourceRow[]):IndexedQuestion[]{
       const numbers = Array.isArray(question.sourceNumbers) ? question.sourceNumbers.join('–') : String(question.order_index || questionOrder+1);
       // Only an excerpt is used for free previews. Premium excerpts are never sent to clients.
       const sourceHtml=String(groupInfo.group.sourceHtml||'');
-      const anchor=sourceHtml.indexOf('data-luma-question="'+question.id+'"');
-      const alternateAnchor=anchor<0?sourceHtml.indexOf("data-luma-question='"+question.id+"'"):anchor;
-      const nearby=alternateAnchor>=0
-        ? sourceHtml.slice(Math.max(0,alternateAnchor-180),Math.min(sourceHtml.length,alternateAnchor+260))
-        : sourceHtml.slice(0,440);
-      const preview = previewText(question.question_text || nearby || groupInfo.group.groupText || groupInfo.group.sourceHeading || located.part.title);
+      const preview = previewText(question.question_text || sourceHtml || groupInfo.group.groupText || groupInfo.group.sourceHeading || located.part.title);
       index.push({
         key: (source.kind==='practice'?'practice:':'')+source.module+':'+source.test_id+':'+question.id,
         module: source.module,type,premium:Boolean(source.premium),
