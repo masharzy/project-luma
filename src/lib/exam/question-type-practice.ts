@@ -4,7 +4,7 @@ import { db } from '@/lib/auth/db';
 import { digest } from '@/lib/auth/crypto';
 import { AuthHttpError } from '@/lib/auth/http';
 import { isObjectiveQuestion } from '@/lib/exam/mock-scoring';
-import { questionType, questionTypeLabel, previewText, MAX_PRACTICE_QUESTIONS, PAGE_SIZE, listeningTypes, readingTypes, type PracticeModule } from './question-types';
+import { questionType, questionTypeLabel, previewText, PAGE_SIZE, listeningTypes, readingTypes, type PracticeModule } from './question-types';
 import type { ExamDocument } from './document';
 
 export type SourceRow = {
@@ -87,12 +87,12 @@ export function publicQuestionCatalog(index: IndexedQuestion[], modules: Practic
 }
 
 export async function startQuestionGroupAttempt(index:IndexedQuestion[],modules:PracticeModule[],types:string[],count:number,owner:string,userId:string|null,keys?:string[]){
- if(!Number.isInteger(count)||count<1||count>10||keys&&(!keys.length||keys.length!==count||new Set(keys).size!==keys.length||keys.some(k=>typeof k!=='string'||k.length>180)))throw new AuthHttpError(400,'Choose 1–10 question groups.');
+ if(!Number.isSafeInteger(count)||count<1||keys&&(!keys.length||keys.length!==count||new Set(keys).size!==keys.length||keys.some(k=>typeof k!=='string'||k.length>180)))throw new AuthHttpError(400,'Choose at least one question set.');
  const pool=indexedQuestionGroups(index).filter(g=>!g[0].premium&&modules.includes(g[0].module)&&(!types.length||g.some(q=>types.includes(q.type))));
  let chosen:IndexedQuestion[][];
- if(keys){const exact=keys.map(key=>pool.find(g=>g[0].key===key));if(exact.some(g=>!g))throw new AuthHttpError(409,'A selected group is unavailable or locked. Refresh your selection.');chosen=exact as IndexedQuestion[][];}
+ if(keys){const byKey=new Map(pool.map(g=>[g[0].key,g]));const exact=keys.map(key=>byKey.get(key));if(exact.some(g=>!g))throw new AuthHttpError(409,'A selected group is unavailable or locked. Refresh your selection.');chosen=exact as IndexedQuestion[][];}
  else {const shuffled=[...pool];for(let i=shuffled.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];}chosen=shuffled.slice(0,count);if(chosen.length!==count)throw new AuthHttpError(409,'Not enough free groups match these filters.');}
- const selected=chosen.flat();if(selected.length>MAX_PRACTICE_QUESTIONS)throw new AuthHttpError(400,'These groups contain more than 40 questions. Choose fewer groups; groups are never split.');
+ const selected=chosen.flat();
  return startQuestionTypeAttempt(index,modules,[],selected.length,owner,userId,selected.map(q=>q.key));
 }
 
@@ -159,16 +159,16 @@ export function buildQuestionSnapshots(selected:IndexedQuestion[]):{module:Pract
       for(const group of part.question_groups)
         if(typeof group.sourceHtml==='string')group.sourceHtml=remapQuestionBindings(group.sourceHtml,local);
     }
-    const durationMinutes=Math.max(5,Math.min(120,Math.max(Math.ceil(questions.length*1.5),module==='listening'?parts.length*10:0)));
+    const durationMinutes=Math.max(5,Math.ceil(questions.length*1.5),module==='listening'?parts.length*10:0);
     snapshots.push({module,document:{schemaVersion:1,durationMinutes,audioUrl:'',parts,questions}});
   }
   return snapshots;
 }
 
 export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules: PracticeModule[], types: string[], count: number, owner: string, userId: string|null, keys?:string[]) {
-  if(!Number.isInteger(count)||count<1||count>MAX_PRACTICE_QUESTIONS)
-    throw new AuthHttpError(400,'Choose between 1 and 40 questions.');
-  if(keys&&(!keys.length||keys.length>40||new Set(keys).size!==keys.length||keys.some(k=>typeof k!=='string'||k.length>180)||keys.length!==count))throw new AuthHttpError(400,'Select 1–40 unique questions.');
+  if(!Number.isSafeInteger(count)||count<1)
+    throw new AuthHttpError(400,'Choose at least one question.');
+  if(keys&&(!keys.length||new Set(keys).size!==keys.length||keys.some(k=>typeof k!=='string'||k.length>180)||keys.length!==count))throw new AuthHttpError(400,'Select unique questions.');
   const pool=index.filter(item => !item.premium && modules.includes(item.module) && (!types.length||types.includes(item.type)));
   if(pool.length<count)throw new AuthHttpError(409,'Only '+pool.length+' free questions match these filters. Reduce the count or change your question types.');
   // Shuffle groups so a small custom practice still samples the entire free bank,
@@ -205,7 +205,7 @@ export async function startQuestionTypeAttempt(index: IndexedQuestion[], modules
     if(selected.length>=count)break;
   }
   if(selected.length!==count)throw new AuthHttpError(409,'Could not assemble the selected practice. Try a different filter.');
-  if(keys){const exact=keys.map(key=>pool.find(q=>q.key===key));if(exact.some(q=>!q))throw new AuthHttpError(409,'A selected question is unavailable or locked. Refresh your selection.');selected.splice(0,selected.length,...exact as IndexedQuestion[]);}
+  if(keys){const byKey=new Map(pool.map(q=>[q.key,q]));const exact=keys.map(key=>byKey.get(key));if(exact.some(q=>!q))throw new AuthHttpError(409,'A selected question is unavailable or locked. Refresh your selection.');selected.splice(0,selected.length,...exact as IndexedQuestion[]);}
   const snapshot=buildQuestionSnapshots(selected);
   if(!snapshot.length)throw new AuthHttpError(409,'No suitable questions are available.');
   const attemptId=randomUUID();

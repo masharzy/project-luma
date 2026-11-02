@@ -13,13 +13,14 @@ test('Selection survives serialization and contains only safe metadata across co
  assert.equal(togglePracticeGroup(items,items[0]).length,1);
  assert.deepEqual(restorePracticeSelection([{...items[0],correct_answer:'never store answers'}]),[items[0]]);
 });
-test('Invalid stored selections, duplicate keys and combined limits are rejected',()=>{
+test('Invalid stored selections and duplicate keys are rejected, without a session-size limit',()=>{
  assert.deepEqual(restorePracticeSelection('bad'),[]);
  assert.deepEqual(restorePracticeSelection([group('reading:1:q1'),group('reading:1:q1')]),[]);
- assert.deepEqual(restorePracticeSelection([group('reading:1:q1',30),group('practice:reading:1:q1',11)]),[]);
+ assert.equal(restorePracticeSelection([group('reading:1:q1',30),group('practice:reading:1:q1',11)]).length,2);
  assert.deepEqual(restorePracticeSelection([group('reading:1:bad<script>')]),[]);
  assert.deepEqual(restorePracticeSelection([{...group('reading:1:q1'),module:'listening'}]),[]);
  const ten=Array.from({length:10},(_,i)=>group('reading:1:q'+i,1));
- assert.equal(togglePracticeGroup(ten,group('reading:1:new',1)).length,10);
- const forty=[group('reading:1:q1',40)];assert.deepEqual(togglePracticeGroup(forty,group('reading:1:q2',1)),forty);
+ assert.equal(togglePracticeGroup(ten,group('reading:1:new',1)).length,11);
+ const forty=[group('reading:1:q1',40)];assert.equal(togglePracticeGroup(forty,group('reading:1:q2',1)).length,2);
+ const many=Array.from({length:120},(_,i)=>group('reading:1:q'+i,5));assert.equal(restorePracticeSelection(many).length,120);
 });

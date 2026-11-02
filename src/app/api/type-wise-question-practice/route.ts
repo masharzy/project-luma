@@ -29,8 +29,8 @@ export async function GET(req:NextRequest){try{
  }catch(e){return fail(e);}}
 export async function POST(req:NextRequest){try{
  requireSameOrigin(req);await limit('question-type-practice:'+networkKey(req),20,3600);
- const input=await readBody(req,8192);
- if(!validPracticeModules(input.modules)||!validPracticeTypes(input.types)||!Number.isInteger(input.count)||Number(input.count)<1||Number(input.count)>10||input.selectionMode!=='groups')throw new AuthHttpError(400,'Choose 1–10 complete question groups.');
+ const input=await readBody(req,1048576);
+ if(!validPracticeModules(input.modules)||!validPracticeTypes(input.types)||!Number.isSafeInteger(input.count)||Number(input.count)<1||input.selectionMode!=='groups')throw new AuthHttpError(400,'Choose at least one complete question set.');
  if(input.keys!==undefined&&(!Array.isArray(input.keys)||input.keys.length!==input.count||input.keys.some(k=>typeof k!=='string'||k.length>180)||new Set(input.keys).size!==input.keys.length))throw new AuthHttpError(400,'Invalid selection.');
  const scope=input.keys?{collection:'all' as const,keys:input.keys as string[]}:scopeFrom(input);
  const owner=newOwner((await cookies()).get(ownerCookie)?.value),session=await readSession();

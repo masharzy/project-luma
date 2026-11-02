@@ -81,10 +81,10 @@ test('Custom snapshots preserve selected source HTML, audio and unique question 
  assert.match(l.parts[0].question_groups[0].sourceHtml,/data-luma-question="qp-q-2"/);
  assert.equal(new Set(snapshots.flatMap(s=>s.document.questions.map(q=>s.module+':'+q.id))).size,3);
 });
-test('Server starts only free published questions and rejects premium-only or oversized requests',async()=>{
+test('Server starts only available free published questions and rejects premium-only requests',async()=>{
  const index=await p.loadQuestionIndex();
  await assert.rejects(p.startQuestionTypeAttempt(index,['reading'],['true_false_not_given'],1,'owner',null),e=>e.status===409);
- await assert.rejects(p.startQuestionTypeAttempt(index,['listening'],[],41,'owner',null),e=>e.status===400);
+ await assert.rejects(p.startQuestionTypeAttempt(index,['listening'],[],41,'owner',null),e=>e.status===409);
  const id=await p.startQuestionTypeAttempt(index,['listening'],['note_completion'],2,'owner',null);
  assert.match(id,/^[a-f0-9-]{36}$/);
  const insert=calls.findLast(call=>call.sql.includes('INSERT INTO public.exam_attempts'));
@@ -136,12 +136,13 @@ test('Mixed Cambridge and book/practice sources keep identical test, part, group
  assert.notEqual(snap.parts[0].question_groups[0].sourceHtml,snap.parts[1].question_groups[0].sourceHtml);
  assert.ok(snap.parts.some(part=>part.title.includes('Collins')&&part.audio_url.includes('collins.mp3')));
 });
-test('Shared selection rejects a stale group, premium tampering and oversized combined groups',async()=>{
+test('Shared selection rejects stale and premium groups while accepting groups beyond 40 questions',async()=>{
  const index=p.buildQuestionIndex([{test_id:1,kind:'practice',book_number:0,test_number:0,module:'listening',premium:false,document:freeDoc}]);
  await assert.rejects(p.startQuestionGroupAttempt(index,['listening'],[],1,'owner',null,['practice:listening:999:q1']),e=>e.status===409);
  await assert.rejects(p.startQuestionGroupAttempt(index.map(q=>({...q,premium:true})),['listening'],[],1,'owner',null,[index[0].key]),e=>e.status===409);
  const huge=Array.from({length:41},(_,i)=>({...index[0],key:'practice:listening:1:q'+i,question:{...index[0].question,id:'q'+i}}));
- await assert.rejects(p.startQuestionGroupAttempt(huge,['listening'],[],1,'owner',null,[huge[0].key]),e=>e.status===400);
+ await p.startQuestionGroupAttempt(huge,['listening'],[],1,'owner',null,[huge[0].key]);
+ const insert=calls.findLast(c=>c.sql.includes('INSERT INTO public.exam_attempts'));assert.equal(JSON.parse(insert.args[4])[0].document.questions.length,41);
 });
 
 test('Questions from separate practice sources remain contiguous inside mixed snapshots',()=>{
@@ -157,4 +158,12 @@ test('Question card excerpts strip complete markup before truncating long import
  assert.match(index[0].preview,/Choose the correct answer/);
  assert.match(index[0].preview,/Which station/);
  assert.doesNotMatch(index[0].preview,/source-class|data-luma|<|>/);
+});
+
+test('A custom session can contain more than ten source sets and forty questions',async()=>{
+ const base=(await p.loadQuestionIndex())[0];
+ const many=Array.from({length:12},(_,g)=>Array.from({length:5},(_,i)=>({...base,key:'listening:'+(g+100)+':q'+i,source:{...base.source,test_id:g+100},group:{...base.group,id:'g'+g},question:{...base.question,id:'q'+i,sourceNumbers:[i+1]},questionOrder:i}))).flat();
+ await p.startQuestionGroupAttempt(many,['listening'],[],12,'owner',null);
+ const insert=calls.findLast(c=>c.sql.includes('INSERT INTO public.exam_attempts'));
+ assert.equal(JSON.parse(insert.args[4])[0].document.questions.length,60);
 });

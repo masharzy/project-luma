@@ -41,11 +41,11 @@ export async function POST(req:NextRequest){
   try{
     requireSameOrigin(req);
     await limit('question-type-practice:'+networkKey(req),20,3600);
-    const input=await readBody(req,4096);
+    const input=await readBody(req,1048576);
     if(!validPracticeModules(input.modules)||!validPracticeTypes(input.types)||
-       (input.keys!==undefined&&(!Array.isArray(input.keys)||input.keys.length>40||input.keys.some(k=>typeof k!=='string'||k.length>180)))||
-       !Number.isInteger(input.count)||Number(input.count)<1||Number(input.count)>40)
-      throw new AuthHttpError(400,'Choose valid modules, question types and a count from 1 to 40.');
+       (input.keys!==undefined&&(!Array.isArray(input.keys)||input.keys.some(k=>typeof k!=='string'||k.length>180)))||
+       !Number.isSafeInteger(input.count)||Number(input.count)<1)
+      throw new AuthHttpError(400,'Choose valid modules, question types and a positive count.');
     const owner=newOwner((await cookies()).get(ownerCookie)?.value);
     const session=await readSession();
     if(input.selectionMode!==undefined&&input.selectionMode!=='groups')throw new AuthHttpError(400,'Invalid selection mode');

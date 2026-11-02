@@ -1,7 +1,6 @@
 /** Public classification and safe preview helpers for the Cambridge Question Type bank. */
 export const objectivePracticeModules = ['listening', 'reading'] as const;
 export type PracticeModule = typeof objectivePracticeModules[number];
-export const MAX_PRACTICE_QUESTIONS = 40;
 export const PAGE_SIZE = 24;
 const known: Record<string, string> = {
   multiple_choice: 'Multiple Choice',
