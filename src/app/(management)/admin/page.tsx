@@ -21,7 +21,7 @@ export default async function Page() {
   ['More Books tests',rows.more_books,'/admin/other-books'],['Practice tests',rows.practice,'/admin/practice'],
   ['Mock exams',rows.mocks,'/admin/mocks'],['Question items',rows.questions,'/admin/practice'],
  ] as const;
- return <div className="admin-refactor"><WorkspaceHeading eyebrow="ADMIN" title="Overview" description="Tests, learners and work awaiting review." />
+ return <div className="admin-refactor"><WorkspaceHeading eyebrow="ADMIN" title="Overview"  />
   <div className="adm-quick-actions"><Link className="button" href="/admin/cambridge">Manage Cambridge</Link><Link className="button outline" href="/admin/mocks/new">Create mock</Link><Link className="button outline" href="/admin/import">Import tests</Link><Link className="button outline" href="/admin/resources">Manage resources</Link></div>
   <div className="admin-kpi-grid">{cards.map(([label,value,href])=><Link href={href} className="admin-kpi" key={label}><span>{label}</span><strong>{Number(value||0).toLocaleString('en-US')}</strong></Link>)}</div>
   <section aria-labelledby="review-title"><h2 id="review-title">Needs attention</h2><div className="adm-operations">{[

@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: Promise<{ kind: string;
   const available = parent.modules.filter(m => modules.includes(m as Module)) as Module[];
   const records = await Promise.all(available.map(module => loadExam(kind as ExamKind, id, module)));
   const speaking=kind==='cambridge'?(await db().query('SELECT id,document,minutes FROM public.speaking_sets WHERE cambridge_test_id=$1',[id]))[0]:null;
-  return <><WorkspaceHeading eyebrow="QUESTION ENGINE / MODULES" title={parent.title} description="একটি module বেছে parts, passage ও question groups edit করো। Preview-তে একই exam interface দেখাবে।" />
+  return <><WorkspaceHeading eyebrow="QUESTION ENGINE / MODULES" title={parent.title}  />
     <div className="admin-item-grid">{available.map((module, i) => <article className="workspace-panel admin-item-card" key={module}>
       <span className="access-pill">{records[i].revision ? `REVISION ${records[i].revision}` : "NOT ADDED"}</span>
       <h2>{module[0].toUpperCase()+module.slice(1)}</h2><p>{records[i].document.parts.length} parts · {records[i].document.questions.length} questions · {records[i].document.durationMinutes} min</p>

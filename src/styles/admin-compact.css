@@ -192,3 +192,27 @@ html:has(.adm-drawer[open]){overflow:hidden}
 .admin-app .adm-content .admin-item-menu button{border:0;width:100%;text-align:left;padding:7px 9px;border-radius:2px;background:transparent}
 .admin-app .adm-content :is(button,a,input,select,textarea,summary):focus-visible{outline:2px solid var(--adm-accent)!important;outline-offset:3px}
 @media(pointer:coarse){.admin-app .adm-content button:not([class]){min-height:44px}}
+
+/* Text-light admin presentation: primary title, toolbar, content. */
+.admin-app .workspace-heading{margin-bottom:14px;min-height:28px}
+.admin-app .workspace-heading h1{margin:0}
+.admin-app .adm-inline-stats{display:flex;align-items:center;flex-wrap:wrap;gap:6px 16px;font-size:11px;color:var(--adm-muted);margin:0 0 12px}
+.admin-app .adm-note{font-size:11px!important;line-height:1.5;color:var(--adm-muted);margin:5px 0 9px}
+.admin-app .adm-help{margin:8px 0 12px;padding:0;border:0;background:transparent;font-size:12px}
+.admin-app .adm-help>summary{display:inline-block;cursor:pointer;color:var(--adm-accent);font-weight:500;padding:5px 0;min-height:30px}
+.admin-app .adm-help>summary::before{content:'+';display:inline-block;width:16px}
+.admin-app .adm-help[open]>summary::before{content:'−'}
+.admin-app .adm-help p{max-width:72ch;color:var(--adm-muted);font-size:12px;margin:4px 0 10px}
+.admin-app .admin-book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:10px;margin-top:14px}
+.admin-app .adm-book-card{display:flex;flex-direction:column;gap:10px;border:1px solid var(--adm-line);border-radius:5px;background:var(--adm-surface);padding:12px;min-width:0}
+.admin-app .adm-book-entry{display:flex;align-items:center;gap:11px;color:var(--adm-text);min-width:0}
+.admin-app .adm-book-entry>div{min-width:0}
+.admin-app .adm-book-entry h2{font-size:14px;margin:0 0 4px;line-height:1.35}
+.admin-app .adm-book-entry p{margin:0;font-size:11px}
+.admin-app .adm-book-number{display:grid;place-items:center;flex:none;width:36px;height:40px;background:var(--adm-accent-soft);color:var(--adm-accent);border-radius:4px;font-size:17px;font-weight:650;font-variant-numeric:tabular-nums}
+.admin-app .adm-book-card>.text-link{align-self:flex-end;border:0;background:none;padding:3px;font-size:11px;color:var(--adm-accent);line-height:1.3;min-height:28px}
+.admin-app .adm-module-times{display:flex;flex-wrap:wrap;gap:5px 10px}
+.admin-app .adm-module-times span{font-size:11px;text-transform:capitalize;color:var(--adm-muted)}
+.admin-app .admin-item-card .button{margin-top:8px}
+@media(max-width:500px){.admin-app .admin-book-grid{grid-template-columns:1fr}.admin-app .adm-book-card{gap:4px}.admin-app .adm-book-card>.text-link{margin-top:-6px}}
+@media(pointer:coarse){.admin-app .adm-help>summary,.admin-app .adm-book-card>.text-link{min-height:44px}}
