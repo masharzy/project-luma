@@ -149,3 +149,12 @@ test('Questions from separate practice sources remain contiguous inside mixed sn
  const document=p.buildQuestionSnapshots(index)[0].document;
  assert.deepEqual(document.questions.map(q=>q.part_id),['qp-p-1','qp-p-1','qp-p-2','qp-p-2']);
 });
+
+test('Question card excerpts strip complete markup before truncating long imported bindings',()=>{
+ const document=structuredClone(freeDoc);
+ document.parts[0].question_groups[0].sourceHtml='<p>Choose the correct answer.</p><span class="'+ 'source-class-'.repeat(40)+'" data-luma-question="q1">Which station does the train leave from?</span>';
+ const index=p.buildQuestionIndex([{...rows[0],document}]);
+ assert.match(index[0].preview,/Choose the correct answer/);
+ assert.match(index[0].preview,/Which station/);
+ assert.doesNotMatch(index[0].preview,/source-class|data-luma|<|>/);
+});
