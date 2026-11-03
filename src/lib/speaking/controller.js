@@ -1,6 +1,32 @@
 const ROOM=window.LUMA_ROOM_CONFIG,LIVE=false;const mockServerOffset=ROOM.mockServerNow?ROOM.mockServerNow-Date.now():0;const speakingNow=()=>Date.now()+mockServerOffset;function closeLive(){}
-function speak(text,done){stopSpeech();const token=generation;Lip.begin(text);phase='speaking';speaking=true;stage.classList.add('is-speaking');$('main-action').disabled=true;action('Listen…');$('skip').hidden=true;$('room-status').textContent='Your examiner is speaking';let complete=false;const fin=()=>{if(complete||token!==generation)return;complete=true;speaking=false;stage.classList.remove('is-speaking');done()};const source=ROOM.preview?(window.LUMA_PREVIEW_AUDIO?.[sel]?.[text]||(sel==='male'?window.LUMA_SPEAKING_AUDIO[text]:null)):'/api/speaking/voice?'+new URLSearchParams({mode:ROOM.mode,test:ROOM.testId,step:String(si),examiner:sel,v:ROOM.voiceVersion});
- if(!source){$('room-status').textContent='Read the question';voiceFallback=setTimeout(fin,1400);return}voicePlayer=new Audio(source);voicePlayer.onplaying=()=>Lip.start();voicePlayer.onended=fin;voicePlayer.onerror=()=>{notify('Examiner audio is unavailable. You can read the question and record your answer.');fin()};voicePlayer.play().catch(()=>{notify('Tap replay to hear the examiner.');fin()})}
+// Examiner questions use the device's built-in speech service; no paid voice request.
+let examinerUtterance=null;
+function speak(text,done){
+ stopSpeech();const token=generation;Lip.begin(text);phase='speaking';speaking=true;
+ stage.classList.add('is-speaking');$('main-action').disabled=true;action('Listen…');$('skip').hidden=true;
+ $('status-detail').textContent='Your microphone is off.';$('room-status').textContent='Your examiner is speaking';$('status-title').textContent='Listen to your examiner.';
+ let complete=false,started=false;
+ const fin=()=>{if(complete||token!==generation)return;complete=true;clearTimeout(voiceFallback);examinerUtterance=null;speaking=false;stage.classList.remove('is-speaking');done()};
+ const unavailable=()=>{if(complete||token!==generation)return;notify('Your browser could not read the question aloud. Check device sound and available English voices, then press replay.');fin()};
+ if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){unavailable();return}
+ const synth=window.speechSynthesis;
+ const begin=()=>{
+  if(started||complete||token!==generation)return;started=true;
+  const english=synth.getVoices().filter(v=>/^en(?:-|$)/i.test(v.lang));
+  const voice=pickVoice()||english.find(v=>/^en-GB$/i.test(v.lang))||english.find(v=>v.default)||english[0];
+  const utterance=new SpeechSynthesisUtterance(text);examinerUtterance=utterance;
+  utterance.lang=voice?.lang||'en-GB';utterance.rate=.93;
+  if(voice)utterance.voice=voice;else utterance.pitch=sel==='male'?.8:1.1;
+  utterance.onstart=()=>{if(token!==generation)return;clearTimeout(voiceFallback);Lip.start()};
+  utterance.onboundary=e=>{if(token===generation&&(!e.name||e.name==='word'))Lip.sync(e.charIndex)};
+  utterance.onend=fin;utterance.onerror=()=>unavailable();
+  // Do not silently advance when the browser blocks speech startup.
+  voiceFallback=setTimeout(()=>{if(token!==generation||complete)return;synth.cancel();unavailable()},10000);
+  try{synth.speak(utterance);synth.resume()}catch{unavailable()}
+ };
+ if(synth.getVoices().length)begin();
+ else{const loaded=()=>{synth.removeEventListener('voiceschanged',loaded);begin()};synth.addEventListener('voiceschanged',loaded,{once:true});voiceFallback=setTimeout(()=>{synth.removeEventListener('voiceschanged',loaded);begin()},1200)}
+}
 const approvedAction=$('main-action').onclick;$('main-action').onclick=()=>{if(!LIVE)return approvedAction();if(phase==='welcome'||phase==='connecting')return enterLive();if(phase==='live-id')return void liveIdentity();if(phase==='live-preparing')return finishLivePrep();if(liveTurn==='long_turn')return endLongTurn();if(phase==='live'){const on=liveStream?.getAudioTracks()[0]?.enabled;microphone(!on);if(on)action('Unmute microphone',mic)}};
 const leave=$('exit').onclick;$('exit').onclick=()=>{if(phase==='recording'&&!confirm('Leave and discard the current recording?'))return;stopPracticeClock(true);if(LIVE)void closeLive();stopSpeech();releaseMedia();resetClip();clearInterval(prepTimer);generation++;si=0;part=1;phase='welcome';answers.clear();$('notes').value='';$('complete').hidden=true;$('paper-overlay').hidden=true;stage.classList.add('lobby');clearProps();toggleNotes(false);document.body.classList.remove('exam-locked','cine');$('tp').style.width='0';updatePart();action('Enter the room');$('main-action').disabled=false};
 $('restart').onclick=()=>{stopPracticeClock(true);stopSpeech();releaseMedia();resetClip();clearInterval(prepTimer);void closeLive();downloadUrls.forEach(URL.revokeObjectURL);downloadUrls.length=0;answers.clear();$('notes').value='';$('complete').hidden=true;si=0;part=1;phase='welcome';stage.classList.add('lobby');clearProps();document.body.classList.remove('exam-locked');action('Enter the room');$('main-action').disabled=false};
