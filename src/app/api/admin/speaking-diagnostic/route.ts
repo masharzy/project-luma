@@ -24,6 +24,7 @@ export async function POST(req:NextRequest){
   const started=Date.now();
   if(mode==='full'){
    const result=await assessSpeaking(job.input);
+   if(job.status==='failed')await db().query("UPDATE public.speaking_evaluations SET status='completed',result=$2::jsonb,usage=$3::jsonb,model=$4,error_code=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$5::uuid AND status='failed'",[job.id,JSON.stringify(result.result),JSON.stringify(result.usage),result.model,session.user.id]);
    return json({mode,elapsedMs:Date.now()-started,...result});
   }
   const clip=job.input.clips[0],bytes=await getPrivate(clip.key);
