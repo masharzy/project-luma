@@ -1,0 +1,4 @@
+'use client';
+import {useEffect,useId,useRef,type ReactNode} from 'react';
+import {X} from 'lucide-react';
+export function AdminModal({open,title,onClose,busy=false,children}:{open:boolean;title:string;onClose:()=>void;busy?:boolean;children:ReactNode}){const ref=useRef<HTMLDialogElement>(null),id=useId();useEffect(()=>{if(open&&!ref.current?.open){const trigger=document.activeElement;ref.current?.showModal();return ()=>{ref.current?.close();if(trigger instanceof HTMLElement&&trigger.isConnected)trigger.focus();};}else if(!open)ref.current?.close();},[open]);if(!open)return null;return <dialog ref={ref} className="adm-modal" aria-labelledby={id} onCancel={e=>{if(busy)e.preventDefault();else onClose();}}><header className="adm-modal-head"><h2 id={id}>{title}</h2><button type="button" aria-label="Close dialog" disabled={busy} onClick={onClose}><X size={20}/></button></header><div className="adm-modal-body">{children}</div></dialog>}
