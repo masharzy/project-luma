@@ -1,0 +1,9 @@
+# Student evaluation polish
+
+Writing uses New evaluation / Past feedback and removes the introductory three-step guide. Task 1 and Task 2 both have a custom image upload control, retaining format/size validation and task-specific draft storage. The Writing question picker includes accessible published Cambridge, More Books and Recent Tests modules, with source filters, search, clear task availability and a styled close control. Generation uses the existing API and credits policy.
+
+Speaking collections are derived from available published sets, with Cambridge → Official Cambridge Guide → Practice Tests Plus → Collins priority, followed by the other actual collections. Empty collections are omitted. Current production data contains published Cambridge and Collins Speaking sets. Custom Speaking accepts user questions for any subset of Parts 1, 2 and 3; their actual part numbers and original cue-card text are preserved. Private snapshots use a nullable bank-set reference (migration 031), without adding user questions to the public bank.
+
+Account settings offer an authenticated password-change form with current-password verification, validation, CSRF/rate limiting and an atomic previous-hash check. A successful update retains the current session, invalidates other sessions and outstanding reset tokens. Google-only accounts show provider guidance instead of an inapplicable password form.
+
+Validation: 162 unit/security tests, TypeScript and production build. Writing source SQL checked with runtime permissions in QA and production. Migration 031 verified on the existing isolated QA branch, including an insert rolled back inside a subtransaction, before production application. Password changes use mocked hashes and sessions in tests; no real account password was changed. No paid AI evaluation was triggered.

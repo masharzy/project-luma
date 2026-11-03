@@ -89,6 +89,7 @@ export const authClient = {
   updateUser: (data: { name: string }) => request("update-user", data),
   requestPasswordReset: (data: { email: string; redirectTo?: string }) =>
     request("request-password-reset", { email: data.email }),
+  changePassword: (data: {currentPassword:string;newPassword:string}) => request("change-password", data),
   resetPassword: (data: { newPassword: string; token: string }) =>
     request("reset-password", data),
   verifyEmail: (data: { token: string }) =>

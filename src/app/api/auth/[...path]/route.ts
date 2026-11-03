@@ -77,6 +77,20 @@ export async function POST(request: NextRequest) {
     const path = routePath(request);
     const input = await readBody(request);
     const network = networkKey(request);
+    if (path === "change-password") {
+      const session=await readSession(request.cookies.get(sessionCookieName())?.value);
+      if(!session)throw new AuthHttpError(401,'Sign in to change your password.');
+      await limitMany([{key:'password-change:'+session.user.id,max:5,seconds:3600},{key:'password-change-network:'+network,max:20,seconds:3600}]);
+      if(typeof input.currentPassword!=='string'||input.currentPassword.length>128||!validPassword(input.newPassword))throw new AuthHttpError(400,'Enter your current password and a new password with 12–128 characters.');
+      const sql=db(),user=(await sql.query('SELECT password_hash FROM app_auth.users WHERE id=$1 AND banned=false',[session.user.id]))[0];
+      if(!user?.password_hash)throw new AuthHttpError(400,'This account uses Google sign-in. Manage its password with Google.');
+      if(!await verifyPassword(input.currentPassword,String(user.password_hash)))throw new AuthHttpError(400,'Your current password is incorrect.');
+      if(input.currentPassword===input.newPassword)throw new AuthHttpError(400,'Choose a different new password.');
+      const hash=await hashPassword(input.newPassword),current=digest(request.cookies.get(sessionCookieName())!.value);
+      const rows=await sql.query(`WITH changed AS (UPDATE app_auth.users SET password_hash=$2,session_version=session_version+1,updated_at=now() WHERE id=$1 AND password_hash=$3 AND banned=false RETURNING id,session_version), kept AS (UPDATE app_auth.sessions s SET session_version=c.session_version FROM changed c WHERE s.user_id=c.id AND s.token_hash=$4 RETURNING s.user_id), revoked AS (DELETE FROM app_auth.sessions s USING changed c WHERE s.user_id=c.id AND s.token_hash<>$4), tokens AS (DELETE FROM app_auth.email_tokens t USING changed c WHERE t.user_id=c.id AND t.kind='reset_password') SELECT id FROM changed`,[session.user.id,hash,user.password_hash,current]);
+      if(!rows.length)throw new AuthHttpError(409,'Your password changed in another request. Please try again.');
+      await audit(session.user.id,'password_changed');return json({updated:true});
+    }
     if (path === "sign-up/email") {
       const sql = db();
       const email = parseEmail(input.email),
