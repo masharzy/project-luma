@@ -24,14 +24,14 @@ export async function POST(req:NextRequest){
   key=await getKey('openrouter');
   const started=Date.now();
   if(mode==='compare'){
-   const model=String(form.get('model')||'');
+   const model=String(form.get('model')||''),compact=form.get('compact')==='on';
    if(!['xiaomi/mimo-v2.6-flash','xiaomi/mimo-v2.6-pro'].includes(model))throw new AuthHttpError(400,'Choose a comparison model');
    const content:Record<string,unknown>[]=[{type:'text',text:JSON.stringify({answers:job.input.clips.map(({key,...clip}:{key:string})=>clip)})}];
    let audioBytes=0;
    for(const clip of job.input.clips){const bytes=await getPrivate(clip.key);audioBytes+=bytes.length;if(audioBytes>20000000)throw new AuthHttpError(400,'Diagnostic recording too large');content.push({type:'text',text:JSON.stringify({step:clip.step,part:clip.part,question:clip.question,seconds:clip.seconds})},{type:'input_audio',input_audio:{format:'wav',data:Buffer.from(bytes).toString('base64')}});}
-   const response=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model,max_tokens:12000,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},response_format:{type:'json_object'},messages:[{role:'system',content:speakingComparisonPrompt},{role:'user',content}]}),signal:AbortSignal.timeout(240000)});
+   const response=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model,max_tokens:12000,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},response_format:{type:'json_object'},messages:[{role:'system',content:speakingComparisonPrompt+(compact?'\nOUTPUT BREVITY ONLY: Keep the same strict scoring rubric and all 14 verbatim transcripts. Return compact JSON. Use short English explanations in the _bn fields to reduce output latency; the report will label their language honestly. Maximum 1 fluency observation per answer, maximum 1 fluency evidence item per answer, at most 3 important text corrections per answer, at most 3 acoustic pronunciation observations across the entire test. Do not pad empty lists. Each justification must be at most 15 English words. Keep the complete response below 4500 tokens. Do not change transcripts, criteria, evidence standards or band anchors.':'')},{role:'user',content}]}),signal:AbortSignal.timeout(285000)});
    const raw=await response.text();
-   return json({mode,model,httpStatus:response.status,elapsedMs:Date.now()-started,audioFormat:'original WAV',audioBytes,response:sanitize(raw,key)});
+   return json({mode,model,compact,httpStatus:response.status,elapsedMs:Date.now()-started,audioFormat:'original WAV',audioBytes,response:sanitize(raw,key)});
   }
   if(mode==='full'){
    const result=await assessSpeaking(job.input);
