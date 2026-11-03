@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import ts from 'typescript';
+const mod={exports:{}};
+new Function('module','exports',ts.transpileModule(readFileSync('src/lib/admin/speaking-library.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText)(mod,mod.exports);
+const {speakingLibrarySource, speakingPartCounts}=mod.exports;
+const series=[{slug:'collins',name:'Collins',cover:'series.jpg'}],volumes=[{slug:'collins-1',seriesSlug:'collins',series:'Collins',volume:'Volume 1',title:'Practice Tests for IELTS',isbn:'123',cover:'volume1.jpg'}];
+test('Standalone Test 15 never becomes a book or a collection',()=>{assert.equal(speakingLibrarySource({title:'Test - 15 · Speaking'},series,volumes),null);});
+test('Speaking books use linked source metadata or the exact registered legacy volume',()=>{assert.equal(speakingLibrarySource({title:'Renamed',bookNumber:15},series,volumes).bookName,'Cambridge 15');const legacy=speakingLibrarySource({title:'Collins 1 · Test 4 · Speaking'},series,volumes);assert.equal(legacy.book,'collins-1');assert.equal(legacy.cover,'volume1.jpg');assert.equal(legacy.isbn,'123');assert.equal(speakingLibrarySource({title:'Collins 11 · Test 1 · Speaking'},series,volumes),null);assert.equal(speakingLibrarySource({title:'Changed title',bookSlug:'collins-1'},series,volumes).book,'collins-1');});
+test('Part metadata keeps source part names and actual question counts',()=>{assert.deepEqual(speakingPartCounts({sourceParts:[{title:'Part 1',questions:[{},{}]},{title:'Part 2',questions:[{}]}]}),[{title:'Part 1',questions:2},{title:'Part 2',questions:1}]);assert.deepEqual(speakingPartCounts(null),[]);assert.equal(speakingPartCounts({part1Groups:[{questions:['a','b']}],cueCard:{topic:'topic'},part3:['x']})[2].questions,1);});
