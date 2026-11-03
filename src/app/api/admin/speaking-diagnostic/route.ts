@@ -7,8 +7,9 @@ import { getKey } from '@/lib/ai-lab/secrets';
 import { getPrivate } from '@/lib/products/storage';
 import { speakingModel } from '@/lib/evaluation/provider';
 import { assessSpeaking } from '@/lib/products/speaking-provider';
+import { speakingComparisonPrompt } from '@/lib/products/speaking-comparison-prompt';
 export const runtime='nodejs';
-export const maxDuration=120;
+export const maxDuration=300;
 export async function POST(req:NextRequest){
  let key='';
  try{
@@ -17,11 +18,21 @@ export async function POST(req:NextRequest){
   if(!session||!hasAdminRole(session.user))throw new AuthHttpError(403,'Forbidden');
   await limit('speaking-diagnostic:'+session.user.id,12,3600);
   const form=await req.formData(),id=String(form.get('attemptId')||''),mode=String(form.get('mode')||'');
-  if(!/^[a-f0-9-]{36}$/i.test(id)||!['plain','json','full'].includes(mode))throw new AuthHttpError(400,'Invalid diagnostic');
+  if(!/^[a-f0-9-]{36}$/i.test(id)||!['plain','json','full','compare'].includes(mode))throw new AuthHttpError(400,'Invalid diagnostic');
   const job=(await db().query('SELECT id,input,status FROM public.speaking_evaluations WHERE attempt_id=$1::uuid AND user_id=$2::uuid',[id,session.user.id]))[0];
   if(!job)throw new AuthHttpError(404,'Your saved evaluation was not found');
   key=await getKey('openrouter');
   const started=Date.now();
+  if(mode==='compare'){
+   const model=String(form.get('model')||'');
+   if(!['xiaomi/mimo-v2.6-flash','xiaomi/mimo-v2.6-pro'].includes(model))throw new AuthHttpError(400,'Choose a comparison model');
+   const content:Record<string,unknown>[]=[{type:'text',text:JSON.stringify({answers:job.input.clips.map(({key,...clip}:{key:string})=>clip)})}];
+   let audioBytes=0;
+   for(const clip of job.input.clips){const bytes=await getPrivate(clip.key);audioBytes+=bytes.length;if(audioBytes>20000000)throw new AuthHttpError(400,'Diagnostic recording too large');content.push({type:'text',text:JSON.stringify({step:clip.step,part:clip.part,question:clip.question,seconds:clip.seconds})},{type:'input_audio',input_audio:{format:'wav',data:Buffer.from(bytes).toString('base64')}});}
+   const response=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model,max_tokens:12000,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},response_format:{type:'json_object'},messages:[{role:'system',content:speakingComparisonPrompt},{role:'user',content}]}),signal:AbortSignal.timeout(240000)});
+   const raw=await response.text();
+   return json({mode,model,httpStatus:response.status,elapsedMs:Date.now()-started,audioFormat:'original WAV',audioBytes,response:sanitize(raw,key)});
+  }
   if(mode==='full'){
    const result=await assessSpeaking(job.input);
    if(job.status==='failed')await db().query("UPDATE public.speaking_evaluations SET status='completed',result=$2::jsonb,usage=$3::jsonb,model=$4,error_code=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$5::uuid AND status='failed'",[job.id,JSON.stringify(result.result),JSON.stringify(result.usage),result.model,session.user.id]);
@@ -38,4 +49,4 @@ export async function POST(req:NextRequest){
   return json({httpStatus:e.statusCode||null,error:sanitize(e.responseBody||e.message||'Diagnostic failed',key)},502);
  }
 }
-function sanitize(value:string,key:string){return (key?value.replaceAll(key,'[credential removed]'):value).replace(/data:[^\s"']+;base64,[A-Za-z0-9+/=]+/g,'[audio removed]').replace(/[A-Za-z0-9+/=]{100,}/g,'[binary removed]').slice(0,24000);}
+function sanitize(value:string,key:string){return (key?value.replaceAll(key,'[credential removed]'):value).replace(/data:[^\s"']+;base64,[A-Za-z0-9+/=]+/g,'[audio removed]').replace(/[A-Za-z0-9+/=]{100,}/g,'[binary removed]').slice(0,160000);}
