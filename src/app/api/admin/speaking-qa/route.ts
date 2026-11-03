@@ -163,7 +163,7 @@ export async function GET() {
  try {
   const user=await admin();
   const rows=await db().query("SELECT id,created_at,result FROM public.ai_lab_runs WHERE admin_id=$1::uuid AND result->>'kind'='speaking_qa_v1' ORDER BY created_at DESC LIMIT 5",[user.id]);
-  return json({runs:rows.map((r:{id:string;created_at:string;result:Record<string,unknown>})=>({id:r.id,createdAt:r.created_at,...r.result}))});
+  return json({runs:rows.map(r=>({id:String(r.id),createdAt:String(r.created_at),...(r.result as Record<string,unknown>)}))});
  }catch(e){return json({error:e instanceof AuthHttpError?e.message:'Could not read QA results'},e instanceof AuthHttpError?e.status:503);}
 }
 export async function POST(req: NextRequest) {
