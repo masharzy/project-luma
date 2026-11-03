@@ -1,13 +1,15 @@
 "use client";
 import { useState, type FormEvent } from "react";
-import Link from "next/link";
+import {PasswordSettings} from "./password-settings";
 import { authClient } from "@/lib/auth/client";
 export function ProfileSettings({
   name,
   email,
+  hasPassword=true,
 }: {
   name: string;
   email: string;
+  hasPassword?: boolean;
 }) {
   const [pending, setPending] = useState(false),
     [message, setMessage] = useState(""),
@@ -84,18 +86,7 @@ export function ProfileSettings({
       <section className="workspace-panel settings-panel">
         <span className="eyebrow">02 / KEEP IT YOURS</span>
         <h2>Password & security</h2>
-        <p lang="bn">
-          Email দিয়ে account খুললে recovery link-এর মাধ্যমে password বদলাতে
-          পারো। Google দিয়ে sign in করলে password Google account থেকেই manage
-          করো।
-        </p>
-        <Link className="button outline" href="/auth/forgot-password">
-          Reset password <span>↗</span>
-        </Link>
-        <div className="security-note">
-          Your password is handled by JumpToNine Auth. JumpToNine never stores it in the
-          browser.
-        </div>
+        {hasPassword?<PasswordSettings/>:<p>এই account Google দিয়ে sign in করে। Password পরিবর্তন করতে Google account-এর Security settings ব্যবহার করো।</p>}
       </section>
     </div>
   );
