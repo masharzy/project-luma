@@ -5,6 +5,7 @@ import { AdminShell } from "@/components/admin-shell";
 import { adminTheme } from "@/lib/admin/navigation";
 import "@/styles/admin-theme-bridge.css";
 import "@/styles/admin-compact.css";
+import "@/styles/admin-workflows.css";
 export const metadata = { robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 export default async function Layout({

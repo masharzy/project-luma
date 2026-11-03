@@ -1,4 +1,5 @@
 import 'server-only';
+import {mockPublicationReadiness} from './mock-readiness';
 import { randomUUID } from 'node:crypto';
 import { db } from '@/lib/auth/db';
 import { AuthHttpError } from '@/lib/auth/http';
@@ -52,7 +53,7 @@ export async function mockAdminResults(id:string){
  await Promise.all(pending.map(r=>settleAttempt(r)));
  }
  const participants=await db().query(`SELECT u.name,u.email,r.attempt_id,a.current_index,a.results,a.answers FROM public.mock_registrations r JOIN app_auth.users u ON u.id=r.user_id LEFT JOIN public.exam_attempts a ON a.id=r.attempt_id WHERE r.mock_id=$1 ORDER BY r.registered_at LIMIT 500`,[id]);
- return {event:{id:e.id,title:e.title,starts_at:e.starts_at,ends_at:e.ends_at,results_published_at:e.results_published_at,moduleCount:e.snapshot.length,modules:e.snapshot.map((s:any)=>s.module),speakingIndex:e.snapshot.findIndex((s:any)=>s.module==='speaking')},writingTasks:e.snapshot?.find((s:any)=>s.module==='writing')?.document?.parts??[],participants};
+ const result={event:{id:e.id,title:e.title,starts_at:e.starts_at,ends_at:e.ends_at,results_published_at:e.results_published_at,moduleCount:e.snapshot.length,modules:e.snapshot.map((s:any)=>s.module),speakingIndex:e.snapshot.findIndex((s:any)=>s.module==='speaking')},writingTasks:e.snapshot?.find((s:any)=>s.module==='writing')?.document?.parts??[],participants};return {...result,readiness:mockPublicationReadiness(result.event,result.participants)};
 }
 export async function markMockWriting(id:string,attemptId:string,band:number,feedback:string,module:'writing'|'speaking'='writing'){
  if(!Number.isFinite(band)||band<0||band>9||band*2%1||feedback.length>2000)throw new AuthHttpError(400,'Use a band from 0 to 9 in half-band steps.');
@@ -60,8 +61,8 @@ export async function markMockWriting(id:string,attemptId:string,band:number,fee
  FROM writable_event e WHERE a.id=$2::uuid AND a.kind='mock' AND a.parent_id=$1 AND e.id=a.parent_id AND EXISTS(SELECT 1 FROM jsonb_array_elements(a.snapshot) WITH ORDINALITY AS s(v,n) WHERE v->>'module'=$5::text AND a.current_index>=n) AND EXISTS(SELECT 1 FROM jsonb_array_elements(a.results) v WHERE v->>'module'=$5::text) RETURNING a.id`,[id,attemptId,band,feedback,module]);if(!rows.length)throw new AuthHttpError(409,'Finish the mock first; published results cannot be changed.');
 }
 export async function publishMock(id:string){
- await mockAdminResults(id);
+ const report=await mockAdminResults(id);if(!report.event)throw new AuthHttpError(409,'Finish and publish the mock setup first.');if(report.readiness?.published)return;if(!report.readiness?.ready)throw new AuthHttpError(409,report.readiness?.summary+' '+(report.readiness?.blockers.map(b=>b.module+': '+b.reason).join(' ')||''));
  const rows=await db().query(`UPDATE public.mock_events e SET results_published_at=now() WHERE e.id=$1 AND e.ends_at<=now() AND e.results_published_at IS NULL AND NOT EXISTS(
  SELECT 1 FROM public.exam_attempts a WHERE a.kind='mock' AND a.parent_id=e.id AND (a.current_index<jsonb_array_length(a.snapshot) OR EXISTS(SELECT 1 FROM jsonb_array_elements(a.snapshot) s WHERE s->>'module' IN ('writing','speaking') AND NOT EXISTS(SELECT 1 FROM jsonb_array_elements(a.results) v WHERE v->>'module'=s->>'module' AND v->>'status' IN ('reviewed','ai_reviewed'))))) RETURNING id`,[id]);
- if(!rows.length)throw new AuthHttpError(409,'Wait until the scheduled end and finish AI evaluation or review every submitted Writing and Speaking paper before publishing.');
+ if(!rows.length)throw new AuthHttpError(409,'A paper changed while publishing. Refresh the result review and resolve the remaining modules.');
 }

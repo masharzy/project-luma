@@ -1,7 +1,6 @@
-import Link from 'next/link';
-import { requireAdmin } from '@/lib/auth/guards';
-import { db } from '@/lib/auth/db';
-import { WorkspaceHeading } from '@/components/page-parts';
-import { SpeakingBankManager } from '@/components/speaking-bank-manager';
+import {requireAdmin} from '@/lib/auth/guards';
+import {db} from '@/lib/auth/db';
+import {AdminSpeakingLibrary} from '@/components/admin-speaking-library';
+import {listCatalogSeries,listCatalogVolumes} from '@/lib/other-books-registry';
 export const dynamic='force-dynamic';
-export default async function Page(){await requireAdmin();const rows=await db().query('SELECT id,title,minutes,published FROM public.speaking_sets ORDER BY id DESC');return <><WorkspaceHeading eyebrow="SPEAKING / QUESTION BANK" title="Speaking tests" /><SpeakingBankManager/><div className="admin-item-grid">{rows.map(t=><article className="workspace-panel" key={String(t.id)}><span className="access-pill">{t.published?'Published':'Draft'}</span><h2>{String(t.title)}</h2><p>{String(t.minutes)} minutes</p><Link className="button" href={'/admin/speaking-tests/'+t.id}>Edit all three parts ↗</Link></article>)}</div></>}
+export default async function Page(){await requireAdmin();const [rows,series,volumes]=await Promise.all([db().query('SELECT s.id,s.title,s.minutes,s.published,c.book_slug FROM public.speaking_sets s LEFT JOIN public.admin_content c ON c.id=s.practice_content_id ORDER BY s.id DESC'),listCatalogSeries(false),listCatalogVolumes(false)]);return <AdminSpeakingLibrary tests={rows.map(t=>({id:String(t.id),title:String(t.title),minutes:Number(t.minutes),published:Boolean(t.published),bookSlug:t.book_slug as string|null}))} series={series} volumes={volumes}/>}

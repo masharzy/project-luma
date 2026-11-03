@@ -1,9 +1,6 @@
-import {ContentManager} from "@/components/content-manager";
-import {BookCatalogManager} from "@/components/book-catalog-manager";
-import {listContent} from "@/lib/admin/content";
-import {listCatalogSeries,listCatalogVolumes} from "@/lib/other-books-registry";
-export const dynamic="force-dynamic";
-export default async function Page(){
- const [series,volumes,items]=await Promise.all([listCatalogSeries(false),listCatalogVolumes(false),listContent("practice")]);
- return <div className="admin-refactor"><ContentManager tools={<BookCatalogManager initialSeries={series} initialVolumes={volumes}/>} kind="practice" collection initialItems={items} catalog={volumes.map(v=>({slug:v.slug,series:v.series,volume:v.volume}))}/></div>;
-}
+import {requireAdmin} from '@/lib/auth/guards';
+import {AdminBookLibrary} from '@/components/admin-book-library';
+import {listContent} from '@/lib/admin/content';
+import {listCatalogSeries,listCatalogVolumes} from '@/lib/other-books-registry';
+export const dynamic='force-dynamic';
+export default async function Page(){await requireAdmin();const [series,volumes,items]=await Promise.all([listCatalogSeries(false),listCatalogVolumes(false),listContent('practice')]);return <AdminBookLibrary series={series} volumes={volumes} items={items}/>}
