@@ -84,38 +84,6 @@ function units(mode:Mode,clips:Clip[]){
  if(mode==='full')return [{index:0,part:0,clips}];
  return [1,2,3].map((p,i)=>({index:i,part:p,clips:clips.filter(c=>c.part===p)}));
 }
-function validateReply(raw:unknown,clips:Clip[]){
- const parsed=output.safeParse(raw);
- if(!parsed.success)return {ok:false as const,error:'invalid_schema',issues:parsed.error.issues.slice(0,5).map(x=>x.path.join('.')+': '+x.message)};
- const r=parsed.data;
- if(r.answers.length!==clips.length||r.answers.some((a,i)=>a.step!==clips[i]?.step))
-  return {ok:false as const,error:'wrong_transcript_steps',issues:['Returned answers do not match the audio clip order and step IDs']};
- const issues:string[]=[];
- const map=new Map(r.answers.map(a=>[a.step,a]));
- for(const a of r.answers){
-  const clip=clips.find(c=>c.step===a.step)!;
-  const uncertain=(q:string)=>a.uncertain.some(u=>u&&q.toLowerCase().includes(u.toLowerCase()))||q.includes('[unclear]');
-  a.corrections=a.corrections.filter((c,i)=>{
-   const valid=i<3&&c.original.trim()!==''&&a.verbatim.includes(c.original)&&c.original.trim()!==c.corrected.trim()&&!uncertain(c.original)&&['speech','partial_speech'].includes(a.speech_status);
-   if(!valid)issues.push('Rejected unsupported correction for step '+a.step);
-   return valid;
-  });
-  a.strengths=a.strengths.filter(s=>{const valid=!!s.quote&&a.verbatim.includes(s.quote)&&!uncertain(s.quote);if(!valid)issues.push('Rejected invented strength for step '+a.step);return valid;});
-  a.pronunciation=a.pronunciation.filter(p=>{
-   const valid=p.word.length>0&&a.verbatim.toLowerCase().includes(p.word.toLowerCase())&&!uncertain(p.word)&&['speech','partial_speech'].includes(a.speech_status);
-   if(!valid)issues.push('Rejected ungrounded pronunciation for step '+a.step);
-   if(p.timestamp_seconds!==null&&p.timestamp_seconds>clip.seconds){issues.push('Rejected timestamp outside step '+a.step);p.timestamp_seconds=null;}
-   return valid;
-  });
-  if(a.speech_status==='no_speech'&&a.verbatim.trim()){issues.push('Speech invented on silent clip '+a.step);a.verbatim='';a.corrections=[];a.strengths=[];a.pronunciation=[];}
- }
- for(const key of criterionNames){
-  const c=r.criteria[key];
-  c.evidence=c.evidence.filter(e=>{const a=map.get(e.step);const valid=!!a&&a.verbatim.includes(e.quote)&&e.quote.length>0&&!a.uncertain.some(u=>u&&e.quote.toLowerCase().includes(u.toLowerCase()));if(!valid)issues.push('Rejected unsupported '+key+' evidence');return valid;});
-  if(c.band!==null&&(!c.evidence.length||r.confidence==='low')){issues.push('Withheld '+key+' band due to inadequate evidence/confidence');c.band=null;}
- }
- return {ok:true as const,data:r,issues};
-}
 async function perform(clips:Clip[],mode:Mode) {
  const started=Date.now();
  const content:Record<string,unknown>[]=[];let audioBytes=0;
@@ -141,9 +109,9 @@ async function perform(clips:Clip[],mode:Mode) {
  let raw:unknown;try{raw=JSON.parse(body.choices?.[0]?.message?.content||'');}catch{
   return {status:'failed',httpStatus:resp.status,elapsedMs,audioBytes,usage,error:'provider_invalid_json',finishReason:body.choices?.[0]?.finish_reason||null,rawModelText:(body.choices?.[0]?.message?.content||'').slice(0,120000)};
  }
- const check=validateReply(raw,clips);
- if(!check.ok)return {status:'failed',httpStatus:resp.status,elapsedMs,audioBytes,usage,error:check.error,issues:check.issues,finishReason:body.choices?.[0]?.finish_reason||null,rawModelResponse:raw};
- return {status:'completed',httpStatus:resp.status,elapsedMs,audioBytes,usage,model:body.model||MODEL,finishReason:body.choices?.[0]?.finish_reason||null,issues:check.issues,assessment:check.data};
+ // AI Lab is an unfiltered experiment: retain the model's JSON exactly as received.
+ // Never blank transcripts, remove corrections, overwrite bands or reject a result based on evaluator heuristics.
+ return {status:'completed',httpStatus:resp.status,elapsedMs,audioBytes,usage,model:body.model||MODEL,finishReason:body.choices?.[0]?.finish_reason||null,assessment:raw,rawModelResponse:raw};
 }
 function calculate(mode:Mode,clips:Clip[],items:Array<Record<string,any>>){
  const parts=[1,2,3];
