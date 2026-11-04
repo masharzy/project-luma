@@ -9,7 +9,7 @@ type CaseRow = {
  elapsedMs?: number;
  httpStatus?: number;
  error?: string;
- validation?: { passed: boolean; problems: string[]; computedOverall: number | null };
+ rawModelText?: string;
 };
 type Batch = { id: string; createdAt: string; kind: string; status: string; model: string; sourceClips: number; cases: CaseRow[]; [key: string]: unknown };
 
@@ -114,7 +114,7 @@ export function SpeakingQaOneClick() {
    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:8,marginTop:12}}>
     {current.cases?.map(c=><div key={c.id} style={{border:'1px solid var(--border, #dedede)',borderRadius:6,padding:10,minWidth:0}}>
      <div style={{fontWeight:600}}>{c.label}</div>
-     <div style={{fontSize:13,marginTop:6,wordBreak:'break-word'}}>{c.status==='queued'?'Queued':c.status==='completed'?'Response received':c.status==='failed'?'Failed':c.status}{typeof c.elapsedMs==='number'?' · '+(c.elapsedMs/1000).toFixed(1)+'s':''}{c.validation?' · '+(c.validation.passed?'Validation passed':c.validation.problems.length+' checks flagged'):''}{c.error?' · '+c.error:''}</div>
+     <div style={{fontSize:13,marginTop:6,wordBreak:'break-word'}}>{c.status==='queued'?'Queued':c.status==='completed'?'Response received':c.status==='failed'?'Failed':c.status}{typeof c.elapsedMs==='number'?' · '+(c.elapsedMs/1000).toFixed(1)+'s':''}{c.error?' · '+c.error:''}</div>
     </div>)}
    </div>
    <p className="adm-note" style={{marginTop:8}}>After completion, send the downloaded JSON report in ChatGPT for a detailed comparison and prompt revision. Synthetic/modified recordings test robustness, not human IELTS scoring accuracy.</p>
