@@ -16,7 +16,7 @@ export async function failSpeaking(id:string,code='EVALUATION_FAILED'){
 export async function processSpeaking(id:string){
  if(!/^[a-f0-9-]{36}$/.test(id))throw Error('Invalid job');
  // Never make a second paid OpenRouter request automatically for the same attempt.
- const row=(await db().query("UPDATE public.speaking_evaluations SET status='running',tries=tries+1,lease_until=now()+interval '360 seconds',updated_at=now() WHERE id=$1 AND tries<1 AND status='pending' RETURNING input,tries",[id]))[0];
+ const row=(await db().query("UPDATE public.speaking_evaluations SET status='running',tries=tries+1,lease_until=now()+interval '1860 seconds',updated_at=now() WHERE id=$1 AND tries<1 AND status='pending' RETURNING input,tries",[id]))[0];
  if(!row){
   const state=(await db().query('SELECT status,tries,lease_until FROM public.speaking_evaluations WHERE id=$1',[id]))[0];
   if(state?.status==='running'&&new Date(String(state.lease_until)).getTime()>Date.now())return;
@@ -24,7 +24,13 @@ export async function processSpeaking(id:string){
   return;
  }
  try{
-  const {result,usage,model}=await assessSpeaking(row.input);
+  let lastCheckpoint=0,seenId='';
+  const {result,usage,model}=await assessSpeaking(row.input,{onProgress:async envelope=>{
+   const now=Date.now();if(!envelope.id||(envelope.id===seenId&&now-lastCheckpoint<10000&&!envelope.usage))return;
+   seenId=envelope.id;lastCheckpoint=now;
+   // Persist partial answer/provider ID, so a platform interruption is diagnosable.
+   try{await db().query("UPDATE public.speaking_evaluations SET usage=$2::jsonb,updated_at=now() WHERE id=$1 AND status='running'",[id,JSON.stringify({providerRequestId:envelope.id,streaming:true,lastProgressAt:new Date(now).toISOString(),usage:envelope.usage||null,rawPartial:envelope})]);}catch{console.warn('Speaking stream checkpoint unavailable');}
+  }});
   await db().query("UPDATE public.speaking_evaluations SET status='completed',result=$2::jsonb,usage=$3::jsonb,model=$4,lease_until=NULL,updated_at=now() WHERE id=$1 AND status='running' AND tries=$5",[id,JSON.stringify(result),JSON.stringify(usage),model,row.tries]);
  }catch(error){
   console.warn('Speaking evaluation failed',evaluationDiagnostic(error));
