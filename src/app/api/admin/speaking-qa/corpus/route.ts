@@ -1,12 +1,10 @@
 import { NextRequest } from 'next/server';
 import { createHash } from 'node:crypto';
 import { db } from '@/lib/auth/db';
-import { assessSpeaking } from '@/lib/products/speaking-provider';
 import { getKey } from '@/lib/ai-lab/secrets';
 import { getPrivate,putPrivate } from '@/lib/products/storage';
 import { speakingQaPrompt,speakingQaPromptVersion } from '@/lib/products/speaking-qa-prompt';
-import { correctionReviewInput, correctionReviewPrompt, correctionReviewFormat, applyCorrectionReview } from '@/lib/products/speaking-correction-review';
-import { speakingQaJsonFormat, validateSpeakingQa } from '@/lib/products/speaking-qa-validation';
+import { speakingQaJsonFormat } from '@/lib/products/speaking-qa-validation';
 export const runtime='nodejs';
 export const maxDuration=300;
 export const dynamic='force-dynamic';
@@ -29,27 +27,9 @@ export async function POST(req:NextRequest){
   stage='case_lookup';const rows=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND result->>'kind'='speaking_corpus_case_v1' AND result->>'batchId'=$2",[body.caseRowId,body.batchId]);
   if(!rows.length)return response({error:'Case not found'},404);
   caseRowId=String(rows[0].id);const spec=rows[0].result as Spec & Record<string,any>;
-  if(body.action==='review_corrections'){
-   if(spec.status!=='completed'||!spec.validation?.result)return response({error:'No validated source result'},409);
-   if(spec.review)return response({case:spec});
-   const lease=await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{review}','{\"status\":\"running\"}'::jsonb) WHERE id=$1::uuid AND result->'review' IS NULL RETURNING id",[caseRowId]);
-   if(!lease.length)return response({error:'Review already started'},409);
-   const input=correctionReviewInput(spec.validation.result),started=Date.now();let envelope:Record<string,any>={},parsed:unknown={decisions:[]};
-   if(input.length){const key=await getKey('openrouter');const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model,max_tokens:2200,temperature:0,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},response_format:correctionReviewFormat(input.map(i=>i.id)),messages:[{role:'system',content:correctionReviewPrompt},{role:'user',content:JSON.stringify(input)}]}),signal:AbortSignal.timeout(50000)});envelope=await resp.json();try{parsed=JSON.parse(envelope.choices?.[0]?.message?.content||'');}catch{parsed=null;}}
-   const checked=applyCorrectionReview(spec.validation.result,parsed),review={status:'completed',elapsedMs:Date.now()-started,usage:envelope.usage||null,providerCalls:input.length?1:0,raw:envelope,...checked};
-   await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{review}',$2::jsonb) WHERE id=$1::uuid",[caseRowId,JSON.stringify(review)]);
-   return response({case:{...spec,review}});
-  }
+  if(body.action==='review_corrections')return response({error:'AI Lab correction review disabled; raw model outputs are never filtered.'},410);
   if(body.action==='result'||['completed','failed','rejected'].includes(spec.status))return response({case:spec});
-  if(body.action==='evaluate_saved'&&spec.savedAttemptId){
-   const jobs=await db().query("SELECT input FROM public.speaking_evaluations WHERE attempt_id=$1::uuid AND user_id=$2::uuid",[spec.savedAttemptId,batches[0].admin_id]);
-   if(!jobs.length)return response({error:'Approved owned recording missing'},404);
-   const lease=await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{status}','\"running\"'::jsonb) WHERE id=$1::uuid AND result->>'status'='queued' RETURNING id",[caseRowId]);
-   if(!lease.length)return response({error:'Already claimed'},409);claimed=true;
-   const started=Date.now(),evaluation=await assessSpeaking(jobs[0].input,{captureRaw:true});
-   const result={...spec,status:'completed',elapsedMs:Date.now()-started,promptVersion:speakingQaPromptVersion,model:evaluation.model,usage:evaluation.usage,response:evaluation.result,providerCalls:1,source:'original_admin_owned_WAV_via_production_pipeline'};
-   await db().query('UPDATE public.ai_lab_runs SET result=$2::jsonb WHERE id=$1::uuid',[caseRowId,JSON.stringify(result)]);return response({case:result});
-  }
+  if(body.action==='evaluate_saved')return response({error:'AI Lab saved-audio production validator route disabled. Use raw Speaking comparison instead.'},410);
   if(spec.savedAttemptId)return response({error:'Use approved saved-recording action'},400);
   const prefix='qa-corpus/'+body.batchId+'/'+caseRowId+'/';
   if(body.action==='upload_chunk'){
@@ -85,8 +65,8 @@ export async function POST(req:NextRequest){
   // Never expose the configured credential, even if an upstream error reflects a header.
   envelope=JSON.parse(JSON.stringify(envelope).replaceAll(key,'[credential removed]'));
   let parsed:unknown=null;try{parsed=JSON.parse(envelope.choices?.[0]?.message?.content||'');}catch{}
-  const validation=spec.transportOnly?null:validateSpeakingQa(parsed,spec.files);
-  const result={...spec,status:upstream.ok&&parsed?'completed':'failed',finishedAt:new Date().toISOString(),promptVersion:approved.approvedPromptVersion||speakingQaPromptVersion,elapsedMs:Date.now()-started,httpStatus:upstream.status,audioBytes:total,usage:envelope.usage||null,providerCalls:1,raw:envelope,validation};
+  /* AI Lab preserves original model data without modifying scores, transcripts or corrections. */
+  const result={...spec,status:upstream.ok?'completed':'failed',finishedAt:new Date().toISOString(),promptVersion:approved.approvedPromptVersion||speakingQaPromptVersion,elapsedMs:Date.now()-started,httpStatus:upstream.status,audioBytes:total,usage:envelope.usage||null,providerCalls:1,raw:envelope,modelJson:parsed,rawModelText:envelope.choices?.[0]?.message?.content??null};
   await db().query('UPDATE public.ai_lab_runs SET result=$2::jsonb WHERE id=$1::uuid',[caseRowId,JSON.stringify(result)]);
   return response({case:result});
  }catch(e){
