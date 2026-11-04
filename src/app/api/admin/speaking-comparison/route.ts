@@ -14,7 +14,7 @@ export const runtime='nodejs';
 export const dynamic='force-dynamic';
 export const maxDuration=300;
 
-const SOURCE_EMAIL='masharzya1@gmail.com';
+const SOURCE_ATTEMPT_ID='d9cd80ff-4ee3-4114-9e4a-04a6da255045';
 const MODEL='xiaomi/mimo-v2.6-flash';
 const modes=['full','parts','questions'] as const;
 type Mode=(typeof modes)[number];
@@ -81,8 +81,8 @@ async function admin(){
 }
 async function source(){
  const rows=await db().query(
-  "SELECT e.attempt_id,e.input,a.title FROM public.speaking_evaluations e JOIN app_auth.users u ON u.id=e.user_id JOIN public.speaking_attempts a ON a.id=e.attempt_id WHERE lower(u.email)=lower($1) AND jsonb_typeof(e.input->'clips')='array' AND jsonb_array_length(e.input->'clips')=14 ORDER BY e.created_at DESC LIMIT 1",
-  [SOURCE_EMAIL]
+  "SELECT e.attempt_id,e.input,a.title FROM public.speaking_evaluations e JOIN app_auth.users u ON u.id=e.user_id JOIN public.speaking_attempts a ON a.id=e.attempt_id WHERE e.attempt_id=$1::uuid AND jsonb_typeof(e.input->'clips')='array' AND jsonb_array_length(e.input->'clips')=14 ORDER BY e.created_at DESC LIMIT 1",
+  [SOURCE_ATTEMPT_ID]
  );
  if(!rows.length)throw new AuthHttpError(404,'The saved 14-recording Speaking test could not be found');
  const clips=(rows[0].input as {clips:Clip[]}).clips;
