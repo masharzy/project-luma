@@ -61,6 +61,18 @@ const system=[
  'Keep explanations short. Aim for compact responses while preserving FULL literal transcripts for all provided clips. Do not output audio base64, hidden reasoning, markdown, HTML or any keys.',
 ].join('\n\n');
 
+function modelJsonFormat(){
+ const schema=z.toJSONSchema(output) as Record<string,unknown>;
+ delete schema.$schema;
+ const strict=(node:unknown)=>{
+  if(!node||typeof node!=='object')return;
+  const obj=node as Record<string,unknown>;
+  if(obj.type==='object'&&obj.properties){obj.additionalProperties=false;obj.required=Object.keys(obj.properties as object);}
+  for(const value of Object.values(obj)){if(Array.isArray(value))value.forEach(strict);else if(value&&typeof value==='object')strict(value);}
+ };
+ strict(schema);
+ return {type:'json_schema',json_schema:{name:'speaking_14_comparison',strict:true,schema}};
+}
 function label(e:unknown){const s=e instanceof Error?e.message:'';return /timeout|abort/i.test(s)?'provider_timeout':/invalid.*json|unexpected token/i.test(s)?'provider_invalid_json':'evaluation_failed';}
 async function admin(){
  const session=await readSession();
@@ -129,7 +141,7 @@ async function perform(clips:Clip[],mode:Mode) {
  const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{
   method:'POST',
   headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine 14 Recording Speaking Comparison'},
-  body:JSON.stringify({model:MODEL,max_tokens:maximum,temperature:0.1,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},response_format:{type:'json_object'},messages:[{role:'system',content:system},{role:'user',content}]}),
+  body:JSON.stringify({model:MODEL,max_tokens:maximum,temperature:0.1,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},response_format:modelJsonFormat(),messages:[{role:'system',content:system},{role:'user',content}]}),
   signal:AbortSignal.timeout(240000)
  });
  const elapsedMs=Date.now()-started;
@@ -184,7 +196,8 @@ function calculate(mode:Mode,clips:Clip[],items:Array<Record<string,any>>){
  const completed=items.filter(r=>r?.status==='completed').length;
  const failed=items.filter(r=>r?.status==='failed').length;
  const sum=items.reduce((a,r)=>a+(typeof r?.usage?.costUsd==='number'?r.usage.costUsd:0),0);
- const costKnown=items.every(r=>r?.status==='queued'||r?.status==='running'||typeof r?.usage?.costUsd==='number');
+ const billed=items.filter(r=>r?.status==='completed'||r?.status==='failed');
+ const costKnown=billed.length>0&&billed.every(r=>typeof r?.usage?.costUsd==='number');
  return {criteria:criterionBands,overallBand:overall,partBreakdown:mode==='full'?null:partBreakdown,completed,failed,total:items.length,costUsd:costKnown?sum:null,estimatedOnly:true,method:mode==='full'?'Single holistic assessment. Server calculates mean of criteria.':'Part-balanced .30/.35/.35 aggregation of provisional rubric criterion bands; per-question scores weighted by capped speech duration. Withhold bands when an entire part lacks sufficient supported evidence.'};
 }
 export async function GET(){
@@ -226,6 +239,10 @@ export async function POST(req:NextRequest){
    try{result={...current,...await perform(group.clips,mode),finishedAt:new Date().toISOString()};}
    catch(e){result={...current,status:'failed',error:label(e),finishedAt:new Date().toISOString()};}
    await db().query('UPDATE public.ai_lab_runs SET result=jsonb_set(result,$2::text[],$3::jsonb,true) WHERE id=$1::uuid',[batchId,path,JSON.stringify(result)]);
+   const refreshed=await db().query('SELECT result->\'runs\' AS runs FROM public.ai_lab_runs WHERE id=$1::uuid',[batchId]);
+   const nextRuns=refreshed[0]?.runs as Record<Mode,Array<{status:string}>>|undefined;
+   if(nextRuns&&modes.every(m=>nextRuns[m].every(item=>item.status==='completed'||item.status==='failed')))
+    await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{status}','\"completed\"'::jsonb,true) WHERE id=$1::uuid",[batchId]);
    return json({case:result});
   }
   if(body.action!=='start')throw new AuthHttpError(400,'Unknown comparison action');
