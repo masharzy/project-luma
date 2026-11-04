@@ -28,7 +28,7 @@ export async function processMockEvaluation(attemptId:string,module:'writing'|'s
  if(writing.status==='ai_running'&&new Date(writing.aiLeaseUntil).getTime()>Date.now())throw Error('Mock evaluation lease active');
  const tries=Number(writing.aiTries||0)+1;
  const claim=await db().query(`WITH event_lock AS (SELECT id FROM public.mock_events WHERE id=$2 AND results_published_at IS NULL FOR UPDATE)
- UPDATE public.exam_attempts a SET results=jsonb_set(a.results,'{${index}}',(a.results->${index})||jsonb_build_object('status','ai_running','aiTries',$3::integer,'aiLeaseUntil',now()+interval '180 seconds'))
+ UPDATE public.exam_attempts a SET results=jsonb_set(a.results,'{${index}}',(a.results->${index})||jsonb_build_object('status','ai_running','aiTries',$3::integer,'aiLeaseUntil',now()+interval '${module==='speaking'?360:180} seconds'))
  FROM event_lock e WHERE a.id=$1::uuid AND a.parent_id=e.id AND a.current_index>=${index+1} AND (a.results->${index}->>'status'='unmarked' OR (a.results->${index}->>'status'='ai_running' AND (a.results->${index}->>'aiLeaseUntil')::timestamptz<now())) RETURNING a.id`,[attemptId,row.parent_id,tries]);
  if(!claim.length)throw Error('Mock evaluation changed; retry');
  let patch:Record<string,unknown>;
@@ -46,7 +46,7 @@ export async function processMockEvaluation(attemptId:string,module:'writing'|'s
   }
  }catch(error){
   console.warn('Mock Writing evaluation failed',evaluationDiagnostic(error));
-  patch={status:tries>=3?'ai_failed':'unmarked',feedback:'AI evaluation could not finish. An administrator can retry or review this paper.'};
+  patch={status:tries>=3||(error as {retryable?:boolean})?.retryable===false?'ai_failed':'unmarked',feedback:'AI evaluation could not finish. An administrator can retry or review this paper.'};
  }
  await db().query(`WITH event_lock AS (SELECT id FROM public.mock_events WHERE id=$2 AND results_published_at IS NULL FOR UPDATE)
  UPDATE public.exam_attempts a SET results=jsonb_set(a.results,'{${index}}',(a.results->${index})||$3::jsonb)
