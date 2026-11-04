@@ -5,7 +5,7 @@ import type {SpeakingAssessment} from '@/lib/products/speaking-provider';
 import {feedbackAnswers,feedbackSpans,transcriptLines,type FeedbackAnswer} from '@/lib/products/speaking-feedback-data';
 import styles from './speaking-feedback.module.css';
 type Question={step:number;part:number;question:string};
-type Job={status:string;result:SpeakingAssessment|null};
+type Job={status:string;result:SpeakingAssessment|null;error_code?:string};
 const number=(v:number|null|undefined)=>typeof v==='number'&&Number.isFinite(v)?v.toFixed(1):'—';
 const criteria=[['Fluency & coherence','FC','fluency'],['Lexical resource','LR','lexicalResource'],['Grammar & accuracy','GRA','grammar'],['Pronunciation','PR','pronunciation']] as const;
 function Transcript({answer}:{answer:FeedbackAnswer}){
@@ -45,7 +45,7 @@ export function SpeakingFeedback({id,questions=[]}:{id:string;questions?:Questio
   {loading&&<div className={styles.loading} role="status"><span className={styles.eyebrow}>Your speaking review</span><h2>Loading your feedback…</h2></div>}
   {!loading&&(!job||job.status==='pending')&&<div className={styles.notice}><h2>Your recordings are ready.</h2><p>Submit your saved answers for a complete review.</p><button className={styles.button} disabled={busy} onClick={()=>void retry()}>{busy?'Submitting…':'Submit / resume evaluation'} <ArrowUpRight size={16}/></button></div>}
   {job&&['pending','running'].includes(job.status)&&<div className={styles.notice} role="status"><h2>Your speaking is being reviewed.</h2><p>You can leave this page and return from Dashboard Results. Your saved recordings will stay with your attempt.</p></div>}
-  {job?.status==='failed'&&<div className={styles.notice}><h2>Your evaluation could not be completed.</h2><p>Your recordings are saved and the evaluation allowance has been returned.</p></div>}
+  {job?.status==='failed'&&<div className={styles.notice}><h2>{job.error_code==='INCOMPLETE_ANSWER_COVERAGE'?'Some answers were not fully transcribed.':'Your evaluation could not be completed.'}</h2><p>{job.error_code==='INCOMPLETE_ANSWER_COVERAGE'?'The incomplete response was not accepted as a full-test result. ':''}Your recordings are saved and the evaluation allowance has been returned.</p></div>}
   {job?.status==='completed'&&result&&<>
    <div className={styles.hero}><div className={styles.heroCopy}><span className={styles.heroEyebrow}><Sparkles size={14}/> Your speaking review</span><h2>Your voice.<br/>A clearer next step.</h2><p>{result.summary}</p><a href="#speaking-transcript">Explore your transcript <ArrowDown size={15}/></a></div><div className={styles.overall}><span>Overall band estimate</span><strong>{number(result.estimatedBand)}</strong><span className={styles.bandScale}>/ 9.0</span><p>{result.estimatedBand===null?'Limited evidence · no full-test band':'IELTS Speaking · practice estimate'}</p><small>AI feedback · not an official IELTS result</small></div></div>
    <div className={styles.scoreGrid}>{criteria.map(([name,code,key])=>{const c=result[key];return <a href={'#criterion-'+key} className={styles.scoreCard} key={key}><div><span>{code}</span><ArrowUpRight size={16}/></div><strong>{number(c.band)}</strong><h3>{name}</h3><meter min={0} max={9} value={c.band??0} aria-label={`${name}: ${number(c.band)} out of 9`}/></a>;})}</div>
