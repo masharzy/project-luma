@@ -76,29 +76,6 @@ function clippedWav(src: Buffer): { audio: Buffer; applied: string } {
  b.writeUInt32LE(b.length-8,4); b.writeUInt32LE(even,info.dataStart-4);
  return {audio:b,applied:'first ~1.2 seconds of source WAV'};
 }
-function checks(data: unknown, steps: number[]) {
- const problems: string[]=[];const o=data as Record<string,unknown>;
- if(!o||typeof o!=='object')return {passed:false,problems:['Not a JSON object'],computedOverall:null};
- const ts=Array.isArray(o.transcripts)?o.transcripts as Array<Record<string,unknown>>:[];
- if(ts.length!==steps.length||steps.some(s=>ts.filter(t=>t.step===s).length!==1))problems.push('Transcript count/step mismatch');
- for(const t of ts){const original=typeof t.verbatim==='string'?t.verbatim:'';
-  if(typeof t.verbatim!=='string')problems.push('Missing transcript for step '+t.step);
-  const corrections=Array.isArray(t.corrections)?t.corrections as Array<Record<string,unknown>>:[];
-  if(corrections.length>3)problems.push('Too many corrections on step '+t.step);
-  for(const c of corrections){
-   if(typeof c.original!=='string'||!original.includes(c.original)||!c.original)problems.push('Unquoted correction on step '+t.step);
-   if(c.original===c.corrected)problems.push('Unchanged correction on step '+t.step);
-  }
-  if(['no_speech','unintelligible_audio','technical_failure'].includes(String(t.speech_status))&&corrections.length)problems.push('Correction on ungradable step '+t.step);
- }
- const cs=o.criteria as Record<string, {band?: unknown}>|undefined;
- const bands=['fluency_coherence','lexical_resource','grammar','pronunciation'].map(k=>cs?.[k]?.band);
- const valid=bands.every(x=>typeof x==='number'&&Number.isFinite(x)&&x>=0&&x<=9&&x*2===Math.round(x*2));
- const computedOverall=valid?Math.round((bands as number[]).reduce((a,b)=>a+b,0)/4*2)/2:null;
- if(computedOverall!==null&&o.overall_band!==computedOverall)problems.push('Model overall differs from deterministic rounding');
- if(computedOverall===null&&o.overall_band!==null)problems.push('Overall band must be withheld without four valid criteria');
- return {passed:problems.length===0,problems,computedOverall};
-}
 function safeFailure(e: unknown) {
  if(e instanceof DOMException&&e.name==='TimeoutError')return 'timeout';
  return e instanceof Error&&/abort|timeout/i.test(e.message)?'timeout':'network_or_provider_failure';
@@ -127,12 +104,16 @@ async function evaluate(test: TestCase, clips: Clip[], all: Buffer[], key: strin
  try {
   const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Speaking QA'},body:JSON.stringify({model:MODEL,max_tokens:6500,temperature:0.1,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},response_format:{type:'json_object'},messages:[{role:'system',content:PROMPT},{role:'user',content:payloadContents}]}),signal:ctl.signal});
   const elapsedMs=Date.now()-started;
-  if(!resp.ok)return {id:test.id,label:test.label,status:'failed',httpStatus:resp.status,elapsedMs,modification,error:'provider_http_'+resp.status};
-  const body=await resp.json() as {model?:string;usage?:unknown;choices?:Array<{message?:{content?:string}}>};
-  const raw=body.choices?.[0]?.message?.content||'';
-  let parsed:unknown=null,validation:ReturnType<typeof checks>|null=null;
-  try{parsed=JSON.parse(raw);validation=checks(parsed,samples.map(x=>x.step));}catch{validation={passed:false,problems:['Invalid JSON response'],computedOverall:null};}
-  return {id:test.id,label:test.label,status:'completed',httpStatus:resp.status,elapsedMs,modification,model:body.model||MODEL,usage:body.usage||null,validation,response:parsed,rawPreview:parsed?undefined:raw.slice(0,500)};
+  // AI Lab stores the provider output unchanged. Never validate away or overwrite model content.
+  const providerText=await resp.text();
+  let body:Record<string,any>;
+  try{body=JSON.parse(providerText);}catch{body={rawProviderText:providerText.slice(0,120000)};}
+  const raw=typeof body.choices?.[0]?.message?.content==='string'?body.choices[0].message.content:'';
+  let parsed:unknown=null;
+  try{parsed=JSON.parse(raw);}catch{}
+  return {id:test.id,label:test.label,status:resp.ok?'completed':'failed',httpStatus:resp.status,elapsedMs,modification,
+   model:body.model||MODEL,usage:body.usage||null,response:parsed,rawModelText:raw,providerResponse:body,
+   ...(resp.ok?{}:{error:'provider_http_'+resp.status})};
  }catch(e){return {id:test.id,label:test.label,status:'failed',elapsedMs:Date.now()-started,modification,error:safeFailure(e)};}
  finally{clearTimeout(timer);}
 }
