@@ -6,8 +6,8 @@ WORKDIR /app
 COPY tsconfig.json ./
 COPY src/lib ./src/lib
 COPY services/speaking-worker ./services/speaking-worker
-RUN cd services/speaking-worker && npm run build
+RUN cd services/speaking-worker && npm run build && npm run test:audio
 ENV NODE_ENV=production
 WORKDIR /app/services/speaking-worker
 EXPOSE 10000
-CMD ["node","dist/worker.cjs"]
+CMD ["node","dist/worker.mjs"]
