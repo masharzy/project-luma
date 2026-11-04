@@ -38,3 +38,5 @@ export function validateSpeakingQa(raw:unknown,clips:QaClip[]){
  result.overall_band=computed;result.scorable=computed!==null;
  return {accepted:true,issues,result};
 }
+
+export function speakingQaJsonFormat(){const schema=z.toJSONSchema(speakingQaSchema) as Record<string,unknown>;delete schema.$schema;function strict(n:unknown){if(!n||typeof n!=='object')return;const o=n as Record<string,unknown>;if(o.type==='object'&&o.properties){o.additionalProperties=false;o.required=Object.keys(o.properties as object);}for(const v of Object.values(o)){if(Array.isArray(v))v.forEach(strict);else if(v&&typeof v==='object')strict(v);}}strict(schema);return {type:'json_schema',json_schema:{name:'speaking_evaluation',strict:true,schema}};}
