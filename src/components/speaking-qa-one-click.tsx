@@ -19,17 +19,54 @@ export function SpeakingQaOneClick() {
  const [message,setMessage]=useState('');
  const [loading,setLoading]=useState(true);
  const alive=useRef(true);
+ const running=useRef(false);
+ const resumedBatch=useRef('');
+ async function refreshOnce() {
+  const r=await fetch('/api/admin/speaking-qa',{cache:'no-store'});
+  if(!r.ok)throw new Error('Could not load the test history');
+  const d=await r.json() as {runs:Batch[]};
+  if(alive.current)setRuns(d.runs||[]);
+  return d.runs||[];
+ }
+ async function processBatch(batch: Batch) {
+  if(running.current||resumedBatch.current===batch.id)return;
+  const pending=(batch.cases||[]).map((c,i)=>c.status==='queued'?i:-1).filter(i=>i>=0);
+  if(!pending.length)return;
+  running.current=true;
+  resumedBatch.current=batch.id;
+  setBusy(true);
+  setMessage('Running '+pending.length+' Speaking QA cases with MiMo Flash. Keep this browser tab open until finished.');
+  try{
+   const workers=Array.from({length:Math.min(2,pending.length)},(_,worker)=>(async()=>{
+    for(let i=worker;i<pending.length;i+=2){
+     const index=pending[i];
+     try{
+      const r=await fetch('/api/admin/speaking-qa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'run_case',batchId:batch.id,index})});
+      const d=await r.json();
+      if(!r.ok&&r.status!==409)throw Error(d.error||'Case request failed');
+      if(!r.ok&&r.status===409)continue;
+      if(alive.current)setMessage('Finished '+(index+1)+'/5: '+(d.case?.status==='completed'?'Model response saved':'Model test failed')+'. Results saved automatically.');
+      await refreshOnce();
+     }catch(e) {if(alive.current)setMessage('A request failed: '+(e instanceof Error?e.message:'Unknown problem')+'. Remaining queued tests can resume when the page is reopened.');}
+    }
+   })());
+   await Promise.all(workers);
+   const finalRuns=await refreshOnce();
+   if(alive.current&&finalRuns[0]?.status==='completed')setMessage('All five tests finished. Results are saved in AI Lab database.');
+  }finally{running.current=false;setBusy(false);}
+ }
 
  useEffect(()=>{
   alive.current=true;
   async function refresh() {
-   try {
-    const r=await fetch('/api/admin/speaking-qa',{cache:'no-store'});
-    if(!r.ok) throw new Error('Could not load the test history');
-    const d=await r.json();
-    if(alive.current) setRuns(d.runs||[]);
-   }catch(e) {if(alive.current)setMessage(e instanceof Error?e.message:'Could not load QA status');}
-   finally {if(alive.current)setLoading(false);}
+   try{
+    const batches=await refreshOnce();
+    const latest=batches[0];
+    if(latest?.status==='running'&&latest.cases?.some(c=>c.status==='queued')&&!running.current&&resumedBatch.current!==latest.id){
+     void processBatch(latest);
+    }
+   }catch(e){if(alive.current)setMessage(e instanceof Error?e.message:'Could not load QA status');}
+   finally{if(alive.current)setLoading(false);}
   }
   void refresh();
   const interval=window.setInterval(()=>void refresh(),5000);
@@ -42,11 +79,12 @@ export function SpeakingQaOneClick() {
    const r=await fetch('/api/admin/speaking-qa',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
    const d=await r.json();
    if(!r.ok)throw new Error(d.error||'Unable to start the batch');
-   setMessage(d.alreadyRunning?'An existing QA batch is running.':'Five model tests started. Results are saved automatically.');
-   const latest=await fetch('/api/admin/speaking-qa',{cache:'no-store'});
-   if(latest.ok) setRuns((await latest.json()).runs||[]);
+   const batches=await refreshOnce();
+   const latest=batches.find(b=>b.id===d.id);
+   if(latest)void processBatch(latest);
+   else setMessage('QA batch created, reload AI Lab to resume.');
   }catch(e){setMessage(e instanceof Error?e.message:'The test could not start');}
-  finally{setBusy(false);}
+  finally{if(!running.current)setBusy(false);}
  }
  function exportReport(run:Batch) {
   const raw=JSON.stringify(run,null,2);
@@ -66,7 +104,7 @@ export function SpeakingQaOneClick() {
     {busy?'Starting…':active?'Testing in progress…':'Run 5 Speaking QA Tests'}
    </button>
   </div>
-  <p className="adm-note" style={{margin:'12px 0 0'}}>Admin-only · Maximum five paid OpenRouter calls per run · No automatic retries · One new batch per hour · Previous Speaking UI unchanged.</p>
+  <p className="adm-note" style={{margin:'12px 0 0'}}>Admin-only · Maximum five paid OpenRouter calls per run · No automatic retries · One new batch per hour · Keep this tab open during testing · Previous Speaking UI unchanged.</p>
   <p role="status" aria-live="polite" style={{margin:'8px 0'}}>{message}</p>
   {current&&<div style={{borderTop:'1px solid var(--border, #dedede)',paddingTop:12,marginTop:12}}>
    <div style={{display:'flex',flexWrap:'wrap',justifyContent:'space-between',gap:8,alignItems:'center'}}>
