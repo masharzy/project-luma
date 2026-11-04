@@ -16,7 +16,7 @@ export async function failSpeaking(id:string,code='EVALUATION_FAILED'){
 export async function processSpeaking(id:string){
  if(!/^[a-f0-9-]{36}$/.test(id))throw Error('Invalid job');
  // Never make a second paid OpenRouter request automatically for the same attempt.
- const row=(await db().query("UPDATE public.speaking_evaluations SET status='running',tries=tries+1,lease_until=now()+interval '1860 seconds',updated_at=now() WHERE id=$1 AND tries<1 AND status='pending' RETURNING input,tries",[id]))[0];
+ const row=(await db().query("UPDATE public.speaking_evaluations SET status='running',tries=tries+1,lease_until=now()+interval '360 seconds',updated_at=now() WHERE id=$1 AND tries<1 AND status='pending' RETURNING input,tries",[id]))[0];
  if(!row){
   const state=(await db().query('SELECT status,tries,lease_until FROM public.speaking_evaluations WHERE id=$1',[id]))[0];
   if(state?.status==='running'&&new Date(String(state.lease_until)).getTime()>Date.now())return;
