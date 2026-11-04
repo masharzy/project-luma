@@ -25,3 +25,28 @@ test('provider schema requires exactly the submitted count and restricts step ID
  const schema=provider.modelJsonFormat(steps).json_schema.schema.properties.answers;
  assert.equal(schema.minItems,15);assert.equal(schema.maxItems,15);assert.deepEqual(schema.items.properties.step.enum,steps);
 });
+const {speakingEvidenceIssues}=coverage;
+const evidenceAnswer=()=>({...answer(0),uncertain:[],corrections:[],strengths:[],pronunciation:[]});
+const model=a=>({answers:[a],criteria:{grammar:{band:6,evidence:[{step:0,quote:a.verbatim}]}}});
+test('evidence guards reject invented quotes and missing criterion support without mutating raw output',()=>{
+ const a=evidenceAnswer();a.corrections=[{original:'unheard words',corrected:'replacement'}];
+ const m=model(a),before=structuredClone(m);
+ assert(speakingEvidenceIssues(m,[{step:0,seconds:5}]).includes('correction_not_verbatim:0'));
+ assert.deepEqual(m,before);
+ m.criteria.grammar.evidence=[];assert(speakingEvidenceIssues(m,[]).includes('criterion_without_evidence:grammar'));
+});
+test('silence, uncertain hearing, unchanged edits and out-of-range timestamps cannot become feedback',()=>{
+ const a=evidenceAnswer();a.verbatim='I enjoy to go. [unclear]';a.uncertain=['[unclear]'];
+ a.corrections=[{original:'[unclear]',corrected:'London'},{original:'I',corrected:'I'}];
+ a.pronunciation=[{word:'enjoy',timestamp_seconds:12}];
+ const errors=speakingEvidenceIssues(model(a),[{step:0,seconds:5}]);
+ assert(errors.includes('correction_on_uncertain_speech:0'));assert(errors.includes('unchanged_correction:0'));assert(errors.includes('timestamp_out_of_bounds:0'));
+ const silent={...evidenceAnswer(),verbatim:'',speech_status:'no_speech',strengths:[{quote:'Great answer'}]};
+ assert(speakingEvidenceIssues({answers:[silent],criteria:{}},[]).includes('feedback_on_silence:0'));
+});
+test('all supported corrections remain allowed, including more than three per answer',()=>{
+ const a=evidenceAnswer();a.corrections=Array.from({length:8},()=>({original:'I can',corrected:'I could'}));
+ assert.deepEqual(speakingEvidenceIssues(model(a),[{step:0,seconds:5}]),[]);
+ const provider=load('../src/lib/products/speaking-provider.ts',id=>id==='zod'?require(id):id==='./speaking-coverage'?coverage:{});
+ assert.equal(provider.modelJsonFormat([0]).json_schema.schema.properties.answers.items.properties.corrections.maxItems,undefined);
+});
