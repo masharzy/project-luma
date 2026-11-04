@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './speaking-comparison.css';
 
-type Mode='full'|'parts'|'questions';
+type Mode='full'|'parts';
 type Criterion='fluency_coherence'|'lexical_resource'|'grammar'|'pronunciation';
 type ClipMeta={step:number;part:number;question:string;seconds:number};
 type Correction={original:string;corrected:string;category:'grammar'|'vocabulary'|'coherence';reason:string;confidence:string};
@@ -17,12 +17,12 @@ type Summary={criteria:Record<Criterion,number|null>;overallBand:number|null;com
 type Batch={id:string;createdAt:string;status:string;sourceTitle:string;model:string;runs:Record<Mode,CaseResult[]>;summaries:Record<Mode,Summary>};
 type Data={source:{title:string;clips:ClipMeta[]};model:string;runs:Batch[];error?:string};
 
-const modeLabels:Record<Mode,string>={full:'All questions · 1 API call',parts:'Part-wise · 3 API calls',questions:'Question-wise · 14 API calls'};
+const modeLabels:Record<Mode,string>={full:'All questions · 1 API call',parts:'Part-wise · 3 API calls'};
 const criterionNames:Record<Criterion,string>={fluency_coherence:'Fluency & Coherence',lexical_resource:'Lexical Resource',grammar:'Grammar',pronunciation:'Pronunciation'};
 const categories:Record<string,string>={grammar:'Grammar',vocabulary:'Vocabulary',coherence:'Coherence',pronunciation:'Pronunciation',strength:'Strong expression',uncertain:'Unclear'};
 const criteriaKeys:Criterion[]=['fluency_coherence','lexical_resource','grammar','pronunciation'];
-const modeOrder:Mode[]=['full','parts','questions'];
-const money=(v:number|null|undefined)=>v===null||v===undefined?'Not provided':('$'+v.toFixed(7).replace(/0+$/,'').replace(/\.$/,''));
+const modeOrder:Mode[]=['full','parts'];
+const money=(v:number|null|undefined)=>v===null||v===undefined?'Not provided':('≈৳'+(v*124.35).toFixed(4));
 const score=(v:number|null|undefined)=>typeof v==='number'?v.toFixed(1):'Withheld';
 const duration=(seconds:number)=>(seconds/60).toFixed(1)+' min';
 
@@ -147,11 +147,11 @@ export function SpeakingComparisonLab(){
  const allDone=latest&&modeOrder.every(m=>latest.runs[m].every(x=>x.status==='completed'||x.status==='failed'));
  return <section className="workspace-panel sc-wrap" aria-label="Speaking 14 recording model comparison">
   <div className="sc-head">
-   <div><h2>Speaking · 14 recordings comparison</h2><p>Use the existing saved IELTS speaking attempt. Compare MiMo Flash using 1 full request, 3 part requests, and 14 question requests.</p></div>
-   <button type="button" className="sc-primary" onClick={()=>void start()} disabled={busy||loading||Boolean(latest&&!allDone)}>{busy?'Running…':latest&&!allDone?'Running saved comparison…':'Run 3 Methods · 18 Requests'}</button>
+   <div><h2>Speaking · 14 recordings comparison</h2><p>Use the existing saved IELTS speaking attempt. Compare MiMo Flash using 1 full-test request or 3 separate Part requests, with official IELTS Speaking criteria and JSON output.</p></div>
+   <button type="button" className="sc-primary" onClick={()=>void start()} disabled={busy||loading||Boolean(latest&&!allDone)}>{busy?'Running…':latest&&!allDone?'Running saved comparison…':'Run 2 Methods · 4 Requests'}</button>
   </div>
   {data?.source&&<p className="sc-note"><strong>{data.source.title}</strong> · {data.source.clips.length} original recordings · {new Set(data.source.clips.map(x=>x.part)).size} parts · {data.model}</p>}
-  <p className="sc-note">18 potentially billable provider requests. No automatic retry. Each result and its actual provider-reported cost are saved in AI Lab. Leave this tab open during testing.</p>
+  <p className="sc-note">Four potentially billable provider requests (1 full test + 3 parts). No automatic retry. Each result and its actual provider-reported cost are saved in AI Lab. Leave this tab open during testing. BDT costs are approximate at reference rate ৳124.35/USD; original OpenRouter USD costs remain saved.</p>
   <p role="status" aria-live="polite" className="sc-status-message">{message||(!latest?'Ready to start. No paid tests run by opening the page.':'Comparison history loaded.')}</p>
   {latest&&<>
    <div className="sc-switch" role="group" aria-label="Choose evaluation method">{modeOrder.map(m=><button key={m} type="button" onClick={()=>setMode(m)} aria-pressed={mode===m} className={mode===m?'sc-selected':''}>{modeLabels[m]}</button>)}</div>
