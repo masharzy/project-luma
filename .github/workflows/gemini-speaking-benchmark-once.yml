@@ -1,0 +1,39 @@
+name: Gemini speaking one-shot benchmark
+on:
+  push:
+    branches: [master]
+    paths:
+      - .github/workflows/gemini-speaking-benchmark-once.yml
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Wait until the deployed endpoint is available
+        shell: bash
+        run: |
+          for i in $(seq 1 38); do
+            status=$(curl -sS --max-time 12 -o /dev/null -w '%{http_code}' 'https://jumptonine.com/api/internal/gemini-speaking-benchmark' || true)
+            if [ "$status" = "200" ]; then
+              echo 'Benchmark endpoint is deployed'
+              exit 0
+            fi
+            echo "Endpoint not yet deployed (HTTP $status)"
+            sleep 15
+          done
+          echo 'Endpoint deployment did not become available'
+          exit 1
+      - name: Invoke one authorized full speaking test
+        shell: bash
+        run: |
+          set -euo pipefail
+          token_json=$(curl -fsS --max-time 15 -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=jumptonine-gemini-speaking-benchmark-once")
+          token=$(printf '%s' "$token_json" | jq -r '.value')
+          test -n "$token"
+          # The endpoint atomically claims the DB record and never calls the provider twice.
+          curl -fsS --max-time 295 -X POST 'https://jumptonine.com/api/internal/gemini-speaking-benchmark' \
+            -H "Authorization: Bearer $token" -H 'Content-Type: application/json' \
+            -d '{"action":"run-once"}' | jq '{status,id,httpStatus,modelJson,usage,providerCalled,error}'
