@@ -8,7 +8,6 @@ import { db } from '@/lib/auth/db';
 import { getKey } from '@/lib/ai-lab/secrets';
 import { speakingMp3 } from '@/lib/products/speaking-audio';
 import { getPrivate } from '@/lib/products/storage';
-import { computedSpeakingBand } from '@/lib/products/speaking-qa-validation';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -112,6 +111,10 @@ async function perform(clips:Clip[],mode:Mode) {
  // AI Lab is an unfiltered experiment: retain the model's JSON exactly as received.
  // Never blank transcripts, remove corrections, overwrite bands or reject a result based on evaluator heuristics.
  return {status:'completed',httpStatus:resp.status,elapsedMs,audioBytes,usage,model:body.model||MODEL,finishReason:body.choices?.[0]?.finish_reason||null,assessment:raw,rawModelResponse:raw};
+}
+function computedSpeakingBand(values:(number|null)[]){
+ if(values.length!==4||values.some(v=>typeof v!=='number'||!Number.isFinite(v)||v<0||v>9||v*2!==Math.round(v*2)))return null;
+ return Math.round(values.reduce<number>((sum,v)=>sum+(v??0),0)/4*2)/2;
 }
 function calculate(mode:Mode,clips:Clip[],items:Array<Record<string,any>>){
  const parts=[1,2,3];
