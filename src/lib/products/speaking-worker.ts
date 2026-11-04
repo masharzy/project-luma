@@ -2,6 +2,7 @@ import 'server-only';
 import { evaluationDiagnostic } from '@/lib/evaluation/diagnostic';
 import { db } from '@/lib/auth/db';
 import { assessSpeaking } from './speaking-provider';
+import { speakingModel } from './speaking-model';
 
 /** A failed Speaking assessment always refunds the reserved evaluation allowance. */
 export async function failSpeaking(id:string,code='EVALUATION_FAILED'){
@@ -37,7 +38,7 @@ export async function processSpeaking(id:string,options:Parameters<typeof assess
   // Keep billed provider response, even if JSON parsing fails. No retry, no second charge.
   const report=(error as {providerReport?:unknown})?.providerReport;
   if(report){
-   try{await db().query("UPDATE public.speaking_evaluations SET usage=$2::jsonb,model='xiaomi/mimo-v2.6-flash',updated_at=now() WHERE id=$1 AND status='running'",[id,JSON.stringify({rawFailure:report})]);}
+   try{await db().query("UPDATE public.speaking_evaluations SET usage=$2::jsonb,model=$3,updated_at=now() WHERE id=$1 AND status='running'",[id,JSON.stringify({rawFailure:report}),speakingModel]);}
    catch{console.warn('Unable to save failed Speaking raw response');}
   }
   const code=(report as {failureCode?:string}|undefined)?.failureCode==='INCOMPLETE_ANSWER_COVERAGE'?'INCOMPLETE_ANSWER_COVERAGE':'EVALUATION_FAILED';

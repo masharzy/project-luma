@@ -1,6 +1,6 @@
 # Speaking-only worker (Render or VPS)
 
-Runs the existing MiMo Speaking pipeline without Vercel's request duration limit. The website, uploads, authentication, Writing and results UI remain on Vercel. Audio remains in R2 and job/results remain in Neon. Only the Speaking processor runs here; this image does not build or serve Next.js.
+Runs the Gemini 3.1 Pro Speaking pipeline without Vercel's request duration limit. The website, uploads, authentication, Writing and results UI remain on Vercel. Audio remains in R2 and job/results remain in Neon. Only the Speaking processor runs here; this image does not build or serve Next.js.
 
 Render: create a Docker web service from this repository, Dockerfile `services/speaking-worker/Dockerfile`, build context repository root, health path `/health`. The blueprint is `services/speaking-worker/render.yaml`. Set the private variables from `.env.example`; use the existing database URL and application origin, and generate a fresh shared worker token (at least 32 random characters). The authenticated context endpoint supplies the provider key in memory and short-lived signed recording URLs for each pending job; the R2 credentials and vault master key stay on Vercel. Never commit values.
 
