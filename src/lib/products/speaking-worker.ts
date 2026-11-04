@@ -24,7 +24,13 @@ export async function processSpeaking(id:string){
   return;
  }
  try{
-  const {result,usage,model}=await assessSpeaking(row.input);
+  let lastCheckpoint=0,seenId='';
+  const {result,usage,model}=await assessSpeaking(row.input,{onProgress:async envelope=>{
+   const now=Date.now();if(!envelope.id||(envelope.id===seenId&&now-lastCheckpoint<10000&&!envelope.usage))return;
+   seenId=envelope.id;lastCheckpoint=now;
+   // Persist partial answer/provider ID, so a platform interruption is diagnosable.
+   try{await db().query("UPDATE public.speaking_evaluations SET usage=$2::jsonb,updated_at=now() WHERE id=$1 AND status='running'",[id,JSON.stringify({providerRequestId:envelope.id,streaming:true,lastProgressAt:new Date(now).toISOString(),usage:envelope.usage||null,rawPartial:envelope})]);}catch{console.warn('Speaking stream checkpoint unavailable');}
+  }});
   await db().query("UPDATE public.speaking_evaluations SET status='completed',result=$2::jsonb,usage=$3::jsonb,model=$4,lease_until=NULL,updated_at=now() WHERE id=$1 AND status='running' AND tries=$5",[id,JSON.stringify(result),JSON.stringify(usage),model,row.tries]);
  }catch(error){
   console.warn('Speaking evaluation failed',evaluationDiagnostic(error));
