@@ -12,7 +12,7 @@ type Strength={quote:string;why:string};
 type Answer={step:number;verbatim:string;speech_status:string;corrections:Correction[];pronunciation:Pronunciation[];strengths:Strength[];uncertain:string[]};
 type Criteria={band:number|null;reason:string;evidence:Array<{step:number;quote:string;reason:string}>};
 type Assessment={answers:Answer[];criteria:Record<Criterion,Criteria>;accent:{description:string;intelligibility:string;observations:string[]};summary:string;next_steps:string[];limitations:string[];confidence:string};
-type CaseResult={index:number;part:number;steps:number[];status:string;error?:string;issues?:string[];elapsedMs?:number;httpStatus?:number;usage?:{costUsd:number|null;promptTokens:number|null;completionTokens:number|null;totalTokens:number|null};assessment?:Assessment};
+type CaseResult={index:number;part:number;steps:number[];status:string;error?:string;issues?:string[];elapsedMs?:number;httpStatus?:number;usage?:{costUsd:number|null;promptTokens:number|null;completionTokens:number|null;totalTokens:number|null};assessment?:Assessment;rawModelResponse?:unknown;rawModelText?:string};
 type Summary={criteria:Record<Criterion,number|null>;overallBand:number|null;completed:number;failed:number;total:number;costUsd:number|null;estimatedOnly:boolean;method:string;partBreakdown:Record<string,Record<string,number|null>>|null};
 type Batch={id:string;createdAt:string;status:string;sourceTitle:string;model:string;runs:Record<Mode,CaseResult[]>;summaries:Record<Mode,Summary>};
 type Data={source:{title:string;clips:ClipMeta[]};model:string;runs:Batch[];error?:string};
@@ -80,6 +80,7 @@ function Result({item,metadata}:{item:CaseResult;metadata:ClipMeta[]}){
     <details className="sc-inner"><summary>Criterion evidence, limitations & next steps</summary>{criteriaKeys.map(k=><div key={k} className="sc-detail"><h5>{criterionNames[k]} — {score(a.criteria[k].band)}</h5>{a.criteria[k].evidence.map((e,i)=><p key={i} className="sc-evidence">Question {e.step+1}: <strong>“{e.quote}”</strong> — {e.reason}</p>)}</div>)}{a.limitations?.length>0&&<p><b>Limitations:</b> {a.limitations.join(' ')}</p>}{a.next_steps?.length>0&&<p><b>Next steps:</b> {a.next_steps.join(' · ')}</p>}</details>
    </>}
    {(item.issues?.length||0)>0&&<details className="sc-inner"><summary>{item.issues?.length} validation warnings</summary><p className="sc-muted">{item.issues?.join(' · ')}</p></details>}
+   {item.rawModelResponse!==undefined&&<details className="sc-inner"><summary>Original model JSON</summary><pre className="sc-raw-json">{JSON.stringify(item.rawModelResponse,null,2)}</pre></details>}
    {item.usage&&<div className="sc-muted">Provider usage: {item.usage.promptTokens??'—'} prompt + {item.usage.completionTokens??'—'} completion tokens. OpenRouter billed cost {money(item.usage.costUsd)}.</div>}
   </div>
  </details>;
