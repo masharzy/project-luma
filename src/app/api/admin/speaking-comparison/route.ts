@@ -176,7 +176,7 @@ function calculate(mode:Mode,clips:Clip[],items:Array<Record<string,any>>){
   if(values.some(v=>v===null||typeof v!=='number'))criterionBands[criterionKey]=null;
   else {
    const weights=[.30,.35,.35];
-   criterionBands[criterionKey]=Math.round(values.reduce((s,v,i)=>s+(v as number)*weights[i],0)*2)/2;
+   criterionBands[criterionKey]=Math.round(values.reduce<number>((s,v,i)=>s+(typeof v==='number'?v:0)*weights[i],0)*2)/2;
   }
  }
  const bands=criterionNames.map(k=>criterionBands[k]);
