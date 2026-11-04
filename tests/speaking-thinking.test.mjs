@@ -19,7 +19,7 @@ test('real provider request keeps every audio/question, enables thinking and sto
   const r=await provider.assessSpeaking(input);
   assert.equal(sent.messages[1].content.filter(c=>c.type==='input_audio').length,3);
   assert.equal(sent.messages[1].content.filter(c=>c.type==='text').length,3);
-  assert.equal(sent.model,'google/gemini-3.1-pro-preview');assert.deepEqual(sent.provider.only,['google-ai-studio']);assert.equal(sent.reasoning.enabled,true);assert.equal(sent.stream,true);assert.equal(sent.stream_options.include_usage,true);assert.equal(sent.signal,undefined);assert.equal(sent.temperature,undefined);assert.equal(sent.max_tokens,32768);
+  assert.equal(sent.response_format.type,'json_object');assert.match(sent.messages[0].content,/OUTPUT JSON STRUCTURE:/);assert.equal(sent.model,'google/gemini-3.1-pro-preview');assert.deepEqual(sent.provider.only,['google-ai-studio']);assert.equal(sent.reasoning.enabled,true);assert.equal(sent.stream,true);assert.equal(sent.stream_options.include_usage,true);assert.equal(sent.signal,undefined);assert.equal(sent.temperature,undefined);assert.equal(sent.max_tokens,32768);
   assert.equal(r.usage.rawPrimary.usage.completion_tokens_details.reasoning_tokens,240);
   assert.deepEqual(r.result.assessmentDetails,result);assert.equal(r.result.estimatedBand,6);
  }finally{globalThis.fetch=old;}
