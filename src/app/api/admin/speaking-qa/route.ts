@@ -1,4 +1,4 @@
-import { NextRequest, after } from 'next/server';
+import { NextRequest } from 'next/server';
 import { randomUUID } from 'node:crypto';
 import { readSession } from '@/lib/auth/session';
 import { hasAdminRole } from '@/lib/auth/policy';
@@ -136,24 +136,6 @@ async function evaluate(test: TestCase, clips: Clip[], all: Buffer[], key: strin
  }catch(e){return {id:test.id,label:test.label,status:'failed',elapsedMs:Date.now()-started,modification,error:safeFailure(e)};}
  finally{clearTimeout(timer);}
 }
-async function execute(batchId: string, clips: Clip[]) {
- try {
-  const key=await getKey('openrouter');
-  const all:Buffer[]=[];let total=0;
-  for(const clip of clips){
-   const bytes=Buffer.from(await getPrivate(clip.key));total+=bytes.length;
-   if(bytes.length>3900000||total>20000000||!wavInfo(bytes))throw Error('Original WAV missing, oversized, or unsupported');
-   all.push(bytes);
-  }
-  await Promise.all(CASES.map(async(test,i)=>{
-   const result=await evaluate(test,clips,all,key);
-   await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,ARRAY['cases',$2::text],$3::jsonb,true) WHERE id=$1::uuid",[batchId,String(i),JSON.stringify(result)]);
-  }));
-  await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{status}','\"completed\"'::jsonb,true) WHERE id=$1::uuid",[batchId]);
- }catch{
-  await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{status}','\"failed\"'::jsonb,true) WHERE id=$1::uuid",[batchId]).catch(()=>{});
- }
-}
 async function admin() {
  const session=await readSession();
  if(!session||!hasAdminRole(session.user))throw new AuthHttpError(403,'Forbidden');
@@ -167,17 +149,55 @@ export async function GET() {
  }catch(e){return json({error:e instanceof AuthHttpError?e.message:'Could not read QA results'},e instanceof AuthHttpError?e.status:503);}
 }
 export async function POST(req: NextRequest) {
- try{
+ try {
   requireSameOrigin(req);
   const user=await admin();
-  const old=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE admin_id=$1::uuid AND result->>'kind'='speaking_qa_v1' AND result->>'status'='running' AND created_at>now()-interval '6 minutes' ORDER BY created_at DESC LIMIT 1",[user.id]);
+  const body=await req.json().catch(()=>({})) as Record<string,unknown>;
+  if(body.action==='run_case'){
+   const batchId=String(body.batchId||'');
+   const index=Number(body.index);
+   if(!/^[a-f0-9-]{36}$/i.test(batchId)||!Number.isInteger(index)||index<0||index>=CASES.length)throw new AuthHttpError(400,'Invalid QA test selection');
+   const jobs=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND admin_id=$2::uuid AND result->>'kind'='speaking_qa_v1'",[batchId,user.id]);
+   if(!jobs.length)throw new AuthHttpError(404,'QA batch not found');
+   const record=jobs[0].result as { status: string; cases: Array<{status:string; id:string; label:string}> };
+   const old=record.cases[index];
+   if(!old||old.id!==CASES[index].id)throw new AuthHttpError(409,'QA case mismatch');
+   if(['completed','failed'].includes(old.status))return json({case:old,alreadyFinished:true});
+   if(old.status!=='queued')throw new AuthHttpError(409,'QA case is already running');
+   const claimed=await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,ARRAY['cases',$3::text],$4::jsonb,true) WHERE id=$1::uuid AND admin_id=$2::uuid AND result->'cases'->($3::int)->>'status'='queued' RETURNING id",[
+    batchId,user.id,String(index),JSON.stringify({...old,status:'running',startedAt:new Date().toISOString()})
+   ]);
+   if(!claimed.length)throw new AuthHttpError(409,'Case already started in another tab');
+   let result:Record<string,unknown>;
+   try {
+    const key=await getKey('openrouter');
+    const clips=await loadOwnClips(user.id);
+    const targetClips=index===0?clips:[clips[0]];
+    const all:Buffer[]=[];let total=0;
+    for(const clip of targetClips){
+     const audio=Buffer.from(await getPrivate(clip.key));total+=audio.length;
+     if(audio.length>3900000||total>20000000||!wavInfo(audio))throw Error('Source recording is not a supported PCM WAV');
+     all.push(audio);
+    }
+    result={...await evaluate(CASES[index],clips,all,key),finishedAt:new Date().toISOString()};
+   } catch(error){
+    result={id:CASES[index].id,label:CASES[index].label,status:'failed',error:safeFailure(error),finishedAt:new Date().toISOString()};
+   }
+   await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,ARRAY['cases',$2::text],$3::jsonb,true) WHERE id=$1::uuid",[
+    batchId,String(index),JSON.stringify(result)
+   ]);
+   const last=await db().query("SELECT result->'cases' AS cases FROM public.ai_lab_runs WHERE id=$1::uuid",[batchId]);
+   const done=(last[0]?.cases as Array<{status:string}>|undefined)?.every(c=>c.status==='completed'||c.status==='failed')||false;
+   if(done)await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{status}','\"completed\"'::jsonb,true) WHERE id=$1::uuid",[batchId]);
+   return json({case:result});
+  }
+  const old=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE admin_id=$1::uuid AND result->>'kind'='speaking_qa_v1' AND result->>'status'='running' AND created_at>now()-interval '24 hours' ORDER BY created_at DESC LIMIT 1",[user.id]);
   if(old.length)return json({id:old[0].id,alreadyRunning:true});
   await limit('speaking-qa-once:'+user.id,1,3600);
-  await getKey('openrouter'); // Verify secret exists; never return it.
+  await getKey('openrouter');
   const clips=await loadOwnClips(user.id);
-  const batchId=randomUUID(),result={kind:'speaking_qa_v1',status:'running',model:MODEL,source:'latest_admin_owned_saved_recording',sourceClips:clips.length,notes:'Five paid live API calls maximum. No automatic retries. Artificial audio mutations are for robustness only, not human IELTS band calibration.',cases:CASES.map(c=>({...c,status:'queued'}))};
+  const batchId=randomUUID(),result={kind:'speaking_qa_v1',status:'running',model:MODEL,source:'latest_admin_owned_saved_recording',sourceClips:clips.length,notes:'Five paid live calls maximum. Browser coordinates and saves each individual test. No automatic retries. Keep AI Lab tab open during testing.',cases:CASES.map(c=>({...c,status:'queued'}))};
   await db().query('INSERT INTO public.ai_lab_runs(id,admin_id,result) VALUES($1::uuid,$2::uuid,$3::jsonb)',[batchId,user.id,JSON.stringify(result)]);
-  after(async()=>{await execute(batchId,clips);});
   return json({id:batchId,started:true});
  }catch(e){return json({error:e instanceof AuthHttpError?e.message:'Unable to start QA batch'},e instanceof AuthHttpError?e.status:503);}
 }
