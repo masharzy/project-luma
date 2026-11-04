@@ -6,7 +6,6 @@ import { computedSpeakingBand } from './speaking-qa-validation';
 import { speakingModel } from '@/lib/evaluation/provider';
 import { getPrivate } from './storage';
 import { speakingMp3 } from './speaking-audio';
-import { speakingCoverageIssues, speakingEvidenceIssues } from './speaking-coverage';
 import { readSpeakingStream } from './speaking-stream';
 
 const assessmentCriterion=z.object({band:z.number().min(0).max(9).multipleOf(.5).nullable(),feedback:z.string(),evidence:z.array(z.string())});
@@ -61,8 +60,8 @@ export function modelJsonFormat(steps:number[]){
 
 /** Display-only normalization, not a model-output validator. Does not edit raw response. */
 export function finalizeSpeaking(raw:unknown,input:SpeakingInput):SpeakingAssessment {
- const wire=speakingResponseSchema.parse(raw);
- const r=speakingAssessmentSchema.parse({...wire,limitation:wire.limitation??''});
+ const wire=raw as z.infer<typeof speakingResponseSchema>;
+ const r={...wire,limitation:wire.limitation??''};
  const sourceCount=input.sourceParts?.length||3;
  const requiredParts=Array.from({length:sourceCount},(_,i)=>i+1);
  const returnedSteps=new Set(r.transcripts.map(t=>t.step));
@@ -123,15 +122,9 @@ export async function assessSpeaking(input:SpeakingInput,options:{captureRaw?:bo
  try{raw=JSON.parse(modelText);}catch{
   throw providerError('Speaking model returned invalid JSON',providerReport);
  }
- const parsed=modelOutput.safeParse(raw);
- if(!parsed.success)throw providerError('Speaking model returned an incomplete JSON structure', {...providerReport,rawModelJson:raw,issues:parsed.error.issues.map(e=>({path:e.path.join('.'),message:e.message})).slice(0,20)});
- const model=parsed.data;
- const coverageIssues=speakingCoverageIssues(model.answers,input.clips.map(c=>c.step));
- if(coverageIssues.length)throw providerError('Speaking model omitted or contradicted submitted answer transcripts',{
-  ...providerReport,failureCode:'INCOMPLETE_ANSWER_COVERAGE',rawModelJson:raw,issues:coverageIssues
- });
- const evidenceIssues=speakingEvidenceIssues(model,input.clips);
- if(evidenceIssues.length)throw providerError('Speaking evidence failed validation',{...providerReport,failureCode:'UNSUPPORTED_EVIDENCE',rawModelJson:raw,issues:evidenceIssues});
+ // The model's parsed JSON is used directly, without schema, coverage or
+ // evidence validators rejecting or rewriting its assessment.
+ const model=raw as z.infer<typeof modelOutput>;
  // Read and display the model's assertions as-is. Never change speech status,
  // erase transcripts, drop correction items, or null-out a claimed criterion band.
  const note: string[]=[];

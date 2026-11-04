@@ -29,3 +29,12 @@ test('truncated but valid JSON is rejected with paid raw usage preserved',async(
  globalThis.fetch=async()=>new Response(JSON.stringify({usage:{cost:.001},choices:[{finish_reason:'length',message:{content:JSON.stringify(result)}}]}));
  try{await assert.rejects(provider.assessSpeaking(input),e=>e.providerReport.failureCode==='INCOMPLETE_MODEL_OUTPUT'&&e.providerReport.usage.cost===.001);}finally{globalThis.fetch=old;}
 });
+
+test('ellipsized quotes and unsupported evidence no longer reject or rewrite the model assessment',async()=>{
+ const raw=structuredClone(result);
+ raw.answers[0].strengths=[{quote:'I ... there.',why:'Model observation'}];
+ raw.answers[1].corrections=[{original:'not in transcript',corrected:'replacement',category:'grammar',reason:'Model claim',confidence:'high'}];
+ const old=globalThis.fetch;
+ globalThis.fetch=async()=>new Response(JSON.stringify({usage:{cost:.001},choices:[{finish_reason:'stop',message:{content:JSON.stringify(raw)}}]}));
+ try{const r=await provider.assessSpeaking(input);assert.deepEqual(r.result.assessmentDetails,raw);assert.equal(r.result.transcripts.length,3);}finally{globalThis.fetch=old;}
+});
