@@ -9,7 +9,7 @@ import { speakingMp3 } from '@/lib/products/speaking-audio';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 export const maxDuration=300;
-const RUN_ID='0fccd917-55a6-4513-9358-d5f2a77d242d';
+const RUN_ID='eaf90e55-61a1-4c0d-833f-53e33f37f7f2';
 const SOURCE_ATTEMPT_ID='d9cd80ff-4ee3-4114-9e4a-04a6da255045';
 const MODEL='google/gemini-3.1-flash-lite';
 type Clip={step:number;part:number;question:string;seconds:number;key:string};
@@ -87,7 +87,7 @@ export async function GET(req:NextRequest){
   const key=await getKey('openrouter');
   // Exactly one provider request. Same 14 clips, prompt and strict output schema as MiMo comparison.
   providerCalled=true;
-  const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Gemini Speaking One-Shot'},body:JSON.stringify({model:MODEL,max_tokens:9000,temperature:0.1,reasoning:{effort:'minimal'},response_format:modelJsonFormat(),messages:[{role:'system',content:system},{role:'user',content}]}),signal:AbortSignal.timeout(250000)});
+  const resp=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Gemini Speaking One-Shot'},body:JSON.stringify({model:MODEL,max_tokens:9000,temperature:0.1,reasoning:{enabled:false},response_format:{type:'json_object'},messages:[{role:'system',content:system+'\nJSON format: {"answers":[{"step":0,"verbatim":"...","speech_status":"speech","corrections":[],"pronunciation":[],"strengths":[],"uncertain":[]}],"criteria":{"fluency_coherence":{"band":5.5,"reason":"...","evidence":[]},"lexical_resource":{"band":5.5,"reason":"...","evidence":[]},"grammar":{"band":5.5,"reason":"...","evidence":[]},"pronunciation":{"band":5.5,"reason":"...","evidence":[]}},"accent":{"description":"...","intelligibility":"mostly_clear","observations":[]},"summary":"...","next_steps":[],"limitations":[],"confidence":"medium"}. Return exactly 14 answers and no other text.'},{role:'user',content}]}),signal:AbortSignal.timeout(250000)});
   const bodyText=await resp.text();
   let envelope:Record<string,any>;
   try{envelope=JSON.parse(bodyText);}catch{envelope={rawProviderText:bodyText.slice(0,120000)};}
