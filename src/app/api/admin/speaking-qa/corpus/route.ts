@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { createHash } from 'node:crypto';
 import { db } from '@/lib/auth/db';
+import { assessSpeaking } from '@/lib/products/speaking-provider';
 import { getKey } from '@/lib/ai-lab/secrets';
 import { getPrivate,putPrivate } from '@/lib/products/storage';
 import { speakingQaPrompt,speakingQaPromptVersion } from '@/lib/products/speaking-qa-prompt';
@@ -23,7 +24,7 @@ export async function POST(req:NextRequest){
   if(Number(req.headers.get('content-length')||0)>4100000)return response({error:'Request too large'},413);
   const body=await req.json();
   if(!/^[a-f0-9-]{36}$/.test(body.batchId||'')||!/^[a-f0-9-]{36}$/.test(body.caseRowId||''))return response({error:'Invalid case'},400);
-  stage='batch_auth';const batches=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND result->>'kind'='speaking_corpus_qa_v1' AND result->>'tokenHash'=$2 AND (result->>'expiresAt')::timestamptz>now()",[body.batchId,hash(token)]);
+  stage='batch_auth';const batches=await db().query("SELECT id,admin_id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND result->>'kind'='speaking_corpus_qa_v1' AND result->>'tokenHash'=$2 AND (result->>'expiresAt')::timestamptz>now()",[body.batchId,hash(token)]);
   if(!batches.length)return response({error:'Expired or invalid QA access'},403);
   stage='case_lookup';const rows=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND result->>'kind'='speaking_corpus_case_v1' AND result->>'batchId'=$2",[body.caseRowId,body.batchId]);
   if(!rows.length)return response({error:'Case not found'},404);
@@ -40,6 +41,16 @@ export async function POST(req:NextRequest){
    return response({case:{...spec,review}});
   }
   if(body.action==='result'||['completed','failed','rejected'].includes(spec.status))return response({case:spec});
+  if(body.action==='evaluate_saved'&&spec.savedAttemptId){
+   const jobs=await db().query("SELECT input FROM public.speaking_evaluations WHERE attempt_id=$1::uuid AND user_id=$2::uuid",[spec.savedAttemptId,batches[0].admin_id]);
+   if(!jobs.length)return response({error:'Approved owned recording missing'},404);
+   const lease=await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(result,'{status}','\"running\"'::jsonb) WHERE id=$1::uuid AND result->>'status'='queued' RETURNING id",[caseRowId]);
+   if(!lease.length)return response({error:'Already claimed'},409);claimed=true;
+   const started=Date.now(),evaluation=await assessSpeaking(jobs[0].input,{captureRaw:true});
+   const result={...spec,status:'completed',elapsedMs:Date.now()-started,promptVersion:speakingQaPromptVersion,model:evaluation.model,usage:evaluation.usage,response:evaluation.result,providerCalls:1,source:'original_admin_owned_WAV_via_production_pipeline'};
+   await db().query('UPDATE public.ai_lab_runs SET result=$2::jsonb WHERE id=$1::uuid',[caseRowId,JSON.stringify(result)]);return response({case:result});
+  }
+  if(spec.savedAttemptId)return response({error:'Use approved saved-recording action'},400);
   const prefix='qa-corpus/'+body.batchId+'/'+caseRowId+'/';
   if(body.action==='upload_chunk'){
    const f=spec.files.find(f=>f.sha256===body.sha256),part=Number(body.chunk);
