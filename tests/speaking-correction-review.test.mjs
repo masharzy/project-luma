@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
+import ts from 'typescript';
+const m={exports:{}},require=createRequire(import.meta.url);
+new Function('require','module','exports',ts.transpileModule(readFileSync(new URL('../src/lib/products/speaking-correction-review.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText)(require,m,m.exports);
+const {correctionReviewInput,applyCorrectionReview}=m.exports;
+const source={transcripts:[{step:4,verbatim:'because in I in Bangladesh',corrections:[{original:'I in Bangladesh',corrected:'I am in Bangladesh'}]},{step:5,verbatim:'people is shouting',corrections:[{original:'people is shouting',corrected:'people are shouting'}]}]};
+test('review removes a false-start rewrite and retains a verified agreement fix without rewriting either',()=>{const d={decisions:[{id:'4:0',keep:false,reason:'False start, not missing be'},{id:'5:0',keep:true,reason:'Agreement fix'}]};const r=applyCorrectionReview(source,d);assert(r.valid);assert.equal(r.result.transcripts[0].corrections.length,0);assert.deepEqual(r.result.transcripts[1].corrections,source.transcripts[1].corrections);assert.equal(source.transcripts[0].corrections.length,1);});
+test('missing, duplicate or invented review IDs withhold edits instead of approving unchecked claims',()=>{for(const decisions of [[],[{id:'4:0',keep:true,reason:''},{id:'4:0',keep:true,reason:''}],[{id:'4:0',keep:true,reason:''},{id:'999:0',keep:true,reason:''}]]){const r=applyCorrectionReview(source,{decisions});assert.equal(r.valid,false);assert(r.result.transcripts.every(t=>t.corrections.length===0));}});
+test('review receives complete context and cannot introduce a new correction through extra fields',()=>{const input=correctionReviewInput(source);assert.equal(input[0].transcript,'because in I in Bangladesh');const r=applyCorrectionReview(source,{decisions:[{id:'4:0',keep:true,reason:'',corrected:'Injected replacement'},{id:'5:0',keep:true,reason:''}]});assert.equal(r.result.transcripts[0].corrections[0].corrected,'I am in Bangladesh');});
