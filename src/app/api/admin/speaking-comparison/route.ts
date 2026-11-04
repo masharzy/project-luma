@@ -191,7 +191,11 @@ export async function GET(){
  try{
   const u=await admin(),src=await source();
   const rows=await db().query("SELECT id,created_at,result FROM public.ai_lab_runs WHERE admin_id=$1::uuid AND result->>'kind'='speaking_14_comparison_v1' ORDER BY created_at DESC LIMIT 3",[u.id]);
-  const runs=rows.map(r=>({id:r.id,createdAt:r.created_at,...(r.result as object)}));
+  const runs=rows.map(r=>{
+   const result=r.result as {runs:Record<Mode,Array<Record<string,any>>>};
+   const summaries=Object.fromEntries(modes.map(m=>[m,calculate(m,src.clips,result.runs[m]||[])]));
+   return {id:r.id,createdAt:r.created_at,...result,summaries};
+  });
   return json({source:{title:src.title,clips:src.clips.map(c=>({step:c.step,part:c.part,question:c.question,seconds:c.seconds}))},model:MODEL,runs});
  }catch(e){return json({error:e instanceof AuthHttpError?e.message:'Unable to read comparison data'},e instanceof AuthHttpError?e.status:503);}
 }
