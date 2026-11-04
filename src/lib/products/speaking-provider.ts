@@ -82,7 +82,7 @@ function providerError(message:string,details:Record<string,unknown>){
  return Object.assign(new Error(message),{retryable:false,providerReport:details});
 }
 
-export async function assessSpeaking(input:SpeakingInput,options:{captureRaw?:boolean;onProgress?:(envelope:ProviderEnvelope)=>Promise<void>}={}){
+export async function assessSpeaking(input:SpeakingInput,options:{captureRaw?:boolean;onProgress?:(envelope:ProviderEnvelope)=>Promise<void>;providerKey?:string;loadAudio?:(key:string)=>Promise<Uint8Array>}={}){
  // This is ONE paid MiMo request for ALL clips and their examiner questions.
  // Keep each original MP3 separately associated with its question: that is the
  // exact packaging used by the first successful 14-answer full-test lab run.
@@ -90,7 +90,7 @@ export async function assessSpeaking(input:SpeakingInput,options:{captureRaw?:bo
  const content:Record<string,unknown>[]=[];
  let sourceAudioBytes=0,providerAudioBytes=0;
  for(const clip of input.clips){
-  const bytes=await getPrivate(clip.key);
+  const bytes=await (options.loadAudio??getPrivate)(clip.key);
   if(bytes.length>3900000)throw new Error('Recording too large');
   const audio=speakingMp3(bytes);
   sourceAudioBytes+=bytes.length;
@@ -101,7 +101,7 @@ export async function assessSpeaking(input:SpeakingInput,options:{captureRaw?:bo
   );
  }
  if(providerAudioBytes>11000000)throw new Error('Combined compressed audio too large');
- const key=await getKey('openrouter');
+ const key=options.providerKey??await getKey('openrouter');
  const response=await fetch('https://openrouter.ai/api/v1/chat/completions',{
   method:'POST',
   headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Speaking Evaluation'},

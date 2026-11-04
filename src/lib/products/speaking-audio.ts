@@ -1,6 +1,6 @@
 import 'server-only';
 import { Mp3Encoder } from '@breezystack/lamejs';
-import { validateWav } from './speaking';
+import { validateSpeakingWav as validateWav } from './speaking-wav';
 
 // Keep the original private WAV intact; encode only the provider-bound copy.
 export function speakingMp3(wav:Uint8Array){

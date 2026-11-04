@@ -13,7 +13,7 @@ export async function failSpeaking(id:string,code='EVALUATION_FAILED'){
  FROM failed f WHERE u.user_id=f.user_id AND u.product=f.product AND u.period=f.period`,[id,code]);
 }
 
-export async function processSpeaking(id:string){
+export async function processSpeaking(id:string,options:Parameters<typeof assessSpeaking>[1]={}){
  if(!/^[a-f0-9-]{36}$/.test(id))throw Error('Invalid job');
  // Never make a second paid OpenRouter request automatically for the same attempt.
  const row=(await db().query("UPDATE public.speaking_evaluations SET status='running',tries=tries+1,lease_until=now()+interval '360 seconds',updated_at=now() WHERE id=$1 AND tries<1 AND status='pending' RETURNING input,tries",[id]))[0];
@@ -25,7 +25,7 @@ export async function processSpeaking(id:string){
  }
  try{
   let lastCheckpoint=0,seenId='';
-  const {result,usage,model}=await assessSpeaking(row.input,{onProgress:async envelope=>{
+  const {result,usage,model}=await assessSpeaking(row.input,{...options,onProgress:async envelope=>{
    const now=Date.now();if(!envelope.id||(envelope.id===seenId&&now-lastCheckpoint<10000&&!envelope.usage))return;
    seenId=envelope.id;lastCheckpoint=now;
    // Persist partial answer/provider ID, so a platform interruption is diagnosable.

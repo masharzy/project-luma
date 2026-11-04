@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: jumptonine-speaking-worker
+    runtime: docker
+    dockerfilePath: ./services/speaking-worker/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SPEAKING_APP_URL
+        value: https://jumptonine.com
+      - key: SPEAKING_WORKER_TOKEN
+        generateValue: true
