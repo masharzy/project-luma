@@ -66,7 +66,13 @@ function AnswerBlock({answer,metadata,ordinal}:{answer:Answer;metadata?:ClipMeta
  </article>;
 }
 function Result({item,metadata}:{item:CaseResult;metadata:ClipMeta[]}){
- const a=item.assessment;
+ // Render guard only. Never modify or discard the original AI Lab JSON.
+ const candidate=item.assessment as unknown;
+ const obj=(candidate&&typeof candidate==='object'?candidate:{}) as Record<string,unknown>;
+ const a:Assessment|null=Array.isArray(obj.answers)&&obj.criteria&&typeof obj.criteria==='object'&&
+  criteriaKeys.every(k=>{const c=(obj.criteria as Record<string,unknown>)[k] as {reason?:unknown;evidence?:unknown}|undefined;return c&&Array.isArray(c.evidence)&&typeof c.reason==='string';})&&
+  obj.accent&&typeof obj.accent==='object'&&typeof (obj.accent as {description?:unknown}).description==='string'
+  ?candidate as Assessment:null;
  return <details className="sc-result">
   <summary><span><b>{item.steps.length===14?'Full Speaking Test':item.part&&item.steps.length>1?'Part '+item.part:'Question '+(metadata.findIndex(c=>c.step===item.steps[0])+1)}</b><small> {item.steps.length} recording(s)</small></span><span className={'sc-status '+(item.status==='completed'?'sc-ok':item.status==='failed'?'sc-bad':'')}>{item.status}</span><small>{money(item.usage?.costUsd)} · {typeof item.elapsedMs==='number'?(item.elapsedMs/1000).toFixed(1)+'s':'—'}</small></summary>
   <div className="sc-result-body">
@@ -79,8 +85,9 @@ function Result({item,metadata}:{item:CaseResult;metadata:ClipMeta[]}){
     <details className="sc-inner" open><summary>Verbatim transcript, highlighted issues and strengths</summary>{a.answers.map((answer,i)=><AnswerBlock key={answer.step+'-'+i} answer={answer} metadata={metadata.find(m=>m.step===answer.step)} ordinal={metadata.findIndex(m=>m.step===answer.step)+1}/>)}</details>
     <details className="sc-inner"><summary>Criterion evidence, limitations & next steps</summary>{criteriaKeys.map(k=><div key={k} className="sc-detail"><h5>{criterionNames[k]} — {score(a.criteria[k].band)}</h5>{a.criteria[k].evidence.map((e,i)=><p key={i} className="sc-evidence">Question {e.step+1}: <strong>“{e.quote}”</strong> — {e.reason}</p>)}</div>)}{a.limitations?.length>0&&<p><b>Limitations:</b> {a.limitations.join(' ')}</p>}{a.next_steps?.length>0&&<p><b>Next steps:</b> {a.next_steps.join(' · ')}</p>}</details>
    </>}
-   {(item.issues?.length||0)>0&&<details className="sc-inner"><summary>{item.issues?.length} validation warnings</summary><p className="sc-muted">{item.issues?.join(' · ')}</p></details>}
-   {item.rawModelResponse!==undefined&&<details className="sc-inner"><summary>Original model JSON</summary><pre className="sc-raw-json">{JSON.stringify(item.rawModelResponse,null,2)}</pre></details>}
+   {item.rawModelResponse!==undefined&&<details className="sc-inner" open={!a}><summary>Original model JSON · unfiltered</summary><pre className="sc-raw-json">{JSON.stringify(item.rawModelResponse,null,2)}</pre></details>}
+   {item.rawModelText!==undefined&&<details className="sc-inner" open><summary>Original model text · unfiltered</summary><pre className="sc-raw-json">{item.rawModelText}</pre></details>}
+   {!a&&item.assessment!==undefined&&<details className="sc-inner" open><summary>Model output · unchanged</summary><pre className="sc-raw-json">{JSON.stringify(item.assessment,null,2)}</pre></details>}
    {item.usage&&<div className="sc-muted">Provider usage: {item.usage.promptTokens??'—'} prompt + {item.usage.completionTokens??'—'} completion tokens. OpenRouter billed cost {money(item.usage.costUsd)}.</div>}
   </div>
  </details>;
