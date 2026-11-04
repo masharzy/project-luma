@@ -51,9 +51,9 @@ function Highlighted({answer}:{answer:Answer}){
  return <p className="sc-verbatim">{pieces.length?pieces:'No clear candidate speech detected.'}</p>;
 }
 
-function AnswerBlock({answer,metadata}:{answer:Answer;metadata?:ClipMeta}){
+function AnswerBlock({answer,metadata,ordinal}:{answer:Answer;metadata?:ClipMeta;ordinal:number}){
  return <article className="sc-answer">
-  <div className="sc-answer-header"><b>Question {metadata?metadata.step+1:answer.step+1} · Part {metadata?.part??'?'}</b><small>{metadata?duration(metadata.seconds):''} · {answer.speech_status}</small></div>
+  <div className="sc-answer-header"><b>Question {ordinal} · Part {metadata?.part??'?'}</b><small>{metadata?duration(metadata.seconds):''} · {answer.speech_status}</small></div>
   {metadata&&<p className="sc-question">{metadata.question}</p>}
   <Highlighted answer={answer}/>
   <div className="sc-legend" aria-label="Transcript highlight categories">
@@ -68,7 +68,7 @@ function AnswerBlock({answer,metadata}:{answer:Answer;metadata?:ClipMeta}){
 function Result({item,metadata}:{item:CaseResult;metadata:ClipMeta[]}){
  const a=item.assessment;
  return <details className="sc-result">
-  <summary><span><b>{item.steps.length===14?'Full Speaking Test':item.part&&item.steps.length>1?'Part '+item.part:'Question '+(item.steps[0]+1)}</b><small> {item.steps.length} recording(s)</small></span><span className={'sc-status '+(item.status==='completed'?'sc-ok':item.status==='failed'?'sc-bad':'')}>{item.status}</span><small>{money(item.usage?.costUsd)} · {typeof item.elapsedMs==='number'?(item.elapsedMs/1000).toFixed(1)+'s':'—'}</small></summary>
+  <summary><span><b>{item.steps.length===14?'Full Speaking Test':item.part&&item.steps.length>1?'Part '+item.part:'Question '+(metadata.findIndex(c=>c.step===item.steps[0])+1)}</b><small> {item.steps.length} recording(s)</small></span><span className={'sc-status '+(item.status==='completed'?'sc-ok':item.status==='failed'?'sc-bad':'')}>{item.status}</span><small>{money(item.usage?.costUsd)} · {typeof item.elapsedMs==='number'?(item.elapsedMs/1000).toFixed(1)+'s':'—'}</small></summary>
   <div className="sc-result-body">
    {item.status==='failed'&&<p role="alert" className="sc-alert">Provider/evaluation error: {item.error||'Unknown'}. No result was invented.</p>}
    {item.status==='running'&&<p className="sc-muted">Request in progress. Do not close this tab. A running request is not retried automatically.</p>}
@@ -76,7 +76,7 @@ function Result({item,metadata}:{item:CaseResult;metadata:ClipMeta[]}){
     <div className="sc-evaluation-grid">{criteriaKeys.map(k=><div key={k} className="sc-score-mini"><small>{criterionNames[k]}</small><b>{score(a.criteria[k].band)}</b><p>{a.criteria[k].reason}</p></div>)}</div>
     <div className="sc-accent"><b>Accent & intelligibility</b><p>{a.accent.description} · <strong>{a.accent.intelligibility.replaceAll('_',' ')}</strong></p>{a.accent.observations?.length>0&&<p>{a.accent.observations.join(' · ')}</p>}</div>
     <p className="sc-summary">{a.summary}</p>
-    <details className="sc-inner" open><summary>Verbatim transcript, highlighted issues and strengths</summary>{a.answers.map((answer,i)=><AnswerBlock key={answer.step+'-'+i} answer={answer} metadata={metadata.find(m=>m.step===answer.step)}/>)}</details>
+    <details className="sc-inner" open><summary>Verbatim transcript, highlighted issues and strengths</summary>{a.answers.map((answer,i)=><AnswerBlock key={answer.step+'-'+i} answer={answer} metadata={metadata.find(m=>m.step===answer.step)} ordinal={metadata.findIndex(m=>m.step===answer.step)+1}/>)}</details>
     <details className="sc-inner"><summary>Criterion evidence, limitations & next steps</summary>{criteriaKeys.map(k=><div key={k} className="sc-detail"><h5>{criterionNames[k]} — {score(a.criteria[k].band)}</h5>{a.criteria[k].evidence.map((e,i)=><p key={i} className="sc-evidence">Question {e.step+1}: <strong>“{e.quote}”</strong> — {e.reason}</p>)}</div>)}{a.limitations?.length>0&&<p><b>Limitations:</b> {a.limitations.join(' ')}</p>}{a.next_steps?.length>0&&<p><b>Next steps:</b> {a.next_steps.join(' · ')}</p>}</details>
    </>}
    {(item.issues?.length||0)>0&&<details className="sc-inner"><summary>{item.issues?.length} validation warnings</summary><p className="sc-muted">{item.issues?.join(' · ')}</p></details>}
