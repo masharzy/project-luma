@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import { db } from '@/lib/auth/db';
 import { getKey } from '@/lib/ai-lab/secrets';
 import { getPrivate,putPrivate } from '@/lib/products/storage';
+import { packSpeakingAudio } from '@/lib/products/speaking-audio-pack';
+import { encodeSpeakingPcm } from '@/lib/products/speaking-audio';
 import { speakingQaPrompt,speakingQaPromptVersion } from '@/lib/products/speaking-qa-prompt';
 import { speakingQaJsonFormat } from '@/lib/products/speaking-qa-validation';
 export const runtime='nodejs';
@@ -12,10 +14,10 @@ const defaultModel='xiaomi/mimo-v2.6-flash';
 const matrixModels={
  direct:['xiaomi/mimo-v2.6-flash','qwen/qwen3.8-omni-flash','google/gemini-3.5-flash-lite','xiaomi/mimo-v2.6-pro','google/gemini-3.8-flash','google/gemini-3.5-flash','google/gemini-3.1-pro-preview','thinkingmachines/inkling-small','xiaomi/mimo-v2.6-pro-ultraspeed'],
  transcribe:['openai/whisper-large-v3-turbo','microsoft/mai-transcribe-2','elevenlabs/scribe-v2','openai/gpt-4o-mini-transcribe','openai/gpt-4o-transcribe'],
- text:['xiaomi/mimo-v2.6-flash','anthropic/claude-haiku-5.5','google/gemini-3.8-flash','openai/gpt-6-luna','anthropic/claude-sonnet-4.6'],
+ text:['xiaomi/mimo-v2.6-flash','anthropic/claude-haiku-5.5','google/gemini-3.8-flash','openai/gpt-6-luna','anthropic/claude-sonnet-4.6','xiaomi/mimo-v2.6-pro','qwen/qwen3.7-flash'],
 } as const;
 type MatrixMode=keyof typeof matrixModels;
-type Matrix={mode:MatrixMode;model:string;text?:string;plainTranscript?:boolean};
+type Matrix={mode:MatrixMode;model:string;text?:string;plainTranscript?:boolean;savedAudio?:{attemptId:string;steps:number[]}};
 type FileSpec={sha256:string;step:number;part:number;question:string;seconds:number;bytes:number};
 type Spec={kind:string;batchId:string;caseId:string;status:string;files:FileSpec[];transportOnly?:boolean;matrix?:Matrix};
 const hash=(b:Buffer|string)=>createHash('sha256').update(b).digest('hex');
@@ -31,18 +33,21 @@ export async function POST(req:NextRequest){
   if(!/^[a-f0-9-]{36}$/.test(body.batchId||'')||!/^[a-f0-9-]{36}$/.test(body.caseRowId||''))return response({error:'Invalid case'},400);
   stage='batch_auth';const batches=await db().query("SELECT id,admin_id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND result->>'kind'='speaking_corpus_qa_v1' AND result->>'tokenHash'=$2 AND (result->>'expiresAt')::timestamptz>now()",[body.batchId,hash(token)]);
   if(!batches.length)return response({error:'Expired or invalid QA access'},403);
-  stage='case_lookup';const rows=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND result->>'kind'='speaking_corpus_case_v1' AND result->>'batchId'=$2",[body.caseRowId,body.batchId]);
+  stage='case_lookup';const rows=await db().query("SELECT id,result FROM public.ai_lab_runs WHERE id=$1::uuid AND result->>'kind'='speaking_corpus_case_v1' AND result->>'batchId'=$2 AND admin_id=$3::uuid",[body.caseRowId,body.batchId,batches[0].admin_id]);
   if(!rows.length)return response({error:'Case not found'},404);
   caseRowId=String(rows[0].id);const spec=rows[0].result as Spec & Record<string,any>;
   if(body.action==='review_corrections')return response({error:'AI Lab correction review disabled; raw model outputs are never filtered.'},410);
   if(body.action==='result'||['completed','failed','rejected'].includes(spec.status))return response({case:spec});
   if(body.action==='evaluate_saved')return response({error:'AI Lab saved-audio production validator route disabled. Use raw Speaking comparison instead.'},410);
-  const matrix=spec.matrix;
+  const matrix=spec.matrix,saved=matrix?.savedAudio;
   if(matrix){
    const allowed=Object.hasOwn(matrixModels,matrix.mode)?matrixModels[matrix.mode] as readonly string[]:[];
-   if(!allowed.includes(matrix.model)||spec.transportOnly||spec.files.length!==(matrix.mode==='text'?0:1)||
+   if(!allowed.includes(matrix.model)||spec.transportOnly||spec.files.length!==(matrix.mode==='text'||saved?0:1)||
     (matrix.mode==='text'&&(typeof matrix.text!=='string'||matrix.text.length>24000)))return response({error:'Invalid matrix case'},400);
   }
+  if(saved&&(matrix?.mode!=='direct'||!/^\w{8}(?:-\w{4}){3}-\w{12}$/.test(saved.attemptId)||!Array.isArray(saved.steps)||
+   saved.steps.length<1||saved.steps.length>8||saved.steps.some(step=>!Number.isInteger(step))||
+   new Set(saved.steps).size!==saved.steps.length))return response({error:'Invalid saved audio case'},400);
   if(spec.savedAttemptId)return response({error:'Use approved saved-recording action'},400);
   const prefix='qa-corpus/'+body.batchId+'/'+caseRowId+'/';
   if(body.action==='upload_chunk'){
@@ -65,9 +70,28 @@ export async function POST(req:NextRequest){
    }
    files.push(bytes);
   }
+  const content:Record<string,unknown>[]=[];
+  if(saved){
+   stage='saved_audio';
+   const rows=await db().query(
+    `SELECT r.step,r.seconds,r.object_key FROM public.speaking_recordings r
+     JOIN public.speaking_attempts a ON a.id=r.attempt_id
+     WHERE a.id=$1::uuid AND a.user_id=$2::uuid AND r.step=ANY($3::int[])`,
+    [saved.attemptId,batches[0].admin_id,saved.steps],
+   );
+   if(rows.length!==saved.steps.length||rows.reduce((sum,r)=>sum+Number(r.seconds),0)>180)return response({error:'Saved audio unavailable'},400);
+   const clips=[];
+   for(const step of saved.steps){
+    const row=rows.find(r=>Number(r.step)===step)!;
+    clips.push({clip:{step,part:0,question:'',seconds:Number(row.seconds)},bytes:await getPrivate(row.object_key)});
+   }
+   const packed=packSpeakingAudio(clips);
+   const mp3=encodeSpeakingPcm(packed.audio.subarray(44));total=mp3.length;
+   content.push({type:'text',text:JSON.stringify(packed.segments.map(({step,start_seconds,end_seconds})=>({step,start_seconds,end_seconds})))},
+    {type:'input_audio',input_audio:{format:'mp3',data:mp3.toString('base64')}});
+  }
   stage='claim';const lease=await db().query("UPDATE public.ai_lab_runs SET result=jsonb_set(jsonb_set(result,'{status}','\"running\"'::jsonb),'{startedAt}',to_jsonb(now()::text)) WHERE id=$1::uuid AND result->>'status'='queued' RETURNING id",[caseRowId]);
   if(!lease.length)return response({error:'Already claimed'},409);claimed=true;
-  const content:Record<string,unknown>[]=[];
   spec.files.forEach((f,i)=>content.push({type:'text',text:JSON.stringify({step:f.step,part:f.part,question:f.question,seconds:f.seconds})},{type:'input_audio',input_audio:{format:'mp3',data:files[i].toString('base64')}}));
   stage='provider';const started=Date.now(),key=await getKey('openrouter');
   const approved=batches[0].result as {approvedPrompt?:string;approvedPromptVersion?:string};

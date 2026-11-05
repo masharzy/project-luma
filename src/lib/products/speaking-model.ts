@@ -4,4 +4,3 @@ export const speakingProvider = 'Xiaomi';
 
 export const speakingTranscriptModel = 'elevenlabs/scribe-v2';
 export const speakingLanguageModel = 'anthropic/claude-haiku-5.5';
-export const speakingAcousticModel = 'google/gemini-3.8-flash';
