@@ -42,7 +42,7 @@ test('three MiMo requests run concurrently with separately labeled clips in each
  };
  try{
   const timeout=AbortSignal.timeout(2000);
-  const r=await Promise.race([provider.assessSpeaking(input),new Promise((_,reject)=>timeout.addEventListener('abort',()=>reject(Error('Requests were not parallel')),{once:true}))]);
+  const r=await Promise.race([provider.assessSpeakingDirect(input),new Promise((_,reject)=>timeout.addEventListener('abort',()=>reject(Error('Requests were not parallel')),{once:true}))]);
   assert.equal(sent.length,3);
   assert.deepEqual(sent.map(timeline).sort((a,b)=>a.part-b.part).map(x=>x.recordings.map(c=>c.step)),[[0,1],[2],[3]]);
   for(const body of sent){
@@ -71,7 +71,7 @@ test('keeps raw responses for all parts when a transcript is missing, audio was 
   return Response.json(envelope(part,raw,part===3?'length':'stop'));
  };
  try{
-  await assert.rejects(provider.assessSpeaking(input),error=>{
+  await assert.rejects(provider.assessSpeakingDirect(input),error=>{
    const report=error.providerReport;
    assert.equal(report.failureCode,'INCOMPLETE_ANSWER_COVERAGE');
    assert.deepEqual(report.parts.map(p=>p.issues),[['missing_step:1'],['audio_not_heard'],['incomplete_model_output']]);
@@ -90,10 +90,10 @@ test('optional ellipsized strengths can pass but invented grammar corrections ho
   return Response.json(envelope(part,raw));
  };
  try{
-  const r=await provider.assessSpeaking(input);
+  const r=await provider.assessSpeakingDirect(input);
   assert.equal(r.result.assessmentDetails.answers[0].strengths[0].quote,'I ... there.');
   wrongCorrection=true;
-  await assert.rejects(provider.assessSpeaking(input),e=>e.providerReport.parts[0].issues.includes('correction_not_verbatim:0'));
+  await assert.rejects(provider.assessSpeakingDirect(input),e=>e.providerReport.parts[0].issues.includes('correction_not_verbatim:0'));
  }finally{globalThis.fetch=old;}
 });
 

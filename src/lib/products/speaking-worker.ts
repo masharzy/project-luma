@@ -2,7 +2,7 @@ import 'server-only';
 import { evaluationDiagnostic } from '@/lib/evaluation/diagnostic';
 import { db } from '@/lib/auth/db';
 import { assessSpeaking } from './speaking-provider';
-import { speakingModel } from './speaking-model';
+import { speakingLanguageModel } from './speaking-model';
 
 export async function failSpeaking(id:string,code:string,tries:number,report:unknown=null,expired=false){
  // Match the claimed generation. Record the response and refund in the same transition.
@@ -20,7 +20,7 @@ export async function processSpeaking(id:string,options:Parameters<typeof assess
  if(!/^[a-f0-9-]{36}$/.test(id))throw Error('Invalid Speaking job');
  const row=(await db().query(`UPDATE public.speaking_evaluations SET status='running',tries=tries+1,
   lease_until=now()+interval '360 seconds',model=$2,updated_at=now()
-  WHERE id=$1 AND status='pending' RETURNING input,tries`,[id,speakingModel]))[0];
+  WHERE id=$1 AND status='pending' RETURNING input,tries`,[id,speakingLanguageModel]))[0];
  if(!row){
   const stale=(await db().query("SELECT tries FROM public.speaking_evaluations WHERE id=$1 AND status='running' AND lease_until<now()",[id]))[0];
   if(stale)await failSpeaking(id,'WORKER_INTERRUPTED',stale.tries,null,true);
@@ -28,7 +28,7 @@ export async function processSpeaking(id:string,options:Parameters<typeof assess
  }
  try{
   const {result,usage,model}=await assessSpeaking(row.input,{...options,onProgress:async report=>{
-   // Each parallel stream updates its own key. Keep paid output if the worker is interrupted.
+   // Each part updates its own checkpoint. Keep paid output if the worker is interrupted.
    try{await db().query(`UPDATE public.speaking_evaluations
     SET usage=COALESCE(usage,'{}'::jsonb)||jsonb_build_object('checkpoints',
      COALESCE(usage->'checkpoints','{}'::jsonb)||jsonb_build_object($3::text,$4::jsonb)),updated_at=now()

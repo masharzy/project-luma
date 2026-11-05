@@ -208,7 +208,7 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
  return {report,model};
 }
 
-export async function assessSpeaking(input:SpeakingInput,options:AssessmentOptions={}){
+export async function assessSpeakingDirect(input:SpeakingInput,options:AssessmentOptions={}){
  const byPart=new Map<number,Clip[]>();
  for(const clip of input.clips){
   const clips=byPart.get(clip.part)??[];
@@ -249,4 +249,9 @@ export async function assessSpeaking(input:SpeakingInput,options:AssessmentOptio
  result.assessmentDetails={answers,parts:parts.map(p=>({part:p.report.part,criteria:p.model!.criteria}))};
  const costs=reports.flatMap(r=>typeof r.rawResponse==='object'&&typeof r.rawResponse.usage?.cost==='number'?[r.rawResponse.usage.cost]:[]);
  return {result,usage:{promptVersion,reasoningEnabled:false,cost:costs.length===parts.length?costs.reduce((a,b)=>a+b,0):null,parts:reports},model:speakingModel};
+}
+
+export async function assessSpeaking(input:SpeakingInput,options:Parameters<typeof import('./speaking-hybrid').assessSpeakingHybrid>[1]={}){
+ const {assessSpeakingHybrid}=await import('./speaking-hybrid');
+ return assessSpeakingHybrid(input,options);
 }

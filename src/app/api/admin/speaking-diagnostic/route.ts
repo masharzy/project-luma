@@ -6,7 +6,7 @@ import { db } from '@/lib/auth/db';
 import { getKey } from '@/lib/ai-lab/secrets';
 import { getPrivate } from '@/lib/products/storage';
 import { speakingModel } from '@/lib/evaluation/provider';
-import { assessSpeaking } from '@/lib/products/speaking-provider';
+import { assessSpeaking,assessSpeakingDirect } from '@/lib/products/speaking-provider';
 import { speakingComparisonPrompt } from '@/lib/products/speaking-comparison-prompt';
 export const runtime='nodejs';
 export const maxDuration=300;
@@ -18,7 +18,7 @@ export async function POST(req:NextRequest){
   if(!session||!hasAdminRole(session.user))throw new AuthHttpError(403,'Forbidden');
   await limit('speaking-diagnostic:'+session.user.id,12,3600);
   const form=await req.formData(),id=String(form.get('attemptId')||''),mode=String(form.get('mode')||'');
-  if(!/^[a-f0-9-]{36}$/i.test(id)||!['plain','json','full','compare'].includes(mode))throw new AuthHttpError(400,'Invalid diagnostic');
+  if(!/^[a-f0-9-]{36}$/i.test(id)||!['plain','json','full','baseline','compare'].includes(mode))throw new AuthHttpError(400,'Invalid diagnostic');
   const job=(await db().query('SELECT id,input,status FROM public.speaking_evaluations WHERE attempt_id=$1::uuid AND user_id=$2::uuid',[id,session.user.id]))[0];
   if(!job)throw new AuthHttpError(404,'Your saved evaluation was not found');
   key=await getKey('openrouter');
@@ -33,8 +33,8 @@ export async function POST(req:NextRequest){
    const raw=await response.text();
    return json({mode,model,compact,httpStatus:response.status,elapsedMs:Date.now()-started,audioFormat:'original WAV',audioBytes,response:sanitize(raw,key)});
   }
-  if(mode==='full'){
-   const result=await assessSpeaking(job.input);
+  if(mode==='full'||mode==='baseline'){
+   const result=await (mode==='full'?assessSpeaking:assessSpeakingDirect)(job.input);
    return json({mode,elapsedMs:Date.now()-started,...result});
   }
   const clip=job.input.clips[0],bytes=await getPrivate(clip.key);
