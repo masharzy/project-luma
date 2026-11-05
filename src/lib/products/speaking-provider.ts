@@ -4,17 +4,16 @@ import { getKey } from '@/lib/ai-lab/secrets';
 import { computedSpeakingBand } from './speaking-qa-validation';
 import { speakingModel, speakingProvider } from './speaking-model';
 import { getPrivate } from './storage';
-import { packSpeakingAudio } from './speaking-audio-pack';
 import { readSpeakingStream, type SpeakingEnvelope } from './speaking-stream';
 import { speakingCoverageIssues, speakingEvidenceIssues } from './speaking-coverage';
-import { speakingPcmMp3 } from './speaking-audio';
+import { speakingMp3 } from './speaking-audio';
 
-const promptVersion = 'mimo-part-audio-v1';
-const systemPrompt = `Assess one IELTS Speaking part. Use the question and time range for every clip in the attached audio. One second between clips is padding. All evidence timestamps are seconds from the START of the individual clip.
+const promptVersion = 'mimo-part-audio-v2';
+const systemPrompt = `Assess one IELTS Speaking part. Each question label is followed by its own audio clip. All evidence timestamps are seconds from the START of that clip.
 1. Transcribe every clip verbatim, in step order, preserving mistakes, fillers and repetitions. Use [unclear] for uncertain speech. Use an empty transcript and the actual audio status for silence or unusable audio. Never skip a later clip because of words spoken in an earlier one.
 2. From each transcript assess vocabulary and grammar. Quote actual errors exactly and explain corrections. Keep optional improvements separate. For every spoken answer, say how well it answers the question and, if short, suggest one specific detail to develop it without inventing the candidate's experience.
 3. Listen to the actual audio for fluency/coherence and pronunciation. Describe audible delivery for every spoken answer. Cite a clip-relative timestamp and an audible feature for both criterion bands. Never infer pronunciation from spelling or penalize accent alone. If you cannot hear or access the audio, set audio_access to unavailable and explain. For a silent part leave criterion bands null with a reason.
-Use IELTS bands in half-point steps for the four criteria, with concise evidence. Return one JSON object matching the schema. Verify every step appears exactly once and all four criteria are present.`;
+Use IELTS bands in half-point steps for the four criteria, with concise evidence. Return one JSON object matching the response schema. Fill all four criteria, then every listed step in answers, even after a spoken skip. Report only genuine corrections with a changed replacement; use [] if there are none.`;
 
 const assessmentCriterion=z.object({band:z.number().min(0).max(9).multipleOf(.5).nullable(),feedback:z.string(),evidence:z.array(z.string())});
 export const speakingAssessmentSchema=z.object({scorable:z.boolean(),limitation:z.string(),confidence:z.enum(['low','medium','high']),transcripts:z.array(z.object({step:z.number().int(),verbatim:z.string(),uncertain:z.array(z.string())})),fluency:assessmentCriterion,lexicalResource:assessmentCriterion,grammar:assessmentCriterion,pronunciation:assessmentCriterion,summary:z.string(),nextSteps:z.array(z.string())});
@@ -28,7 +27,6 @@ const correction=z.object({
  original:z.string(),corrected:z.string(),category:z.enum(['grammar','vocabulary','coherence']),
  reason:z.string(),confidence:z.enum(['high','medium']),
 });
-const accent=z.object({description:z.string(),intelligibility:z.enum(['clear','mostly_clear','sometimes_unclear','unassessable']),observations:z.array(z.string())});
 const answer=z.object({
  step:z.number().int(),verbatim:z.string().max(9000),
  speech_status:z.enum(['speech','partial_speech','no_speech','unintelligible_audio','technical_failure']),
@@ -44,14 +42,13 @@ const answer=z.object({
 });
 const criterion=z.object({band,reason:z.string(),evidence:z.array(z.object({step:z.number().int(),quote:z.string(),reason:z.string().trim().min(1),timestamp_seconds:z.number().nonnegative().nullable()})).max(5)});
 const modelOutput=z.object({
- answers:z.array(answer),
  audio_access:z.enum(['heard','unavailable']),
  criteria:z.object({fluency_coherence:criterion,lexical_resource:criterion,grammar:criterion,pronunciation:criterion}),
- accent,
  summary:z.string(),
  next_steps:z.array(z.string()).max(4),
  limitations:z.array(z.string()).max(8),
  confidence:z.enum(['high','medium','low']),
+ answers:z.array(answer),
 });
 
 
@@ -139,26 +136,32 @@ function validatePart(model:PartModel,clips:Clip[]){
 async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string, options:AssessmentOptions){
  const report:PartReport={part,issues:[]};
  let model:PartModel|undefined;
+ let stage='audio_download';
  try{
   const loadAudio=options.loadAudio??getPrivate;
-  const recordings=await Promise.all(clips.map(async clip=>({clip,bytes:await loadAudio(clip.key)})));
-  const packed=packSpeakingAudio(recordings);
-  const audio=speakingPcmMp3(packed.audio.subarray(44));
-  const content=[
-   {type:'text',text:JSON.stringify({part,cueCard:part===2?cueCard:undefined,recordings:packed.segments.map(({key,...segment})=>segment)})},
-   {type:'input_audio',input_audio:{format:'mp3',data:audio.toString('base64')}},
-  ];
+  const steps=clips.map(clip=>clip.step);
+  const content:Record<string,unknown>[]=[{type:'text',text:JSON.stringify({part,steps,cueCard:part===2?cueCard:undefined})}];
+  // Each part prepares its own audio. Download clips serially within a part.
+  for(const {key:objectKey,...clip} of clips){
+   stage='audio_download';
+   const bytes=await loadAudio(objectKey);
+   stage='audio_encode';
+   const audio=speakingMp3(bytes);
+   content.push({type:'text',text:JSON.stringify(clip)},{type:'input_audio',input_audio:{format:'mp3',data:audio.toString('base64')}});
+  }
+  stage='provider_request';
   const response=await fetch('https://openrouter.ai/api/v1/chat/completions',{
    method:'POST',signal:AbortSignal.timeout(260_000),
    headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Speaking Evaluation'},
    body:JSON.stringify({
     model:speakingModel,stream:true,stream_options:{include_usage:true},max_tokens:16000,
     reasoning:{enabled:false,exclude:true},provider:{only:[speakingProvider],allow_fallbacks:false,require_parameters:true},
-    response_format:{type:'json_object'},
-    messages:[{role:'system',content:systemPrompt+'\nSchema: '+JSON.stringify(modelJsonFormat(clips.map(c=>c.step)).json_schema.schema)},{role:'user',content}],
+    response_format:modelJsonFormat(steps),
+    messages:[{role:'system',content:systemPrompt},{role:'user',content}],
    }),
   });
   report.httpStatus=response.status;
+  stage='provider_response';
   const sanitize=(raw:SpeakingEnvelope)=>JSON.parse(JSON.stringify(raw).replaceAll(key,'[credential removed]')) as SpeakingEnvelope;
   let lastCheckpoint=0;
   let envelope:SpeakingEnvelope;
@@ -191,7 +194,7 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
     const parsed=modelOutput.safeParse(raw);
     if(!parsed.success)report.issues.push(...parsed.error.issues.map(issue=>'schema:'+issue.path.join('.')+': '+issue.message));
     else{
-     report.issues.push(...validatePart(parsed.data,packed.segments.map(segment=>({...segment,seconds:segment.end_seconds-segment.start_seconds}))));
+     report.issues.push(...validatePart(parsed.data,clips));
      if(!report.issues.length)model=parsed.data;
     }
    }
@@ -199,7 +202,7 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
  }catch(error){
   const cause=error instanceof Error?error.cause:error;
   const name=cause instanceof Error?cause.name:error instanceof Error?error.name:'UnknownError';
-  report.issues.push('request_or_audio_error:'+name);
+  report.issues.push(stage+':'+name);
  }
  await options.onProgress?.(report);
  return {report,model};

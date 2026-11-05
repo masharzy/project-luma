@@ -25,7 +25,7 @@ async function loop(){
     if(!context.providerKey||!context.audioUrls)throw Error('Invalid worker context');
     await processSpeaking(id,{providerKey:context.providerKey,loadAudio:async key=>{
      const value=context.audioUrls[key];if(!value||new URL(value).protocol!=='https:')throw Error('Audio URL unavailable');
-     const audio=await fetch(value,{redirect:'error',signal:AbortSignal.timeout(15_000)});if(!audio.ok)throw Error('Audio download failed');return new Uint8Array(await audio.arrayBuffer());
+     const audio=await fetch(value,{redirect:'error',signal:AbortSignal.timeout(45_000)});if(!audio.ok)throw Error('Audio download failed');return new Uint8Array(await audio.arrayBuffer());
     }});
    }finally{clearInterval(heartbeat);active=null;}
   }catch{console.error('Speaking worker iteration failed');await pause(5000);}

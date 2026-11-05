@@ -24,8 +24,11 @@ const fixture=steps=>{
  summary:'Practice',next_steps:['Add a concrete detail.'],limitations:[],confidence:'medium'};
 };
 const envelope=(part,raw,finish_reason='stop')=>({id:'part-'+part,usage:{cost:.001},choices:[{finish_reason,message:{content:JSON.stringify(raw)}}]});
-const timeline=body=>JSON.parse(body.messages[1].content[0].text);
-test('three MiMo requests run concurrently with one timed MP3 per part and thinking disabled',async()=>{
+const timeline=body=>{
+ const [header,...clips]=body.messages[1].content;
+ return {...JSON.parse(header.text),recordings:clips.filter(c=>c.type==='text').map(c=>JSON.parse(c.text))};
+};
+test('three MiMo requests run concurrently with separately labeled clips in each request and thinking disabled',async()=>{
  const old=globalThis.fetch;
  const sent=[],release=[];
  globalThis.fetch=async(url,opts)=>{
@@ -41,10 +44,13 @@ test('three MiMo requests run concurrently with one timed MP3 per part and think
   const timeout=AbortSignal.timeout(2000);
   const r=await Promise.race([provider.assessSpeaking(input),new Promise((_,reject)=>timeout.addEventListener('abort',()=>reject(Error('Requests were not parallel')),{once:true}))]);
   assert.equal(sent.length,3);
-  assert.deepEqual(sent.map(timeline).map(x=>x.recordings.map(c=>[c.step,c.start_seconds,c.end_seconds])),[[[0,0,1],[1,2,3]],[[2,0,1]],[[3,0,1]]]);
+  assert.deepEqual(sent.map(timeline).sort((a,b)=>a.part-b.part).map(x=>x.recordings.map(c=>c.step)),[[0,1],[2],[3]]);
   for(const body of sent){
-   assert.equal(body.messages[1].content.length,2);
-   assert.equal(body.messages[1].content[1].input_audio.format,'mp3');
+   const {steps}=timeline(body);
+   assert.equal(body.messages[1].content.length,steps.length*2+1);
+   assert(body.messages[1].content.filter(c=>c.type==='input_audio').every(c=>c.input_audio.format==='mp3'));
+   assert.equal(body.response_format.type,'json_schema');
+   assert.deepEqual(body.response_format.json_schema.schema.properties.answers.items.properties.step.enum,steps);
    assert(!JSON.stringify(body.messages).includes('private-'));
    assert.equal(body.model,'xiaomi/mimo-v2.6-flash');
    assert.deepEqual(body.provider.only,['Xiaomi']);
