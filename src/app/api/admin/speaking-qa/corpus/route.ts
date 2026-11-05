@@ -106,7 +106,7 @@ export async function POST(req:NextRequest){
    ...(matrix.plainTranscript?{response_format:'json'}:{response_format:'verbose_json',timestamp_granularities:['word']}),
   }:matrix?{
    model,max_tokens:qwenTextReview?12000:6000,
-   ...(qwenTextReview?{reasoning:{effort:'none'},provider:{require_parameters:true}}:matrix.disableThinking?{reasoning:{effort:'none'},provider:{only:['Alibaba'],allow_fallbacks:false,require_parameters:true}}:
+   ...(qwenTextReview?{reasoning:{effort:'low'},provider:{require_parameters:true}}:matrix.disableThinking?{reasoning:{effort:'none'},provider:{only:['Alibaba'],allow_fallbacks:false,require_parameters:true}}:
     model.startsWith('google/')?{reasoning:{effort:'low',exclude:true}}:model.startsWith('xiaomi/')?{reasoning:{enabled:false}}:{}),
    messages:[{role:'system',content:prompt},{role:'user',content:matrix.mode==='text'?matrix.text:content}],
   }:{
