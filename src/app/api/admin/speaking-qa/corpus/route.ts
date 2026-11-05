@@ -17,7 +17,7 @@ const matrixModels={
  text:['xiaomi/mimo-v2.6-flash','anthropic/claude-haiku-5.5','google/gemini-3.8-flash','openai/gpt-6-luna','anthropic/claude-sonnet-4.6','xiaomi/mimo-v2.6-pro','qwen/qwen3.7-flash'],
 } as const;
 type MatrixMode=keyof typeof matrixModels;
-type Matrix={mode:MatrixMode;model:string;text?:string;plainTranscript?:boolean;savedAudio?:{attemptId:string;steps:number[]}};
+type Matrix={mode:MatrixMode;model:string;text?:string;plainTranscript?:boolean;disableThinking?:true;savedAudio?:{attemptId:string;steps:number[]}};
 type FileSpec={sha256:string;step:number;part:number;question:string;seconds:number;bytes:number};
 type Spec={kind:string;batchId:string;caseId:string;status:string;files:FileSpec[];transportOnly?:boolean;matrix?:Matrix};
 const hash=(b:Buffer|string)=>createHash('sha256').update(b).digest('hex');
@@ -43,6 +43,7 @@ export async function POST(req:NextRequest){
   if(matrix){
    const allowed=Object.hasOwn(matrixModels,matrix.mode)?matrixModels[matrix.mode] as readonly string[]:[];
    if(!allowed.includes(matrix.model)||spec.transportOnly||spec.files.length!==(matrix.mode==='text'||saved?0:1)||
+    (matrix.disableThinking!==undefined&&(matrix.disableThinking!==true||matrix.mode!=='direct'||matrix.model!=='qwen/qwen3.8-omni-flash'))||
     (matrix.mode==='text'&&(typeof matrix.text!=='string'||matrix.text.length>24000)))return response({error:'Invalid matrix case'},400);
   }
   if(saved&&(matrix?.mode!=='direct'||!/^\w{8}(?:-\w{4}){3}-\w{12}$/.test(saved.attemptId)||!Array.isArray(saved.steps)||
@@ -104,7 +105,8 @@ export async function POST(req:NextRequest){
    ...(matrix.plainTranscript?{response_format:'json'}:{response_format:'verbose_json',timestamp_granularities:['word']}),
   }:matrix?{
    model,max_tokens:6000,
-   ...(model.startsWith('google/')?{reasoning:{effort:'low',exclude:true}}:model.startsWith('xiaomi/')?{reasoning:{enabled:false}}:{}),
+   ...(matrix.disableThinking?{reasoning:{effort:'none'},provider:{only:['Alibaba'],allow_fallbacks:false,require_parameters:true}}:
+    model.startsWith('google/')?{reasoning:{effort:'low',exclude:true}}:model.startsWith('xiaomi/')?{reasoning:{enabled:false}}:{}),
    messages:[{role:'system',content:prompt},{role:'user',content:matrix.mode==='text'?matrix.text:content}],
   }:{
    model,max_tokens:spec.transportOnly?500:6500,temperature:0.1,reasoning:{enabled:false},provider:{only:['Xiaomi'],allow_fallbacks:false,require_parameters:true},
