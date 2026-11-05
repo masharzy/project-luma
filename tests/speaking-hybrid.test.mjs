@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import ts from 'typescript';
 const require=createRequire(import.meta.url);
-const models={speakingTranscriptModel:'stt',speakingLanguageModel:'judge'};
+const models={speakingTranscriptModel:'stt',speakingLanguageModel:'judge',speakingPronunciationModel:'omni'};
 function load(deps={}){
  const m={exports:{}};
  new Function('require','module','exports',ts.transpileModule(readFileSync(new URL('../src/lib/products/speaking-hybrid.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText)(
@@ -25,7 +25,7 @@ test('timed sentences and pauses stay within their original answer',()=>{
  assert.deepEqual(out[1].pauses,[]);
  assert.deepEqual(out[1].sentenceTimings,[{start:.3,end:.5,wordCount:1}]);
 });
-test('the split flow keeps a verbatim transcript and useful language feedback without unsupported pronunciation',async()=>{
+for(const pronunciationQa of [false,true])test('split flow keeps language separate and verifies pronunciation evidence (QA '+pronunciationQa+')',async()=>{
  const clip=segment(0,1,0,8);
  const {assessSpeakingHybrid}=load({
   './speaking-audio-pack':{packSpeakingAudio:()=>({audio:Buffer.alloc(50),segments:[clip]})},
@@ -38,6 +38,13 @@ test('the split flow keeps a verbatim transcript and useful language feedback wi
  globalThis.fetch=async(_url,opt)=>{
   const body=JSON.parse(opt.body);requests.push(body.model);
   if(body.model==='stt')return Response.json({text:'I goes',words:[{word:'I',start:.5,end:.9},{word:'goes',start:1.2,end:1.7}],usage:{cost:.001}});
+  if(body.model==='omni'){
+   assert.equal(body.messages[1].content[1].type,'input_audio');
+   return response({band:6,feedback:'Part estimate',observations:[
+    {step:0,word:'goes',timestamp:1.3,observation:'Clear vowel',kind:'strength'},
+    {step:0,word:'invented',timestamp:1.3,observation:'Unsupported',kind:'issue'},
+   ]});
+  }
   const input=JSON.parse(body.messages[1].content);
   assert.equal(input.answers[0].verbatim,'I goes');
   assert.equal('pronunciation' in input.answers[0],false);
@@ -47,11 +54,12 @@ test('the split flow keeps a verbatim transcript and useful language feedback wi
    fluency:criterion,lexicalResource:criterion,grammar:criterion,pronunciation:criterion,summary:'Practise agreement.',nextSteps:['Use go with I.']});
  };
  try{
-  const {result,usage}=await assessSpeakingHybrid({expected:1,cueCard:null,clips:[clip]},{providerKey:'fixture-secret',loadAudio:async()=>Buffer.alloc(50,1)});
-  assert.deepEqual(requests,['stt','judge']);
+  const {result,usage}=await assessSpeakingHybrid({expected:1,cueCard:null,clips:[clip],pronunciationQa},{providerKey:'fixture-secret',loadAudio:async()=>Buffer.alloc(50,1)});
+  assert.deepEqual(requests,pronunciationQa?['stt','omni','judge']:['stt','judge']);
   assert.equal(result.transcripts[0].verbatim,'I goes');
   assert.equal(result.assessmentDetails.answers[0].corrections.length,1);
   assert.equal(result.pronunciation.band,null);
-  assert.equal(usage.cost,.002);
+  assert.equal(result.assessmentDetails.answers[0].pronunciation.length,pronunciationQa?1:0);
+  assert.equal(usage.cost,pronunciationQa?.003:.002);
  }finally{globalThis.fetch=old;}
 });

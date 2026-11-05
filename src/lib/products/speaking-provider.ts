@@ -18,7 +18,7 @@ Use IELTS bands in half-point steps for the four criteria, with concise evidence
 const assessmentCriterion=z.object({band:z.number().min(0).max(9).multipleOf(.5).nullable(),feedback:z.string(),evidence:z.array(z.string())});
 export const speakingAssessmentSchema=z.object({scorable:z.boolean(),limitation:z.string(),confidence:z.enum(['low','medium','high']),transcripts:z.array(z.object({step:z.number().int(),verbatim:z.string(),uncertain:z.array(z.string())})),fluency:assessmentCriterion,lexicalResource:assessmentCriterion,grammar:assessmentCriterion,pronunciation:assessmentCriterion,summary:z.string(),nextSteps:z.array(z.string())});
 export const speakingResponseSchema=speakingAssessmentSchema.extend({limitation:z.string().nullish()});
-export type SpeakingInput={sourceParts?:unknown[]|null;expected:number;cueCard:unknown;clips:{step:number;part:number;question:string;seconds:number;key:string}[]};
+export type SpeakingInput={sourceParts?:unknown[]|null;pronunciationQa?:true;expected:number;cueCard:unknown;clips:{step:number;part:number;question:string;seconds:number;key:string}[]};
 export type SpeakingAssessment=z.infer<typeof speakingAssessmentSchema>&{estimatedBand:number|null;assessmentDetails?:unknown;validationIssues?:unknown[]};
 
 const band=z.number().min(0).max(9).multipleOf(.5).nullable();
