@@ -1,5 +1,5 @@
 import { validateSpeakingWav } from './speaking-wav';
-/** One lossless audio attachment with explicit question boundaries for Gemini. */
+/** One lossless audio attachment with explicit question boundaries per Speaking part. */
 export function packSpeakingAudio<T extends {step:number;part:number;question:string;seconds:number}>(clips:{clip:T;bytes:Uint8Array}[]){
  if(!clips.length)throw Error('No Speaking recordings submitted');
  const chunks:Buffer[]=[],segments:(T&{start_seconds:number;end_seconds:number})[]=[];

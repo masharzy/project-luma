@@ -8,13 +8,13 @@ if(secret.length<32)throw Error('SPEAKING_WORKER_TOKEN must be at least 32 chara
 const digest=(s:string)=>createHash('sha256').update(s).digest();
 let stopping=false,ready=false,active:string|null=null;
 const pause=(ms:number)=>new Promise(r=>setTimeout(r,ms));
-// One paid request at a time. Database claims protect against duplicate deliveries/processes.
+// One evaluation job at a time. Database claims protect against duplicate deliveries/processes.
 async function loop(){
  while(!stopping){
   try{
-   const stale=await db().query("SELECT id FROM public.speaking_evaluations WHERE status='running' AND lease_until<now() ORDER BY created_at LIMIT 5");
-   for(const row of stale)await failSpeaking(String(row.id),'WORKER_INTERRUPTED');
-   const jobs=await db().query("SELECT id FROM public.speaking_evaluations WHERE status='pending' AND tries<1 ORDER BY created_at LIMIT 1");
+   const stale=await db().query("SELECT id,tries FROM public.speaking_evaluations WHERE status='running' AND lease_until<now() ORDER BY created_at LIMIT 5");
+   for(const row of stale)await failSpeaking(String(row.id),'WORKER_INTERRUPTED',Number(row.tries),null,true);
+   const jobs=await db().query("SELECT id FROM public.speaking_evaluations WHERE status='pending' ORDER BY created_at LIMIT 1");
    if(!jobs.length){await pause(5000);continue;}
    active=String(jobs[0].id);const id=active;
    const heartbeat=setInterval(()=>{void db().query("UPDATE public.speaking_evaluations SET lease_until=now()+interval '360 seconds' WHERE id=$1 AND status='running'",[id]).catch(()=>console.warn('Speaking heartbeat failed'));},30000);
@@ -25,7 +25,7 @@ async function loop(){
     if(!context.providerKey||!context.audioUrls)throw Error('Invalid worker context');
     await processSpeaking(id,{providerKey:context.providerKey,loadAudio:async key=>{
      const value=context.audioUrls[key];if(!value||new URL(value).protocol!=='https:')throw Error('Audio URL unavailable');
-     const audio=await fetch(value,{redirect:'error'});if(!audio.ok)throw Error('Audio download failed');return new Uint8Array(await audio.arrayBuffer());
+     const audio=await fetch(value,{redirect:'error',signal:AbortSignal.timeout(15_000)});if(!audio.ok)throw Error('Audio download failed');return new Uint8Array(await audio.arrayBuffer());
     }});
    }finally{clearInterval(heartbeat);active=null;}
   }catch{console.error('Speaking worker iteration failed');await pause(5000);}

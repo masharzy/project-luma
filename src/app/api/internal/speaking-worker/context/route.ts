@@ -11,7 +11,7 @@ export async function POST(req:Request){
  if(Number(req.headers.get('content-length')||0)>1024)return json({error:'Too large'},413);
  let id;try{id=(await req.json()).id;}catch{}
  if(typeof id!=='string'||!/^[a-f0-9-]{36}$/.test(id))return json({error:'Invalid job'},400);
- const rows=await db().query("SELECT input FROM public.speaking_evaluations WHERE id=$1 AND ((status='pending' AND tries<1) OR (status='running' AND tries=1 AND lease_until>now()))",[id]);
+ const rows=await db().query("SELECT input FROM public.speaking_evaluations WHERE id=$1 AND status='pending'",[id]);
  if(!rows.length)return json({error:'Job unavailable'},404);
  const clips=(rows[0].input as {clips:{key:string}[]}).clips;
  const audioUrls=Object.fromEntries(await Promise.all(clips.map(async c=>[c.key,await signedAudio(c.key)])));

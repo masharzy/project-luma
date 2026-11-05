@@ -1,3 +1,3 @@
-// Shared by the website and standalone worker; keep model routing in one place.
-export const speakingModel='google/gemini-3.1-pro-preview';
-export const speakingProvider='google-ai-studio';
+// Shared by the website and standalone worker.
+export const speakingModel = 'xiaomi/mimo-v2.6-flash';
+export const speakingProvider = 'Xiaomi';

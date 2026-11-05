@@ -1,5 +1,5 @@
 export type FeedbackCorrection={original:string;corrected:string;category:string;reason:string;confidence:string};
-export type FeedbackAnswer={step:number;verbatim:string;uncertain:string[];corrections:FeedbackCorrection[];strengths:{quote:string;why:string}[];pronunciation:{word:string;observation:string}[]};
+export type FeedbackAnswer={step:number;verbatim:string;uncertain:string[];corrections:FeedbackCorrection[];strengths:{quote:string;why:string}[];pronunciation:{word:string;observation:string}[]; notes?:{label:string;text:string}[]};
 export type FeedbackSpan={start:number;end:number;kind:'correction'|'strength'|'uncertain';index:number};
 const object=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:{};
 const list=(v:unknown):unknown[]=>Array.isArray(v)?v:[];
@@ -8,6 +8,7 @@ export function feedbackAnswers(details:unknown,fallback:{step:number;verbatim:s
  const d=object(details),byStep=new Map<number,Record<string,unknown>>();
  for(const value of list(d.answers??d.transcripts)){const a=object(value);if(typeof a.step==='number'&&!byStep.has(a.step))byStep.set(a.step,a);}
  return fallback.map(t=>{const a=byStep.get(t.step)||{};return {...t,
+  notes:[['Answer development',a.development],['Vocabulary',a.vocabulary_feedback],['Grammar',a.grammar_feedback],['Fluency',a.fluency_feedback],['Pronunciation',a.pronunciation_feedback]].flatMap(([label,text])=>typeof label==='string'&&typeof text==='string'&&text.trim()?[{label,text}]:[]),
   corrections:list(a.corrections).map(value=>{const c=object(value);return {original:str(c.original),corrected:str(c.corrected),category:str(c.category),reason:str(c.reason??c.reason_bn),confidence:str(c.confidence)};}),
   strengths:list(a.strengths).map(value=>{const s=object(value);return {quote:str(s.quote),why:str(s.why)};}),
   pronunciation:list(a.pronunciation).map(value=>{const p=object(value);return {word:str(p.word),observation:str(p.observation??p.observation_bn)};})

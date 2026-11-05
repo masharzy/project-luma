@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState, useTransition, type MouseEvent } from 'react';
-import { Menu, X, Search, Sun, Moon, Monitor, ExternalLink } from 'lucide-react';
+import { Bell, Menu, X, Search, Sun, Moon, Monitor, ExternalLink } from 'lucide-react';
 import { Icon } from '@/components/ui/icon';
 import { SignOut } from '@/components/sign-out';
 import { adminNavigation, adminLinkActive, adminPageLabel, type AdminTheme } from '@/lib/admin/navigation';
@@ -23,6 +23,20 @@ function Navigation({ path, onNavigate }: { path: string; onNavigate?: () => voi
 export function AdminShell({ children, name, initialTheme }: { children: React.ReactNode; name: string; initialTheme: AdminTheme }) {
   const path = usePathname();
   const router = useRouter();
+  const [speakingFailures,setSpeakingFailures] = useState(0);
+  useEffect(() => {
+    const controller = new AbortController();
+    async function refreshFailures() {
+      if(document.hidden)return;
+      try{
+        const response = await fetch('/api/admin/speaking-failures',{cache:'no-store',signal:controller.signal});
+        if(response.ok)setSpeakingFailures((await response.json()).count);
+      }catch{}
+    }
+    void refreshFailures();
+    const timer = window.setInterval(refreshFailures,45000);
+    return () => {controller.abort(); window.clearInterval(timer);};
+  }, [path]);
   const [isPending, startTransition] = useTransition();
   const [showProgress, setShowProgress] = useState(false);
   useEffect(() => {
@@ -64,7 +78,9 @@ export function AdminShell({ children, name, initialTheme }: { children: React.R
     <div className="adm-main"><header className="adm-topbar">
       <button type="button" className="adm-menu-button" aria-label="Open admin menu" aria-controls={drawerId} aria-expanded={open} onClick={()=>setOpen(true)}><Menu size={19} aria-hidden="true" /></button>
       <div className="adm-context"><span>Admin</span><span aria-hidden="true">/</span><strong>{adminPageLabel(path)}</strong></div>
-      <div className="adm-topbar-actions"><div className="adm-theme" role="group" aria-label="Admin color theme">{([
+      <div className="adm-topbar-actions">
+      {speakingFailures>0&&<Link href="/admin/ai-operations#speaking-failures" aria-label={speakingFailures+' failed Speaking evaluations'} title="Speaking evaluations that need review"><Bell size={16} aria-hidden="true" /> {speakingFailures}</Link>}
+      <div className="adm-theme" role="group" aria-label="Admin color theme">{([
         ['light','Light',Sun],['dark','Dark',Moon],['system','System',Monitor],
       ] as const).map(([value,label,ThemeIcon])=><button key={value} type="button" aria-label={label+' mode'} title={label+' mode'} aria-pressed={theme===value} onClick={()=>chooseTheme(value)}><ThemeIcon size={16} aria-hidden="true" /></button>)}</div><span className="adm-account" title={name}>{name}</span><SignOut /></div>
     </header><div className="adm-content" id="admin-content">{children}</div></div>

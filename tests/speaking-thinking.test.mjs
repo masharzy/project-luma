@@ -10,36 +10,85 @@ const prompt=load('../src/lib/products/speaking-qa-prompt.ts');
 const band=load('../src/lib/products/speaking-qa-validation.ts');
 const pack=load('../src/lib/products/speaking-audio-pack.ts',{'./speaking-wav':load('../src/lib/products/speaking-wav.ts')});
 const wav=Buffer.alloc(32044);wav.write('RIFF',0);wav.writeUInt32LE(wav.length-8,4);wav.write('WAVEfmt ',8);wav.writeUInt32LE(16,16);wav.writeUInt16LE(1,20);wav.writeUInt16LE(1,22);wav.writeUInt32LE(16000,24);wav.writeUInt32LE(32000,28);wav.writeUInt16LE(2,32);wav.writeUInt16LE(16,34);wav.write('data',36);wav.writeUInt32LE(32000,40);
-const provider=load('../src/lib/products/speaking-provider.ts',{'server-only':{},'@/lib/ai-lab/secrets':{getKey:async()=>'test-key'},'./speaking-qa-prompt':prompt,'./speaking-qa-validation':band,'./speaking-model':load('../src/lib/products/speaking-model.ts'),'./storage':{getPrivate:async()=>wav},'./speaking-audio-pack':pack,'./speaking-stream':load('../src/lib/products/speaking-stream.ts'),'./speaking-coverage':coverage});
-const input={expected:3,cueCard:{},clips:[1,2,3].map((part,step)=>({step,part,question:'Original question '+step,seconds:30,key:'private-'+step}))};
-const criterion={band:6,reason:'Practice estimate',evidence:[{step:0,quote:'I went there.',reason:'Supported'}]};
-const result={answers:input.clips.map(c=>({step:c.step,verbatim:'I went there.',speech_status:'speech',corrections:[],pronunciation:[],strengths:[],uncertain:[]})),criteria:{grammar:criterion,pronunciation:criterion,lexical_resource:criterion,fluency_coherence:criterion},accent:{description:'Not inferred',intelligibility:'mostly_clear',observations:[]},summary:'Practice',next_steps:[],limitations:[],confidence:'medium'};
-test('real provider request keeps every audio/question, enables thinking and stores billed usage and untouched raw response',async()=>{
- const old=globalThis.fetch;let sent;
- globalThis.fetch=async(url,opts)=>{sent=JSON.parse(opts.body);return new Response(JSON.stringify({usage:{cost:.001,completion_tokens_details:{reasoning_tokens:240}},choices:[{finish_reason:'stop',message:{content:JSON.stringify(result)}}]}));};
+const provider=load('../src/lib/products/speaking-provider.ts',{'server-only':{},'@/lib/ai-lab/secrets':{getKey:async()=>'test-key'},'./speaking-qa-prompt':prompt,'./speaking-qa-validation':band,'./speaking-model':load('../src/lib/products/speaking-model.ts'),'./storage':{getPrivate:async()=>wav},'./speaking-audio-pack':pack,'./speaking-stream':load('../src/lib/products/speaking-stream.ts'),'./speaking-coverage':coverage,'./speaking-audio':load('../src/lib/products/speaking-audio.ts',{'server-only':{},'@breezystack/lamejs':await import('@breezystack/lamejs'),'./speaking-wav':load('../src/lib/products/speaking-wav.ts')})});
+const input={expected:4,cueCard:{topic:'A book'},clips:[1,1,2,3].map((part,step)=>({step,part,question:'Original question '+step,seconds:30,key:'private-'+step}))};
+const fixture=steps=>{
+ const text='I went there.';
+ const criterion={band:6,reason:'Practice estimate',evidence:[{step:steps[0],quote:text,reason:'Supported',timestamp_seconds:.2}]};
+ return {audio_access:'heard',answers:steps.map(step=>({
+  step,verbatim:text,speech_status:'speech',corrections:[],pronunciation:[],strengths:[],uncertain:[],
+  development:'Name the place and add one reason you visited.',vocabulary_feedback:'Simple and relevant.',
+  grammar_feedback:'Accurate past tense.',fluency_feedback:'Steady rhythm.',pronunciation_feedback:'Clear final vowel.',
+ })),criteria:{grammar:criterion,pronunciation:criterion,lexical_resource:criterion,fluency_coherence:criterion},
+ accent:{description:'Not inferred',intelligibility:'mostly_clear',observations:[]},
+ summary:'Practice',next_steps:['Add a concrete detail.'],limitations:[],confidence:'medium'};
+};
+const envelope=(part,raw,finish_reason='stop')=>({id:'part-'+part,usage:{cost:.001},choices:[{finish_reason,message:{content:JSON.stringify(raw)}}]});
+const timeline=body=>JSON.parse(body.messages[1].content[0].text);
+test('three MiMo requests run concurrently with one timed MP3 per part and thinking disabled',async()=>{
+ const old=globalThis.fetch;
+ const sent=[],release=[];
+ globalThis.fetch=async(url,opts)=>{
+  const body=JSON.parse(opts.body);
+  sent.push(body);
+  const {part,recordings}=timeline(body);
+  return new Promise(resolve=>{
+   release.push(()=>resolve(Response.json(envelope(part,fixture(recordings.map(c=>c.step))))));
+   if(release.length===3)release.forEach(fn=>fn());
+  });
+ };
  try{
-  const r=await provider.assessSpeaking(input);
-  assert.equal(sent.messages[1].content.filter(c=>c.type==='input_audio').length,1);
-  assert.equal(sent.messages[1].content.filter(c=>c.type==='text').length,1);
-  const timeline=JSON.parse(sent.messages[1].content[0].text).recordings;assert.deepEqual(timeline.map(c=>[c.step,c.start_seconds,c.end_seconds]),[[0,0,1],[1,2,3],[2,4,5]]);assert.equal(sent.messages[1].content[1].input_audio.format,'wav');
-  assert.equal(sent.response_format.type,'json_object');assert.match(sent.messages[0].content,/OUTPUT JSON STRUCTURE:/);assert.equal(sent.model,'google/gemini-3.1-pro-preview');assert.deepEqual(sent.provider.only,['google-ai-studio']);assert.equal(sent.reasoning.enabled,true);assert.equal(sent.stream,true);assert.equal(sent.stream_options.include_usage,true);assert.equal(sent.signal,undefined);assert.equal(sent.temperature,undefined);assert.equal(sent.max_tokens,32768);
-  assert.equal(r.usage.rawPrimary.usage.completion_tokens_details.reasoning_tokens,240);
-  assert.deepEqual(r.result.assessmentDetails,result);assert.equal(r.result.estimatedBand,6);
+  const timeout=AbortSignal.timeout(2000);
+  const r=await Promise.race([provider.assessSpeaking(input),new Promise((_,reject)=>timeout.addEventListener('abort',()=>reject(Error('Requests were not parallel')),{once:true}))]);
+  assert.equal(sent.length,3);
+  assert.deepEqual(sent.map(timeline).map(x=>x.recordings.map(c=>[c.step,c.start_seconds,c.end_seconds])),[[[0,0,1],[1,2,3]],[[2,0,1]],[[3,0,1]]]);
+  for(const body of sent){
+   assert.equal(body.messages[1].content.length,2);
+   assert.equal(body.messages[1].content[1].input_audio.format,'mp3');
+   assert(!JSON.stringify(body.messages).includes('private-'));
+   assert.equal(body.model,'xiaomi/mimo-v2.6-flash');
+   assert.deepEqual(body.provider.only,['Xiaomi']);
+   assert.equal(body.reasoning.enabled,false);
+  }
+  assert.equal(r.usage.cost,.003);
+  assert.equal(r.result.estimatedBand,6);
+  assert.deepEqual(r.result.transcripts.map(a=>a.step),[0,1,2,3]);
+  assert.match(r.result.assessmentDetails.answers[0].development,/one reason/);
  }finally{globalThis.fetch=old;}
 });
-test('truncated but valid JSON is rejected with paid raw usage preserved',async()=>{
+test('keeps raw responses for all parts when a transcript is missing, audio was unheard or output truncated',async()=>{
  const old=globalThis.fetch;
- globalThis.fetch=async()=>new Response(JSON.stringify({usage:{cost:.001},choices:[{finish_reason:'length',message:{content:JSON.stringify(result)}}]}));
- try{await assert.rejects(provider.assessSpeaking(input),e=>e.providerReport.failureCode==='INCOMPLETE_MODEL_OUTPUT'&&e.providerReport.usage.cost===.001);}finally{globalThis.fetch=old;}
+ globalThis.fetch=async(url,opts)=>{
+  const {part,recordings}=timeline(JSON.parse(opts.body)),raw=fixture(recordings.map(c=>c.step));
+  if(part===1)raw.answers.pop();
+  if(part===2)raw.audio_access='unavailable';
+  return Response.json(envelope(part,raw,part===3?'length':'stop'));
+ };
+ try{
+  await assert.rejects(provider.assessSpeaking(input),error=>{
+   const report=error.providerReport;
+   assert.equal(report.failureCode,'INCOMPLETE_ANSWER_COVERAGE');
+   assert.deepEqual(report.parts.map(p=>p.issues),[['missing_step:1'],['audio_not_heard'],['incomplete_model_output']]);
+   assert.deepEqual(report.parts.map(p=>p.rawResponse.usage.cost),[.001,.001,.001]);
+   return true;
+  });
+ }finally{globalThis.fetch=old;}
 });
-
-test('ellipsized quotes and unsupported evidence no longer reject or rewrite the model assessment',async()=>{
- const raw=structuredClone(result);
- raw.answers[0].strengths=[{quote:'I ... there.',why:'Model observation'}];
- raw.answers[1].corrections=[{original:'not in transcript',corrected:'replacement',category:'grammar',reason:'Model claim',confidence:'high'}];
+test('optional ellipsized strengths can pass but invented grammar corrections hold the result',async()=>{
  const old=globalThis.fetch;
- globalThis.fetch=async()=>new Response(JSON.stringify({usage:{cost:.001},choices:[{finish_reason:'stop',message:{content:JSON.stringify(raw)}}]}));
- try{const r=await provider.assessSpeaking(input);assert.deepEqual(r.result.assessmentDetails,raw);assert.equal(r.result.transcripts.length,3);}finally{globalThis.fetch=old;}
+ let wrongCorrection=false;
+ globalThis.fetch=async(url,opts)=>{
+  const {part,recordings}=timeline(JSON.parse(opts.body)),raw=fixture(recordings.map(c=>c.step));
+  raw.answers[0].strengths=[{quote:'I ... there.',why:'Model observation'}];
+  if(wrongCorrection&&part===1)raw.answers[0].corrections=[{original:'not in transcript',corrected:'replacement',category:'grammar',reason:'Model claim',confidence:'high'}];
+  return Response.json(envelope(part,raw));
+ };
+ try{
+  const r=await provider.assessSpeaking(input);
+  assert.equal(r.result.assessmentDetails.answers[0].strengths[0].quote,'I ... there.');
+  wrongCorrection=true;
+  await assert.rejects(provider.assessSpeaking(input),e=>e.providerReport.parts[0].issues.includes('correction_not_verbatim:0'));
+ }finally{globalThis.fetch=old;}
 });
 
 test('joined WAV preserves each PCM sample and all question boundaries',()=>{

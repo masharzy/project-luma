@@ -4,44 +4,44 @@ import { db } from '@/lib/auth/db';
 import { assessSpeaking } from './speaking-provider';
 import { speakingModel } from './speaking-model';
 
-/** A failed Speaking assessment always refunds the reserved evaluation allowance. */
-export async function failSpeaking(id:string,code='EVALUATION_FAILED'){
+export async function failSpeaking(id:string,code:string,tries:number,report:unknown=null,expired=false){
+ // Match the claimed generation. Record the response and refund in the same transition.
  await db().query(`WITH failed AS (
-  UPDATE public.speaking_evaluations SET status='failed',lease_until=NULL,error_code=$2,updated_at=now()
-  WHERE id=$1 AND status IN ('pending','running')
+  UPDATE public.speaking_evaluations SET status='failed',result=NULL,lease_until=NULL,error_code=$2,
+   usage=COALESCE(usage,'{}'::jsonb)||jsonb_build_object('rawFailure',$4::jsonb),updated_at=now()
+  WHERE id=$1 AND status='running' AND tries=$3 AND (NOT $5::boolean OR lease_until<now())
   RETURNING user_id,product,period
  ) UPDATE public.evaluation_usage u SET count=greatest(0,u.count-1)
- FROM failed f WHERE u.user_id=f.user_id AND u.product=f.product AND u.period=f.period`,[id,code]);
+ FROM failed f WHERE u.user_id=f.user_id AND u.product=f.product AND u.period=f.period`,
+ [id,code,tries,JSON.stringify(report),expired]);
 }
 
 export async function processSpeaking(id:string,options:Parameters<typeof assessSpeaking>[1]={}){
- if(!/^[a-f0-9-]{36}$/.test(id))throw Error('Invalid job');
- // Never make a second paid OpenRouter request automatically for the same attempt.
- const row=(await db().query("UPDATE public.speaking_evaluations SET status='running',tries=tries+1,lease_until=now()+interval '360 seconds',updated_at=now() WHERE id=$1 AND tries<1 AND status='pending' RETURNING input,tries",[id]))[0];
+ if(!/^[a-f0-9-]{36}$/.test(id))throw Error('Invalid Speaking job');
+ const row=(await db().query(`UPDATE public.speaking_evaluations SET status='running',tries=tries+1,
+  lease_until=now()+interval '360 seconds',model=$2,updated_at=now()
+  WHERE id=$1 AND status='pending' RETURNING input,tries`,[id,speakingModel]))[0];
  if(!row){
-  const state=(await db().query('SELECT status,tries,lease_until FROM public.speaking_evaluations WHERE id=$1',[id]))[0];
-  if(state?.status==='running'&&new Date(String(state.lease_until)).getTime()>Date.now())return;
-  if(state&&['pending','running'].includes(state.status))await failSpeaking(id);
+  const stale=(await db().query("SELECT tries FROM public.speaking_evaluations WHERE id=$1 AND status='running' AND lease_until<now()",[id]))[0];
+  if(stale)await failSpeaking(id,'WORKER_INTERRUPTED',stale.tries,null,true);
   return;
  }
  try{
-  let lastCheckpoint=0,seenId='';
-  const {result,usage,model}=await assessSpeaking(row.input,{...options,onProgress:async envelope=>{
-   const now=Date.now();if(!envelope.id||(envelope.id===seenId&&now-lastCheckpoint<10000&&!envelope.usage))return;
-   seenId=envelope.id;lastCheckpoint=now;
-   // Persist partial answer/provider ID, so a platform interruption is diagnosable.
-   try{await db().query("UPDATE public.speaking_evaluations SET usage=$2::jsonb,updated_at=now() WHERE id=$1 AND status='running'",[id,JSON.stringify({providerRequestId:envelope.id,streaming:true,lastProgressAt:new Date(now).toISOString(),usage:envelope.usage||null,rawPartial:envelope})]);}catch{console.warn('Speaking stream checkpoint unavailable');}
+  const {result,usage,model}=await assessSpeaking(row.input,{...options,onProgress:async report=>{
+   // Each parallel stream updates its own key. Keep paid output if the worker is interrupted.
+   try{await db().query(`UPDATE public.speaking_evaluations
+    SET usage=COALESCE(usage,'{}'::jsonb)||jsonb_build_object('checkpoints',
+     COALESCE(usage->'checkpoints','{}'::jsonb)||jsonb_build_object($3::text,$4::jsonb)),updated_at=now()
+    WHERE id=$1 AND status='running' AND tries=$2`,[id,row.tries,String(report.part),JSON.stringify(report)]);}
+   catch{console.warn('Speaking checkpoint unavailable');}
   }});
-  await db().query("UPDATE public.speaking_evaluations SET status='completed',result=$2::jsonb,usage=$3::jsonb,model=$4,lease_until=NULL,updated_at=now() WHERE id=$1 AND status='running' AND tries=$5",[id,JSON.stringify(result),JSON.stringify(usage),model,row.tries]);
+  await db().query(`UPDATE public.speaking_evaluations SET status='completed',result=$2::jsonb,
+   usage=(COALESCE(usage,'{}'::jsonb)-'checkpoints')||$3::jsonb,model=$5,error_code=NULL,lease_until=NULL,updated_at=now()
+   WHERE id=$1 AND status='running' AND tries=$4`,[id,JSON.stringify(result),JSON.stringify(usage),row.tries,model]);
  }catch(error){
-  console.warn('Speaking evaluation failed',evaluationDiagnostic(error));
-  // Keep billed provider response, even if JSON parsing fails. No retry, no second charge.
-  const report=(error as {providerReport?:unknown})?.providerReport;
-  if(report){
-   try{await db().query("UPDATE public.speaking_evaluations SET usage=$2::jsonb,model=$3,updated_at=now() WHERE id=$1 AND status='running'",[id,JSON.stringify({rawFailure:report}),speakingModel]);}
-   catch{console.warn('Unable to save failed Speaking raw response');}
-  }
-  const code=(report as {failureCode?:string}|undefined)?.failureCode==='INCOMPLETE_ANSWER_COVERAGE'?'INCOMPLETE_ANSWER_COVERAGE':'EVALUATION_FAILED';
-  await failSpeaking(id,code);
+  const diagnostic=evaluationDiagnostic(error);
+  console.warn('Speaking evaluation failed',diagnostic);
+  const report=(error as {providerReport?:{failureCode:string}})?.providerReport;
+  await failSpeaking(id,report?.failureCode??'EVALUATION_FAILED',row.tries,report??diagnostic);
  }
 }
