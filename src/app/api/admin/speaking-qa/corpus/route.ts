@@ -100,13 +100,14 @@ export async function POST(req:NextRequest){
   const model=matrix?.model??defaultModel;
   const transcription=matrix?.mode==='transcribe';
   const qwenTextReview=matrix?.mode==='text'&&model==='qwen/qwen3.8-max-0902';
+  const qwenFlashTextReview=matrix?.mode==='text'&&model==='qwen/qwen3.7-flash';
   const endpoint=transcription?'audio/transcriptions':'chat/completions';
   const request=transcription?{
    model,input_audio:{format:'mp3',data:files[0].toString('base64')},language:'en',
    ...(matrix.plainTranscript?{response_format:'json'}:{response_format:'verbose_json',timestamp_granularities:['word']}),
   }:matrix?{
-   model,max_tokens:qwenTextReview?12000:6000,
-   ...(qwenTextReview?{reasoning:{effort:'low'},provider:{require_parameters:true}}:matrix.disableThinking?{reasoning:{effort:'none'},provider:{only:['Alibaba'],allow_fallbacks:false,require_parameters:true}}:
+   model,max_tokens:qwenTextReview||qwenFlashTextReview?12000:6000,
+   ...(qwenFlashTextReview?{reasoning:{effort:'none'},provider:{require_parameters:true}}:qwenTextReview?{reasoning:{effort:'low'},provider:{require_parameters:true}}:matrix.disableThinking?{reasoning:{effort:'none'},provider:{only:['Alibaba'],allow_fallbacks:false,require_parameters:true}}:
     model.startsWith('google/')?{reasoning:{effort:'low',exclude:true}}:model.startsWith('xiaomi/')?{reasoning:{enabled:false}}:{}),
    messages:[{role:'system',content:prompt},{role:'user',content:matrix.mode==='text'?matrix.text:content}],
   }:{
