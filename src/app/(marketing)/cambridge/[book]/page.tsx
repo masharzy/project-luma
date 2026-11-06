@@ -24,9 +24,9 @@ export default async function Page({ params }: {
     const available = new Set(saved.map(r => String(r.parent_id) + ':' + r.module));
     const speaking = tests.length ? await db().query('SELECT cambridge_test_id FROM public.speaking_sets WHERE published=true AND document IS NOT NULL AND cambridge_test_id=ANY($1::bigint[])',[tests.map(t=>t.id)]) : [];
     speaking.forEach(r=>available.add(String(r.cambridge_test_id)+':speaking'));
-    return <PageWrap tone="library-page"><PageIntro eyebrow="CAMBRIDGE LIBRARY" title={current.title} description="একটি module অনুশীলন করো, অথবা একসঙ্গে পুরো test দাও।"><Link className="text-link" href="/cambridge">← All books</Link></PageIntro>
+    return <PageWrap tone="library-page"><PageIntro eyebrow="Cambridge" title={current.title} crumbs={[{label:"Cambridge",href:"/cambridge"},{label:current.title}]}/>
  <CambridgeQuestionPractice book={book}/>
- <div className="lib-book-head"><span className={'lib-access'+(current.access==='premium'?' is-premium':'')}>{current.access==='premium'?'Premium book':tests.some(t=>t.access==='premium')?'Free & Premium tests':'Free access'}</span><span>{tests.length} tests</span><span lang="bn">Test number দেখে module বা Start Full Test বেছে নাও।</span></div>
+ <div className="lib-book-head"><span className={'lib-access'+(current.access==='premium'?' is-premium':'')}>{current.access==='premium'?'Premium book':tests.some(t=>t.access==='premium')?'Free & Premium tests':'Free access'}</span><span>{tests.length} tests</span></div>
  <PracticeTestCards hrefBase="/exam/cambridge" notes tests={tests.map(t=>({id:String(t.id),title:t.title||'Test '+t.testNumber,number:t.testNumber,access:current.access==='premium'||t.access==='premium'?'premium' as const:'free' as const,durations:t.durations,sections:[...t.sections],modules:moduleOrder.filter(m=>available.has(t.id+':'+m))}))}/>{!tests.length && <div className="workspace-panel admin-empty">Tests are being prepared for this book.</div>}
  </PageWrap>;
 }

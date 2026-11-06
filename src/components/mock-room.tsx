@@ -20,12 +20,12 @@ export function MockRoom({id}:{id:string}){
  const label=phase==='waiting'?'Waiting room':phase==='live'||(hasSpeaking&&!event.published)?'Mock in progress':'Mock complete';
  const registeredLine=!event.signedIn?'Log in to register':event.registered?'Registered':phase==='waiting'?'Not registered yet':'Registration closed';
  const cta=!event.signedIn?<Link className="lib-btn mkr-cta" href={'/auth/sign-in?next='+encodeURIComponent('/mocks/'+id)}>Log in to register <ArrowUpRight size={17}/></Link>
-  :!event.registered?phase==='waiting'?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('register')}>Register{event.access==='premium'?' · Premium':''} <ArrowUpRight size={17}/></button>:<p className="mkr-note">Registration has closed.</p>
-  :phase==='waiting'?<p className="mkr-note" role="status" lang="bn">Registered · এই পেজেই শুরুর সময় Join test বাটন আসবে।</p>
+  :!event.registered?phase==='waiting'?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('register')}>Register{event.access==='premium'?' · Premium':''} <ArrowUpRight size={17}/></button>:null
+  :phase==='waiting'?<p className="mkr-note" role="status">You are registered. Join opens at the start time.</p>
   :phase==='live'?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('join')}>{busy?'Opening…':event.attemptId?'Resume test':'Join test'} <ArrowUpRight size={17}/></button>
   :event.attemptId?<Link className="lib-btn mkr-cta" href={'/exam/attempt/'+event.attemptId}>{event.published?'View result':hasSpeaking?'Continue test / Speaking':'Open test'} <ArrowUpRight size={17}/></Link>
   :!event.published&&hasSpeaking?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('join')}>Continue to Speaking <ArrowUpRight size={17}/></button>
-  :<p className="mkr-note">You did not join this mock.</p>;
+  :null;
  return <section className={'mkr mkr-'+phase}>
   <div className="mkr-main">
    <span className={'mk-phase mk-phase-'+(phase==='waiting'?'upcoming':phase==='live'?'live':'completed')}>{phase==='live'&&<i aria-hidden/>}{label}</span>
@@ -38,14 +38,12 @@ export function MockRoom({id}:{id:string}){
    </dl>
    <h2 className="mkr-h2">Modules</h2>
    <ol className="mkr-modules">{event.modules.map((mod,i)=>{const I=icons[mod.module as keyof typeof icons]??BookOpenText;return <li key={mod.module}><span className="mkr-mod-no">{String(i+1).padStart(2,"0")}</span><I size={18} aria-hidden/><strong>{mod.module[0].toUpperCase()+mod.module.slice(1)}</strong><small>{mod.module==='speaking'?'No total time limit':mod.minutes+' min'}</small></li>})}</ol>
-   <p className="mkr-rules" lang="bn">রেজিস্টার করলে শুরুর প্রায় ১০ মিনিট আগে ইমেইল রিমাইন্ডার পাবে। সবাই একই সময়সূচিতে পরীক্ষা দেবে। দেরিতে ঢুকলে বাড়তি সময় পাবে না। উত্তর নিয়মিত সংরক্ষণ হবে; module submit করলে আর বদলাতে পারবে না।</p>
   </div>
   <aside className="mkr-panel" aria-label="Your mock status">
    {phase==='waiting'&&<div className="mkr-count" role="timer" aria-label={`Starts in ${d} days ${h} hours ${m} minutes ${sec} seconds`}><span className="mkr-count-label">Starts in</span><div>{([[d,'days'],[h,'hrs'],[m,'min'],[sec,'sec']] as const).map(([v,u])=><span key={u}><b>{String(v).padStart(2,'0')}</b>{u}</span>)}</div></div>}
    {phase==='live'&&<div className="mkr-count"><span className="mkr-count-label">Live now</span><p>Exam window closes at {mockTime(event.endsAt)}</p></div>}
-   {phase==='ended'&&<div className="mkr-count"><span className="mkr-count-label">Finished</span><p>{event.published?'Results are published.':'Result publish হলে এখানে দেখবে।'}</p></div>}
+   {phase==='ended'&&<div className="mkr-count"><span className="mkr-count-label">Finished</span><p>{event.published?'Results are published.':'Results are not published yet.'}</p></div>}
    {cta}
-   {phase==='ended'&&!event.published&&<p className="mkr-note" lang="bn">Admin result publish করলে এখানে ফল দেখতে পাবে।</p>}
    {error&&<p role="alert" className="mkr-error">{error}</p>}
   </aside>
  </section>;

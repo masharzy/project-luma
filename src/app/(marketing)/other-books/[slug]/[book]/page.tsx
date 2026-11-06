@@ -11,7 +11,7 @@ export default async function Page({params}:{params:Promise<{slug:string;book:st
  const {slug,book}=await params,current=(await listCatalogVolumes()).find(v=>v.slug===book&&v.seriesSlug===slug);
  if(!current)notFound();
  const tests=await listOtherBookTests(book);
- return <PageWrap tone="library-page"><PageIntro eyebrow={current.series.toUpperCase()} title={current.series+" · "+current.volume}><Link className="text-link" href={"/other-books/"+slug}>← All {current.series} books</Link></PageIntro>
+ return <PageWrap tone="library-page"><PageIntro eyebrow={current.series} title={current.series+" · "+current.volume} crumbs={[{label:"More Books",href:"/other-books"},{label:current.series,href:"/other-books/"+slug},{label:current.volume}]}/>
   <CambridgeQuestionPractice collection="other-books" book={book}/>
   <PracticeTestCards tests={tests.map(test=>({...test,modules:test.modules.map(m=>m.module)}))}/>
   {!tests.length&&<div className="workspace-panel admin-empty">Tests are being prepared for this book.</div>}

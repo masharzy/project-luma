@@ -6,4 +6,4 @@ import { WritingProduct } from '@/components/writing-product';
 import '@/styles/evaluation-products.css';
 import '@/styles/exam-session.css';
 export const metadata={title:'Writing Evaluation'};
-export default async function Page(){const u=await requireUser();return <PageWrap><PageIntro eyebrow="WRITING EVALUATION" title="Your ideas. A clearer next draft." description="নিজের প্রশ্ন যোগ করো, AI দিয়ে task তৈরি করো, অথবা Cambridge থেকে বেছে নাও। তারপর নিজের উত্তর লিখে feedback নাও।"/><EvaluationAllowance userId={u.id} product="writing_product"/><WritingProduct userId={u.id}/></PageWrap>}
+export default async function Page(){const u=await requireUser();return <PageWrap><PageIntro eyebrow="Writing Evaluation" title="Writing Evaluation" crumbs={[{label:"AI Feedback"},{label:"Writing Evaluation"}]}/><EvaluationAllowance userId={u.id} product="writing_product"/><WritingProduct userId={u.id}/></PageWrap>}
