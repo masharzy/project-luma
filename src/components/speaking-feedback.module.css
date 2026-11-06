@@ -36,14 +36,14 @@
 /* Transcript: larger type, clear mark colours, corrections easy to scan */
 .answer{border-radius:2px;background:#fff}
 .answerHeading h3{font-size:19px;font-weight:600;line-height:1.4;letter-spacing:-.015em;font-family:'Bricolage Grotesque','Instrument Sans',sans-serif}
-.answerNumber{font-family:'Bricolage Grotesque','Instrument Sans',sans-serif;font-weight:700;color:#F3EADC;font-size:44px}
+.answerNumber{font-family:'Bricolage Grotesque','Instrument Sans',sans-serif;font-weight:700;color:#FFF4F6;font-size:44px}
 .labelRow{font-size:11px;color:var(--muted)}
 .transcriptLine>span{font-size:11px;line-height:32px}
 .transcriptLine p{font-size:17px;line-height:1.85;color:var(--ink)}
 .correction{background:#FBE6EA;border-bottom:2px solid var(--red)}
 .strength{background:#E6EEE6;border-bottom:2px solid #4c8a5a}
 .uncertain{background:#FFF1CC;border-bottom:2px dashed #b8892a}
-.annotations{background:#F3EADC40;border-top:1px solid var(--line)}
+.annotations{background:#FFF4F640;border-top:1px solid var(--line)}
 .annotation{padding:16px 0;font-size:15px}
 .annotation p{font-size:15px;line-height:1.6}
 .noteLabel{font-size:11px;letter-spacing:.08em;color:var(--muted)}
@@ -53,10 +53,20 @@
 .criterion{border-radius:2px;background:#fff}
 .criterion p{font-size:15px;line-height:1.7}
 .criterionHeading h3{font-size:16px}
-.next{background:#F3EADC;color:var(--ink);border-radius:2px}
+.next{background:#FFF4F6;color:var(--ink);border-radius:2px}
 .next h2{color:var(--ink)}
-.limitations{background:#F3EADC;border-radius:2px}
+.limitations{background:#FFF4F6;border-radius:2px}
 .limitations summary{font-size:13px;color:var(--ink)}.limitations p{font-size:14px}
 .button{background:var(--red);color:#fff;border-radius:2px;min-height:44px;padding:0 1.3em;border:0;font-weight:600}
 .notice{border-radius:2px;border:1px solid var(--line);background:#fff}
 @media(max-width:640px){.hero{grid-template-columns:1fr}.overall{margin:0 12px 12px}.overall>strong{font-size:76px}.transcriptLine p{font-size:16px}.scoreCard>strong{font-size:36px}}
+
+/* White + red only */
+.strength{background:#fff;border-bottom:2px solid #2A0F16}
+.uncertain{background:#fff;border-bottom:2px dashed #6A4852}
+.annotation[data-kind=strength] .noteIcon,.annotation[data-kind=uncertain] .noteIcon,.annotation[data-kind=pronunciation] .noteIcon{background:#FDECEF;color:var(--red)}
+.legend [data-kind=strength]:before{background:#2A0F16}.legend [data-kind=uncertain]:before{background:#6A4852}
+.edit ins{color:var(--red);background:#fff;text-decoration:underline;text-decoration-thickness:2px}
+.hero{background:#fff}
+.filters button[aria-pressed=true]{background:var(--red);border-color:var(--red)}
+.next{background:#FFF4F6}

@@ -21,9 +21,10 @@ export function MockCard({ item: e, now, basePath }: { item: MockCardItem; now: 
   const phase = mockPhase(e, now), registered = Boolean(e.registered_at), published = Boolean(e.results_published_at);
   const mods = e.modules ?? [];
   const status = published ? "Results published" : registered ? "Registered" : phase === "upcoming" ? "Registration open" : phase === "live" ? "In progress" : "Registration closed";
-  const action = published ? (basePath === "/mocks" ? "View results" : "Open result")
-    : registered ? (phase === "live" ? "Join / resume" : phase === "upcoming" ? "Open my exam" : "Open my exam")
-    : phase === "upcoming" ? "View & register" : "View exam";
+  const action = published ? "View results"
+    : phase === "completed" ? "View details"
+    : phase === "live" ? (registered ? "Join / resume" : "View exam")
+    : registered ? "View details" : "View & register";
   return (
     <article className={`mk-card mk-${phase}`} aria-labelledby={`mk-${e.id}`}>
       <div className="mk-date" aria-hidden>
@@ -37,10 +38,9 @@ export function MockCard({ item: e, now, basePath }: { item: MockCardItem; now: 
           <span className="mk-access">{e.access === "premium" ? <><Lock size={11} aria-hidden /> Premium</> : "Free"}</span>
         </div>
         <h2 id={`mk-${e.id}`}>{e.title}</h2>
-        {e.description && <p lang="bn">{e.description}</p>}
         <p className="mk-when"><Clock3 size={14} aria-hidden /> {mockTime(e.starts_at)} – {mockTime(e.ends_at)} <small>Bangladesh time</small></p>
         <ul className="mk-modules" aria-label="Modules">
-          {mods.map((m) => { const I = icons[m as keyof typeof icons] ?? BookOpenText; return <li key={m}><I size={13} aria-hidden />{m[0].toUpperCase() + m.slice(1)}{m === "speaking" && <small lang="bn"> · নিজের গতিতে</small>}</li>; })}
+          {mods.map((m) => { const I = icons[m as keyof typeof icons] ?? BookOpenText; return <li key={m}><I size={13} aria-hidden />{m[0].toUpperCase() + m.slice(1)}</li>; })}
         </ul>
       </div>
       <div className="mk-act">

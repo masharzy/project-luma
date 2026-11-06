@@ -6,7 +6,7 @@ export const metadata=publicPageMetadata("IELTS Practice Books | More Books","Co
 export const dynamic="force-dynamic";
 export default async function Page(){
  const series=await listCatalogSeries();
- return <PageWrap tone="library-page"><PageIntro eyebrow="MORE BOOKS" title="More Books"/>
+ return <PageWrap tone="library-page"><PageIntro eyebrow="More Books" title="More Books" crumbs={[{label:"More Books"}]}/>
   <OtherBooksCatalog entries={series.map(s=>({key:s.slug,title:s.name,cover:s.cover,href:"/other-books/"+s.slug}))}/>{!series.length&&<p>Book collections are being prepared.</p>}
  </PageWrap>;
 }

@@ -1,0 +1,137 @@
+/* ───────── Student dashboard — premium white + red ─────────
+   Loaded after student-dashboard.css / student-redesign.css. Re-tunes their tokens and
+   re-skins shared classes so every /dashboard route and /settings share one language:
+   white surfaces, hairline red borders, square corners, Bricolage display type, red as the only accent. */
+.student-app{--s-red:#C8082F;--s-ink:#2A0F16;--s-muted:#6A4852;--s-line:rgba(200,8,47,.15);--s-bg:#fff;--s-surface:#fff;--study-dark:#C8082F;--study-warm:#fff;--study-soft:#FDECEF;--d:'Bricolage Grotesque','Instrument Sans',system-ui,sans-serif;--tint:#FFF4F6;--red-2:#7B1230;background:#fff;color:var(--s-ink);font:400 .95rem/1.6 'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.student-app *:not(svg):not(path){font-family:'Instrument Sans',system-ui,sans-serif!important}
+.student-app :is(h1,h2,h3,.student-brand,.student-stats strong,.study-summary strong,.study-result-score,.study-feedback-band strong,.student-band,.study-plan-price,.study-date-stamp strong,.study-infinity,.study-collection-number,.student-score-row strong,.study-feedback-card strong){font-family:'Bricolage Grotesque','Instrument Sans',system-ui,sans-serif!important}
+.student-app :focus-visible{outline:2px solid var(--s-red);outline-offset:3px}
+.student-app a{color:inherit}
+
+/* Shell */
+.student-app{display:grid;grid-template-columns:272px minmax(0,1fr);align-items:start}
+.student-sidebar{position:sticky;inset:auto;top:0;width:auto;height:100dvh;display:flex;flex-direction:column;gap:6px;padding:28px 18px 22px;background:#fff;border-right:1px solid var(--s-line);overflow-y:auto}
+.student-brand{display:grid;gap:4px;padding:0 12px 26px;font-size:1.55rem;font-weight:700;letter-spacing:-.05em;text-decoration:none;color:var(--s-ink)}
+.student-brand span{font:600 .62rem 'Instrument Sans',sans-serif!important;letter-spacing:.2em;color:var(--s-red)}
+.student-sidebar nav{display:grid;gap:2px}
+.student-sidebar nav a,.student-drawer nav a{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 14px;border-left:2px solid transparent;color:var(--s-muted);font-weight:500;font-size:.92rem;text-decoration:none;transition:color .2s,background .2s,border-color .2s}
+.student-sidebar nav a:hover,.student-drawer nav a:hover{color:var(--s-red);background:var(--tint)}
+.student-sidebar nav a[aria-current=page],.student-drawer nav a[aria-current=page]{color:var(--s-red);border-left-color:var(--s-red);background:var(--tint);font-weight:600}
+.student-sidebar-bottom{margin-top:auto;padding:16px 14px 0;border-top:1px solid var(--s-line)}
+.student-sidebar-bottom a{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600;color:var(--s-red);text-decoration:none}
+.student-main{min-width:0;margin:0!important;background:#fff}
+.student-topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:64px;padding:0 clamp(18px,3.5vw,44px);background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--s-line);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--s-muted)}
+.student-topbar strong{color:var(--s-red);font-weight:600}
+.student-crumb{color:var(--s-red);margin:0 6px}
+.student-identity{display:flex;align-items:center;gap:10px;text-transform:none;letter-spacing:0;font-size:.88rem;color:var(--s-ink)}
+.student-avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--s-red);color:#fff;font-weight:700}
+.student-refresh,.student-icon-button,.student-menu{display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--s-line);border-radius:0;background:#fff;color:var(--s-ink);cursor:pointer}
+.student-refresh:hover,.student-icon-button:hover,.student-menu:hover{border-color:var(--s-red);color:var(--s-red)}
+.student-content{display:grid;gap:clamp(28px,4vw,48px);width:100%;max-width:1180px;padding:clamp(28px,4.5vw,56px) clamp(18px,3.5vw,44px) 96px}
+.student-progress{position:fixed;inset:0 0 auto 0;height:2px;z-index:60;background:var(--tint)}
+.student-progress span{display:block;height:100%;background:var(--s-red)}
+
+/* Page heading */
+.student-heading{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:clamp(20px,3vw,32px);border-bottom:1px solid var(--s-line)}
+.student-heading h1{margin:0;font-size:clamp(2.2rem,5vw,3.9rem);font-weight:600;line-height:1;letter-spacing:-.05em;color:var(--s-ink)}
+.student-heading .student-eyebrow{display:block;margin-bottom:14px;font:600 .72rem 'Instrument Sans',sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:var(--s-red)}
+.student-heading p{display:none}
+
+/* Buttons & tags */
+.student-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 1.5em;border:0;border-radius:0;background:var(--s-red);color:#fff;font-weight:600;font-size:.9rem;text-decoration:none;cursor:pointer;transition:background .2s}
+.student-button:hover:not(:disabled){background:var(--red-2)}
+.student-button.secondary,.student-button.ghost{background:#fff;color:var(--s-red);box-shadow:inset 0 0 0 1px var(--s-red)}
+.student-button.secondary:hover:not(:disabled){background:var(--s-red);color:#fff}
+.student-button:disabled{background:var(--tint);color:rgba(200,8,47,.4);cursor:not-allowed}
+.student-tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:0;background:#fff;color:var(--s-red);box-shadow:inset 0 0 0 1px var(--s-line);font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.student-row-action,.student-note a,.student-panel-title a,.study-text-button,.study-back-link{display:inline-flex;align-items:center;gap:4px;color:var(--s-red);font-weight:600;font-size:.86rem;text-decoration:none;border-bottom:1.5px solid transparent}
+.student-row-action:hover,.student-panel-title a:hover,.study-text-button:hover,.study-back-link:hover{border-bottom-color:var(--s-red)}
+.student-note{color:var(--s-muted);font-size:.86rem}
+
+/* Surfaces — hairline, square, no shadow */
+.student-panel,.study-result-card,.study-plan-card,.study-current-plan,.study-credit-card,.study-mock-card,.student-library-test,.study-writing-feedback,.study-feedback-card,.study-empty,.student-empty,.study-confirm,.study-notice,.student-access-empty,.study-pending-plan,.study-plan-unavailable,.study-billing-history,.student-feedback,.student-free-tests{background:#fff;border:1px solid var(--s-line);border-radius:0;box-shadow:none;color:var(--s-ink)}
+.student-panel{padding:clamp(20px,2.4vw,30px)}
+.student-panel-title,.study-section-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 18px;padding-bottom:14px;border-bottom:1px solid var(--s-line)}
+.student-panel-title h2,.study-section-title h2{margin:0;font-size:1.35rem;font-weight:600;letter-spacing:-.03em}
+.student-panel-title span,.study-section-title span{font-size:.8rem;color:var(--s-muted)}
+.study-mock-card:hover,.study-feedback-card:hover,.student-library-test:hover,.study-plan-card:hover{border-color:var(--s-red)}
+.study-empty,.student-empty,.student-access-empty{display:grid;justify-items:center;gap:12px;padding:clamp(36px,6vw,64px) 24px;text-align:center;border-style:dashed;border-color:var(--s-line)}
+.study-empty h2,.student-empty h3{margin:0;font-size:1.5rem;letter-spacing:-.03em}
+.study-empty p,.student-empty p{margin:0;color:var(--s-muted)}
+.study-empty svg,.student-empty svg{color:var(--s-red)}
+
+/* Overview stats — editorial numerals on shared hairlines */
+.student-stats,.study-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--s-line);border:1px solid var(--s-line)}
+.student-stats>a,.study-summary>div{position:relative;display:grid;align-content:space-between;gap:20px;min-height:150px;padding:22px 24px;background:#fff;border:0;border-radius:0;text-decoration:none;color:var(--s-ink);transition:background .2s}
+.student-stats>a:hover{background:var(--tint)}
+.student-stats>a>span,.study-summary span{font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--s-muted)}
+.student-stats strong,.study-summary strong{font-size:clamp(2.6rem,5vw,3.8rem);font-weight:600;line-height:1;letter-spacing:-.06em;color:var(--s-red)}
+.student-stats>a>svg{position:absolute;top:20px;right:20px;color:var(--s-red)}
+.student-split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,2.5vw,32px);align-items:start}
+
+/* Lists & rows */
+.student-test-row,.student-list-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:6px 16px;padding:16px 0;border:0;border-bottom:1px solid var(--s-line);border-radius:0;background:none;color:var(--s-ink);text-decoration:none}
+.student-list-row{grid-template-columns:auto minmax(0,1fr) auto}
+.student-test-row:last-child,.student-list-row:last-child{border-bottom:0}
+.student-test-row strong{font-weight:600}.student-test-row p{margin:2px 0 0;font-size:.84rem;color:var(--s-muted)}
+.student-test-icon{display:grid;place-items:center;width:42px;height:42px;background:var(--tint);color:var(--s-red)}
+.student-list-row:hover{color:var(--s-red)}
+.student-evaluations>a{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--s-line);text-decoration:none}
+.student-evaluations>a:hover{color:var(--s-red)}
+.student-evaluations>a>svg:first-child{color:var(--s-red)}
+.student-evaluations p{margin:2px 0 0;font-size:.84rem;color:var(--s-muted)}
+
+/* Tabs → underline */
+.study-tabs,.student-tabs{display:flex;gap:0;padding:0;border:0;border-bottom:1px solid var(--s-line);background:none;overflow-x:auto;scrollbar-width:none}
+.study-tabs::-webkit-scrollbar{display:none}
+.study-tabs button,.student-tabs button,.student-tabs a{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 20px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--s-muted);font-weight:600;font-size:.92rem;cursor:pointer;white-space:nowrap;text-decoration:none}
+.study-tabs button:hover,.student-tabs button:hover{color:var(--s-red)}
+.study-tabs button[aria-pressed=true],.student-tabs button[aria-pressed=true],.student-tabs a[aria-current]{color:var(--s-red);border-bottom-color:var(--s-red);background:none;box-shadow:none}
+.study-tabs button b{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;background:var(--s-red);color:#fff;font-size:.68rem}
+
+/* Forms */
+.student-app :is(input:not([type=checkbox]):not([type=radio]),select,textarea){min-height:46px;padding:10px 14px;border:1px solid var(--s-line);border-radius:0;background:#fff;color:var(--s-ink);font-size:.95rem}
+.student-app :is(input,select,textarea):focus{outline:none;border-color:var(--s-red);box-shadow:0 0 0 3px rgba(200,8,47,.1)}
+.student-app label{font-weight:600;font-size:.86rem}
+.student-app input[type=checkbox],.student-app input[type=radio]{accent-color:var(--s-red)}
+.student-app :is(meter,progress){accent-color:var(--s-red)}
+
+/* Scores, plans, credits */
+.student-band,.study-result-score{color:var(--s-red);letter-spacing:-.05em}
+.study-feedback-band{background:#fff;border:1px solid var(--s-line);border-radius:0}
+.study-feedback-band strong{color:var(--s-red)}
+.study-credit-meter,.student-score-row i{background:var(--tint)}
+.study-credit-meter span,.student-score-row b{background:var(--s-red)}
+.study-plan-card.is-current,.study-current-plan{border-top:3px solid var(--s-red)}
+.study-plan-price{color:var(--s-ink);letter-spacing:-.05em}
+.study-date-stamp{display:grid;justify-items:center;padding:8px 12px;border:1px solid var(--s-line);background:#fff;color:var(--s-muted)}
+.study-date-stamp strong{color:var(--s-red)}
+.study-kicker{font-size:.68rem;font-weight:600;letter-spacing:.16em;color:var(--s-red)}
+.study-notice{padding:14px 18px;border-left:3px solid var(--s-red)}
+.student-pagination a,.student-pagination button{min-width:42px;min-height:42px;border:1px solid var(--s-line);border-radius:0;background:#fff;color:var(--s-ink)}
+.student-pagination [aria-current=page]{background:var(--s-red);border-color:var(--s-red);color:#fff}
+
+/* Drawer (mobile) */
+.student-drawer{width:min(86vw,340px);height:100dvh;margin:0;padding:22px 16px;border:0;border-right:1px solid var(--s-line);background:#fff;color:var(--s-ink)}
+.student-drawer::backdrop{background:rgba(255,255,255,.7);backdrop-filter:blur(4px)}
+.student-drawer-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;font-size:1.3rem;letter-spacing:-.04em}
+.student-drawer nav{display:grid;gap:2px}
+
+@media(max-width:1000px){.student-split{grid-template-columns:1fr}}
+@media(max-width:760px){
+ .student-app{display:block}
+ .student-sidebar{display:none}
+ .student-menu{display:grid}
+ .student-topbar{min-height:58px}
+ .student-identity>span:not(.student-avatar){display:none}
+ .student-test-row{grid-template-columns:auto minmax(0,1fr)}
+ .student-test-row .student-tag{grid-column:2;grid-row:2;justify-self:start}
+ .student-test-row .student-row-action,.student-test-row .student-note{grid-column:2;grid-row:3;justify-self:start}
+ .student-stats>a,.study-summary>div{min-height:120px;padding:18px}
+}
+@media(min-width:761px){.student-menu{display:none}}
+@media(prefers-reduced-motion:reduce){.student-app *{transition:none!important}}
+
+.student-goals{border:0;background:none;padding:0}
+.student-save-form{gap:14px}
+.student-save-form>label{display:grid;gap:6px;border:0;padding:0}

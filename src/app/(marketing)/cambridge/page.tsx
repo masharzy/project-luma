@@ -11,7 +11,7 @@ export default async function Page() {
     const books = await listCambridgeBooks();
     // const bookCount = books.length; // Used by the archived shelf banner below.
     return <PageWrap tone="library-page">
-  <PageIntro eyebrow="CAMBRIDGE LIBRARY" title="Familiar books. A fresh start." description="তোমার বই বেছে নাও। পুরো test দাও, অথবা একটি module দিয়ে শুরু করো।"/>
+  <PageIntro eyebrow="Cambridge" title="Cambridge IELTS" crumbs={[{label:"Cambridge"}]}/>
   {/* Shelf banner kept for future reuse; hidden to save vertical space.
   <div className="library-banner"><span>THE CAMBRIDGE SHELF</span>
    <p>{bookCount} books. <em>Your own pace.</em></p>

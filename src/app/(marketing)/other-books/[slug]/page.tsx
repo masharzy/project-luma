@@ -11,7 +11,7 @@ export default async function Page({params}:{params:Promise<{slug:string}>}){
  const series=allSeries.find(s=>s.slug===slug);
  if(!series){const volume=allVolumes.find(v=>v.slug===slug);if(volume)redirect("/other-books/"+volume.seriesSlug+"/"+volume.slug);notFound();}
  const books=allVolumes.filter(v=>v.seriesSlug===slug);
- return <PageWrap tone="library-page"><PageIntro eyebrow="MORE BOOKS" title={series.name}><Link className="text-link" href="/other-books">← All collections</Link></PageIntro>
+ return <PageWrap tone="library-page"><PageIntro eyebrow="More Books" title={series.name} crumbs={[{label:"More Books",href:"/other-books"},{label:series.name}]}/>
   <CambridgeQuestionPractice collection="other-books" series={slug}/>
   <OtherBooksCatalog entries={books.map(b=>({key:b.slug,title:b.series+" · "+b.volume,cover:b.cover,href:"/other-books/"+b.seriesSlug+"/"+b.slug}))}/>
   {!books.length&&<p>No published books in this collection yet.</p>}
