@@ -28,7 +28,7 @@ const timeline=body=>{
  const [header,...clips]=body.messages[1].content;
  return {...JSON.parse(header.text),recordings:clips.filter(c=>c.type==='text').map(c=>JSON.parse(c.text))};
 };
-test('three MiMo requests run concurrently with separately labeled clips in each request and thinking disabled',async()=>{
+test('three Gemini production requests run concurrently with separately labeled clips in each request and thinking disabled',async()=>{
  const old=globalThis.fetch;
  const sent=[],release=[];
  globalThis.fetch=async(url,opts)=>{
@@ -42,7 +42,7 @@ test('three MiMo requests run concurrently with separately labeled clips in each
  };
  try{
   const timeout=AbortSignal.timeout(2000);
-  const r=await Promise.race([provider.assessSpeakingDirect(input),new Promise((_,reject)=>timeout.addEventListener('abort',()=>reject(Error('Requests were not parallel')),{once:true}))]);
+  const r=await Promise.race([provider.assessSpeaking(input),new Promise((_,reject)=>timeout.addEventListener('abort',()=>reject(Error('Requests were not parallel')),{once:true}))]);
   assert.equal(sent.length,3);
   assert.deepEqual(sent.map(timeline).sort((a,b)=>a.part-b.part).map(x=>x.recordings.map(c=>c.step)),[[0,1],[2],[3]]);
   for(const body of sent){
@@ -52,8 +52,8 @@ test('three MiMo requests run concurrently with separately labeled clips in each
    assert.equal(body.response_format.type,'json_schema');
    assert.deepEqual(body.response_format.json_schema.schema.properties.answers.items.properties.step.enum,steps);
    assert(!JSON.stringify(body.messages).includes('private-'));
-   assert.equal(body.model,'xiaomi/mimo-v2.6-flash');
-   assert.deepEqual(body.provider.only,['Xiaomi']);
+   assert.equal(body.model,'google/gemini-3.8-flash');
+   assert.deepEqual(body.provider.only,['Google']);
    assert.equal(body.reasoning.enabled,false);
   }
   assert.equal(r.usage.cost,.003);

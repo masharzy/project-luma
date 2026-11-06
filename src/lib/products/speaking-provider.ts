@@ -8,11 +8,12 @@ import { readSpeakingStream, type SpeakingEnvelope } from './speaking-stream';
 import { speakingCoverageIssues, speakingEvidenceIssues } from './speaking-coverage';
 import { speakingMp3 } from './speaking-audio';
 
-const promptVersion = 'mimo-part-audio-v2';
+const promptVersion = 'gemini-3.8-flash-part-rubric-v1';
 const systemPrompt = `Assess one IELTS Speaking part. Each question label is followed by its own audio clip. All evidence timestamps are seconds from the START of that clip.
 1. Transcribe every clip verbatim, in step order, preserving mistakes, fillers and repetitions. Use [unclear] for uncertain speech. Use an empty transcript and the actual audio status for silence or unusable audio. Never skip a later clip because of words spoken in an earlier one.
 2. From each transcript assess vocabulary and grammar. Quote actual errors exactly and explain corrections. Keep optional improvements separate. For every spoken answer, say how well it answers the question and, if short, suggest one specific detail to develop it without inventing the candidate's experience.
 3. Listen to the actual audio for fluency/coherence and pronunciation. Describe audible delivery for every spoken answer. Cite a clip-relative timestamp and an audible feature for both criterion bands. Never infer pronunciation from spelling or penalize accent alone. If you cannot hear or access the audio, set audio_access to unavailable and explain. For a silent part leave criterion bands null with a reason.
+Use the full IELTS scale when the evidence warrants it. Separate content-planning pauses and natural self-repair from difficulty finding words or extending answers. Judge vocabulary by precision, flexibility and natural paraphrase. Judge grammar by range and the pattern of errors across answers. A band 5 shows limited flexibility and recurring difficulty, 6 communicates clearly with noticeable limitations, 7 sustains flexible speech with lapses, 8 shows wide command with occasional lapses, and 9 is consistently precise, effortless and clear. Do not reduce a strong score for an isolated slip.
 Use IELTS bands in half-point steps for the four criteria, with concise evidence. Return one JSON object matching the response schema. Fill all four criteria, then every listed step in answers, even after a spoken skip. Report only genuine corrections with a changed replacement; use [] if there are none.`;
 
 const assessmentCriterion=z.object({band:z.number().min(0).max(9).multipleOf(.5).nullable(),feedback:z.string(),evidence:z.array(z.string())});
@@ -251,7 +252,4 @@ export async function assessSpeakingDirect(input:SpeakingInput,options:Assessmen
  return {result,usage:{promptVersion,reasoningEnabled:false,cost:costs.length===parts.length?costs.reduce((a,b)=>a+b,0):null,parts:reports},model:speakingModel};
 }
 
-export async function assessSpeaking(input:SpeakingInput,options:Parameters<typeof import('./speaking-hybrid').assessSpeakingHybrid>[1]={}){
- const {assessSpeakingHybrid}=await import('./speaking-hybrid');
- return assessSpeakingHybrid(input,options);
-}
+export const assessSpeaking = assessSpeakingDirect;
