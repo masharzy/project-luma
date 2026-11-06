@@ -15,15 +15,34 @@ const model = 'qwen3-tts-flash';
 const voice = 'Ethan';
 const maxAudioBytes = 3_000_000;
 
+function synthesisEndpoint() {
+ const configured = process.env.QWEN_BASE_URL?.trim();
+ const origin = configured ? new URL(configured) : new URL('https://dashscope-intl.aliyuncs.com');
+ const workspace = /^[a-z0-9-]+\.(?:ap-southeast-1|cn-beijing|us-east-1)\.maas\.aliyuncs\.com$/i.test(origin.hostname)
+  && !origin.hostname.startsWith('token-plan.');
+ const shared = ['dashscope-intl.aliyuncs.com', 'dashscope.aliyuncs.com'].includes(origin.hostname);
+ if (origin.protocol !== 'https:' || origin.port || origin.username || origin.password || (!workspace && !shared)) {
+  throw new AuthHttpError(503, 'Examiner synthesis needs an Alibaba Model Studio endpoint', 'EXAMINER_ENDPOINT_NOT_CONFIGURED');
+ }
+ return new URL('/api/v1/services/aigc/multimodal-generation/generation', origin);
+}
+
 async function synthesizeExaminer(text: string, apiKey: string) {
- const response = await fetch('https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation', {
+ const endpoint = synthesisEndpoint();
+ const response = await fetch(endpoint, {
   method: 'POST',
   headers: { Authorization: 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
   body: JSON.stringify({ model, input: { text, voice, language_type: 'English' } }),
   signal: AbortSignal.timeout(25000),
  });
  if (!response.ok) {
-  console.warn('Speaking examiner synthesis rejected', { status: response.status });
+  const failure = await response.json().catch(() => null);
+  const code = typeof failure?.code === 'string' && /^[a-z0-9_.-]{1,64}$/i.test(failure.code) ? failure.code : undefined;
+  console.warn('Speaking examiner synthesis rejected', {
+   status: response.status,
+   code,
+   workspaceEndpoint: endpoint.hostname.endsWith('.maas.aliyuncs.com'),
+  });
   throw new AuthHttpError(503, 'Examiner voice is temporarily unavailable', 'EXAMINER_SYNTHESIS_FAILED');
  }
 
