@@ -13,6 +13,7 @@ export const adminNavigation: { label: string; links: AdminLink[] }[] = [
   { label: 'People & access', links: [
     { href: '/admin/users', label: 'Users', icon: 'users', keywords: 'accounts roles verify block access' },
     { href: '/admin/subscriptions', label: 'Plans & subscriptions', icon: 'chart', keywords: 'pricing credits membership free allowances payments' },
+    { href: '/admin/payments', label: 'Payments ledger', icon: 'chart', keywords: 'revenue invoices csv export activations' },
     { href: '/admin/evaluations', label: 'Evaluation access', icon: 'shield', keywords: 'account overrides grants' },
   ] },
   { label: 'Operations', links: [
@@ -21,7 +22,9 @@ export const adminNavigation: { label: string; links: AdminLink[] }[] = [
     { href: '/admin/import', label: 'Import tests', icon: 'file', keywords: 'json duplicates bulk upload' },
     { href: '/admin/media', label: 'Media library', icon: 'file', keywords: 'audio image cloudflare storage r2' },
     { href: '/admin/activity', label: 'Activity log', icon: 'clock', keywords: 'audit security history' },
+    { href: '/admin/costs', label: 'Cost & usage', icon: 'chart', keywords: 'spend budget bdt tokens audio margin pricing model prices' },
     { href: '/admin/ai-lab', label: 'AI configuration & lab', icon: 'settings', keywords: 'providers models keys benchmark evaluation' },
+    { href: '/admin/flags', label: 'Feature flags', icon: 'settings', keywords: 'toggle rollout switches' },
     { href: '/admin/settings', label: 'Platform settings', icon: 'settings', keywords: 'status services account' },
   ] },
 ];

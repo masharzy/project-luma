@@ -228,3 +228,21 @@ html:has(.adm-drawer[open]){overflow:hidden}
 .admin-app .adm-route-progress[data-pending="true"]>span{animation:adm-route-advance 12s cubic-bezier(.12,.65,.2,1) forwards}
 @keyframes adm-route-advance{0%{transform:scaleX(.08)}40%{transform:scaleX(.65)}100%{transform:scaleX(.92)}}
 @media(prefers-reduced-motion:reduce){.admin-app .adm-route-progress[data-pending="true"]>span{animation:none;transform:scaleX(.65)}.admin-app .adm-route-progress>span{transition:none}}
+
+/* Cost, payments and flags */
+.adm-segment{display:flex;flex-wrap:wrap;gap:2px;margin:0 0 12px;padding:2px;border:1px solid var(--adm-line);border-radius:5px;width:fit-content;max-width:100%;background:var(--adm-surface)}
+.admin-app .adm-segment a{padding:5px 11px;border-radius:3px;color:var(--adm-muted);font-size:12px;text-transform:capitalize}
+.admin-app .adm-segment a[aria-current=true]{background:var(--adm-accent-soft);color:var(--adm-accent);font-weight:650}
+.admin-app .adm-segment .adm-segment-end{margin-left:10px;text-transform:none;text-decoration:underline}
+.adm-callout{margin:0 0 12px;padding:9px 12px;border:1px solid var(--adm-line);border-left:3px solid var(--adm-accent);border-radius:4px;background:var(--adm-surface);color:var(--adm-text)}
+.adm-meter{display:grid;grid-template-columns:minmax(0,auto) minmax(120px,1fr) auto;align-items:center;gap:12px;margin:0 0 14px}
+.adm-meter progress{width:100%;height:8px;accent-color:var(--adm-accent)}
+.adm-meter progress[data-warn=true]{accent-color:#c2410c}
+.adm-form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end;margin-top:12px}
+.adm-form-grid label{display:grid;gap:4px}
+.admin-app .adm-form-grid input:not([type=checkbox]){width:100%;min-height:34px;padding:6px 8px;border:1px solid var(--adm-line);border-radius:4px;background:var(--adm-bg)}
+.adm-check{display:flex!important;grid-template-columns:none;align-items:center;gap:6px}
+.adm-data-table td[data-neg=true]{color:#b91c1c;font-weight:650}
+.admin-app[data-theme=dark] .adm-data-table td[data-neg=true]{color:#fca5a5}
+.adm-data-table small{display:block;color:var(--adm-muted);font-size:11px}
+@media(max-width:700px){.adm-meter{grid-template-columns:1fr}}
