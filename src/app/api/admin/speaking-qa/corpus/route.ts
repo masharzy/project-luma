@@ -14,7 +14,7 @@ const defaultModel='xiaomi/mimo-v2.6-flash';
 const matrixModels={
  direct:['xiaomi/mimo-v2.6-flash','qwen/qwen3.8-omni-flash','google/gemini-3.5-flash-lite','xiaomi/mimo-v2.6-pro','google/gemini-3.8-flash','google/gemini-3.5-flash','google/gemini-3.1-pro-preview','thinkingmachines/inkling-small','xiaomi/mimo-v2.6-pro-ultraspeed'],
  transcribe:['openai/whisper-large-v3-turbo','microsoft/mai-transcribe-2','elevenlabs/scribe-v2','openai/gpt-4o-mini-transcribe','openai/gpt-4o-transcribe'],
- text:['xiaomi/mimo-v2.6-flash','anthropic/claude-haiku-5.5','google/gemini-3.8-flash','openai/gpt-6-luna','anthropic/claude-sonnet-4.6','xiaomi/mimo-v2.6-pro','qwen/qwen3.7-flash','qwen/qwen3.8-max-0902','z-ai/glm-4.7-flash','cohere/command-r7b-12-2024'],
+ text:['xiaomi/mimo-v2.6-flash','anthropic/claude-haiku-5.5','google/gemini-3.8-flash','openai/gpt-6-luna','anthropic/claude-sonnet-4.6','xiaomi/mimo-v2.6-pro','qwen/qwen3.7-flash','qwen/qwen3.8-max-0902','z-ai/glm-4.7-flash','cohere/command-r7b-12-2024','anthropic/claude-opus-5.5'],
 } as const;
 type MatrixMode=keyof typeof matrixModels;
 type Matrix={mode:MatrixMode;model:string;text?:string;plainTranscript?:boolean;disableThinking?:true;savedAudio?:{attemptId:string;steps:number[]}};
@@ -113,9 +113,9 @@ export async function POST(req:NextRequest){
    ...(savedTranscription?{provider:{options:{azure:{enhancedMode:{modelOptions:{transcribeStyle:'verbatim'}}}}}}:{}),
    ...(matrix.plainTranscript?{response_format:'json'}:{response_format:'verbose_json',timestamp_granularities:['word']}),
   }:matrix?{
-   model,max_tokens:budgetTextReview?4000:qwenTextReview||qwenFlashTextReview?12000:6000,
+   model,max_tokens:model==='anthropic/claude-opus-5.5'?4800:budgetTextReview?4000:qwenTextReview||qwenFlashTextReview?12000:6000,
    ...(budgetTextReview?{response_format:{type:'json_object'}}:{}),
-   ...(model==='z-ai/glm-4.7-flash'?{reasoning:{effort:'none'}}:qwenFlashTextReview?{reasoning:{effort:'none'},provider:{require_parameters:true}}:qwenTextReview?{reasoning:{effort:'low'},provider:{require_parameters:true}}:matrix.disableThinking?{reasoning:{effort:'none'},provider:{only:['Alibaba'],allow_fallbacks:false,require_parameters:true}}:
+   ...(model==='anthropic/claude-opus-5.5'?{reasoning:{effort:'low',enabled:false}}:model==='z-ai/glm-4.7-flash'?{reasoning:{effort:'none'}}:qwenFlashTextReview?{reasoning:{effort:'none'},provider:{require_parameters:true}}:qwenTextReview?{reasoning:{effort:'low'},provider:{require_parameters:true}}:matrix.disableThinking?{reasoning:{effort:'none'},provider:{only:['Alibaba'],allow_fallbacks:false,require_parameters:true}}:
     model.startsWith('google/')?{reasoning:{effort:'low',exclude:true}}:model.startsWith('xiaomi/')?{reasoning:{enabled:false}}:{}),
    messages:[{role:'system',content:prompt},{role:'user',content:matrix.mode==='text'?matrix.text:content}],
   }:{
