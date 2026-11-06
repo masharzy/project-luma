@@ -245,3 +245,50 @@ a.lib-page-num:hover,a.lib-page-step:hover{border-color:var(--lib-red);color:var
 .writing-studio .study-tabs button[aria-pressed=true]{background:var(--lib-red);color:#fff}
 @media(max-width:860px){.evaluation-product .writing-product-grid{grid-template-columns:1fr}.wr-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.wr-steps li:nth-child(2){border-right:0}.wr-steps li:nth-child(-n+2){border-bottom:1px solid var(--lib-line)}}
 @media(max-width:520px){.wr-steps small{display:none}.evaluation-product .wr-submit .button{justify-self:stretch}.evaluation-product .writing-product-answer{min-height:300px}}
+
+/* ───────── AI feedback: Speaking studio (collection → book → test) ───────── */
+.speaking-studio{display:grid;gap:22px;margin-bottom:56px}
+.sp-crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:.84rem;color:var(--lib-mute)}
+.sp-crumbs strong{color:var(--lib-ink)}
+.speaking-studio .study-stepper{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--lib-line);background:var(--lib-card)}
+.speaking-studio .study-stepper button{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 14px;border:0;border-right:1px solid var(--lib-line);background:none;color:var(--lib-mute);font:600 .9rem 'Instrument Sans',sans-serif;cursor:pointer}
+.speaking-studio .study-stepper button:last-child{border-right:0}
+.speaking-studio .study-stepper button:disabled{cursor:not-allowed;opacity:.55}
+.speaking-studio .study-stepper button span{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--lib-line-strong);font:700 .76rem var(--lib-display)}
+.speaking-studio .study-stepper button[aria-current=step]{background:var(--lib-blush);color:var(--lib-wine)}
+.speaking-studio .study-stepper button[aria-current=step] span{background:var(--lib-red);border-color:var(--lib-red);color:#fff}
+.speaking-studio .study-stage-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+.speaking-studio .study-stage-heading h2{margin:2px 0 0;font:600 clamp(1.5rem,3vw,2.1rem)/1.1 var(--lib-display);letter-spacing:-.035em}
+.speaking-studio .study-stage-heading p{margin:4px 0 0;color:var(--lib-mute);font-size:.9rem}
+.speaking-studio .study-kicker{font:600 .68rem 'Instrument Sans',sans-serif;letter-spacing:.14em;color:var(--lib-red)}
+.speaking-studio .study-text-button{min-height:40px;padding:0 4px;border:0;background:none;color:var(--lib-wine);font:600 .86rem 'Instrument Sans',sans-serif;border-bottom:1.5px solid currentColor;cursor:pointer}
+.speaking-studio .study-collections,.speaking-studio .study-book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.speaking-studio .study-collection-card,.speaking-studio .study-book-choice,.speaking-studio .study-speaking-tests>button{position:relative;display:grid;gap:6px;text-align:left;padding:18px;border:1px solid var(--lib-line);border-radius:2px;background:var(--lib-card);color:var(--lib-ink);cursor:pointer;transition:border-color .18s,background .18s,transform .18s}
+.speaking-studio .study-collection-card:hover,.speaking-studio .study-book-choice:hover,.speaking-studio .study-speaking-tests>button:hover{border-color:var(--lib-red);transform:translateY(-1px)}
+.speaking-studio .study-collection-card h3,.speaking-studio .study-book-choice h3,.speaking-studio .study-speaking-tests h3{margin:0;font:600 1.1rem/1.2 var(--lib-display);letter-spacing:-.02em}
+.speaking-studio .study-collection-card p,.speaking-studio .study-book-choice p,.speaking-studio .study-speaking-tests p{margin:0;font-size:.82rem;color:var(--lib-mute)}
+.speaking-studio .study-collection-number,.speaking-studio .study-book-choice>span{font:700 .85rem var(--lib-display);color:var(--lib-red)}
+.speaking-studio .study-collection-card footer{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--lib-mute)}
+.speaking-studio .study-speaking-setup{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:18px;align-items:start}
+.speaking-studio .study-speaking-tests{display:grid;gap:8px}
+.speaking-studio .study-speaking-tests>button{grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 14px}
+.speaking-studio .study-speaking-tests>button[aria-pressed=true]{border-color:var(--lib-red);background:var(--lib-blush);box-shadow:inset 0 0 0 1px var(--lib-red)}
+.speaking-studio .study-round-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:2px;background:var(--lib-sand);color:var(--lib-wine)}
+.speaking-studio .study-speaking-brief{position:sticky;top:96px;display:grid;gap:8px;padding:22px;background:var(--lib-ink);color:#fff;border-radius:2px}
+.speaking-studio .study-speaking-brief h3{margin:0;font:600 1.4rem var(--lib-display);letter-spacing:-.03em}
+.speaking-studio .study-speaking-brief p{margin:0;color:rgba(255,255,255,.8)}
+.speaking-studio .study-speaking-brief .study-kicker{color:#ff9fb1}
+.speaking-studio .study-speaking-brief>div{display:grid;gap:4px;font-size:.84rem;color:rgba(255,255,255,.75)}
+.speaking-studio .study-speaking-brief>div span{display:inline-flex;align-items:center;gap:6px}
+.speaking-studio .study-speaking-brief small{color:rgba(255,255,255,.6)}
+.speaking-studio .study-speaking-brief button,.speaking-studio .study-speaking-brief a{min-height:48px;border:0;border-radius:2px;background:var(--lib-red);color:#fff;font:600 .95rem 'Instrument Sans',sans-serif;cursor:pointer}
+.sp-history{margin-top:8px}
+.sp-history .study-section-title{display:flex;align-items:baseline;justify-content:space-between;margin:18px 0 12px}
+.sp-history h2{margin:0;font:600 1.4rem var(--lib-display);letter-spacing:-.025em}
+.study-feedback-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.study-feedback-card{display:grid;gap:4px;padding:16px;border:1px solid var(--lib-line);border-left:3px solid var(--lib-red);border-radius:2px;background:var(--lib-card);color:var(--lib-ink);text-decoration:none}
+.study-feedback-card:hover{border-color:var(--lib-red)}
+.study-feedback-card strong{font:700 2.2rem/1 var(--lib-display);letter-spacing:-.05em;color:var(--lib-red)}
+.study-feedback-card footer{font-size:.8rem;font-weight:600;color:var(--lib-wine)}
+@media(max-width:860px){.speaking-studio .study-speaking-setup{grid-template-columns:1fr}.speaking-studio .study-speaking-brief{position:static}}
+@media(max-width:520px){.speaking-studio .study-stepper button strong{display:none}.speaking-studio .study-stepper button[aria-current=step] strong{display:inline}}
