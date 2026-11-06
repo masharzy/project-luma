@@ -311,6 +311,16 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 @media(prefers-reduced-motion:reduce){html:has(.jtn-home){scroll-behavior:auto}}
 
 .jtn-home .jtn-cv{--bg:#C8082F}.jtn-home .jtn-ml{--bg:#2A0F16}
+.jtn-home .jtn-book-0{--bg:#3C5A80;--h:252px}
+.jtn-home .jtn-book-9{--bg:#3C5A80;--h:250px}
+.jtn-home :is(.jtn-book-1,.jtn-book-10){--bg:#46634F;--h:286px}
+.jtn-home :is(.jtn-book-2,.jtn-book-11){--bg:#B9770E;--h:234px}
+.jtn-home .jtn-book-3{--bg:#5B3A78;--h:298px}
+.jtn-home .jtn-book-4{--bg:#1F6F78;--h:262px}
+.jtn-home .jtn-book-5{--bg:#7A8F3C;--h:278px}
+.jtn-home .jtn-book-6{--bg:#7B1230;--h:302px}
+.jtn-home .jtn-book-7{--bg:#8B5E3C;--h:310px}
+.jtn-home .jtn-book-8{--bg:#C23B7A;--h:244px}
 
 /* Fit two minimum-width spines even with desktop scrollbars at 360px. */
 @media(max-width:375px){.jtn-design .jtn-ml{margin-left:4px}}

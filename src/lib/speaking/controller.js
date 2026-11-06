@@ -13,7 +13,6 @@ let phase = 'welcome', generation = 0, si = 0, part = S[0]?.p;
 let voiceTimer, prepTimer, timer, practiceInterval, toastTimer;
 let recorder, stream, recorded = [], seconds = 0, clipUrl = '';
 let context, examinerAnalyser, micSource, frame;
-let examinerUtterance;
 let practiceDeadline = 0, deadlineExpired = false;
 let currentCard;
 
@@ -59,43 +58,12 @@ function showWave(analyser, active) {
 function stopSpeech() {
  generation++;
  clearTimeout(voiceTimer);
- if (examinerUtterance) {
-  examinerUtterance.onstart = examinerUtterance.onend = examinerUtterance.onerror = null;
-  examinerUtterance = null;
-  window.speechSynthesis.cancel();
- }
- stopVoicePlayer();
- stage.classList.remove('is-speaking');
- stopWave();
-}
-function stopVoicePlayer() {
  player.onplaying = player.onended = player.onerror = null;
  player.pause();
  player.removeAttribute('src');
  player.load();
-}
-function speakOnDevice(text, started, finished, failed) {
- const synth = window.speechSynthesis;
- const Utterance = window.SpeechSynthesisUtterance;
- if (!text || !synth || !Utterance) { failed(); return; }
- try {
-  const english = synth.getVoices().filter(voice => /^en(?:[-_]|$)/i.test(voice.lang));
-  const male = english.find(voice => /\b(?:Daniel|George|Ryan|David|Guy|Mark|Alex|Fred|Aaron|Tom|Arthur|James)\b/i.test(voice.name));
-  const voice = male || english.find(voice => voice.default) || english[0];
-  const utterance = new Utterance(text);
-  examinerUtterance = utterance;
-  utterance.lang = voice?.lang || 'en-GB';
-  if (voice) utterance.voice = voice;
-  utterance.rate = .93;
-  if (!male) utterance.pitch = .85;
-  utterance.onstart = started;
-  utterance.onend = () => {
-   examinerUtterance = null;
-   finished();
-  };
-  utterance.onerror = failed;
-  synth.speak(utterance);
- } catch { failed(); }
+ stage.classList.remove('is-speaking');
+ stopWave();
 }
 function speak(step, done) {
  stopSpeech();
@@ -112,14 +80,11 @@ function speak(step, done) {
   if (message) notify(message);
   done();
  };
- const speakingStatus = () => {
-  stage.classList.add('is-speaking');
-  $('room-status').textContent = 'Examiner speaking';
- };
  player.onplaying = () => {
   if (generation !== token) return;
   clearTimeout(voiceTimer);
-  speakingStatus();
+  stage.classList.add('is-speaking');
+  $('room-status').textContent = 'Examiner speaking';
   if (!examinerAnalyser && context?.state === 'running') {
    try {
     const source = context.createMediaElementSource(player);
@@ -131,21 +96,7 @@ function speak(step, done) {
   }
   showWave(examinerAnalyser, () => generation === token && !player.paused);
  };
- let deviceFallback = false;
- const failed = () => {
-  if (generation !== token || deviceFallback) return;
-  deviceFallback = true;
-  clearTimeout(voiceTimer);
-  stopVoicePlayer();
-  const unavailable = () => finishVoice('Examiner audio is unavailable. Read the question or try replay.');
-  voiceTimer = setTimeout(unavailable, 10000);
-  speakOnDevice(S[step]?.say, () => {
-   if (generation !== token) return;
-   clearTimeout(voiceTimer);
-   speakingStatus();
-   showWave(null);
-  }, () => finishVoice(), unavailable);
- };
+ const failed = () => finishVoice('Examiner audio is unavailable. Read the question or try replay.');
  player.onerror = failed;
  player.onended = () => finishVoice();
  voiceTimer = setTimeout(failed, 45000);
