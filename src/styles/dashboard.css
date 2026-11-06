@@ -135,3 +135,84 @@
 .student-goals{border:0;background:none;padding:0}
 .student-save-form{gap:14px}
 .student-save-form>label{display:grid;gap:6px;border:0;padding:0}
+
+/* ───────── v2 — hero, staircase, skill cards, grouped nav, motion ───────── */
+.student-sidebar{background:linear-gradient(180deg,#fff 60%,var(--tint))}
+.student-brand{font-size:1.7rem}
+.student-brand::after{content:"";display:block;width:28px;height:3px;margin-top:10px;background:var(--s-red)}
+.student-nav-group{display:grid;gap:2px;margin-bottom:18px}
+.student-nav-group>span{padding:0 14px 8px;font:600 .62rem 'Instrument Sans',sans-serif!important;letter-spacing:.2em;text-transform:uppercase;color:rgba(106,72,82,.7)}
+.student-sidebar nav a svg,.student-drawer nav a svg{flex:none}
+.student-topbar{text-transform:none;letter-spacing:0;font-size:.88rem}
+.student-topbar strong{color:var(--s-ink)}
+.student-heading{border-bottom:0;padding-bottom:0}
+.student-heading::before{content:"";position:absolute;left:0;top:-14px;width:36px;height:3px;background:var(--s-red)}
+.student-heading{padding-top:6px}
+.student-content{gap:clamp(32px,4.5vw,56px)}
+
+/* Hero */
+.dv-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:end;gap:clamp(20px,4vw,56px);min-height:min(560px,70vh);padding:clamp(28px,4vw,52px) clamp(22px,4vw,56px) 0;border:1px solid var(--s-line);background:#fff;overflow:hidden}
+.dv-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(var(--s-line) 1px,transparent 1px) 0 0/100% 56px;opacity:.35;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 70%)}
+.dv-hero-copy{position:relative;z-index:2;display:grid;gap:clamp(22px,3vw,34px);align-content:center;align-self:center;padding-bottom:clamp(28px,4vw,52px)}
+.dv-hero-copy .student-eyebrow{font:600 .72rem 'Instrument Sans',sans-serif!important;letter-spacing:.18em;text-transform:uppercase;color:var(--s-red)}
+.dv-hero h1{margin:0;display:grid;line-height:.98;letter-spacing:-.055em;font-weight:600}
+.dv-hero h1 span{font-size:clamp(1.5rem,3vw,2.3rem);color:#B5617A;font-weight:500}
+.dv-hero h1 b{font-size:clamp(3.4rem,9vw,7rem);color:var(--s-red);font-weight:700;overflow-wrap:anywhere;animation:dv-rise .9s cubic-bezier(.2,.8,.2,1) both}
+.dv-hero-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.dv-hero-cta .student-button{min-height:54px;padding:0 1.9em;font-size:.98rem}
+.dv-hero-sub{max-width:26ch;font-size:.86rem;color:var(--s-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dv-facts{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:0;margin:0;border-top:1px solid var(--s-line)}
+.dv-facts>div{display:grid;gap:4px;padding:16px clamp(14px,2.4vw,30px) 0 0;margin-right:clamp(14px,2.4vw,30px);border-right:1px solid var(--s-line)}
+.dv-facts>div:last-child{border:0;margin:0}
+.dv-facts dt{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--s-muted)}
+.dv-facts dd{margin:0;font:600 clamp(1.8rem,3vw,2.5rem)/1 'Bricolage Grotesque',sans-serif!important;letter-spacing:-.05em;color:var(--s-ink)}
+.dv-facts dd small{margin-left:5px;font-size:.78rem;font-weight:500;letter-spacing:0;color:var(--s-muted)}
+.dv-dots{display:flex;flex-wrap:wrap;gap:4px;max-width:120px;padding-top:2px}
+.dv-dots i{width:8px;height:8px;border-radius:50%;background:var(--tint);box-shadow:inset 0 0 0 1px var(--s-red)}
+.dv-dots i.on{background:var(--s-red)}
+.dv-hero-art{position:relative;z-index:1;align-self:end;margin-right:calc(-1 * clamp(22px,4vw,56px))}
+.dv-stairs{display:block;width:100%;height:auto;overflow:visible}
+.dv-step{fill:#fff;stroke:var(--s-red);stroke-opacity:.45;stroke-width:1.4;transform-box:fill-box;transform-origin:bottom;animation:dv-grow .8s .15s cubic-bezier(.2,.8,.2,1) both}
+.dv-stairs g:nth-of-type(2) .dv-step{animation-delay:.24s}.dv-stairs g:nth-of-type(3) .dv-step{animation-delay:.33s}.dv-stairs g:nth-of-type(4) .dv-step{animation-delay:.42s}.dv-stairs g:nth-of-type(5) .dv-step{animation-delay:.51s}.dv-stairs g:nth-of-type(6) .dv-step{animation-delay:.6s}
+g.is-on .dv-step{fill:#FBE6EA;stroke-opacity:1}
+.dv-step-n{font:700 15px 'Bricolage Grotesque',sans-serif!important;fill:rgba(200,8,47,.55)}
+g.is-on .dv-step-n{fill:var(--s-red)}
+.dv-you{fill:var(--s-red);stroke:#fff;stroke-width:3;animation:dv-hop 2.6s 1.2s ease-in-out infinite}
+.dv-flag line{stroke:var(--s-ink);stroke-width:1.6}
+.dv-flag path{fill:var(--s-ink)}
+@keyframes dv-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes dv-hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes dv-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* Skill cards */
+.dv-skills{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--s-line);border:1px solid var(--s-line)}
+.dv-skill{display:grid;gap:16px;padding:22px 24px 20px;background:#fff;text-decoration:none;color:var(--s-ink);transition:background .2s}
+.dv-skill:hover{background:var(--tint)}
+.dv-skill-top{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.88rem;color:var(--s-muted)}
+.dv-skill-top svg:first-child{color:var(--s-red)}
+.dv-skill-top svg:last-child{margin-left:auto;opacity:0;transition:opacity .2s,transform .2s}
+.dv-skill:hover .dv-skill-top svg:last-child{opacity:1;transform:translate(2px,-2px)}
+.dv-skill>strong{font:600 clamp(2.8rem,5vw,4rem)/1 'Bricolage Grotesque',sans-serif!important;letter-spacing:-.07em;color:var(--s-red)}
+.dv-bar{display:block;width:100%;height:4px;overflow:visible}
+.dv-bar-bg{fill:var(--tint)}.dv-bar-fill{fill:var(--s-red)}.dv-bar-tick{fill:var(--s-ink)}
+.dv-skill small{font-size:.8rem;color:var(--s-muted)}
+
+/* Quick links */
+.dv-quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--s-line);border:1px solid var(--s-line)}
+.dv-quick a{display:flex;align-items:center;gap:12px;padding:18px 20px;background:#fff;font-weight:600;font-size:.92rem;text-decoration:none;color:var(--s-ink);transition:background .2s,color .2s}
+.dv-quick a svg:first-child{color:var(--s-red)}
+.dv-quick a svg:last-child{margin-left:auto}
+.dv-quick a:hover{background:var(--s-red);color:#fff}
+.dv-quick a:hover svg{color:#fff}
+
+/* Page entrance */
+.student-content>*{animation:dv-rise .55s cubic-bezier(.2,.8,.2,1) both}
+.student-content>*:nth-child(2){animation-delay:.07s}.student-content>*:nth-child(3){animation-delay:.14s}.student-content>*:nth-child(4){animation-delay:.21s}.student-content>*:nth-child(n+5){animation-delay:.28s}
+.student-stats>a,.study-summary>div,.student-panel,.dv-skill{will-change:auto}
+
+@media(max-width:1000px){.dv-skills{grid-template-columns:repeat(2,minmax(0,1fr))}.dv-hero{grid-template-columns:1fr;min-height:0}.dv-hero-art{margin:0 calc(-1 * clamp(22px,4vw,56px));order:2}.dv-hero-copy{padding-bottom:8px}}
+@media(max-width:520px){.dv-facts{grid-template-columns:repeat(2,auto);row-gap:14px}.dv-facts>div:nth-child(2){border:0;margin:0}.dv-skill{padding:18px}.dv-hero h1 b{font-size:clamp(3rem,16vw,4.4rem)}}
+@media(prefers-reduced-motion:reduce){.student-content>*,.dv-hero h1 b,.dv-step,.dv-you{animation:none!important}}
+
+.student-list-row:has(.student-tag){grid-template-columns:minmax(0,1fr) auto auto}
+.dv-quick a{white-space:nowrap}
