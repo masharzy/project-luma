@@ -292,3 +292,8 @@ a.lib-page-num:hover,a.lib-page-step:hover{border-color:var(--lib-red);color:var
 .study-feedback-card footer{font-size:.8rem;font-weight:600;color:var(--lib-wine)}
 @media(max-width:860px){.speaking-studio .study-speaking-setup{grid-template-columns:1fr}.speaking-studio .study-speaking-brief{position:static}}
 @media(max-width:520px){.speaking-studio .study-stepper button strong{display:none}.speaking-studio .study-stepper button[aria-current=step] strong{display:inline}}
+
+/* Grid children must be allowed to shrink on narrow screens */
+.mk-wrap,.mk-group,.mk-list,.mkr,.wr-flow,.speaking-studio,.tw-flow{grid-template-columns:minmax(0,1fr)}
+.mk-wrap>*,.mk-group>*,.mk-list>*{min-width:0}
+@media(min-width:861px){.mkr{grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr)}}
