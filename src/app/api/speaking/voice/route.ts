@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { NextRequest } from 'next/server';
 import { productUser, productError, productAccess } from '@/lib/products/access';
+import { getKey } from '@/lib/ai-lab/secrets';
 import { speakingAttempt } from '@/lib/products/speaking';
 import { speakingSteps } from '@/lib/speaking/flow';
 import { normalizeSpeakingSet } from '@/lib/speaking/schema';
@@ -11,53 +12,26 @@ import { mockSpeakingContext, requireSpeakingWindow } from '@/lib/exam/mock-spea
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-const model = 'qwen3-tts-flash';
-const voice = 'Ethan';
+const model = 'microsoft/mai-voice-2.1-flash';
+const voice = 'en-GB-Harry:MAI-Voice-2.1-Flash';
 const maxAudioBytes = 3_000_000;
 
-function synthesisEndpoint() {
- const configured = process.env.QWEN_BASE_URL?.trim();
- const origin = configured ? new URL(configured) : new URL('https://dashscope-intl.aliyuncs.com');
- const workspace = /^[a-z0-9-]+\.(?:ap-southeast-1|cn-beijing|us-east-1)\.maas\.aliyuncs\.com$/i.test(origin.hostname)
-  && !origin.hostname.startsWith('token-plan.');
- const shared = ['dashscope-intl.aliyuncs.com', 'dashscope.aliyuncs.com'].includes(origin.hostname);
- if (origin.protocol !== 'https:' || origin.port || origin.username || origin.password || (!workspace && !shared)) {
-  throw new AuthHttpError(503, 'Examiner synthesis needs an Alibaba Model Studio endpoint', 'EXAMINER_ENDPOINT_NOT_CONFIGURED');
- }
- return new URL('/api/v1/services/aigc/multimodal-generation/generation', origin);
-}
-
 async function synthesizeExaminer(text: string, apiKey: string) {
- const endpoint = synthesisEndpoint();
- const response = await fetch(endpoint, {
+ const audio = await fetch('https://openrouter.ai/api/v1/audio/speech', {
   method: 'POST',
   headers: { Authorization: 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
-  body: JSON.stringify({ model, input: { text, voice, language_type: 'English' } }),
+  body: JSON.stringify({ model, input: text, voice, response_format: 'mp3' }),
   signal: AbortSignal.timeout(25000),
  });
- if (!response.ok) {
-  const failure = await response.json().catch(() => null);
-  const code = typeof failure?.code === 'string' && /^[a-z0-9_.-]{1,64}$/i.test(failure.code) ? failure.code : undefined;
-  console.warn('Speaking examiner synthesis rejected', {
-   status: response.status,
-   code,
-   workspaceEndpoint: endpoint.hostname.endsWith('.maas.aliyuncs.com'),
-  });
+ if (!audio.ok) {
+  await audio.body?.cancel();
+  console.warn('Speaking examiner synthesis rejected', { status: audio.status });
   throw new AuthHttpError(503, 'Examiner voice is temporarily unavailable', 'EXAMINER_SYNTHESIS_FAILED');
  }
-
- const data = await response.json();
- const url = new URL(data.output?.audio?.url);
- if (!['http:', 'https:'].includes(url.protocol) || url.port || url.username || url.password || !url.hostname.endsWith('.aliyuncs.com')) {
-  throw new Error('Invalid examiner audio URL');
- }
- url.protocol = 'https:';
- const audio = await fetch(url, { redirect: 'error', signal: AbortSignal.timeout(10000) });
  const reader = audio.body?.getReader();
- if (!reader || !audio.ok || Number(audio.headers.get('content-length')) > maxAudioBytes) {
+ if (!reader || Number(audio.headers.get('content-length')) > maxAudioBytes) {
   await reader?.cancel();
-  console.warn('Speaking examiner audio download rejected', { status: audio.status });
-  throw new AuthHttpError(503, 'Examiner audio is temporarily unavailable', 'EXAMINER_DOWNLOAD_FAILED');
+  throw new Error('Invalid examiner audio response');
  }
 
  const chunks: Uint8Array[] = [];
@@ -73,9 +47,8 @@ async function synthesizeExaminer(text: string, apiKey: string) {
   chunks.push(part.value);
  }
  const bytes = Buffer.concat(chunks);
- if (bytes.length <= 44 || bytes.toString('ascii', 0, 4) !== 'RIFF' || bytes.toString('ascii', 8, 12) !== 'WAVE') {
-  throw new Error('Invalid examiner WAV response');
- }
+ const mp3Header = bytes.toString('ascii', 0, 3) === 'ID3' || (bytes[0] === 0xff && (bytes[1] & 0xe0) === 0xe0);
+ if (bytes.length <= 44 || !mp3Header) throw new Error('Invalid examiner MP3 response');
  return bytes;
 }
 
@@ -94,22 +67,22 @@ export async function GET(req: NextRequest) {
   if (mock) requireSpeakingWindow(mock);
   else await productAccess(user.id, 'speaking_product');
 
-  const key = 'examiner-voice/' + createHash('sha256').update(model + ':' + voice + ':' + text).digest('hex') + '.wav';
+  const key = 'examiner-voice/' + createHash('sha256').update(model + ':' + voice + ':' + text).digest('hex') + '.mp3';
   stage = 'storage';
   let bytes = storageConfigured() ? await getPrivate(key).catch(() => null) : null;
   if (!bytes) {
-   const apiKey = process.env.DASHSCOPE_API_KEY;
-   if (!apiKey) throw new AuthHttpError(503, 'Examiner voice is not enabled yet', 'EXAMINER_NOT_CONFIGURED');
+   stage = 'provider-key';
+   const apiKey = await getKey('openrouter');
    stage = 'rate-limit';
    await limit('speaking-tts:' + user.id, 100, 3600);
    stage = 'synthesis';
    bytes = await synthesizeExaminer(text, apiKey);
    if (storageConfigured()) {
-    await putPrivate(key, bytes, 'audio/wav').catch(() => console.warn('Speaking examiner audio cache write failed'));
+    await putPrivate(key, bytes, 'audio/mpeg').catch(() => console.warn('Speaking examiner audio cache write failed'));
    }
   }
   return new Response(Buffer.from(bytes), {
-   headers: { 'Content-Type': 'audio/wav', 'Content-Length': String(bytes.length), 'Cache-Control': 'private, max-age=3600' },
+   headers: { 'Content-Type': 'audio/mpeg', 'Content-Length': String(bytes.length), 'Cache-Control': 'private, max-age=3600' },
   });
  } catch (error) {
   console.warn('Speaking examiner audio request failed', {
