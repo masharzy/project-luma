@@ -38,6 +38,7 @@ function wakeAudio() {
 function stopWave() {
  cancelAnimationFrame(frame);
  bars.forEach(bar => bar.style.removeProperty('transform'));
+ stage.style.removeProperty('--lvl');
  stage.classList.remove('voice-fallback');
 }
 function showWave(analyser, active) {
@@ -47,6 +48,9 @@ function showWave(analyser, active) {
  const draw = () => {
   if (!active()) return;
   analyser.getByteFrequencyData(data);
+  let sum = 0;
+  for (let i = 2; i < 20 && i < data.length; i++) sum += data[i];
+  stage.style.setProperty('--lvl', Math.min(1, sum / (18 * 160)).toFixed(3));
   bars.forEach((bar, i) => {
    const level = Math.max(.10, Math.min(1, data[2 + i * 2] / 200));
    bar.style.transform = 'scaleY(' + level + ')';
