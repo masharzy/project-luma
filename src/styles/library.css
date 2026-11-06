@@ -1,0 +1,85 @@
+/* JumpToNine learner-page redesign — shared tokens and components.
+   Mirrors the homepage reference (home-reference.css): ivory paper, editorial red,
+   square buttons, Bricolage headings. Scoped to .lib-* / .feature-page so admin and
+   exam engine styles are untouched. */
+.feature-page,.workspace-shell{--lib-paper:#FDFBF7;--lib-card:#fff;--lib-red:#C8082F;--lib-wine:#7B1230;--lib-ink:#2A0F16;--lib-sand:#F3EADC;--lib-blush:#FBE6EA;--lib-mute:#6A4852;--lib-line:rgba(123,18,48,.18);--lib-line-strong:rgba(123,18,48,.42);--lib-display:'Bricolage Grotesque','Instrument Sans',system-ui,sans-serif}
+
+/* View tabs (Recent Tests / Type Wise Question Practice) */
+.feature-page .practice-view-tabs{display:inline-flex;gap:0;margin:0 0 22px;border:1px solid var(--lib-line);border-radius:2px;background:var(--lib-card);padding:3px;max-width:100%;overflow-x:auto}
+.feature-page .practice-view-tabs a{padding:.6em 1.15em;border-radius:1px;font:600 .9rem 'Instrument Sans',system-ui,sans-serif;color:var(--lib-mute);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.feature-page .practice-view-tabs a:hover{color:var(--lib-wine)}
+.feature-page .practice-view-tabs a[aria-current=page]{background:var(--lib-red);color:#fff}
+.feature-page .practice-view-tabs a:focus-visible{outline:2px solid var(--lib-red);outline-offset:2px}
+
+/* Module filter */
+.lib-filters{display:flex;align-items:center;gap:14px;margin:0 0 18px;flex-wrap:wrap}
+.lib-filter-label{font:600 .72rem 'Instrument Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--lib-mute)}
+.lib-filters ul{display:flex;gap:8px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.lib-filters a{display:inline-flex;align-items:center;min-height:38px;padding:0 1em;border:1px solid var(--lib-line);border-radius:2px;background:var(--lib-card);color:var(--lib-ink);font:600 .88rem 'Instrument Sans',sans-serif;text-decoration:none;transition:border-color .2s,background .2s,color .2s}
+.lib-filters a:hover{border-color:var(--lib-red);color:var(--lib-red)}
+.lib-filters a[aria-current=true]{background:var(--lib-ink);border-color:var(--lib-ink);color:#fff}
+.lib-filters a:focus-visible{outline:2px solid var(--lib-red);outline-offset:2px}
+
+/* Compact test catalog */
+.lib-catalog.cambridge-tests{display:grid;gap:12px;margin:0 0 28px}
+.lib-catalog .lib-test{display:grid;grid-template-columns:minmax(220px,1.1fr) minmax(0,2fr) auto;align-items:center;gap:18px 28px;padding:18px 22px;background:var(--lib-card);border:1px solid var(--lib-line);border-radius:2px;box-shadow:none;transition:border-color .2s,transform .2s}
+.lib-catalog .lib-test:hover{border-color:var(--lib-line-strong);box-shadow:none;transform:translateY(-1px)}
+.lib-test-id{display:flex;align-items:center;gap:16px;min-width:0}
+.lib-test-no{flex:none;font:700 2.6rem/1 var(--lib-display);letter-spacing:-.05em;color:var(--lib-red);min-width:2.1ch}
+.lib-test-id .eyebrow{display:block;font:600 .68rem 'Instrument Sans',sans-serif;letter-spacing:.14em;color:var(--lib-mute)}
+.lib-catalog .lib-test h2{margin:2px 0 0;font:600 1.2rem/1.2 var(--lib-display);letter-spacing:-.02em;color:var(--lib-ink)}
+.lib-test-id p{margin:4px 0 0;font-size:.85rem;color:var(--lib-mute);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lib-test-modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.lib-catalog .lib-mod{display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 12px;border:1px solid var(--lib-line);border-radius:2px;background:var(--lib-paper);color:var(--lib-ink);text-decoration:none;transition:background .2s,border-color .2s,color .2s}
+.lib-catalog a.lib-mod:hover{background:var(--lib-blush);border-color:var(--lib-red);transform:none;box-shadow:none}
+.lib-catalog .lib-mod:focus-visible{outline:2px solid var(--lib-red);outline-offset:2px}
+.lib-catalog .lib-mod .module-letter{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:2px;background:var(--lib-blush);color:var(--lib-red);font-size:0}
+.lib-catalog .lib-mod .module-letter svg{width:18px;height:18px}
+.lib-mod-text{display:grid;min-width:0}
+.lib-catalog .lib-mod strong{font:600 .95rem var(--lib-display);letter-spacing:-.01em}
+.lib-catalog .lib-mod small{font-size:.74rem;color:var(--lib-mute);margin:1px 0 0}
+.lib-catalog .lib-mod>svg:last-child{margin-left:auto;flex:none;color:var(--lib-red)}
+.lib-catalog .lib-mod.unavailable{opacity:.55;background:transparent;border-style:dashed}
+.lib-test-side{display:grid;gap:8px;justify-items:end;min-width:170px}
+.lib-catalog .lib-access{display:inline-block;padding:3px 9px;border-radius:2px;background:var(--lib-sage,#E6EEE6);color:#2f5a35;font:600 .68rem 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.lib-catalog .lib-access.is-premium{background:var(--lib-sand);color:var(--lib-wine)}
+.lib-catalog .full-test-action{display:grid;gap:6px;min-width:0;padding:0;border:0;justify-items:end}
+.lib-catalog .full-test-action>span{font-size:.74rem;color:var(--lib-mute)}
+.feature-page .lib-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 1.25em;border:0;border-radius:2px;background:var(--lib-red);color:#fff;font:600 .88rem 'Instrument Sans',sans-serif;text-decoration:none;cursor:pointer;transition:background .2s}
+.feature-page .lib-btn:hover:not(:disabled){background:var(--lib-wine)}
+.feature-page .lib-btn:disabled{background:var(--lib-sand);color:var(--lib-mute);cursor:not-allowed}
+.feature-page .lib-btn:focus-visible{outline:2px solid var(--lib-red);outline-offset:3px}
+.lib-empty{display:grid;gap:4px;padding:36px 24px;border:1px dashed var(--lib-line-strong);border-radius:2px;background:var(--lib-card);color:var(--lib-mute);text-align:center}
+
+/* Pagination */
+.lib-pagination{display:flex;align-items:center;justify-content:space-between;gap:14px 24px;flex-wrap:wrap;margin:0 0 72px;padding-top:18px;border-top:1px solid var(--lib-line)}
+.lib-page-count{margin:0;font-size:.85rem;color:var(--lib-mute)}
+.lib-page-count strong{color:var(--lib-ink)}
+.lib-pagination ul{display:flex;align-items:center;gap:6px;margin:0;padding:0;list-style:none;flex-wrap:wrap}
+.lib-page-num,.lib-page-step{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:42px;min-height:42px;padding:0 .8em;border:1px solid var(--lib-line);border-radius:2px;background:var(--lib-card);color:var(--lib-ink);font:600 .88rem 'Instrument Sans',sans-serif;text-decoration:none;transition:border-color .2s,background .2s,color .2s}
+a.lib-page-num:hover,a.lib-page-step:hover{border-color:var(--lib-red);color:var(--lib-red)}
+.lib-page-num[aria-current=page]{background:var(--lib-red);border-color:var(--lib-red);color:#fff;cursor:default}
+.lib-page-step[aria-disabled=true]{opacity:.4;cursor:not-allowed;background:transparent}
+.lib-page-gap{padding:0 4px;color:var(--lib-mute)}
+.lib-pagination a:focus-visible{outline:2px solid var(--lib-red);outline-offset:2px}
+
+@media(max-width:960px){
+ .lib-catalog .lib-test{grid-template-columns:1fr;gap:14px;padding:16px}
+ .lib-test-side{grid-auto-flow:column;justify-content:space-between;align-items:center;justify-items:stretch;min-width:0}
+ .lib-catalog .full-test-action{justify-items:end;grid-auto-flow:column;align-items:center;gap:12px}
+}
+@media(max-width:560px){
+ .lib-test-no{font-size:2.1rem}
+ .lib-test-modules{grid-template-columns:1fr}
+ .lib-test-side{grid-auto-flow:row;gap:10px}
+ .lib-catalog .full-test-action{grid-auto-flow:row;justify-items:stretch}
+ .feature-page .lib-btn{width:100%}
+ .lib-pagination{flex-direction:column;align-items:stretch}
+ .lib-page-count{text-align:center}
+ .lib-pagination ul{justify-content:center}
+ .lib-page-num-item:not(:has([aria-current=page])){display:none}
+ .lib-page-gap{display:none}
+ .lib-page-step{flex:1;min-width:0}
+ .lib-pagination li:first-child,.lib-pagination li:last-child{flex:1}
+}
+@media(prefers-reduced-motion:reduce){.lib-catalog .lib-test,.lib-filters a,.lib-page-num{transition:none}.lib-catalog .lib-test:hover{transform:none}}
