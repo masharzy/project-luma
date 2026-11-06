@@ -14,6 +14,7 @@ import "@/styles/home-fonts.css";
 import "@/styles/home-reference.css";
 import "@/styles/resources-reference.css";
 import "@/styles/plans-reference.css";
+import "@/styles/library.css";
 export const metadata: Metadata = {
   title: { default: site.name, template: `%s · ${site.name}` },
   description: site.description,

@@ -2,3 +2,61 @@
 @media(max-width:900px){.hero{grid-template-columns:1fr 225px}.heroCopy{padding:30px}.scoreCard{padding:17px}.overview{gap:20px}.reviewStats{gap:15px}.reviewStats>div{padding-left:15px}.legend{gap:10px}.annotations{grid-template-columns:1fr}}
 @media(max-width:640px){.hero{grid-template-columns:1fr}.heroCopy{padding:27px 24px}.heroCopy h2{font-size:37px}.overall{margin:0 12px 12px;padding:20px;display:grid;grid-template-columns:1fr auto;column-gap:15px;text-align:left;justify-items:start}.overall>span:first-child{grid-column:1;font-size:9px}.overall>strong{grid-column:2;grid-row:1/4;font-size:70px;margin:0;line-height:1;letter-spacing:-3px}.overall .bandScale{display:none}.overall p{grid-column:1;margin-top:7px;font-size:9px}.overall small{grid-column:1;margin-top:5px;font-size:8px}.scoreGrid{grid-template-columns:1fr 1fr;gap:9px}.scoreCard{padding:16px}.scoreCard>strong{font-size:31px;margin:10px 0 8px}.scoreCard h3{font-size:10px}.scoreCard meter{margin-top:13px}.overview{align-items:start;flex-direction:column;padding:27px 0 20px;gap:20px}.reviewStats{width:100%;gap:24px}.reviewStats>div{border-left:0;border-top:1px solid var(--line);padding:12px 0 0;flex:1}.reviewStats strong{font-size:26px}.sectionTitle{align-items:start;flex-direction:column;gap:15px}.sectionTitle h2,.overview h2{font-size:23px}.legend{gap:14px;font-size:8px}.filters{gap:6px}.filters button{padding:10px 12px;font-size:10px;gap:7px}.answerHeading{padding:20px 18px 17px;gap:15px}.answerHeading h3{font-size:14px}.answerNumber{font-size:28px}.audio{padding:0 18px}.labelRow{padding:17px 18px 7px;font-size:8px}.transcript{padding:5px 18px 18px}.transcriptLine{grid-template-columns:18px 1fr;gap:9px;padding:6px 0}.transcriptLine p{font-size:14px;line-height:1.95}.transcriptLine>span{font-size:8px}.annotations{padding:5px 17px;gap:0}.criteria{grid-template-columns:1fr}.criterion{padding:20px}.criterionHeading h3{font-size:11px}.next{grid-template-columns:1fr;gap:24px;padding:24px}.next h2{max-width:none;font-size:29px}.limitations{padding:13px 15px;margin-bottom:27px}.limitations summary{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.scoreCard{transition:none}}
+
+/* ── Homepage light theme: ivory surfaces, editorial red, square corners ── */
+.root{--red:#C8082F;--ink:#2A0F16;--muted:#6A4852;--line:rgba(123,18,48,.18);--paper:#fff;font-family:'Instrument Sans',system-ui,sans-serif;font-size:16px}
+.root h2,.root h3,.scoreCard>strong,.reviewStats strong,.criterionHeading strong{font-family:'Bricolage Grotesque','Instrument Sans',system-ui,sans-serif}
+.hero{background:#FBE6EA;border:1px solid var(--line);color:var(--ink);grid-template-columns:1fr 280px}
+.heroCopy{background:none;padding:clamp(24px,4vw,44px)}
+.heroEyebrow{color:var(--red);font-size:11px}
+.heroCopy h2{font-family:'Bricolage Grotesque','Instrument Sans',sans-serif;font-weight:600;letter-spacing:-.04em;color:var(--ink);font-size:clamp(34px,5vw,56px);line-height:1.02}
+.heroCopy p{font-size:16px;line-height:1.7;color:var(--muted);max-width:60ch}
+.heroCopy>a{font-size:14px;font-weight:600;color:var(--red);border-bottom:1.5px solid currentColor}
+.overall{background:#fff;border:1px solid var(--line);margin:14px 14px 14px 0;border-radius:2px}
+.overall>span:first-child{font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.overall>strong{font-family:'Bricolage Grotesque','Instrument Sans',sans-serif;font-weight:700;color:var(--red);font-size:104px;letter-spacing:-.06em;line-height:1}
+.overall p{font-size:13px;font-weight:600;color:var(--ink)}
+.overall small{font-size:11px}
+.scoreGrid{gap:10px}
+.scoreCard{border-radius:2px;background:#fff;border-color:var(--line)}
+.scoreCard:hover{border-color:var(--red);background:#FBE6EA}
+.scoreCard>div{font-size:12px;font-weight:600;color:var(--red);letter-spacing:.12em}
+.scoreCard>strong{font-weight:700;font-size:44px;letter-spacing:-.05em}
+.scoreCard h3{font-size:14px;font-weight:600}
+.scoreCard meter::-webkit-meter-optimum-value,.scoreCard meter::-webkit-meter-suboptimum-value,.scoreCard meter::-webkit-meter-even-less-good-value{background:var(--red)}
+.overview h2,.sectionTitle h2,.next h2{font-weight:600;letter-spacing:-.035em;font-size:clamp(26px,3.4vw,36px);line-height:1.1}
+.overview p{font-size:15px;line-height:1.7}
+.reviewStats strong{font-size:36px}.reviewStats span{font-size:12px}
+.eyebrow{font-size:11px;letter-spacing:.14em;color:var(--red)}
+.sectionTitle>p{font-size:14px}
+.legend{font-size:12px}.legend span:before{width:10px;height:10px;border-radius:1px}
+.filters button{min-height:42px;font-size:13px;font-weight:600;color:var(--ink);border-radius:2px;background:#fff;border-color:var(--line)}
+.filters button:hover{border-color:var(--red)}
+.filters button[aria-pressed=true]{background:var(--ink);border-color:var(--ink)}
+/* Transcript: larger type, clear mark colours, corrections easy to scan */
+.answer{border-radius:2px;background:#fff}
+.answerHeading h3{font-size:19px;font-weight:600;line-height:1.4;letter-spacing:-.015em;font-family:'Bricolage Grotesque','Instrument Sans',sans-serif}
+.answerNumber{font-family:'Bricolage Grotesque','Instrument Sans',sans-serif;font-weight:700;color:#F3EADC;font-size:44px}
+.labelRow{font-size:11px;color:var(--muted)}
+.transcriptLine>span{font-size:11px;line-height:32px}
+.transcriptLine p{font-size:17px;line-height:1.85;color:var(--ink)}
+.correction{background:#FBE6EA;border-bottom:2px solid var(--red)}
+.strength{background:#E6EEE6;border-bottom:2px solid #4c8a5a}
+.uncertain{background:#FFF1CC;border-bottom:2px dashed #b8892a}
+.annotations{background:#F3EADC40;border-top:1px solid var(--line)}
+.annotation{padding:16px 0;font-size:15px}
+.annotation p{font-size:15px;line-height:1.6}
+.noteLabel{font-size:11px;letter-spacing:.08em;color:var(--muted)}
+.noteIcon{border-radius:2px;background:#FBE6EA;color:var(--red)}
+.edit del{color:#8b1f33;text-decoration-thickness:2px;background:#FBE6EA}
+.edit ins{color:#2f6a3b;text-decoration:none;font-weight:600;background:#E6EEE6;padding:0 3px}
+.criterion{border-radius:2px;background:#fff}
+.criterion p{font-size:15px;line-height:1.7}
+.criterionHeading h3{font-size:16px}
+.next{background:#F3EADC;color:var(--ink);border-radius:2px}
+.next h2{color:var(--ink)}
+.limitations{background:#F3EADC;border-radius:2px}
+.limitations summary{font-size:13px;color:var(--ink)}.limitations p{font-size:14px}
+.button{background:var(--red);color:#fff;border-radius:2px;min-height:44px;padding:0 1.3em;border:0;font-weight:600}
+.notice{border-radius:2px;border:1px solid var(--line);background:#fff}
+@media(max-width:640px){.hero{grid-template-columns:1fr}.overall{margin:0 12px 12px}.overall>strong{font-size:76px}.transcriptLine p{font-size:16px}.scoreCard>strong{font-size:36px}}

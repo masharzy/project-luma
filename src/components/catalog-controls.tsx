@@ -35,7 +35,7 @@ export function CambridgeCatalog({ tests, books }: {
    <span>{modules.map(m => m.toUpperCase()).join(" / ")}</span><span className="book-spine"/>
    </div>
    <div className="book-caption"><div><h2>{title}</h2>
-   <span>{bookTests.length} tests · {premium ? "Premium access" : bookTests.some(t => t.access === "premium") ? "Free & Premium" : "Free access"}</span>
+   <span>{bookTests.length} tests</span> <span className={"lib-access" + (premium ? " is-premium" : "")}>{premium ? "Premium" : bookTests.some(t => t.access === "premium") ? "Free & Premium" : "Free"}</span>
    </div>{premium ? <Icon name="lock" size={17}/> : <span>↗</span>}</div>
   </Link>;
         })}
