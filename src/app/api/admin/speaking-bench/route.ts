@@ -30,9 +30,9 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
   await limit('speaking-bench:'+u.id,60,3600);
   const rows=await db().query('SELECT input,result FROM public.speaking_evaluations WHERE id=$1::uuid',[SOURCE]);if(!rows[0])throw new AuthHttpError(404,'Saved recording missing');
   const input=rows[0].input as SpeakingInput,refText=new Map<number,string>((rows[0].result.transcripts as {step:number;verbatim:string}[]).map(t=>[t.step,t.verbatim]));
-  const started=performance.now(),clips=[];
+  const started=performance.now(),clips:{step:number;part:number;words:number;wpm:number|null;seconds:number;speechSeconds:number;pauses:{ge05:number;ge1:number;ge2:number}}[]=[];
   for(const c of input.clips){const m=speakingMetrics(await getPrivate(c.key));const words=(refText.get(c.step)||'').split(/\s+/).filter(Boolean).length;
-   clips.push({step:c.step,part:c.part,words,wpm:m.speechSeconds>0?Math.round(words/m.speechSeconds*60):null,...m,segments:undefined});}
+   clips.push({step:c.step,part:c.part,words,wpm:m.speechSeconds>0?Math.round(words/m.speechSeconds*60):null,...m});}
   const sum=(f:(c:typeof clips[number])=>number)=>clips.reduce((n,c)=>n+f(c),0),speech=sum(c=>c.speechSeconds),total=sum(c=>c.seconds);
   const out={kind:'metrics',ms:Math.round(performance.now()-started),clips:clips.length,totalSeconds:Math.round(total),speechSeconds:Math.round(speech),speechRatio:Math.round(speech/total*100)/100,
    words:sum(c=>c.words),wpmOverall:speech>0?Math.round(sum(c=>c.words)/speech*60):null,pauses05:sum(c=>c.pauses.ge05),pauses1:sum(c=>c.pauses.ge1),pauses2:sum(c=>c.pauses.ge2),perClip:clips};
