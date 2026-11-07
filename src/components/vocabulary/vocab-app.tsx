@@ -18,7 +18,7 @@ function Ring({value,size=96,label,sub}:{value:number;size?:number;label:string;
  return <div className={styles.ring} style={{width:size,height:size}}><svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}><circle cx={size/2} cy={size/2} r={r} className={styles.ringBg}/><circle cx={size/2} cy={size/2} r={r} className={styles.ringFg} strokeDasharray={c} strokeDashoffset={c*(1-Math.min(1,value))} transform={`rotate(-90 ${size/2} ${size/2})`}/></svg><div><b>{label}</b><small>{sub}</small></div></div>;
 }
 export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];open:number;authed:boolean;initial:Initial}){
- const {recs,ready,review,setKnown,streak,todayN}=useProgress(authed);
+ const {recs,ready,review,setKnown,streak,todayN,goal,setGoal}=useProgress(authed);
  const [mode,setMode]=useState<Mode>(initial.mode??'explore');
  const [q,setQ]=useState(initial.q??''),[topic,setTopic]=useState(initial.topic??''),[band,setBand]=useState(initial.band??0),[use,setUse]=useState(initial.use??''),[status,setStatus]=useState<StatusFilter>('all');
  const [limit,setLimit]=useState(36),[expanded,setExpanded]=useState<number|null>(null),[quizSeed,setQuizSeed]=useState(0),[forced,setForced]=useState<number[]|null>(null);
@@ -62,6 +62,8 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
  const learning=unlocked.filter(i=>statusOf(recs[i.id])==='learning').length;
  const freeItems=items.filter(i=>i.p<=FREE_LIMIT);
  const freeDone=freeItems.filter(i=>statusOf(recs[i.id])==='mastered').length;
+ const premiumOpen=unlocked.filter(i=>i.p>FREE_LIMIT);
+ const premDone=premiumOpen.filter(i=>statusOf(recs[i.id])==='mastered').length;
  const dueCount=unlocked.filter(i=>{const r=recs[i.id];return r&&r.b>0&&r.d<=Date.now();}).length;
  const [wotd,setWotd]=useState<VocabIndexItem|null>(null);
  useEffect(()=>{const pool=unlocked.filter(i=>i.s==='core'&&i.b>=7);if(pool.length)setWotd(pool[Math.floor(Date.now()/864e5)%pool.length]);// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,7 +72,6 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
  const studyIds=forced??unlockedIds;
  const reset=()=>{setQ('');setTopic('');setBand(0);setUse('');setStatus('all');setForced(null);};
  const filterLabel=[topic,band?bandLabel(band):'',use,q?`“${q}”`:''].filter(Boolean).join(' · ')||'All words';
- const goal=10;
  return <div className={styles.page}>
   {/* HERO */}
   <section className={styles.hero}>
@@ -95,9 +96,10 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
        <div><b>{dueCount}</b><span>due to review</span></div>
       </div>
      </div>
-     <div className={styles.goal}><div className={styles.goalHead}><span>Today&apos;s goal</span><b>{Math.min(todayN,goal)} / {goal} cards</b></div><div className={styles.bar}><i style={{width:`${Math.min(1,todayN/goal)*100}%`}}/></div></div>
+     <div className={styles.goal}><div className={styles.goalHead}><span>Today&apos;s goal</span><label className={styles.goalSet}><select value={goal} onChange={e=>setGoal(Number(e.target.value))} aria-label="Daily goal">{[...new Set([5,10,15,20,30,50,goal])].sort((x,y)=>x-y).map(n=><option key={n} value={n}>{n} cards a day</option>)}</select></label></div><div className={styles.bar}><i style={{width:`${Math.min(1,todayN/goal)*100}%`}}/></div><div className={styles.goalSub}>{Math.min(todayN,goal)} of {goal} done today{todayN>=goal?' - goal reached':''}</div></div>
      <div className={styles.goal}><div className={styles.goalHead}><span>Free words learned</span><b>{freeDone} / {FREE_LIMIT}</b></div><div className={styles.bar}><i style={{width:`${(freeDone/FREE_LIMIT)*100}%`}}/></div></div>
-     {!authed&&<p className={styles.dashNote}>Progress is saved in this browser. <Link href="/auth/sign-in">Log in</Link> to keep it on every device.</p>}
+     <div className={styles.goal}><div className={styles.goalHead}><span>Premium words learned</span>{premiumOpen.length?<b>{premDone} / {premiumOpen.length}</b>:<Link href="/pricing" className={styles.dashLink}>Unlock with a plan</Link>}</div><div className={styles.bar}><i style={{width:`${premiumOpen.length?(premDone/premiumOpen.length)*100:0}%`}}/></div></div>
+     {!authed&&<p className={styles.dashNote}>Progress is saved in this browser. <Link href="/auth/sign-in">Log in</Link> to keep it on every device and set a goal that follows you.</p>}
     </aside>
    </div>
   </section>

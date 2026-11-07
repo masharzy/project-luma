@@ -9,6 +9,7 @@ const learner = [
   ["/speaking-evaluation", "Speaking Evaluation", "headphones"],
   ["/dashboard", "Overview", "grid"],
   ["/dashboard/my-tests", "My practice", "book"],
+  ["/dashboard/vocabulary", "Vocabulary", "book"],
   ["/dashboard/mocks", "My mocks", "clock"],
   ["/dashboard/results", "Mock results", "chart"],
   ["/dashboard/saved", "Saved resources", "heart"],

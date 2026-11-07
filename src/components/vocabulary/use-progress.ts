@@ -19,6 +19,9 @@ export function streakOf(days:string[]){
 export function useProgress(authed:boolean){
  const [store,setStore]=useState<Store>(blank);
  const [ready,setReady]=useState(false);
+ const [server,setServer]=useState<{goal:number;todayN:number;streakBase:number}|null>(null);
+ const [session,setSession]=useState(0);
+ const [goalLocal,setGoalLocal]=useState(10);
  const pending=useRef<Map<number,Rec>>(new Map());
  const timer=useRef<ReturnType<typeof setTimeout>|null>(null);
  const flush=useCallback(()=>{
@@ -27,15 +30,16 @@ export function useProgress(authed:boolean){
   void fetch('/api/vocabulary/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items})}).catch(()=>{});
  },[authed]);
  useEffect(()=>{
-  const local=load();setStore(local);setReady(true);
+  const local=load();setStore(local);setReady(true);try{setGoalLocal(Number(localStorage.getItem(KEY+'.goal'))||10);}catch{}
   if(!authed)return;
   void fetch('/api/vocabulary/progress',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
    if(!d)return;
+   setServer({goal:d.goal,todayN:d.todayN,streakBase:d.streakBase});
    const merged={...local.recs};const up:{id:number;b:number;s:number;d:number}[]=[];
    for(const x of d.items as {id:number;b:number;s:number;d:number;u:number}[]){const mine=merged[x.id];if(!mine||x.u>mine.u)merged[x.id]={b:x.b,s:x.s,d:x.d,u:x.u};}
    for(const [id,r] of Object.entries(local.recs)){const srv=(d.items as {id:number;u:number}[]).find(x=>x.id===Number(id));if(!srv||r.u>srv.u)up.push({id:Number(id),b:r.b,s:r.s,d:r.d});}
    const next={...local,recs:merged};setStore(next);try{localStorage.setItem(KEY,JSON.stringify(next));}catch{}
-   if(up.length)void fetch('/api/vocabulary/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:up.slice(0,200)})}).catch(()=>{});
+   if(up.length)void fetch('/api/vocabulary/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:up.slice(0,200),sync:true})}).catch(()=>{});
   }).catch(()=>{});
   const onHide=()=>flush();window.addEventListener('pagehide',onHide);return()=>window.removeEventListener('pagehide',onHide);
  },[authed,flush]);
@@ -52,6 +56,7 @@ export function useProgress(authed:boolean){
    const now=Date.now();const rec:Rec={b,s:(old?.s??0)+1,d:b===1?now+10*60e3:now+DAYS[b]*864e5,u:now};
    queue(id,rec);return touch({...s,recs:{...s.recs,[id]:rec}},true);
   });
+  setSession(n=>n+1);
  },[commit,queue,touch]);
  // Manual toggle from the word list.
  const setKnown=useCallback((id:number,known:boolean)=>{
@@ -60,7 +65,14 @@ export function useProgress(authed:boolean){
    queue(id,rec);return {...s,recs:{...s.recs,[id]:rec}};
   });
  },[commit,queue]);
- const streak=streakOf(store.days);
- const todayN=store.today.date===dayKey()?store.today.n:0;
- return{recs:store.recs,ready,review,setKnown,streak,todayN};
+ const localToday=store.today.date===dayKey()?store.today.n:0;
+ const todayN=authed&&server?server.todayN+session:localToday;
+ const streak=authed&&server?server.streakBase+(todayN>0?1:0):streakOf(store.days);
+ const goal=authed&&server?server.goal:goalLocal;
+ const setGoal=useCallback((g:number)=>{
+  const v=Math.max(1,Math.min(200,Math.round(g)));
+  setGoalLocal(v);try{localStorage.setItem(KEY+'.goal',String(v));}catch{}
+  if(authed){setServer(s=>s&&{...s,goal:v});void fetch('/api/vocabulary/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({dailyGoal:v})}).catch(()=>{});}
+ },[authed]);
+ return{recs:store.recs,ready,review,setKnown,streak,todayN,goal,setGoal};
 }

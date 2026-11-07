@@ -2,12 +2,14 @@ import {NextRequest} from 'next/server';
 import {requireSameOrigin,readBody,AuthHttpError} from '@/lib/auth/http';
 import {readSession} from '@/lib/auth/session';
 import {db} from '@/lib/auth/db';
+import {addDaily,vocabStats} from '@/lib/vocab-stats';
 // Signed-in learners keep their flashcard progress on the server so it follows them across devices.
 export async function GET(){
  const s=await readSession().catch(()=>null);
  if(!s?.user)return Response.json({items:[]});
  const rows=await db().query('SELECT word_id,box,seen,due_at,updated_at FROM public.vocab_progress WHERE user_id=$1::uuid',[s.user.id]);
- return Response.json({items:rows.map(r=>({id:Number(r.word_id),b:Number(r.box),s:Number(r.seen),d:new Date(String(r.due_at)).getTime(),u:new Date(String(r.updated_at)).getTime()}))},{headers:{'Cache-Control':'private, no-store'}});
+ const stats=await vocabStats(s.user.id);
+ return Response.json({...stats,items:rows.map(r=>({id:Number(r.word_id),b:Number(r.box),s:Number(r.seen),d:new Date(String(r.due_at)).getTime(),u:new Date(String(r.updated_at)).getTime()}))},{headers:{'Cache-Control':'private, no-store'}});
 }
 export async function POST(request:NextRequest){
  const s=await readSession().catch(()=>null);
@@ -19,5 +21,7 @@ export async function POST(request:NextRequest){
  await db().query(`INSERT INTO public.vocab_progress(user_id,word_id,box,seen,due_at,updated_at)
   SELECT $1::uuid,r.id,r.b,r.s,r.d,now() FROM jsonb_to_recordset($2::jsonb) AS r(id int,b smallint,s int,d timestamptz) WHERE EXISTS(SELECT 1 FROM public.vocab_words w WHERE w.id=r.id)
   ON CONFLICT(user_id,word_id) DO UPDATE SET box=EXCLUDED.box,seen=EXCLUDED.seen,due_at=EXCLUDED.due_at,updated_at=now()`,[s.user.id,JSON.stringify(items)]);
+ // Cards reviewed count toward the daily goal; the sign-in merge upload (sync) does not.
+ if(body.sync!==true)await addDaily(s.user.id,Math.min(items.length,100));
  return Response.json({saved:items.length});
 }
