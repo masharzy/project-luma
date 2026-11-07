@@ -36,6 +36,12 @@ export default async function Page({ params }: { params: Promise<{ plan: string 
     <main className="jtn-design ck">
       <div className="ck-wrap">
         <nav className="ck-crumb" aria-label="Breadcrumb"><Link href="/pricing">Plans</Link><span aria-hidden="true">/</span><span aria-current="page">Checkout</span></nav>
+        {active && !pending && (
+          <div className="ck-notice" role="note">
+            <p className="ck-notice-t">You are changing your plan</p>
+            <p>Current plan: <b>{String(active.plan_name)}</b>, active until {date(active.expires_at)}. <b>{String(plan.name)}</b> replaces it once payment is confirmed.</p>
+          </div>
+        )}
         <div className="ck-grid">
           <div className="ck-card" role="region" aria-labelledby="ck-plan">
             <p className="ck-kicker">Your plan</p>
@@ -56,7 +62,7 @@ export default async function Page({ params }: { params: Promise<{ plan: string 
                 <p>It is waiting for payment confirmation. <Link href="/dashboard/subscription">View your subscription</Link></p>
               </div>
             ) : (
-              <CheckoutForm planId={String(plan.id)} planName={String(plan.name)} duration={duration} listPrice={Number(plan.price_bdt)} methods={paymentMethods} gateway={briofoldConfig() !== null} replacing={active ? `${String(active.plan_name)} (until ${date(active.expires_at)})` : undefined} />
+              <CheckoutForm planId={String(plan.id)} planName={String(plan.name)} duration={duration} listPrice={Number(plan.price_bdt)} methods={paymentMethods} gateway={briofoldConfig() !== null} />
             )}
           </div>
         </div>
