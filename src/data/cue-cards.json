@@ -1,0 +1,1842 @@
+[
+{
+"category": "People",
+"title": "Describe a neighbour who has helped you or your family.",
+"prompts": [
+"who this neighbour is and how long you have known them",
+"what kind of help they gave you",
+"how you thanked them or returned the favour",
+"and explain why this help meant so much to you."
+],
+"part3": [
+"Why do neighbours seem less close to each other in cities than in villages?",
+"How has technology changed the way neighbours communicate?",
+"Should people be expected to help neighbours they hardly know?",
+"What can local communities do to build stronger relationships between residents?"
+],
+"ideas": [
+"lend a hand",
+"tight-knit community",
+"go out of one's way",
+"reciprocate"
+],
+"level": "everyday"
+},
+{
+"category": "People",
+"title": "Describe a teacher who made a difficult subject easy for you.",
+"prompts": [
+"who the teacher was and what subject they taught",
+"what methods they used in class",
+"how your understanding of the subject changed",
+"and explain why their way of teaching worked so well for you."
+],
+"part3": [
+"What qualities make someone a good teacher?",
+"Is private tuition necessary for students to do well in exams?",
+"How might online learning change the role of teachers in the future?",
+"Do you think teachers are respected enough in society today?"
+],
+"ideas": [
+"break down complex ideas",
+"patient and approachable",
+"spark an interest",
+"private tutoring"
+],
+"level": "abstract"
+},
+{
+"category": "People",
+"title": "Describe a shopkeeper or street vendor in your area whom you know well.",
+"prompts": [
+"who this person is and what they sell",
+"how you first started buying from them",
+"what you usually talk about when you meet",
+"and explain why you keep going back to this person."
+],
+"part3": [
+"Why do some people prefer small local shops to supermarkets?",
+"How has online shopping affected small traders?",
+"Do you think bargaining is a good way to buy things?",
+"What could be done to support small businesses in a city?"
+],
+"ideas": [
+"regular customer",
+"haggle over the price",
+"family-run business",
+"build up a rapport"
+],
+"level": "everyday"
+},
+{
+"category": "People",
+"title": "Describe an older person who has told you interesting stories about the past.",
+"prompts": [
+"who this person is and how you are connected to them",
+"what kinds of stories they usually tell",
+"where and when you listen to these stories",
+"and explain what you have learned from hearing them."
+],
+"part3": [
+"Why do young people today spend less time with older generations?",
+"What can older people teach the young that books cannot?",
+"How important is it to record oral history before it is lost?",
+"Do you think the elderly are cared for well in your society?"
+],
+"ideas": [
+"pass down traditions",
+"first-hand experience",
+"generation gap",
+"nostalgic"
+],
+"level": "abstract"
+},
+{
+"category": "People",
+"title": "Describe a person in your community who works to help others.",
+"prompts": [
+"who this person is and what they do",
+"how they became involved in this work",
+"how people in the community respond to them",
+"and explain why you think their work is important."
+],
+"part3": [
+"Why are some people willing to volunteer while others are not?",
+"Should helping the needy be the government's job or individuals' responsibility?",
+"How can young people be encouraged to take part in community work?",
+"Does social media help or harm charitable causes?"
+],
+"ideas": [
+"selfless",
+"give back to society",
+"voluntary work",
+"make a real difference"
+],
+"level": "abstract"
+},
+{
+"category": "People",
+"title": "Describe a friend from your past with whom you have lost touch.",
+"prompts": [
+"who this friend was and how you met",
+"what you used to do together",
+"why you are no longer in contact",
+"and explain how you feel about the friendship now."
+],
+"part3": [
+"Why do friendships often fade when people move to a new city or job?",
+"Is it easier to keep in touch with friends today than in the past?",
+"Do you think online friendships are as meaningful as real-life ones?",
+"How do friends influence people at different stages of life?"
+],
+"ideas": [
+"drift apart",
+"childhood friend",
+"keep in touch",
+"reconnect"
+],
+"level": "everyday"
+},
+{
+"category": "People",
+"title": "Describe a person you know who is very good at managing money.",
+"prompts": [
+"who this person is and how you know them",
+"how they plan and spend their money",
+"what habits you have noticed in them",
+"and explain what you could learn from the way they handle money."
+],
+"part3": [
+"Should schools teach children how to manage money?",
+"Why do some people find it hard to save?",
+"How has digital payment, such as mobile banking, changed spending habits?",
+"Do you think young people today are more careless with money than older generations?"
+],
+"ideas": [
+"stick to a budget",
+"live within one's means",
+"put money aside",
+"financially savvy"
+],
+"level": "abstract"
+},
+{
+"category": "People",
+"title": "Describe a public figure from your country who has inspired young people.",
+"prompts": [
+"who this person is and what they are known for",
+"how they became well known",
+"how young people have reacted to them",
+"and explain why you think they are a good influence."
+],
+"part3": [
+"What makes someone a good role model for the young?",
+"Do celebrities have a responsibility to set a good example?",
+"Are sportspeople more influential than politicians among young people?",
+"How has social media changed the way people become famous?"
+],
+"ideas": [
+"role model",
+"rise to fame",
+"leave a lasting legacy",
+"draw inspiration from"
+],
+"level": "abstract"
+},
+{
+"category": "Places",
+"title": "Describe a busy market you have been to.",
+"prompts": [
+"where the market is and what is sold there",
+"what the atmosphere is like",
+"what you did or bought there",
+"and explain how you felt about being in such a crowded place."
+],
+"part3": [
+"Why do many people still prefer traditional markets to shopping malls?",
+"How might markets in cities change in the next few decades?",
+"Is it a good idea to limit street trading to keep roads clear?",
+"What can local authorities do to keep public markets clean and safe?"
+],
+"ideas": [
+"bustling",
+"crowded stalls",
+"fresh produce",
+"a sensory overload"
+],
+"level": "everyday"
+},
+{
+"category": "Places",
+"title": "Describe a quiet place where you go when you want to think or study.",
+"prompts": [
+"where this place is and how you found it",
+"what it looks like and how it sounds",
+"what you usually do there",
+"and explain why this place helps you concentrate."
+],
+"part3": [
+"Why do some people need silence to work while others do not?",
+"Is it difficult to find quiet places in modern cities?",
+"Should schools and universities provide more quiet study areas?",
+"How does the environment affect a person's productivity?"
+],
+"ideas": [
+"tranquil",
+"free from distractions",
+"peace of mind",
+"a peaceful retreat"
+],
+"level": "everyday"
+},
+{
+"category": "Places",
+"title": "Describe an old building in your city or town.",
+"prompts": [
+"where the building is and what it looks like",
+"how old it is and what it was used for",
+"what condition it is in today",
+"and explain whether you think it should be preserved."
+],
+"part3": [
+"Why is it important to protect historic buildings?",
+"Who should pay for the preservation of old buildings: the government or private owners?",
+"Should old buildings be replaced when cities need more housing?",
+"How can heritage sites be made interesting for young people?"
+],
+"ideas": [
+"historic landmark",
+"fall into disrepair",
+"architectural heritage",
+"restore and preserve"
+],
+"level": "abstract"
+},
+{
+"category": "Places",
+"title": "Describe a village or rural area you have visited.",
+"prompts": [
+"where it is and who you went with",
+"what the surroundings were like",
+"what people did there in daily life",
+"and explain how it was different from the place where you live."
+],
+"part3": [
+"Why are so many people moving from villages to cities?",
+"What are the advantages of living in the countryside?",
+"How could rural areas be made more attractive to young people?",
+"Do you think tourism helps or harms small rural communities?"
+],
+"ideas": [
+"rural lifestyle",
+"paddy fields",
+"slower pace of life",
+"urban migration"
+],
+"level": "abstract"
+},
+{
+"category": "Places",
+"title": "Describe a place where you had to wait for a long time.",
+"prompts": [
+"where the place was and why you were there",
+"how long you waited",
+"what you did while waiting",
+"and explain how you felt about the experience."
+],
+"part3": [
+"Why do people find waiting so frustrating?",
+"Which public services in your country have the longest queues, and why?",
+"Can technology help reduce waiting times?",
+"Do you think people are less patient now than in the past?"
+],
+"ideas": [
+"lose track of time",
+"pass the time",
+"long queue",
+"run out of patience"
+],
+"level": "everyday"
+},
+{
+"category": "Places",
+"title": "Describe a river, lake or waterside place you have seen.",
+"prompts": [
+"where the water is and when you went there",
+"what the view was like",
+"what people were doing around it",
+"and explain why this place stayed in your memory."
+],
+"part3": [
+"Why do people feel relaxed near water?",
+"What problems do rivers and lakes face in your country?",
+"Who should be responsible for keeping waterways clean?",
+"How might climate change affect places near water in the future?"
+],
+"ideas": [
+"scenic view",
+"riverbank",
+"water pollution",
+"soothing atmosphere"
+],
+"level": "abstract"
+},
+{
+"category": "Places",
+"title": "Describe a place in your area that you would like to see improved.",
+"prompts": [
+"where the place is and what it is used for",
+"what problems it has at the moment",
+"what changes you would like to see",
+"and explain how these changes would help local people."
+],
+"part3": [
+"Who should decide how public spaces are developed?",
+"Do cities in your country have enough green areas?",
+"How can residents be involved in improving their neighbourhoods?",
+"Is it better to spend public money on new projects or on repairing existing ones?"
+],
+"ideas": [
+"run-down",
+"urban planning",
+"public amenities",
+"revamp"
+],
+"level": "abstract"
+},
+{
+"category": "Places",
+"title": "Describe a public place near your home where people like to gather.",
+"prompts": [
+"where the place is and what facilities it has",
+"who usually goes there and at what time",
+"what activities take place there",
+"and explain why it is important to the people who live nearby."
+],
+"part3": [
+"Why are public gathering places important in a community?",
+"Have people started to use public spaces less because of the internet?",
+"How can cities make public places safe for women and children?",
+"Should public parks and playgrounds be free for everyone?"
+],
+"ideas": [
+"meeting point",
+"social hub",
+"open space",
+"sense of belonging"
+],
+"level": "everyday"
+},
+{
+"category": "Objects",
+"title": "Describe an old object in your home that has been kept in your family for many years.",
+"prompts": [
+"what the object is and what it looks like",
+"who it originally belonged to",
+"how your family uses or looks after it",
+"and explain why it is important to your family"
+],
+"part3": [
+"Why do some families keep old objects for generations?",
+"Do young people value traditional items as much as older people do?",
+"Should museums collect everyday objects from ordinary households?",
+"How has the way people treat their possessions changed over time?"
+],
+"ideas": [
+"a family heirloom",
+"sentimental value",
+"passed down through generations",
+"well-preserved"
+],
+"level": "abstract"
+},
+{
+"category": "Objects",
+"title": "Describe something you bought second-hand and were pleased with.",
+"prompts": [
+"what you bought",
+"where and how you found it",
+"how much you paid compared with a new one",
+"and explain why you were happy with your choice"
+],
+"part3": [
+"Why do some people prefer buying second-hand goods?",
+"Is it better to repair old things or replace them with new ones?",
+"How has online shopping changed the market for used items?",
+"Do you think people today buy more than they really need?"
+],
+"ideas": [
+"a bargain",
+"pre-owned",
+"good value for money",
+"in mint condition"
+],
+"level": "everyday"
+},
+{
+"category": "Objects",
+"title": "Describe a tool or gadget in your kitchen that makes daily work easier.",
+"prompts": [
+"what it is and how it works",
+"how long you have had it",
+"how often and for what you use it",
+"and explain why it is so useful to you"
+],
+"part3": [
+"How have kitchen appliances changed the way families live?",
+"Are modern gadgets making people less skilled at cooking?",
+"Who should do household chores in a family, and why?",
+"Do you think technology will fully automate housework in the future?"
+],
+"ideas": [
+"time-saving",
+"labour-saving device",
+"handy",
+"a household essential"
+],
+"level": "everyday"
+},
+{
+"category": "Objects",
+"title": "Describe a piece of traditional clothing that you like to wear.",
+"prompts": [
+"what it is and what it looks like",
+"when and where you wear it",
+"who gave it to you or where you got it",
+"and explain why you like wearing it"
+],
+"part3": [
+"Why are traditional clothes still worn on special occasions?",
+"Is fashion in your country influenced too much by foreign trends?",
+"Should schools or workplaces require a particular style of dress?",
+"Will traditional clothing survive as lifestyles keep modernising?"
+],
+"ideas": [
+"intricate embroidery",
+"cultural identity",
+"a festive outfit",
+"handwoven fabric"
+],
+"level": "abstract"
+},
+{
+"category": "Objects",
+"title": "Describe something you lost and later managed to find.",
+"prompts": [
+"what the object was",
+"when and where you lost it",
+"how you found it again",
+"and explain how you felt when you got it back"
+],
+"part3": [
+"Why do people become so upset when they lose small personal items?",
+"Can technology, such as tracking apps, solve the problem of lost belongings?",
+"Are people in your country generally honest about returning lost property?",
+"How should a community deal with lost-and-found items in public places?"
+],
+"ideas": [
+"misplace",
+"retrace my steps",
+"a huge relief",
+"turn the place upside down"
+],
+"level": "everyday"
+},
+{
+"category": "Objects",
+"title": "Describe a notebook, diary or book that you have kept for a long time.",
+"prompts": [
+"what it is and how you got it",
+"what is written or printed in it",
+"how often you look at it now",
+"and explain why you have not thrown it away"
+],
+"part3": [
+"Do you think people will still keep paper books and notes in the future?",
+"Why do some people prefer writing by hand to typing?",
+"Is keeping a diary a useful habit for young people?",
+"How might digital storage change the way we remember our past?"
+],
+"ideas": [
+"keepsake",
+"dog-eared pages",
+"nostalgic",
+"jot down"
+],
+"level": "abstract"
+},
+{
+"category": "Objects",
+"title": "Describe a piece of furniture at home that you find very comfortable or useful.",
+"prompts": [
+"what it is and where it is placed",
+"what it is made of and how it looks",
+"how you and your family use it",
+"and explain why it matters to you"
+],
+"part3": [
+"How important is a comfortable home to a person's well-being?",
+"Why do many people in cities live in small flats with little furniture?",
+"Would you rather buy cheap furniture often or expensive furniture once?",
+"How might homes and furniture look different in fifty years?"
+],
+"ideas": [
+"sturdy",
+"space-saving",
+"upholstered",
+"durable"
+],
+"level": "everyday"
+},
+{
+"category": "Objects",
+"title": "Describe something handmade that someone made for you.",
+"prompts": [
+"what it is and who made it",
+"how long it probably took to make",
+"what it is used for",
+"and explain why it is special to you"
+],
+"part3": [
+"Why are handmade items often more valued than factory-made ones?",
+"Are traditional crafts disappearing in your country, and does it matter?",
+"Should the government support small craft businesses?",
+"Do you think a handmade gift is better than an expensive shop-bought one?"
+],
+"ideas": [
+"painstaking",
+"craftsmanship",
+"one of a kind",
+"a personal touch"
+],
+"level": "abstract"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe a family gathering during a festival such as Eid or Pohela Boishakh.",
+"prompts": [
+"when and where the gathering took place",
+"who came and what you did together",
+"what food or activities were part of it",
+"and explain what made it memorable"
+],
+"part3": [
+"Why are family gatherings important in your culture?",
+"Have festivals become more commercial than they used to be?",
+"Do young people celebrate traditions differently from their grandparents?",
+"How can people who live far from home stay connected to family celebrations?"
+],
+"ideas": [
+"get-together",
+"festive atmosphere",
+"reunite with relatives",
+"carry on a tradition"
+],
+"level": "abstract"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe a time when you were caught in heavy rain or a storm.",
+"prompts": [
+"where you were and what you were doing",
+"what the weather was like",
+"what you did to deal with the situation",
+"and explain how you felt afterwards"
+],
+"part3": [
+"How does extreme weather affect daily life in your country?",
+"Should people be more prepared for natural disasters?",
+"Do you think climate change is making weather more unpredictable?",
+"What can governments do to protect citizens during severe weather?"
+],
+"ideas": [
+"torrential downpour",
+"soaked to the skin",
+"take shelter",
+"waterlogged streets"
+],
+"level": "everyday"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe a time when you had to wait a long time for something.",
+"prompts": [
+"what you were waiting for",
+"where you waited and for how long",
+"what you did while waiting",
+"and explain how you felt about the experience"
+],
+"part3": [
+"Are people today less patient than in the past?",
+"Why do some services involve long waiting times in your country?",
+"Can technology reduce the time people spend queuing?",
+"Is waiting ever a good thing, or is it always a waste of time?"
+],
+"ideas": [
+"long-winded",
+"lose patience",
+"kill time",
+"drag on"
+],
+"level": "abstract"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe a day when you had to get up much earlier than usual.",
+"prompts": [
+"when it was and why you had to wake up early",
+"what you did that morning",
+"who was with you",
+"and explain whether it turned out to be worthwhile"
+],
+"part3": [
+"Do you think being an early riser leads to a more successful life?",
+"How do people's sleep habits differ between city and village life?",
+"Should schools and offices start later in the day?",
+"What are the effects of lack of sleep on young people?"
+],
+"ideas": [
+"crack of dawn",
+"bleary-eyed",
+"set the alarm",
+"a tight schedule"
+],
+"level": "everyday"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe an event you helped to organise at school, university or in your neighbourhood.",
+"prompts": [
+"what the event was and who it was for",
+"what your role was in organising it",
+"what problems came up and how they were solved",
+"and explain what you learned from the experience"
+],
+"part3": [
+"Why is it valuable for young people to take part in community activities?",
+"What skills does a person need to organise a successful event?",
+"Should students be given more responsibility for organising school events?",
+"How do community events help bring people together?"
+],
+"ideas": [
+"take charge of",
+"logistics",
+"run smoothly",
+"teamwork"
+],
+"level": "abstract"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe a wedding you attended that you remember well.",
+"prompts": [
+"whose wedding it was and where it was held",
+"what happened during the ceremony and celebration",
+"what you wore and ate",
+"and explain why you remember it so clearly"
+],
+"part3": [
+"Why do weddings in your country often involve so many guests?",
+"Do you think families spend too much money on weddings?",
+"How have wedding customs changed over the last few decades?",
+"Is it better to have a simple wedding or a grand one?"
+],
+"ideas": [
+"lavish",
+"ceremony",
+"bride and groom",
+"extended family"
+],
+"level": "abstract"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe a long journey you made by train, bus or boat.",
+"prompts": [
+"where you were going and who you were with",
+"how long the journey took",
+"what you saw or did on the way",
+"and explain whether you would like to make the same journey again"
+],
+"part3": [
+"Why do many people still prefer travelling by road or train rather than by air?",
+"How can public transport in your country be improved?",
+"Does travelling teach people things that classrooms cannot?",
+"How might long-distance travel change in the future?"
+],
+"ideas": [
+"overcrowded",
+"scenic route",
+"delayed",
+"arduous"
+],
+"level": "everyday"
+},
+{
+"category": "Events & Experiences",
+"title": "Describe a time when something unexpected happened and changed your plans.",
+"prompts": [
+"what you had planned to do",
+"what unexpected thing happened",
+"how you responded and what you did instead",
+"and explain what the experience taught you"
+],
+"part3": [
+"Is it better to plan everything carefully or to be flexible?",
+"Why do some people find sudden change stressful?",
+"Can unexpected events ever turn out to be positive for a person?",
+"Should schools teach young people how to cope with uncertainty?"
+],
+"ideas": [
+"out of the blue",
+"thrown off course",
+"adapt on the spot",
+"a blessing in disguise"
+],
+"level": "abstract"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Describe a game you used to play with other children in your neighbourhood when you were young.",
+"prompts": [
+"what the game was and how it was played",
+"who you played it with",
+"where and when you usually played it",
+"and explain why you remember it so well."
+],
+"part3": [
+"Why do you think children today spend less time on outdoor games than in the past?",
+"Do you think team games teach children skills that individual activities cannot?",
+"Should schools in cities with little open space still make time for physical play?",
+"How have traditional games changed as technology has become more widespread?"
+],
+"ideas": [
+"street games",
+"burn off energy",
+"a sense of camaraderie",
+"carefree childhood"
+],
+"level": "everyday"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Describe a skill you taught yourself without attending any classes.",
+"prompts": [
+"what the skill is",
+"how you went about learning it",
+"what difficulties you faced along the way",
+"and explain how this skill has been useful to you."
+],
+"part3": [
+"Is it better to learn a new skill alone or with a teacher? Why?",
+"Why do some people give up learning something new so quickly?",
+"Do you think schools should spend more time teaching practical skills rather than academic subjects?",
+"How has the internet changed the way people acquire new abilities?"
+],
+"ideas": [
+"self-taught",
+"trial and error",
+"steep learning curve",
+"hands-on experience"
+],
+"level": "abstract"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Describe a sports match that you watched and found exciting.",
+"prompts": [
+"what the match was and who was playing",
+"where you watched it and who you were with",
+"what happened during the match",
+"and explain why it was so exciting."
+],
+"part3": [
+"Why are some sports far more popular than others in Bangladesh?",
+"Do you think professional athletes are paid too much compared with other professionals?",
+"Can watching sport together bring a community or a nation closer?",
+"Is it more enjoyable to watch a match in a stadium or at home? Why?"
+],
+"ideas": [
+"edge-of-your-seat",
+"a nail-biting finish",
+"passionate supporters",
+"the atmosphere was electric"
+],
+"level": "everyday"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Describe an activity that helps you unwind after a tiring or stressful week.",
+"prompts": [
+"what the activity is",
+"when and where you usually do it",
+"whether you do it alone or with others",
+"and explain how it helps you feel better."
+],
+"part3": [
+"Why do people in modern cities seem to feel more stressed than people in the past?",
+"Is it better to relax by doing something active or by doing nothing at all?",
+"Should employers give workers more free time for leisure activities?",
+"How important is it for young people to have hobbies alongside their studies?"
+],
+"ideas": [
+"recharge my batteries",
+"take my mind off things",
+"a change of pace",
+"wind down"
+],
+"level": "abstract"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Talk about a time when you took part in a community or volunteer activity.",
+"prompts": [
+"what the activity was and who organised it",
+"what you did there",
+"who else took part",
+"and explain what you gained from the experience."
+],
+"part3": [
+"Why do some people volunteer while others never do?",
+"Should schools require students to do voluntary work?",
+"What kinds of volunteering do you think are most needed in Bangladesh today?",
+"Is giving time more valuable than giving money to a good cause?"
+],
+"ideas": [
+"give something back",
+"community spirit",
+"a sense of purpose",
+"lend a hand"
+],
+"level": "abstract"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Describe something you made by hand, such as a craft, a drawing or a piece of clothing.",
+"prompts": [
+"what you made",
+"how and why you made it",
+"what materials or tools you used",
+"and explain how you felt about the finished result."
+],
+"part3": [
+"Why do people still value handmade items when machines can produce them cheaper?",
+"Do you think traditional crafts in Bangladesh are in danger of disappearing?",
+"Should creative subjects get as much attention in school as maths and science?",
+"Can a creative hobby become a successful career? Under what circumstances?"
+],
+"ideas": [
+"handcrafted",
+"an eye for detail",
+"a labour of love",
+"artisan"
+],
+"level": "abstract"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Talk about a hobby that you would like to take up in the future.",
+"prompts": [
+"what the hobby is",
+"why it interests you",
+"what you would need to get started",
+"and explain why you have not tried it yet."
+],
+"part3": [
+"Do people tend to change their hobbies as they get older? Why?",
+"What stops adults from pursuing hobbies as much as children do?",
+"Are expensive hobbies more rewarding than cheap ones?",
+"How can having a shared hobby affect friendships?"
+],
+"ideas": [
+"take up",
+"get into",
+"keen on",
+"a pastime"
+],
+"level": "everyday"
+},
+{
+"category": "Activities & Hobbies",
+"title": "Describe a day you spent outdoors with your family or friends, such as a picnic or a trip to a river or park.",
+"prompts": [
+"where you went and when",
+"who was with you",
+"what you did during the day",
+"and explain why you enjoyed it."
+],
+"part3": [
+"Why do many people in big cities rarely spend time in nature?",
+"Do you think family outings are as important now as they were in the past?",
+"What could local authorities do to make public outdoor spaces more attractive?",
+"Is spending time outdoors good for children's development? In what ways?"
+],
+"ideas": [
+"a breath of fresh air",
+"quality time",
+"out in the open",
+"escape the hustle and bustle"
+],
+"level": "everyday"
+},
+{
+"category": "Media & Technology",
+"title": "Describe a mobile app that you use almost every day.",
+"prompts": [
+"what the app is and what it does",
+"how you first found out about it",
+"how often and in what situations you use it",
+"and explain why it is important in your daily life."
+],
+"part3": [
+"Do you think people rely too much on apps to manage their daily lives?",
+"How have mobile apps changed the way businesses in Bangladesh work?",
+"Should there be limits on how much personal data apps can collect?",
+"Will apps eventually replace the need for traditional services such as banks and shops?"
+],
+"ideas": [
+"user-friendly interface",
+"a handy tool",
+"glued to my phone",
+"push notifications"
+],
+"level": "everyday"
+},
+{
+"category": "Media & Technology",
+"title": "Describe a television programme or web series that your family enjoyed watching together.",
+"prompts": [
+"what the programme was about",
+"when and where your family watched it",
+"who liked it most",
+"and explain why it appealed to your family."
+],
+"part3": [
+"Do you think television still plays an important role in people's lives now that streaming is popular?",
+"Is it a good thing that families often watch different content on separate devices?",
+"Should the government control what is shown on television?",
+"How much influence do TV dramas have on the way young people behave?"
+],
+"ideas": [
+"gripping storyline",
+"binge-watch",
+"family viewing",
+"a talking point"
+],
+"level": "abstract"
+},
+{
+"category": "Media & Technology",
+"title": "Describe a time when your internet connection or electricity failed at an important moment.",
+"prompts": [
+"when and where it happened",
+"what you were trying to do",
+"how you dealt with the problem",
+"and explain how the situation made you feel."
+],
+"part3": [
+"Are people too dependent on the internet in their work and studies?",
+"What problems do areas with poor connectivity face compared with well-connected cities?",
+"Whose responsibility is it to improve internet access, the government or private companies?",
+"Do you think life would be better or worse if we spent less time online?"
+],
+"ideas": [
+"a technical glitch",
+"out of the blue",
+"a backup plan",
+"patchy connection"
+],
+"level": "abstract"
+},
+{
+"category": "Media & Technology",
+"title": "Talk about a piece of news that you read or heard recently and found interesting.",
+"prompts": [
+"what the news was about",
+"where and how you came across it",
+"what you thought when you first heard it",
+"and explain why it caught your attention."
+],
+"part3": [
+"Where do most people in Bangladesh get their news from today?",
+"Why is it sometimes difficult to tell whether a news story is true?",
+"Do you think journalists should be allowed to report anything they find?",
+"Is it better to follow the news every day or only occasionally?"
+],
+"ideas": [
+"breaking news",
+"reliable source",
+"fake news",
+"keep up with current events"
+],
+"level": "abstract"
+},
+{
+"category": "Media & Technology",
+"title": "Describe an electronic gadget that you would like to own.",
+"prompts": [
+"what the gadget is",
+"what it can do",
+"how you found out about it",
+"and explain why you want it."
+],
+"part3": [
+"Why do many people feel they have to buy the newest gadgets?",
+"Do you think modern devices are designed to break after a short time?",
+"How have gadgets changed the way young people spend their free time?",
+"What are the effects of electronic waste, and who should deal with it?"
+],
+"ideas": [
+"cutting-edge",
+"state-of-the-art",
+"worth the investment",
+"must-have gadget"
+],
+"level": "everyday"
+},
+{
+"category": "Media & Technology",
+"title": "Describe an online video or channel from which you learned something useful.",
+"prompts": [
+"what the video or channel is",
+"how you came across it",
+"what you learned from it",
+"and explain why you would recommend it to others."
+],
+"part3": [
+"Can online videos replace classroom teaching? Why or why not?",
+"Why do some people trust information from social media influencers so easily?",
+"What are the dangers of learning everything from the internet?",
+"How might education change in the next twenty years because of technology?"
+],
+"ideas": [
+"step-by-step tutorial",
+"informative",
+"pick up a skill",
+"educational content"
+],
+"level": "abstract"
+},
+{
+"category": "Media & Technology",
+"title": "Describe a time when you helped an older person learn to use a piece of technology.",
+"prompts": [
+"who the person was and what they wanted to learn",
+"what device or technology it was",
+"how you explained it to them",
+"and explain how you felt about the experience."
+],
+"part3": [
+"Why do many older people find new technology difficult to use?",
+"Is there a risk that older people will be left behind in a digital society?",
+"Whose job should it be to teach people how to use technology, family or public services?",
+"Do you think technology brings generations closer together or pushes them apart?"
+],
+"ideas": [
+"tech-savvy",
+"digital divide",
+"walk someone through",
+"get the hang of it"
+],
+"level": "abstract"
+},
+{
+"category": "Media & Technology",
+"title": "Talk about a photograph you took on your phone or camera that you particularly like.",
+"prompts": [
+"what the photograph shows",
+"when and where you took it",
+"what the situation was at the time",
+"and explain why it means a lot to you."
+],
+"part3": [
+"Why do people take so many more photos now than they did in the past?",
+"Do you think sharing photos online has any negative effects on privacy?",
+"Is a photograph a better way to remember an event than a written account?",
+"Will professional photography still be needed when everyone has a good camera in their pocket?"
+],
+"ideas": [
+"capture the moment",
+"candid shot",
+"a fond memory",
+"snapshot"
+],
+"level": "everyday"
+},
+{
+"category": "Study & Work",
+"title": "Describe a skill you learned that has been useful in your studies or work.",
+"prompts": [
+"what the skill is",
+"how and where you learned it",
+"how often you use it now",
+"and explain why it has been so useful to you."
+],
+"part3": [
+"Which skills do you think young people most need to find a good job today?",
+"Is it better to learn practical skills at school or on the job?",
+"How have online courses changed the way people learn new skills?",
+"Do you think employers value skills more than university degrees?"
+],
+"ideas": [
+"hands-on experience",
+"steep learning curve",
+"transferable skills",
+"pick up a skill"
+],
+"level": "everyday"
+},
+{
+"category": "Study & Work",
+"title": "Describe a time when you worked with others to finish a task.",
+"prompts": [
+"what the task was",
+"who you worked with",
+"what your role in the team was",
+"and explain how you felt about the result."
+],
+"part3": [
+"Why do some people prefer working alone rather than in a team?",
+"What qualities make someone a good team member?",
+"Should schools give more group projects to students?",
+"How can a manager deal with conflict between team members?"
+],
+"ideas": [
+"pull together",
+"division of labour",
+"meet a common goal",
+"pull your weight"
+],
+"level": "everyday"
+},
+{
+"category": "Study & Work",
+"title": "Describe a piece of advice about study or work that you have never forgotten.",
+"prompts": [
+"who gave you the advice",
+"what the advice was",
+"when you received it",
+"and explain how it has influenced you."
+],
+"part3": [
+"Who usually gives the best career advice to young people, parents or teachers?",
+"Do people today listen to advice less than in the past?",
+"Is it wise to follow the advice of older generations about careers?",
+"How important is it to have a mentor at work?"
+],
+"ideas": [
+"words of wisdom",
+"take something on board",
+"career guidance",
+"a turning point"
+],
+"level": "abstract"
+},
+{
+"category": "Study & Work",
+"title": "Describe a deadline that you found difficult to meet.",
+"prompts": [
+"what the work was and who set the deadline",
+"why it was difficult to finish on time",
+"what you did to manage the situation",
+"and explain what you learned from the experience."
+],
+"part3": [
+"Why do some people leave work until the last minute?",
+"Does working under pressure bring out the best in people?",
+"How can schools help students manage their time better?",
+"Are strict deadlines good or bad for creativity?"
+],
+"ideas": [
+"time management",
+"under pressure",
+"burn the midnight oil",
+"procrastinate"
+],
+"level": "everyday"
+},
+{
+"category": "Study & Work",
+"title": "Describe a job that you think is very important for your community.",
+"prompts": [
+"what the job is",
+"what the people who do it have to do every day",
+"what training or qualities it requires",
+"and explain why you think it is important for society."
+],
+"part3": [
+"Why are some important jobs paid less than others?",
+"Should the government raise salaries for jobs like teaching and nursing?",
+"How might technology change the jobs people do in the future?",
+"Do young people today respect all kinds of work equally?"
+],
+"ideas": [
+"public service",
+"rewarding career",
+"essential worker",
+"job satisfaction"
+],
+"level": "abstract"
+},
+{
+"category": "Study & Work",
+"title": "Describe a time when you helped a classmate or colleague with their work.",
+"prompts": [
+"who the person was",
+"what problem they had",
+"how you helped them",
+"and explain how you both felt afterwards."
+],
+"part3": [
+"Is competition or cooperation more common among students in your country?",
+"Why are some people unwilling to share knowledge with others?",
+"How can workplaces encourage employees to support each other?",
+"Does helping others at work always lead to rewards?"
+],
+"ideas": [
+"lend a hand",
+"peer support",
+"mutual benefit",
+"go out of your way"
+],
+"level": "everyday"
+},
+{
+"category": "Study & Work",
+"title": "Describe an app or tool that helps you organise your study or work.",
+"prompts": [
+"what the app or tool is",
+"how you found out about it",
+"how you use it",
+"and explain why you find it better than other methods."
+],
+"part3": [
+"Has technology made people more organised or more distracted?",
+"Why do some people still prefer paper notebooks to digital tools?",
+"Should schools teach students how to use productivity tools?",
+"What are the risks of depending too much on technology at work?"
+],
+"ideas": [
+"keep track of",
+"user-friendly",
+"boost productivity",
+"digital clutter"
+],
+"level": "everyday"
+},
+{
+"category": "Study & Work",
+"title": "Describe an important decision you made about your education or career.",
+"prompts": [
+"what the decision was",
+"what choices you had",
+"who or what influenced you",
+"and explain whether you think it was the right decision."
+],
+"part3": [
+"Should young people choose a career based on passion or salary?",
+"How much influence should parents have on a student's choice of subject?",
+"Is it common in your country to change careers in mid-life?",
+"Why do some students regret their choice of university course?"
+],
+"ideas": [
+"weigh up the options",
+"make a leap",
+"follow your passion",
+"job prospects"
+],
+"level": "abstract"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe a river, lake or pond that you have seen and remember well.",
+"prompts": [
+"where it is",
+"what it looks like",
+"what people do there",
+"and explain why it is memorable for you."
+],
+"part3": [
+"Why are rivers so important to people in your country?",
+"What causes water pollution and how can it be reduced?",
+"Do people in cities have enough contact with natural water bodies?",
+"Should the government limit building near rivers and lakes?"
+],
+"ideas": [
+"tranquil surroundings",
+"riverbank",
+"crystal-clear water",
+"tributary"
+],
+"level": "everyday"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe a time when bad weather changed your plans.",
+"prompts": [
+"what you had planned",
+"what the weather was like",
+"what you did instead",
+"and explain how you felt about it."
+],
+"part3": [
+"Does weather affect people's mood and behaviour?",
+"How has weather in your country changed in recent decades?",
+"Why do some people pay little attention to weather warnings?",
+"How can cities prepare better for extreme weather?"
+],
+"ideas": [
+"downpour",
+"call off",
+"put a damper on",
+"at the mercy of the weather"
+],
+"level": "everyday"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe a tree or plant that is special to you or your family.",
+"prompts": [
+"what it is and where it grows",
+"how long it has been there",
+"how you or your family care for it",
+"and explain why it is special."
+],
+"part3": [
+"Why do many people enjoy growing plants at home?",
+"Should schools teach children to plant and look after trees?",
+"What are the benefits of having trees in crowded cities?",
+"Why is cutting down forests still common in many countries?"
+],
+"ideas": [
+"lush greenery",
+"bear fruit",
+"shade and shelter",
+"green fingers"
+],
+"level": "everyday"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe an effort made by people in your area to protect the environment.",
+"prompts": [
+"what the effort was",
+"who organised or took part in it",
+"what changes it brought",
+"and explain whether you think it was successful."
+],
+"part3": [
+"Who should take more responsibility for protecting nature, individuals or governments?",
+"Why do many people know about environmental problems but do nothing?",
+"Can small actions by individuals really make a difference?",
+"Should companies that pollute pay higher taxes?"
+],
+"ideas": [
+"raise awareness",
+"carbon footprint",
+"sustainable practices",
+"community-led initiative"
+],
+"level": "abstract"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe an animal or bird that you often see near your home.",
+"prompts": [
+"what the animal or bird is",
+"where and when you usually see it",
+"what it does",
+"and explain how you feel about it."
+],
+"part3": [
+"Why are some animal species disappearing in many parts of the world?",
+"Is it right to keep wild animals in zoos?",
+"How does urban growth affect wildlife?",
+"Should people be allowed to keep wild birds as pets?"
+],
+"ideas": [
+"wildlife habitat",
+"endangered species",
+"chirping",
+"coexist with nature"
+],
+"level": "everyday"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe a park or green space in a city that is important to local people.",
+"prompts": [
+"where it is",
+"what facilities or features it has",
+"who uses it and for what",
+"and explain why it matters to the community."
+],
+"part3": [
+"Are cities in your country providing enough green spaces?",
+"Should land in cities be used for parks or for housing?",
+"How do green spaces affect people's health?",
+"Who should be responsible for maintaining public parks?"
+],
+"ideas": [
+"green lung",
+"open space",
+"urban sprawl",
+"leisure facilities"
+],
+"level": "abstract"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe a day you spent in the countryside or a village.",
+"prompts": [
+"where you went and who you went with",
+"what the surroundings were like",
+"what you did there",
+"and explain how it differed from your normal routine."
+],
+"part3": [
+"Why do many people move from villages to big cities?",
+"What are the advantages of living close to nature?",
+"Is rural life changing in your country, and how?",
+"Would it be good for city children to spend time in the countryside regularly?"
+],
+"ideas": [
+"fresh air",
+"rural lifestyle",
+"far from the hustle and bustle",
+"paddy fields"
+],
+"level": "everyday"
+},
+{
+"category": "Nature & Environment",
+"title": "Describe a flood, storm or other natural event that affected people you know.",
+"prompts": [
+"what happened and when",
+"how it affected people",
+"how they dealt with it",
+"and explain what you think could have reduced the damage."
+],
+"part3": [
+"Why are some countries more affected by natural disasters than others?",
+"Is climate change responsible for more frequent extreme weather?",
+"What role should international organisations play after a disaster?",
+"How can ordinary people prepare for natural disasters?"
+],
+"ideas": [
+"devastating impact",
+"relief efforts",
+"climate resilience",
+"low-lying areas"
+],
+"level": "abstract"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe a change you made to your sleep routine to feel better.",
+"prompts": [
+"what you changed in your routine",
+"when and why you decided to change it",
+"how difficult it was to keep the new routine",
+"and explain how this change affected your health or mood."
+],
+"part3": [
+"Why do many young people nowadays sleep less than they should?",
+"Should schools and offices start later in the day to help people sleep more?",
+"How has technology affected the way people sleep?",
+"Do you think people take sleep as seriously as diet and exercise?"
+],
+"ideas": [
+"wind down",
+"sleep-deprived",
+"stick to a schedule",
+"well-rested"
+],
+"level": "everyday"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe a traditional home remedy that people in your family use.",
+"prompts": [
+"what the remedy is made of",
+"when your family usually uses it",
+"who taught your family about it",
+"and explain whether you think it really works."
+],
+"part3": [
+"Why do some people prefer traditional remedies to modern medicine?",
+"Should traditional medicine be taught alongside modern medicine?",
+"What are the risks of treating illnesses without seeing a doctor?",
+"How has people's attitude to medicine changed over the generations?"
+],
+"ideas": [
+"herbal remedy",
+"old wives' tale",
+"side effects",
+"alternative medicine"
+],
+"level": "abstract"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe a sport or physical activity you tried for the first time.",
+"prompts": [
+"what the activity was",
+"where and with whom you tried it",
+"how you felt while doing it",
+"and explain whether you would like to do it again."
+],
+"part3": [
+"Why do some people find it hard to stay active as they get older?",
+"Should physical education be compulsory in schools?",
+"Is it better to exercise alone or in a group?",
+"What can governments do to encourage people to exercise more?"
+],
+"ideas": [
+"out of my comfort zone",
+"build stamina",
+"sore muscles",
+"sedentary lifestyle"
+],
+"level": "everyday"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe a meal that was both healthy and delicious.",
+"prompts": [
+"what the meal consisted of",
+"who prepared it",
+"where and when you ate it",
+"and explain why you think it was good for your health."
+],
+"part3": [
+"Why is junk food so popular among young people?",
+"Should unhealthy food be taxed by the government?",
+"Do you think people in your country eat more healthily than in the past?",
+"How can parents encourage children to develop good eating habits?"
+],
+"ideas": [
+"balanced diet",
+"home-cooked",
+"nutritious",
+"processed food"
+],
+"level": "everyday"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe a visit to a doctor or clinic that you remember well.",
+"prompts": [
+"why you went there",
+"what happened during the visit",
+"how you felt about the care you received",
+"and explain why you still remember this visit."
+],
+"part3": [
+"What problems do hospitals and clinics face in your country?",
+"Should healthcare be free for everyone?",
+"Why do some people avoid going to the doctor until they are seriously ill?",
+"How might technology change the way people get medical advice in the future?"
+],
+"ideas": [
+"check-up",
+"long waiting time",
+"bedside manner",
+"public healthcare"
+],
+"level": "abstract"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe a bad habit you gave up for the sake of your health.",
+"prompts": [
+"what the habit was",
+"how long you had it",
+"what helped you to give it up",
+"and explain how your life is different now."
+],
+"part3": [
+"Why is it so difficult for people to break bad habits?",
+"Who has more influence on a person's habits, family or friends?",
+"Should there be stricter laws against harmful habits like smoking?",
+"Do you think people today are more health-conscious than previous generations?"
+],
+"ideas": [
+"kick the habit",
+"willpower",
+"relapse",
+"health-conscious"
+],
+"level": "abstract"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe a time when you felt very stressed and had to find a way to relax.",
+"prompts": [
+"what caused the stress",
+"how you felt at that time",
+"what you did to calm down",
+"and explain what you learned about handling pressure."
+],
+"part3": [
+"What are the main causes of stress for students and workers today?",
+"Is stress always a bad thing?",
+"Should companies and schools do more to protect people's mental health?",
+"Why is mental health still a difficult subject to talk about in some communities?"
+],
+"ideas": [
+"under pressure",
+"burn out",
+"unwind",
+"mental well-being"
+],
+"level": "abstract"
+},
+{
+"category": "Health & Lifestyle",
+"title": "Describe an older relative who has stayed active and healthy.",
+"prompts": [
+"who this person is",
+"what they do to stay healthy",
+"how their lifestyle differs from that of younger people",
+"and explain what you have learned from them."
+],
+"part3": [
+"Why are people living longer than before?",
+"How can elderly people be helped to stay independent?",
+"Should younger family members be responsible for looking after elderly relatives?",
+"Will the lifestyle of future generations be healthier or less healthy than today's?"
+],
+"ideas": [
+"life expectancy",
+"lead an active life",
+"in good shape",
+"age gracefully"
+],
+"level": "abstract"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a traditional festival that is celebrated in your area.",
+"prompts": [
+"what the festival is and when it takes place",
+"what people do during the celebration",
+"how you and your family take part",
+"and explain why this festival matters to people."
+],
+"part3": [
+"Why do some traditional festivals become less popular over time?",
+"Do festivals bring communities closer together?",
+"Is it right for festivals to be promoted for tourism?",
+"Should the government spend money on preserving cultural events?"
+],
+"ideas": [
+"cultural heritage",
+"observe a tradition",
+"festive atmosphere",
+"pass down"
+],
+"level": "abstract"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a piece of traditional clothing from your culture.",
+"prompts": [
+"what it looks like",
+"who usually wears it and on what occasions",
+"how you feel when you wear it",
+"and explain whether you think it will remain popular in the future."
+],
+"part3": [
+"Why are young people choosing Western-style clothes over traditional ones?",
+"Should schools or workplaces require a dress code?",
+"How does clothing reflect a person's identity?",
+"Can fashion help keep a culture alive?"
+],
+"ideas": [
+"attire",
+"handwoven",
+"dress code",
+"cultural identity"
+],
+"level": "abstract"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a custom at weddings in your country that you find interesting.",
+"prompts": [
+"what the custom is",
+"when during the wedding it takes place",
+"who is involved in it",
+"and explain why you find it interesting."
+],
+"part3": [
+"How have weddings changed in your country over the past few decades?",
+"Do people spend too much money on weddings?",
+"Should couples follow family traditions even if they disagree with them?",
+"Why do some customs survive for hundreds of years while others disappear?"
+],
+"ideas": [
+"ceremony",
+"extravagant",
+"long-standing custom",
+"extended family"
+],
+"level": "abstract"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a film or TV drama that gives a realistic picture of life in your country.",
+"prompts": [
+"what it is called and what it is about",
+"who the main characters are",
+"what parts of society it shows",
+"and explain why you think it is realistic."
+],
+"part3": [
+"Do films and dramas influence the way people think about society?",
+"Why do some people prefer foreign films to local ones?",
+"Should the government control what is shown on television?",
+"Can entertainment be a good way to learn about other cultures?"
+],
+"ideas": [
+"portray",
+"storyline",
+"social issues",
+"true to life"
+],
+"level": "abstract"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a time when you helped someone in your neighbourhood.",
+"prompts": [
+"who you helped",
+"what the problem was",
+"what you did to help",
+"and explain how you and the other person felt afterwards."
+],
+"part3": [
+"Are neighbours as close to each other now as they were in the past?",
+"Why do some people prefer to live in a community where everyone knows each other?",
+"Should young people be required to do volunteer work?",
+"What can be done to build a stronger sense of community in big cities?"
+],
+"ideas": [
+"lend a hand",
+"sense of community",
+"close-knit",
+"volunteer"
+],
+"level": "everyday"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a local craft or art form that is made in your region.",
+"prompts": [
+"what it is and how it is made",
+"who makes it",
+"where you first came across it",
+"and explain why it is worth preserving."
+],
+"part3": [
+"Why are traditional crafts disappearing in many places?",
+"Should the government support people who work in traditional crafts?",
+"Do tourists help or harm local art and crafts?",
+"Is machine-made always worse than handmade?"
+],
+"ideas": [
+"artisan",
+"craftsmanship",
+"handmade",
+"dying art"
+],
+"level": "abstract"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a family tradition or rule that has been passed down through generations.",
+"prompts": [
+"what the tradition or rule is",
+"how it started, as far as you know",
+"how strictly your family follows it",
+"and explain whether you want to continue it in the future."
+],
+"part3": [
+"Do traditions become less important as societies modernise?",
+"Is the role of the family different today from what it was in the past?",
+"Should children always obey the rules set by their elders?",
+"Why do some people feel pressure to follow traditions they do not believe in?"
+],
+"ideas": [
+"handed down",
+"generation gap",
+"abide by",
+"deep-rooted"
+],
+"level": "abstract"
+},
+{
+"category": "Society & Culture",
+"title": "Describe a time you met someone from a very different culture.",
+"prompts": [
+"who the person was and where you met",
+"what differences you noticed between you",
+"what you talked about",
+"and explain what you learned from the experience."
+],
+"part3": [
+"What problems can arise when people from different cultures work together?",
+"Does travelling help people to become more open-minded?",
+"Is it possible for a culture to stay unchanged in a globalised world?",
+"Should immigrants be expected to adopt the customs of their new country?"
+],
+"ideas": [
+"culture shock",
+"open-minded",
+"cultural exchange",
+"stereotype"
+],
+"level": "abstract"
+}
+]
