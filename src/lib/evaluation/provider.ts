@@ -5,7 +5,9 @@ import { writingSystemPrompt, assessmentPromptVersion } from './prompts';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText, Output, type UserContent } from 'ai';
 import { writingAssessmentSchema,writingResponseSchema,finalizeAssessment,type WritingInput } from './schema';
-export const writingModel='qwen/qwen3.7-flash';
+export const writingModel='deepseek/deepseek-v4-flash';
+// Task generation was not benchmarked with the evaluation model; keep it on its previous model.
+export const taskModel='qwen/qwen3.7-flash';
 export { speakingModel } from '@/lib/products/speaking-model';
 export async function evaluationConfigured(){
  try {const status=await keyStatus();return status.openrouter&&(Boolean(process.env.OPENROUTER_API_KEY)||status.vaultReady);}catch{return false;}
