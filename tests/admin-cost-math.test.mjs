@@ -5,7 +5,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 const m={exports:{}};
 vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/lib/admin/cost-math.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{module:m,exports:m.exports});
-const {costOfUsage,bdt,planWorstCase,breakEvenSpeaking}=m.exports;
+const {costOfUsage,bdt,planWorstCase,breakEvenSpeaking,pickCost}=m.exports;
 const price={model:'x',inputPerM:1,outputPerM:4,audioPerMin:0.5};
 test('cost combines tokens and audio',()=>{assert.equal(costOfUsage({inputTokens:1e6,outputTokens:5e5,audioSeconds:120},price),1+2+1);});
 test('missing price or missing component yields null, never zero',()=>{
@@ -21,3 +21,7 @@ test('plan margin: finite, unlimited and unknown',()=>{
  assert.equal(planWorstCase({priceBdt:0,writingLimit:0,speakingLimit:0},null,null).marginBdt,0);
 });
 test('break-even speaking count',()=>{assert.equal(breakEvenSpeaking(1000,200,50),16);assert.equal(breakEvenSpeaking(1000,200,null),null);});
+test('provider-reported cost wins, including a reported zero; price table is the fallback',()=>{
+ assert.equal(pickCost(0.02,5).usd,0.02);assert.equal(pickCost(0,5).usd,0);assert.equal(pickCost(0.02,5).measured,true);
+ assert.equal(pickCost(null,5).usd,5);assert.equal(pickCost(null,5).measured,false);assert.equal(pickCost(null,null),null);
+});

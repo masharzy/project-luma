@@ -21,3 +21,8 @@ export function planWorstCase(plan: { priceBdt: number; writingLimit: number | n
 export function breakEvenSpeaking(priceBdt: number, writingBdt: number, avgSpeakingBdt: number | null) {
   return avgSpeakingBdt && avgSpeakingBdt > 0 ? Math.max(0, Math.floor((priceBdt - writingBdt) / avgSpeakingBdt)) : null;
 }
+/** Prefer the cost the provider reported for that call; otherwise use the entered price table. */
+export function pickCost(reportedUsd: number | null, computedUsd: number | null): { usd: number; measured: boolean } | null {
+  if (reportedUsd !== null && Number.isFinite(reportedUsd) && reportedUsd >= 0) return { usd: reportedUsd, measured: true };
+  return computedUsd === null ? null : { usd: computedUsd, measured: false };
+}

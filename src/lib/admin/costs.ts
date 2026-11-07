@@ -1,8 +1,8 @@
 import 'server-only';
 import { db } from '@/lib/auth/db';
-import { costOfUsage, type ModelPrice } from './cost-math';
+import { costOfUsage, pickCost, type ModelPrice } from './cost-math';
 
-export type CostRow = { skill: 'Writing' | 'Speaking'; model: string; evaluations: number; priced: number; usd: number; audioMinutes: number };
+export type CostRow = { skill: 'Writing' | 'Speaking'; model: string; evaluations: number; priced: number; measured: number; usd: number; audioMinutes: number };
 
 const tokenKeys = (side: 'in' | 'out') => side === 'in'
   ? `COALESCE(NULLIF(e.usage->>'inputTokens','')::numeric,NULLIF(e.usage->>'promptTokens','')::numeric,NULLIF(e.usage->>'prompt_tokens','')::numeric,NULLIF(e.usage->>'input_tokens','')::numeric,0)`
@@ -12,10 +12,10 @@ const tokenKeys = (side: 'in' | 'out') => side === 'in'
 async function usageRows(sinceIso: string) {
   const sql = db();
   const [w, s] = await Promise.all([
-    sql.query(`SELECT e.model,${tokenKeys('in')} AS tin,${tokenKeys('out')} AS tout,0::numeric AS audio_sec,(e.usage IS NOT NULL) AS has_usage
+    sql.query(`SELECT e.model,${tokenKeys('in')} AS tin,${tokenKeys('out')} AS tout,0::numeric AS audio_sec,(e.usage IS NOT NULL) AS has_usage,CASE WHEN jsonb_typeof(e.usage->'cost')='number' THEN (e.usage->>'cost')::numeric END AS reported_usd
       FROM public.writing_evaluations e WHERE e.status='completed' AND e.updated_at>=$1::timestamptz`, [sinceIso]),
     sql.query(`SELECT e.model,${tokenKeys('in')} AS tin,${tokenKeys('out')} AS tout,
-      COALESCE((SELECT sum(r.seconds) FROM public.speaking_recordings r WHERE r.attempt_id=e.attempt_id),0) AS audio_sec,(e.usage IS NOT NULL) AS has_usage
+      COALESCE((SELECT sum(r.seconds) FROM public.speaking_recordings r WHERE r.attempt_id=e.attempt_id),0) AS audio_sec,(e.usage IS NOT NULL) AS has_usage,CASE WHEN jsonb_typeof(e.usage->'cost')='number' THEN (e.usage->>'cost')::numeric END AS reported_usd
       FROM public.speaking_evaluations e WHERE e.status='completed' AND e.updated_at>=$1::timestamptz`, [sinceIso]),
   ]);
   return { writing: w, speaking: s };
@@ -38,10 +38,11 @@ export async function costSummary(sinceIso: string) {
     const byModel = new Map<string, CostRow>();
     for (const r of list) {
       const model = String(r.model);
-      const row = byModel.get(model) ?? { skill, model, evaluations: 0, priced: 0, usd: 0, audioMinutes: 0 };
+      const row = byModel.get(model) ?? { skill, model, evaluations: 0, priced: 0, measured: 0, usd: 0, audioMinutes: 0 };
       row.evaluations += 1; row.audioMinutes += Number(r.audio_sec) / 60;
-      const c = costOfUsage({ inputTokens: Number(r.tin), outputTokens: Number(r.tout), audioSeconds: Number(r.audio_sec) }, prices[model]);
-      if (c === null) unpricedModels.add(model); else { row.priced += 1; row.usd += c; }
+      const reported = r.reported_usd === null || r.reported_usd === undefined ? null : Number(r.reported_usd);
+      const c = pickCost(reported, costOfUsage({ inputTokens: Number(r.tin), outputTokens: Number(r.tout), audioSeconds: Number(r.audio_sec) }, prices[model]));
+      if (c === null) unpricedModels.add(model); else { row.priced += 1; row.usd += c.usd; if (c.measured) row.measured += 1; }
       byModel.set(model, row);
     }
     out.push(...byModel.values());
