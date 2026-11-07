@@ -1,91 +1,128 @@
 'use client';
 import Link from 'next/link';
-import {useEffect,useMemo,useRef,useState} from 'react';
+import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {CueCard} from '@/lib/cue-cards';
 import styles from './cue-cards.module.css';
-const fmt=(s:number)=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-type Phase='idle'|'prep'|'speak'|'done';
-function Practice({card,onNext,onClose}:{card:CueCard;onNext:()=>void;onClose:()=>void}){
- const [phase,setPhase]=useState<Phase>('idle'),[left,setLeft]=useState(60);
- const timer=useRef<ReturnType<typeof setInterval>|null>(null);
- const stop=()=>{if(timer.current)clearInterval(timer.current);timer.current=null;};
- useEffect(()=>{setPhase('idle');setLeft(60);stop();return stop;},[card.id]);
- const run=(p:'prep'|'speak',secs:number)=>{
-  stop();setPhase(p);setLeft(secs);
-  timer.current=setInterval(()=>setLeft(l=>{
-   if(l>1)return l-1;
-   stop();if(p==='prep'){setTimeout(()=>run('speak',120),0);}else setPhase('done');return 0;
-  }),1000);
- };
- return <div className={styles.practice}>
-  <div className={styles.practiceTop}><span>{card.category}</span><button className={styles.link} onClick={onClose}>Close</button></div>
-  <div className={styles.cue}>
-   <h2>{card.title}</h2>
-   <p className={styles.say}>You should say:</p>
-   <ul>{card.prompts?.map(p=><li key={p}>{p}</li>)}</ul>
-  </div>
-  <div className={styles.timerRow}>
-   <div className={`${styles.timer} ${phase==='speak'?styles.timerOn:''}`}><small>{phase==='idle'?'Ready':phase==='prep'?'Prepare':phase==='speak'?'Speak':'Time up'}</small><b>{phase==='idle'?'1:00':phase==='done'?'0:00':fmt(left)}</b></div>
-   <div className={styles.timerBtns}>
-    {phase==='idle'&&<button className={styles.primary} onClick={()=>run('prep',60)}>Start 1 minute preparation</button>}
-    {phase==='prep'&&<button className={styles.primary} onClick={()=>run('speak',120)}>Skip to speaking</button>}
-    {phase==='speak'&&<button className={styles.ghost} onClick={()=>{stop();setPhase('done');}}>Finish</button>}
-    {phase==='done'&&<button className={styles.primary} onClick={()=>{setPhase('idle');setLeft(60);}}>Try again</button>}
-    <button className={styles.ghost} onClick={onNext}>Another card</button>
+type Tab='cue'|'part3'|'vocab';
+const KEY='jtn.cue.done';
+const short=(t:string)=>t.replace(/^(Describe|Talk about)\s+/i,'').replace(/\.$/,'');
+const cap=(s:string)=>s.charAt(0).toUpperCase()+s.slice(1);
+function useDone(){
+ const [done,setDone]=useState<number[]>([]);
+ useEffect(()=>{try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(v))setDone(v.filter(x=>typeof x==='number'));}catch{}},[]);
+ const toggle=useCallback((id:number)=>setDone(d=>{const n=d.includes(id)?d.filter(x=>x!==id):[...d,id];try{localStorage.setItem(KEY,JSON.stringify(n));}catch{}return n;}),[]);
+ return{done,toggle};
+}
+function Check(){return <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
+function Lock(){return <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden><rect x="4" y="9" width="12" height="8" rx="2" fill="none" stroke="currentColor" strokeWidth="1.8"/><path d="M7 9V6.5a3 3 0 016 0V9" fill="none" stroke="currentColor" strokeWidth="1.8"/></svg>;}
+function Arrow(){return <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
+
+function Topic({card,list,done,toggle,go,onBack}:{card:CueCard;list:CueCard[];done:boolean;toggle:()=>void;go:(c:CueCard)=>void;onBack:()=>void}){
+ const [tab,setTab]=useState<Tab>('cue'),[full,setFull]=useState(false),[openQ,setOpenQ]=useState(0);
+ useEffect(()=>{setTab('cue');setFull(false);setOpenQ(0);window.scrollTo({top:0});},[card.id]);
+ const i=list.findIndex(c=>c.id===card.id),prev=list[i-1],next=list[i+1];
+ if(card.locked||!card.steps)return <div className={styles.lockPanel}><Lock/><h2>{card.title}</h2><p>এই topic-এর sample answer, Part 3 উত্তর আর vocabulary plan-এর সাথে খোলে। প্রতিটা category-র প্রথম ৩টা topic free।</p><div className={styles.row}><Link href="/pricing" className={styles.primary}>See plans</Link><button className={styles.ghost} onClick={onBack}>Back to list</button></div></div>;
+ const all=card.steps.flatMap(s=>s.sentences).join(' ');
+ return <div>
+  <header className={styles.topicHead}>
+   <span className={styles.tag}>{card.category} · Topic {card.no}</span>
+   <h1>{card.title}</h1>
+   <div className={styles.tabs} role="tablist">
+    {([['cue','Cue Card'],['part3','Part 3'],['vocab','Vocabulary']] as [Tab,string][]).map(([k,l])=><button key={k} role="tab" aria-selected={tab===k} className={tab===k?styles.tabOn:''} onClick={()=>setTab(k)}>{l}</button>)}
    </div>
-  </div>
-  {phase==='done'&&<div className={styles.part3}><h3>Now the examiner asks (Part 3)</h3><ol>{card.part3?.map(q=><li key={q}>{q}</li>)}</ol>
-   <Link href="/speaking-evaluation" className={styles.link}>Record a full practice with AI feedback</Link></div>}
+  </header>
+  {tab==='cue'&&<div className={styles.cueGrid}>
+   <aside className={styles.cueSide}>
+    <div className={styles.cueBox}><span className={styles.label}>You should say</span><ul>{card.prompts?.map(p=><li key={p}>{p}</li>)}</ul></div>
+    <div className={styles.meta}><span className={styles.label}>Possible angles</span><ul>{card.angles?.map(a=><li key={a}>{cap(a)}</li>)}</ul></div>
+    <div className={styles.meta}><span className={styles.label}>Target time</span><b className={styles.target}>{card.target} min</b><small>1 মিনিট ভাবার পর বলার সময়</small></div>
+   </aside>
+   <div>
+    <div className={styles.modeRow}><div className={styles.seg}><button className={!full?styles.segOn:''} onClick={()=>setFull(false)}>Step by step</button><button className={full?styles.segOn:''} onClick={()=>setFull(true)}>Full answer</button></div><small>নিজের গল্প দিয়ে একই কাঠামো ব্যবহার করো</small></div>
+    {!full?<ol className={styles.steps}>{card.steps.map(s=><li key={s.n} className={styles.stepItem}>
+     <div className={styles.stepNo}>{s.n}</div>
+     <div className={styles.stepBody}>
+      <div className={styles.stepHead}><h3>{s.label}</h3><span className={styles.time}>{s.time}</span></div>
+      <p className={styles.anchor}><span>Start with</span>{s.anchor}</p>
+      <p className={styles.sample}>{s.sentences.join(' ')}</p>
+     </div></li>)}</ol>
+    :<div className={styles.fullAns}><p>{all}</p></div>}
+   </div>
+  </div>}
+  {tab==='part3'&&<div className={styles.qa}>
+   <p className={styles.hint}>Part 3-এ examiner আরও গভীর প্রশ্ন করে। প্রতিটা উত্তরে মত, কারণ আর একটা উদাহরণ দাও।</p>
+   {card.part3?.map((x,k)=><div key={x.q} className={`${styles.qItem} ${openQ===k?styles.qOpen:''}`}>
+    <button aria-expanded={openQ===k} onClick={()=>setOpenQ(openQ===k?-1:k)}><span className={styles.qNo}>{k+1}</span><b>{x.q}</b><i><Arrow/></i></button>
+    {openQ===k&&<p>{x.a}</p>}
+   </div>)}
+  </div>}
+  {tab==='vocab'&&<div>
+   <p className={styles.hint}>এই topic-এ কাজে লাগবে এমন শব্দ ও phrase। উত্তর দেওয়ার সময় ২-৩টা ব্যবহার করার চেষ্টা করো।</p>
+   <div className={styles.phraseGrid}>{card.phrases?.map(x=><div key={x.p} className={styles.phrase}><b>{x.p}</b><span>{x.m}</span></div>)}</div>
+  </div>}
+  <footer className={styles.topicFoot}>
+   <button className={done?styles.doneOn:styles.doneBtn} onClick={toggle}>{done&&<Check/>}{done?'Marked as done':'Mark as done'}</button>
+   <div className={styles.row}>
+    {prev&&<button className={styles.ghost} onClick={()=>go(prev)}>Previous</button>}
+    {next&&<button className={styles.primary} onClick={()=>go(next)}>Next topic</button>}
+   </div>
+  </footer>
  </div>;
 }
+
 export function CueApp({cards,categories}:{cards:CueCard[];categories:string[]}){
- const [cat,setCat]=useState(''),[q,setQ]=useState(''),[open,setOpen]=useState<number|null>(null),[practice,setPractice]=useState<CueCard|null>(null),[limit,setLimit]=useState(24);
- const filtered=useMemo(()=>{const n=q.trim().toLowerCase();return cards.filter(c=>(!cat||c.category===cat)&&(!n||c.title.toLowerCase().includes(n)));},[cards,cat,q]);
- useEffect(()=>setLimit(24),[cat,q]);
- const pool=filtered.filter(c=>!c.locked);
- const random=()=>{const p=pool.length?pool:cards.filter(c=>!c.locked);setPractice(p[Math.floor(Math.random()*p.length)]);window.scrollTo({top:0,behavior:'smooth'});};
- const locked=cards.filter(c=>c.locked).length;
- const [today,setToday]=useState<CueCard|null>(null);
- const listRef=useRef<HTMLDivElement>(null);
- useEffect(()=>{const free=cards.filter(c=>!c.locked);if(free.length)setToday(free[Math.floor(Date.now()/864e5)%free.length]);},[cards]);
+ const [route,setRoute]=useState<{cat:string;no:number}>({cat:'',no:0}),[q,setQ]=useState('');
+ const {done,toggle}=useDone();
+ const parse=useCallback(()=>{const h=decodeURIComponent(location.hash.slice(1));const [c,n]=h.split('/');setRoute({cat:categories.includes(c)?c:'',no:categories.includes(c)?Number(n)||0:0});},[categories]);
+ useEffect(()=>{parse();window.addEventListener('hashchange',parse);return()=>window.removeEventListener('hashchange',parse);},[parse]);
+ const nav=(cat:string,no=0)=>{location.hash=cat?`${encodeURIComponent(cat)}${no?'/'+no:''}`:'';if(!cat)history.replaceState(null,'',location.pathname);parse();window.scrollTo({top:0});};
+ const inCat=useMemo(()=>cards.filter(c=>c.category===route.cat),[cards,route.cat]);
+ const current=route.no?inCat.find(c=>c.no===route.no):undefined;
+ const freeCount=cards.filter(c=>!c.locked).length;
+ const found=useMemo(()=>{const n=q.trim().toLowerCase();return n?cards.filter(c=>c.title.toLowerCase().includes(n)||c.category.toLowerCase().includes(n)).slice(0,30):[];},[cards,q]);
+ const Row=({c}:{c:CueCard})=><button className={`${styles.rowItem} ${c.locked?styles.rowLocked:''}`} onClick={()=>nav(c.category,c.no)}>
+  <span className={`${styles.num} ${done.includes(c.id)?styles.numDone:''}`}>{done.includes(c.id)?<Check/>:c.no}</span>
+  <span className={styles.rowTitle}>{c.title}</span>
+  {q&&<small className={styles.rowCat}>{c.category}</small>}
+  {c.locked?<span className={styles.rowIcon}><Lock/></span>:<span className={styles.rowIcon}><Arrow/></span>}
+ </button>;
+
+ if(route.cat&&current)return <div className={styles.page}>
+  <nav className={styles.crumbs}><button onClick={()=>nav('')}>All categories</button><span>/</span><button onClick={()=>nav(route.cat)}>{route.cat}</button></nav>
+  <Topic card={current} list={inCat} done={done.includes(current.id)} toggle={()=>toggle(current.id)} go={c=>nav(c.category,c.no)} onBack={()=>nav(route.cat)}/>
+ </div>;
+
+ if(route.cat){
+  const d=inCat.filter(c=>done.includes(c.id)).length;
+  return <div className={styles.page}>
+   <nav className={styles.crumbs}><button onClick={()=>nav('')}>All categories</button><span>/</span><b>{route.cat}</b></nav>
+   <div className={styles.catHead}><div><span className={styles.eyebrow}>CATEGORY</span><h1>{route.cat}</h1><p>{inCat.length} topics · {inCat.filter(c=>!c.locked).length} free · {d} done</p></div>
+    <div className={styles.bigBar} aria-label={`${d} of ${inCat.length} done`}><i style={{width:`${inCat.length?d/inCat.length*100:0}%`}}/></div></div>
+   <div className={styles.list}>{inCat.map(c=><Row key={c.id} c={c}/>)}</div>
+   {inCat.some(c=>c.locked)&&<div className={styles.upsell}><div><h3>আরও {inCat.filter(c=>c.locked).length}টা topic</h3><p>Plan নিলে এই category-র সব sample answer, Part 3 উত্তর ও vocabulary খুলে যাবে।</p></div><Link href="/pricing" className={styles.primary}>See plans</Link></div>}
+  </div>;
+ }
+
+ const total=done.length;
  return <div className={styles.page}>
   <section className={styles.hero}>
-   <div className={styles.heroText}>
-    <span className={styles.eyebrow}>SPEAKING PART 2</span>
-    <h1>Cue card practice, <em>topic</em> অনুযায়ী</h1>
-    <p>IELTS-এর মতো করে সাজানো {cards.length} টা cue card। প্রতিটায় ৪টা prompt, Part 3-এর প্রশ্ন আর কাজের কিছু শব্দ। এক মিনিট ভাবো, তারপর দুই মিনিট বলো।</p>
-    <div className={styles.heroBtns}><button className={styles.primary} onClick={random}>Practise a random card</button><Link href="/speaking-evaluation" className={styles.ghost}>Speaking evaluation</Link></div>
-    <ul className={styles.stats}><li><b>{cards.length}</b>cue cards</li><li><b>{categories.length}</b>topics</li><li><b>{cards.length-locked}</b>free cards</li><li><b>1 + 2</b>min timer built in</li></ul>
-   </div>
-   {today&&<aside className={styles.today}><span className={styles.eyebrow}>CARD OF THE DAY</span><span className={styles.tag}>{today.category}</span><h2>{today.title}</h2>
-    <ul>{today.prompts?.map(x=><li key={x}>{x}</li>)}</ul>
-    <button className={styles.primary} onClick={()=>{setPractice(today);window.scrollTo({top:0,behavior:'smooth'});}}>Practise this card</button></aside>}
+   <span className={styles.eyebrow}>SPEAKING PART 2 AND 3</span>
+   <h1>Cue card sample answer, <em>step by step</em></h1>
+   <p>Topic বেছে নাও। প্রতিটায় cue card, ধাপে ধাপে সাজানো sample answer, Part 3-এর model answer আর কাজের vocabulary পাবে। পড়ো, কাঠামোটা বুঝো, তারপর নিজের গল্পে বলো।</p>
+   <ul className={styles.stats}><li><b>{cards.length}</b>topics</li><li><b>{categories.length}</b>categories</li><li><b>{freeCount}</b>free topics</li><li><b>{total}</b>done by you</li></ul>
+   <div className={styles.searchWrap}><input className={styles.search} value={q} onChange={e=>setQ(e.target.value)} placeholder="Search a topic, e.g. teacher, festival, app" aria-label="Search topics"/></div>
   </section>
-  {practice&&<Practice card={practice} onNext={random} onClose={()=>setPractice(null)}/>}
-  <section className={styles.topics}>
-   <div className={styles.sectionHead}><h2>Topic ধরে practise করো</h2><p>একটা topic বেছে নিলে নিচের list শুধু সেই card-গুলো দেখাবে।</p></div>
-   <div className={styles.topicGrid}>{categories.map(c=>{const n=cards.filter(x=>x.category===c).length;const free=cards.filter(x=>x.category===c&&!x.locked).length;return <button key={c} className={`${styles.topic} ${cat===c?styles.topicOn:''}`} onClick={()=>{setCat(cat===c?'':c);listRef.current?.scrollIntoView({behavior:'smooth'});}}><b>{c}</b><small>{n} cards · {free} free</small></button>;})}</div>
-  </section>
-  <div className={styles.bar} ref={listRef}>
-   <input className={styles.search} value={q} onChange={e=>setQ(e.target.value)} placeholder="Search a topic" aria-label="Search cue cards"/>
-   <select className={styles.select} value={cat} onChange={e=>setCat(e.target.value)} aria-label="Category"><option value="">All categories</option>{categories.map(c=><option key={c} value={c}>{c}</option>)}</select>
-  </div>
-  <p className={styles.count}><b>{filtered.length}</b> cards{cat?` · ${cat}`:''}</p>
-  <div className={styles.grid}>{filtered.slice(0,limit).map(c=>c.locked
-   ?<article key={c.id} className={`${styles.card} ${styles.locked}`}><span className={styles.tag}>{c.category}</span><h3>{c.title}</h3><Link href="/pricing" className={styles.link}>Unlock with a plan</Link></article>
-   :<article key={c.id} className={styles.card}><span className={styles.tag}>{c.category}</span><h3>{c.title}</h3>
-    <button className={styles.link} aria-expanded={open===c.id} onClick={()=>setOpen(open===c.id?null:c.id)}>{open===c.id?'Hide card':'Show prompts and Part 3'}</button>
-    {open===c.id&&<div className={styles.detail}><p className={styles.say}>You should say:</p><ul>{c.prompts?.map(p=><li key={p}>{p}</li>)}</ul>
-     <p className={styles.say}>Part 3 questions</p><ol>{c.part3?.map(x=><li key={x}>{x}</li>)}</ol>
-     <p className={styles.say}>Useful language</p><div className={styles.chips}>{c.ideas?.map(i=><span key={i}>{i}</span>)}</div>
-     <button className={styles.primary} onClick={()=>{setPractice(c);window.scrollTo({top:0,behavior:'smooth'});}}>Practise this card</button></div>}
-   </article>)}</div>
-  {limit<filtered.length&&<div className={styles.more}><button className={styles.ghost} onClick={()=>setLimit(l=>l+24)}>Show more</button></div>}
-  <section className={styles.how}>
-   <div className={styles.step}><span>1</span><h3>এক মিনিট ভাবো</h3><p>Timer চালু করে prompt দেখে point লিখে নাও। পুরো উত্তর মুখস্থ করার দরকার নেই।</p></div>
-   <div className={styles.step}><span>2</span><h3>দুই মিনিট বলো</h3><p>থেমে না গিয়ে চালিয়ে যাও। ভুল হলে ঠিক করে আবার বলো, যেমন real test-এ করবে।</p></div>
-   <div className={styles.step}><span>3</span><h3>Part 3 দিয়ে গভীরে যাও</h3><p>Timer শেষ হলে examiner-এর মতো ৪টা follow-up প্রশ্ন দেখাবে। যুক্তি দিয়ে উত্তর দাও।</p></div>
-  </section>
-  {locked>0&&<div className={styles.upsell}><div><h3>আরও {locked} টা cue card</h3><p>প্রতিটা category-র প্রথম ৩টা free। Plan নিলে বাকি সব card, Part 3 প্রশ্ন ও practice খুলে যাবে।</p></div><Link href="/pricing" className={styles.primary}>See plans</Link></div>}
+  {q?<section><p className={styles.count}><b>{found.length}</b> results</p><div className={styles.list}>{found.map(c=><Row key={c.id} c={c}/>)}</div></section>
+  :<>
+   <div className={styles.sectionHead}><h2>Category বেছে নাও</h2><p>প্রতিটা category-র প্রথম ৩টা topic free।</p></div>
+   <div className={styles.catGrid}>{categories.map(c=>{const l=cards.filter(x=>x.category===c);const d=l.filter(x=>done.includes(x.id)).length;return <button key={c} className={styles.catCard} onClick={()=>nav(c)}>
+    <b>{c}</b><span>{l.length} topics · {l.filter(x=>!x.locked).length} free</span>
+    <div className={styles.bar}><i style={{width:`${d/l.length*100}%`}}/></div><small>{d}/{l.length} done</small></button>;})}</div>
+   <section className={styles.how}>
+    <div className={styles.step}><span>1</span><h3>Cue card পড়ো</h3><p>কী কী বলতে হবে আর কোন কোন angle নেওয়া যায় দেখে নাও।</p></div>
+    <div className={styles.step}><span>2</span><h3>ধাপগুলো অনুসরণ করো</h3><p>Opening থেকে wrap-up পর্যন্ত প্রতিটা ধাপের সময় ও শুরুর বাক্য দেওয়া আছে।</p></div>
+    <div className={styles.step}><span>3</span><h3>Part 3 ও vocabulary</h3><p>Examiner-এর follow-up প্রশ্নের উত্তর আর topic-এর শব্দ শিখে নিজের উত্তরে বসাও।</p></div>
+   </section>
+  </>}
  </div>;
 }
