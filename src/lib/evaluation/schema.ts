@@ -15,9 +15,10 @@ export type WritingInput={tasks:{task:number;question:string;answer:string;image
 export type WritingAssessment=z.infer<typeof writingAssessmentSchema> & {estimatedBand:number|null};
 export function finalizeAssessment(value:unknown,input:WritingInput):WritingAssessment {
  const wire=writingResponseSchema.parse(value);
- const result=writingAssessmentSchema.parse({...wire,tasks:wire.tasks.map(t=>({...t,limitation:t.limitation??''}))});
+ let result=writingAssessmentSchema.parse({...wire,tasks:wire.tasks.map(t=>({...t,limitation:t.limitation??''}))});
  if(result.tasks.length!==input.tasks.length||new Set(result.tasks.map(t=>t.task)).size!==result.tasks.length||result.tasks.some(t=>!input.tasks.some(p=>p.task===t.task)))throw Error('Assessment task mismatch');
- for(const task of result.tasks){const answer=input.tasks.find(p=>p.task===task.task)!.answer;for(const correction of task.corrections){if(!correction.original.trim()||!answer.includes(correction.original))throw Error('Unsupported correction');}for(const strength of task.strengths??[]){if(!strength.original.trim()||!answer.includes(strength.original))throw Error('Unsupported positive evidence');}}
+ // A model sometimes paraphrases an excerpt. Drop only those unverifiable items instead of failing the whole evaluation.
+ result.tasks=result.tasks.map(task=>{const answer=input.tasks.find(p=>p.task===task.task)!.answer;return {...task,corrections:task.corrections.filter(c=>c.original.trim()&&answer.includes(c.original)),strengths:(task.strengths??[]).filter(s=>s.original.trim()&&answer.includes(s.original))};});
  // Never trust a model-calculated combined band. Task 2 has twice the weight.
  const scorable=result.tasks.every(t=>t.scorable);
  const total=result.tasks.reduce((n,t)=>n+(t.task===2?2:1)*(t.taskAchievement.band+t.coherence.band+t.lexicalResource.band+t.grammar.band)/4,0);
