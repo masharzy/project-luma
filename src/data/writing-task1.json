@@ -1,0 +1,2495 @@
+[
+ {
+  "type": "line",
+  "title": "The line graph below shows electricity generation from three sources in a country between 2000 and 2020.",
+  "unit": "thousand gigawatt hours",
+  "data": {
+   "x": [
+    "2000",
+    "2005",
+    "2010",
+    "2015",
+    "2020"
+   ],
+   "series": [
+    {
+     "name": "Gas",
+     "values": [
+      18,
+      25,
+      32,
+      38,
+      41
+     ]
+    },
+    {
+     "name": "Coal",
+     "values": [
+      3,
+      4,
+      6,
+      14,
+      22
+     ]
+    },
+    {
+     "name": "Solar",
+     "values": [
+      0,
+      1,
+      2,
+      5,
+      12
+     ]
+    }
+   ]
+  },
+  "overview": "Gas stayed the leading source throughout, while coal and solar both expanded, with solar growing fastest in the final decade.",
+  "key_features": [
+   "Gas dominates in every year",
+   "Coal rises sharply after 2010",
+   "Solar grows from zero to 12"
+  ],
+  "band7": {
+   "answer": "The line graph illustrates how much electricity a country generated from gas, coal and solar power between 2000 and 2020, measured in thousand gigawatt hours.\n\nOverall, gas remained the dominant source throughout the period, although coal and solar power both grew considerably. Solar was the least significant source in every year.\n\nIn 2000, gas produced 18 thousand gigawatt hours, compared with only 3 for coal and none for solar. Gas output then rose steadily, reaching 32 in 2010 and peaking at 41 in 2020, which was more than double its starting figure.\n\nCoal followed a different pattern. It increased slightly from 3 in 2000 to 6 in 2010, but then climbed sharply to 14 in 2015 and 22 in 2020. Solar generation was negligible at first, standing at just 1 in 2005 and 2 in 2010. However, it then grew rapidly, rising to 5 in 2015 and 12 in 2020. Despite this growth, solar remained well below the other two sources by the end of the period.",
+   "comment": "Clear overview and accurate data selection, with a logical split between sources. Vocabulary is sound but less varied than at Band 8."
+  },
+  "band8": {
+   "answer": "The line graph compares electricity generation from gas, coal and solar power in one country over a twenty-year period, from 2000 to 2020, in thousand gigawatt hours.\n\nOverall, gas was consistently the largest contributor, whereas coal and solar, which began from very low bases, both expanded markedly, with solar showing the steepest proportional growth.\n\nGas output rose steadily from 18 thousand gigawatt hours in 2000 to 25 in 2005 and 32 in 2010, before increasing more gradually to 38 in 2015 and reaching a high of 41 in 2020. Overall, this represented an increase of more than 120 per cent.\n\nCoal generation was initially minimal at 3, edging up to 4 in 2005 and 6 in 2010. After 2010, however, it accelerated dramatically, more than doubling to 14 in 2015 and climbing further to 22 by 2020. Solar power did not register at all in 2000, and contributed merely 1 and 2 in 2005 and 2010 respectively. Growth then picked up considerably, with output reaching 5 in 2015 and 12 in 2020, although this still fell well short of both rival sources.",
+   "comment": "Precise figures, controlled comparison and well-chosen linking devices throughout. A wider range of trend language lifts the answer to Band 8."
+  },
+  "language": [
+   {
+    "p": "began from a low base",
+    "m": "started at a small figure"
+   },
+   {
+    "p": "peaked at",
+    "m": "reached its highest point of"
+   },
+   {
+    "p": "more than doubled",
+    "m": "grew over two times"
+   },
+   {
+    "p": "accelerated dramatically",
+    "m": "sped up sharply"
+   },
+   {
+    "p": "fell well short of",
+    "m": "was much lower than"
+   },
+   {
+    "p": "edged up to",
+    "m": "rose slightly to"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 1
+ },
+ {
+  "type": "bar",
+  "title": "The bar chart below shows the average monthly amount that urban and rural households in Bangladesh spent on five food categories in 2022.",
+  "unit": "BDT per household per month",
+  "data": {
+   "x": [
+    "Rice",
+    "Vegetables",
+    "Fish and meat",
+    "Edible oil",
+    "Pulses"
+   ],
+   "series": [
+    {
+     "name": "Urban",
+     "values": [
+      2800,
+      1500,
+      3600,
+      900,
+      600
+     ]
+    },
+    {
+     "name": "Rural",
+     "values": [
+      3100,
+      1200,
+      2400,
+      800,
+      500
+     ]
+    }
+   ]
+  },
+  "overview": "Urban households spent more on most food items, especially fish and meat, while rice was the main expense only for rural families.",
+  "key_features": [
+   "Fish and meat is the largest urban expense",
+   "Rice is the largest rural expense",
+   "Edible oil and pulses cost least in both areas"
+  ],
+  "band7": {
+   "answer": "The bar chart compares how much urban and rural households in Bangladesh spent each month on five categories of food in 2022.\n\nOverall, city families spent more than village families on four of the five items, and the biggest difference was in fish and meat. Rice was the only category where rural households paid more, and it was their largest single expense.\n\nLooking at the main items, urban households spent 3,600 BDT on fish and meat, which was clearly the highest figure for cities, whereas rural households spent only 2,400 BDT on the same category. Rice accounted for 2,800 BDT in urban areas but 3,100 BDT in rural areas. Vegetables also showed a gap, with 1,500 BDT in cities against 1,200 BDT in the countryside.\n\nThe two cheapest categories were edible oil and pulses. Urban households paid 900 BDT for oil and 600 BDT for pulses, while the equivalent rural figures were slightly lower at 800 BDT and 500 BDT. These small differences suggest that spending on basic staples was fairly similar in both settings.",
+   "comment": "Clear overview and accurate figures with sensible grouping. Vocabulary is adequate but less varied than a band 8 response."
+  },
+  "band8": {
+   "answer": "The bar chart illustrates average monthly household expenditure on five food categories in urban and rural Bangladesh in 2022.\n\nOverall, urban households outspent their rural counterparts on every item except rice, and the widest gap appeared in fish and meat. While animal protein was the single largest cost for city dwellers, rice dominated rural food budgets.\n\nFish and meat cost urban families 3,600 BDT a month, 1,200 BDT more than the 2,400 BDT recorded in rural areas, making it the most striking contrast in the chart. Rice moved in the opposite direction: rural households devoted 3,100 BDT to it, compared with 2,800 BDT in towns and cities, a difference of 300 BDT. Spending on vegetables was also higher in urban areas, at 1,500 BDT as opposed to 1,200 BDT.\n\nExpenditure on the remaining two categories was modest in both settings. Urban households paid 900 BDT for edible oil and 600 BDT for pulses, whereas rural households paid slightly less, at 800 BDT and 500 BDT respectively. Pulses were therefore the cheapest item in each area, costing roughly one fifth of what was spent on rice.",
+   "comment": "Precise comparisons, calculated differences and a strong overview give excellent task achievement. Cohesion and lexical range are wider than at band 7."
+  },
+  "language": [
+   {
+    "p": "outspent their counterparts",
+    "m": "spent more than the other group"
+   },
+   {
+    "p": "the widest gap appeared in",
+    "m": "largest difference was seen in"
+   },
+   {
+    "p": "in the opposite direction",
+    "m": "showing the reverse trend"
+   },
+   {
+    "p": "as opposed to",
+    "m": "in contrast with"
+   },
+   {
+    "p": "respectively",
+    "m": "in the order mentioned"
+   },
+   {
+    "p": "a difference of",
+    "m": "states the exact gap"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 2
+ },
+ {
+  "type": "line",
+  "title": "The line graph below shows the number of people using mobile banking services in urban and rural areas of Bangladesh between 2018 and 2023.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "million users",
+  "data": {
+   "x": [
+    "2018",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023"
+   ],
+   "series": [
+    {
+     "name": "Urban users",
+     "values": [
+      18,
+      24,
+      33,
+      41,
+      48,
+      54
+     ]
+    },
+    {
+     "name": "Rural users",
+     "values": [
+      9,
+      13,
+      21,
+      30,
+      40,
+      50
+     ]
+    }
+   ]
+  },
+  "overview": "Both groups of users grew steadily, but rural usage rose far faster and almost caught up with urban usage by 2023.",
+  "key_features": [
+   "Both lines rise throughout the period",
+   "Rural growth is much steeper than urban growth",
+   "The gap narrows from 9 million to 4 million"
+  ],
+  "band7": {
+   "answer": "The line graph illustrates how many people used mobile banking services in the urban and rural areas of Bangladesh from 2018 to 2023, with figures given in millions.\n\nOverall, the number of users rose steadily in both areas, but the increase was much sharper in rural areas, which almost caught up with urban areas by the end of the period.\n\nIn 2018, 18 million urban residents used mobile banking, double the rural figure of 9 million. Urban numbers then grew to 24 million in 2019 and 33 million in 2020, before reaching 41 million in 2021.\n\nRural usage climbed more quickly after 2019, rising from 13 million to 30 million in 2021. By 2022, there were 48 million urban users and 40 million rural users, and in 2023 the figures reached 54 million and 50 million respectively, leaving a gap of only 4 million. Overall, rural usage grew by 41 million over the period, whereas urban usage grew by 36 million, so the rural group was clearly the faster-growing one.",
+   "comment": "The answer has a clear overview and reports the key figures accurately. Band 8 would add more precise comparisons, such as the size of the gap each year."
+  },
+  "band8": {
+   "answer": "The line graph compares the number of mobile banking users in urban and rural Bangladesh over a six-year period from 2018 to 2023, measured in millions.\n\nOverall, usage increased consistently in both settings, yet the rural segment expanded far more rapidly, so that the initial advantage held by urban areas had almost disappeared by 2023.\n\nUrban users began at 18 million in 2018, exactly twice the rural total of 9 million. The urban figure then increased by 6 million in 2019 and by a further 9 million in 2020, reaching 33 million, before growth slowed to around 7 million a year, ending at 54 million in 2023.\n\nBy contrast, rural usage more than tripled in the first four years, from 9 million to 30 million in 2021. The most striking rise occurred between 2021 and 2022, when it jumped by 10 million to 40 million. A final increase of 10 million took the rural total to 50 million, just 4 million below the urban figure. In total, rural usage rose by 41 million, compared with an urban increase of 36 million.",
+   "comment": "Precise figures, calculated differences and a clear contrast between the two groups make this a strong response. Cohesion and range of comparative language are both very good."
+  },
+  "language": [
+   {
+    "p": "over a six-year period",
+    "m": "time frame phrase"
+   },
+   {
+    "p": "exactly twice",
+    "m": "precise multiple comparison"
+   },
+   {
+    "p": "more than tripled",
+    "m": "grew over three times"
+   },
+   {
+    "p": "the most striking rise",
+    "m": "highlight the biggest change"
+   },
+   {
+    "p": "leaving a gap of",
+    "m": "state final difference"
+   },
+   {
+    "p": "almost caught up with",
+    "m": "nearly reached the level of"
+   }
+  ],
+  "id": 3
+ },
+ {
+  "type": "line",
+  "title": "The line graph below shows the number of students enrolled in three university subject areas between 2010 and 2022.",
+  "unit": "thousand students",
+  "data": {
+   "x": [
+    "2010",
+    "2013",
+    "2016",
+    "2019",
+    "2022"
+   ],
+   "series": [
+    {
+     "name": "Engineering",
+     "values": [
+      40,
+      48,
+      60,
+      75,
+      90
+     ]
+    },
+    {
+     "name": "Business",
+     "values": [
+      55,
+      70,
+      82,
+      88,
+      85
+     ]
+    },
+    {
+     "name": "Arts",
+     "values": [
+      35,
+      34,
+      30,
+      26,
+      22
+     ]
+    }
+   ]
+  },
+  "overview": "Engineering enrolment rose the most and overtook business, while arts was the only subject to decline.",
+  "key_features": [
+   "Engineering grows every period",
+   "Business peaks in 2019",
+   "Arts falls steadily"
+  ],
+  "band7": {
+   "answer": "The line graph shows how many students enrolled in engineering, business and arts courses at universities between 2010 and 2022, in thousands.\n\nOverall, engineering and business both attracted more students over the period, whereas arts was the only subject to decline. Engineering showed the greatest growth and ended as the most popular subject.\n\nIn 2010, business was the most popular field with 55 thousand students, followed by engineering at 40 thousand and arts at 35 thousand. Business numbers then grew to 70 thousand in 2013 and peaked at 88 thousand in 2019, before falling slightly to 85 thousand in 2022.\n\nEngineering rose consistently throughout the period. Enrolment went from 40 thousand to 48 thousand in 2013, then to 60 thousand in 2016 and 75 thousand in 2019. By 2022 it had reached 90 thousand, overtaking business after 2019. In contrast, arts enrolment fell gradually from 35 thousand in 2010 to 30 thousand in 2016 and just 22 thousand in 2022, making it the least popular subject by the end.",
+   "comment": "Good coverage of all three subjects with accurate figures and a clear overview. The paragraphing is logical, though the comparisons could be more varied."
+  },
+  "band8": {
+   "answer": "The line graph illustrates changes in the number of students enrolled in engineering, business and arts at universities over a twelve-year period, from 2010 to 2022, with figures given in thousands.\n\nOverall, engineering experienced the strongest and most consistent growth, eventually surpassing business, while arts was the only subject to see a persistent decline.\n\nIn 2010, business led with 55 thousand enrolments, comfortably ahead of engineering on 40 thousand and arts on 35 thousand. Business then rose rapidly to 70 thousand in 2013 and 82 thousand in 2016, levelling off at 88 thousand in 2019 before dipping marginally to 85 thousand in 2022.\n\nEngineering, by contrast, grew at a steady pace in every period, climbing from 40 thousand to 48 thousand, 60 thousand and 75 thousand by 2019. It then reached 90 thousand in 2022, which meant it had overtaken business after 2019 and more than doubled its original figure. Arts moved in the opposite direction, slipping from 35 thousand to 34 thousand in 2013 and 30 thousand in 2016, and bottoming out at 22 thousand by 2022, the lowest of the three subjects.",
+   "comment": "Accurate and precise, with effective use of contrast and a clear sense of ranking changes. Varied sentence structures and trend vocabulary support the higher band."
+  },
+  "language": [
+   {
+    "p": "surpassing",
+    "m": "going above another figure"
+   },
+   {
+    "p": "levelling off at",
+    "m": "stopping rising near"
+   },
+   {
+    "p": "dipping marginally",
+    "m": "falling by a tiny amount"
+   },
+   {
+    "p": "in the opposite direction",
+    "m": "showing the reverse trend"
+   },
+   {
+    "p": "bottoming out at",
+    "m": "reaching the lowest point of"
+   },
+   {
+    "p": "comfortably ahead of",
+    "m": "clearly higher than"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 4
+ },
+ {
+  "type": "bar",
+  "title": "The bar chart below shows the number of students enrolled in five subject areas at Bangladeshi universities in 2010 and 2020.",
+  "unit": "thousand students",
+  "data": {
+   "x": [
+    "Business",
+    "Engineering",
+    "Science",
+    "Humanities",
+    "Medicine"
+   ],
+   "series": [
+    {
+     "name": "2010",
+     "values": [
+      120,
+      85,
+      95,
+      110,
+      30
+     ]
+    },
+    {
+     "name": "2020",
+     "values": [
+      210,
+      140,
+      100,
+      90,
+      55
+     ]
+    }
+   ]
+  },
+  "overview": "Enrolment rose in four of the five subjects, with business growing most, while humanities was the only subject to decline.",
+  "key_features": [
+   "Business shows the largest increase",
+   "Humanities is the only decline",
+   "Science barely changed"
+  ],
+  "band7": {
+   "answer": "The bar chart compares university enrolment in five subject areas in Bangladesh in 2010 and in 2020, measured in thousands of students.\n\nOverall, enrolment increased in every subject apart from humanities, and business recorded the biggest growth. By 2020 business had become the most popular subject by a wide margin.\n\nIn 2010, business had 120,000 students and humanities had 110,000, so these two were the largest areas. Over the following decade, business enrolment climbed to 210,000, an increase of 90,000, whereas the number studying humanities fell to 90,000. Engineering also grew significantly, from 85,000 students to 140,000.\n\nScience and medicine were smaller fields. Science enrolment rose only slightly, from 95,000 to 100,000, so it was the most stable subject. Medicine started from the lowest level, at 30,000 students, but it grew to 55,000 by 2020, which was a rise of more than 80 percent. Even so, it remained the smallest of the five areas at the end of the period.",
+   "comment": "Good selection of key trends with correct data and a clear overview. A few sentences are simple and could show more varied structures."
+  },
+  "band8": {
+   "answer": "The bar chart shows how many students were enrolled in five subject areas at universities in Bangladesh in 2010 and 2020.\n\nOverall, four of the five subjects attracted more students over the decade, with business expanding the most, whereas humanities was the only area to lose students. Business therefore extended its lead as the largest field, while humanities slipped from second place to third.\n\nBusiness enrolment rose from 120,000 in 2010 to 210,000 in 2020, a gain of 90,000 and by far the largest increase in the chart. Engineering followed a similar upward path, growing from 85,000 to 140,000. In contrast, humanities declined from 110,000 to 90,000, dropping below science by the end of the period.\n\nScience remained almost static, edging up from 95,000 to 100,000 students. Medicine was the smallest subject in both years, yet its enrolment nearly doubled, climbing from 30,000 to 55,000. By 2020, business attracted around four times as many students as medicine and more than twice as many as science, which shows how strongly demand shifted towards commercial courses.",
+   "comment": "Accurate, well-selected data with insightful comparisons and a precise overview. Flexible grammar and cohesive devices support a high band."
+  },
+  "language": [
+   {
+    "p": "by a wide margin",
+    "m": "with a large difference"
+   },
+   {
+    "p": "a gain of",
+    "m": "an increase of a stated amount"
+   },
+   {
+    "p": "edging up",
+    "m": "rising very slightly"
+   },
+   {
+    "p": "almost static",
+    "m": "hardly changing"
+   },
+   {
+    "p": "nearly doubled",
+    "m": "rose to almost twice as much"
+   },
+   {
+    "p": "overtook",
+    "m": "went above another category"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 5
+ },
+ {
+  "type": "line",
+  "title": "The line graph below shows the share of electricity in Bangladesh generated from natural gas, coal and renewable sources between 2000 and 2020.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "percent of total electricity",
+  "data": {
+   "x": [
+    "2000",
+    "2005",
+    "2010",
+    "2015",
+    "2020"
+   ],
+   "series": [
+    {
+     "name": "Natural gas",
+     "values": [
+      88,
+      84,
+      78,
+      62,
+      48
+     ]
+    },
+    {
+     "name": "Coal",
+     "values": [
+      2,
+      3,
+      5,
+      12,
+      19
+     ]
+    },
+    {
+     "name": "Renewables",
+     "values": [
+      1,
+      1,
+      2,
+      4,
+      9
+     ]
+    }
+   ]
+  },
+  "overview": "Natural gas remained the leading source but declined steadily, while coal and renewables both grew in importance.",
+  "key_features": [
+   "Gas falls from 88% to 48%",
+   "Coal rises most among the alternatives",
+   "Renewables are still the smallest source in 2020"
+  ],
+  "band7": {
+   "answer": "The line graph shows what percentage of Bangladesh's electricity came from natural gas, coal and renewable sources over a twenty-year period, starting in 2000.\n\nOverall, natural gas was the dominant source throughout, although its share fell considerably. In contrast, coal and renewables both became more significant, with coal growing faster.\n\nNatural gas supplied 88 percent of electricity in 2000, and this dropped slightly to 84 percent in 2005 and 78 percent in 2010. The decline then became steeper, with the figure falling to 62 percent in 2015 and 48 percent in 2020.\n\nCoal began at a very low level of just 2 percent and edged up to 3 percent in 2005 and 5 percent in 2010. It then rose sharply to 12 percent in 2015 and 19 percent in 2020. Renewable energy stayed at around 1 to 2 percent until 2010, then increased to 4 percent in 2015 and 9 percent in 2020, remaining the smallest source. Overall, the combined share of coal and renewables in 2020 was 28 percent, compared with only 3 percent in 2000.",
+   "comment": "All main trends are covered and the data is accurate, with a clear overview. The language could be more varied to reach a higher band."
+  },
+  "band8": {
+   "answer": "The line graph compares the proportions of Bangladesh's electricity produced from natural gas, coal and renewables at five-year intervals between 2000 and 2020.\n\nOverall, natural gas remained the principal source throughout, but its contribution shrank markedly, whereas coal and renewables gained ground, with coal expanding the most.\n\nIn 2000, gas accounted for a commanding 88 percent of generation, compared with only 2 percent for coal and 1 percent for renewables. Gas then declined gradually to 78 percent by 2010, before falling more steeply, by 16 points, to 62 percent in 2015 and by a further 14 points to 48 percent in 2020.\n\nCoal followed the opposite pattern. Its share crept up from 2 percent to 5 percent over the first decade, then climbed to 12 percent in 2015 and 19 percent in 2020, almost four times its 2010 level. Renewables remained marginal at 1 to 2 percent until 2010 but rose to 4 percent in 2015 and 9 percent in 2020, still well below coal. Taken together, coal and renewables supplied 28 percent in 2020, up from just 3 percent two decades earlier.",
+   "comment": "The answer uses precise figures and calculated changes to support clear trends. Varied vocabulary for rises and falls shows strong lexical control."
+  },
+  "language": [
+   {
+    "p": "at five-year intervals",
+    "m": "describes regular data points"
+   },
+   {
+    "p": "a commanding 88 percent",
+    "m": "very large share"
+   },
+   {
+    "p": "shrank markedly",
+    "m": "fell by a large amount"
+   },
+   {
+    "p": "gained ground",
+    "m": "became more important"
+   },
+   {
+    "p": "followed the opposite pattern",
+    "m": "moved in the other direction"
+   },
+   {
+    "p": "remained marginal",
+    "m": "stayed very small"
+   }
+  ],
+  "id": 6
+ },
+ {
+  "type": "line",
+  "title": "The line graph below shows the average number of daily passengers using three forms of public transport in a city between 2012 and 2022.",
+  "unit": "thousand passengers per day",
+  "data": {
+   "x": [
+    "2012",
+    "2014",
+    "2016",
+    "2018",
+    "2020",
+    "2022"
+   ],
+   "series": [
+    {
+     "name": "Bus",
+     "values": [
+      520,
+      540,
+      560,
+      545,
+      430,
+      500
+     ]
+    },
+    {
+     "name": "Train",
+     "values": [
+      120,
+      135,
+      150,
+      170,
+      110,
+      175
+     ]
+    },
+    {
+     "name": "Ferry",
+     "values": [
+      80,
+      78,
+      75,
+      70,
+      50,
+      65
+     ]
+    }
+   ]
+  },
+  "overview": "Buses carried by far the most passengers, trains grew overall, and ferries lost ground, with all three hit in 2020.",
+  "key_features": [
+   "Bus far ahead throughout",
+   "All modes fall in 2020",
+   "Train ends highest ever at 175"
+  ],
+  "band7": {
+   "answer": "The line graph compares the average number of passengers per day who used buses, trains and ferries in a city between 2012 and 2022, in thousands.\n\nOverall, buses were by far the most widely used form of transport, while ferries were the least used. All three modes dropped in 2020, but only trains finished the period higher than they started.\n\nBus travel began at 520 thousand passengers in 2012 and rose to a peak of 560 thousand in 2016. It then fell to 545 thousand in 2018 and dropped sharply to 430 thousand in 2020, before recovering to 500 thousand in 2022.\n\nTrains were much less popular, with 120 thousand passengers in 2012. This figure grew steadily to 170 thousand in 2018, fell to 110 thousand in 2020, and then rebounded to 175 thousand in 2022, its highest level. Ferry use was lower still, decreasing from 80 thousand in 2012 to 70 thousand in 2018 and 50 thousand in 2020. It recovered slightly to 65 thousand by 2022, which was still below the starting figure.",
+   "comment": "The overview captures the key trends and the 2020 dip, and the data is accurate. Some repetition of structure keeps it at Band 7."
+  },
+  "band8": {
+   "answer": "The line graph details how many passengers used buses, trains and ferries in a city on an average day between 2012 and 2022, measured in thousands.\n\nOverall, buses consistently carried far more passengers than the other two modes. Although every form of transport suffered a sharp fall in 2020, only trains ended the period with a higher figure than at the outset.\n\nBus patronage rose gradually from 520 thousand in 2012 to a high of 560 thousand in 2016, then eased to 545 thousand in 2018. A steep decline followed, to 430 thousand in 2020, but numbers recovered to 500 thousand by 2022, still below the earlier peak.\n\nTrains showed the strongest overall growth. Starting at 120 thousand, the figure climbed steadily to 135 thousand in 2014, 150 thousand in 2016 and 170 thousand in 2018. After plunging to 110 thousand in 2020, it rebounded to 175 thousand, the highest of any year. Ferries, meanwhile, were the least popular and in long-term decline, slipping from 80 thousand to 70 thousand by 2018 and falling to 50 thousand in 2020, before a modest recovery to 65 thousand in 2022.",
+   "comment": "Excellent control of detail and contrast, with a strong overview that identifies the exceptional mode. Vocabulary for change is varied and accurate."
+  },
+  "language": [
+   {
+    "p": "by far the most",
+    "m": "much more than any other"
+   },
+   {
+    "p": "at the outset",
+    "m": "at the beginning"
+   },
+   {
+    "p": "eased to",
+    "m": "fell slightly to"
+   },
+   {
+    "p": "plunging to",
+    "m": "dropping suddenly to"
+   },
+   {
+    "p": "rebounded to",
+    "m": "rose again to"
+   },
+   {
+    "p": "in long-term decline",
+    "m": "falling over the whole period"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 7
+ },
+ {
+  "type": "bar",
+  "title": "The bar chart below shows the percentage of people in different age groups in Bangladesh who used the internet on a mobile phone in 2018 and 2023.",
+  "unit": "percent of age group",
+  "data": {
+   "x": [
+    "16-24",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55 and over"
+   ],
+   "series": [
+    {
+     "name": "2018",
+     "values": [
+      48,
+      39,
+      27,
+      15,
+      6
+     ]
+    },
+    {
+     "name": "2023",
+     "values": [
+      82,
+      74,
+      61,
+      43,
+      24
+     ]
+    }
+   ]
+  },
+  "overview": "Mobile internet use rose in every age group, with younger people the heaviest users and the oldest group the lightest in both years.",
+  "key_features": [
+   "Every age group increased",
+   "Youngest group highest in both years",
+   "Biggest rise among 35-44 and 45-54 groups"
+  ],
+  "band7": {
+   "answer": "The bar chart compares the proportion of people in five age groups who used the internet on a mobile phone in Bangladesh in 2018 and 2023.\n\nOverall, mobile internet use rose in every age group, and younger people were always more likely to be online than older people. The 16-24 group had the highest figures in both years, while people aged 55 and over had the lowest.\n\nIn 2018, 48 percent of those aged 16-24 used mobile internet, and this rose to 82 percent in 2023. The 25-34 group followed the same pattern, increasing from 39 percent to 74 percent. Among people aged 35-44, usage more than doubled, going from 27 percent to 61 percent.\n\nThe older groups started from much lower levels. Only 15 percent of people aged 45-54 used mobile internet in 2018, but by 2023 the figure had reached 43 percent, which was an increase of 28 percentage points. The 55 and over group remained the least connected, with usage growing from just 6 percent to 24 percent. Nevertheless, this group still showed a fourfold rise over the five years.",
+   "comment": "Accurate and well organised, with a clear overview. The vocabulary is sound but a little repetitive in places."
+  },
+  "band8": {
+   "answer": "The bar chart illustrates the percentage of Bangladeshis in five age groups who accessed the internet through a mobile phone in 2018 and 2023.\n\nOverall, mobile internet use increased in every age group, and the likelihood of going online fell steadily with age in both years. The most striking proportional growth occurred among older users, who began from a very low base.\n\nAmong 16 to 24 year olds, usage climbed from 48 percent to 82 percent, the highest figure in the chart. The 25-34 group rose from 39 percent to 74 percent, a rise of 35 points. A similarly steep rise was seen in the 35-44 group, where usage more than doubled from 27 percent to 61 percent.\n\nOlder people were considerably less connected. Usage among 45 to 54 year olds almost tripled, from 15 percent to 43 percent, a gain of 28 percentage points. The 55 and over category remained the lowest in both years, but it quadrupled from 6 percent to 24 percent. Even so, by 2023 this group trailed the youngest users by 58 percentage points.",
+   "comment": "Precise figures, calculated changes and a well-developed overview make a strong response. Language is varied and accurate."
+  },
+  "language": [
+   {
+    "p": "fell steadily with age",
+    "m": "decreased as age increased"
+   },
+   {
+    "p": "from a relatively low base",
+    "m": "starting at a small figure"
+   },
+   {
+    "p": "more than doubled",
+    "m": "increased over two times"
+   },
+   {
+    "p": "almost tripled",
+    "m": "rose to nearly three times"
+   },
+   {
+    "p": "quadrupled",
+    "m": "rose to four times"
+   },
+   {
+    "p": "trailed",
+    "m": "was behind another group"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 8
+ },
+ {
+  "type": "line",
+  "title": "The line graph below shows the number of passengers using three modes of public transport in a Bangladeshi city between 2004 and 2022.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "million passengers per year",
+  "data": {
+   "x": [
+    "2004",
+    "2008",
+    "2012",
+    "2016",
+    "2020",
+    "2022"
+   ],
+   "series": [
+    {
+     "name": "Bus",
+     "values": [
+      120,
+      135,
+      150,
+      170,
+      110,
+      160
+     ]
+    },
+    {
+     "name": "Train",
+     "values": [
+      40,
+      46,
+      52,
+      58,
+      31,
+      55
+     ]
+    },
+    {
+     "name": "River ferry",
+     "values": [
+      60,
+      56,
+      50,
+      44,
+      28,
+      38
+     ]
+    }
+   ]
+  },
+  "overview": "Bus and train use generally rose apart from a sharp fall in 2020, while ferry use declined over most of the period.",
+  "key_features": [
+   "Bus is the most used mode throughout",
+   "All modes drop in 2020",
+   "Ferry is the only mode below its 2004 level in 2022"
+  ],
+  "band7": {
+   "answer": "The line graph illustrates how many passengers per year used buses, trains and river ferries in a city in Bangladesh between 2004 and 2022, in millions.\n\nOverall, buses were the most popular form of transport throughout the period. Bus and train use generally increased, apart from a sharp drop in 2020, while the number of ferry passengers fell over most of the period.\n\nBus passengers rose from 120 million in 2004 to 135 million in 2008, 150 million in 2012 and a peak of 170 million in 2016. Train use followed a similar pattern, increasing from 40 million to 58 million over the same years.\n\nIn 2020, all three modes recorded their lowest figures, with 110 million bus passengers, 31 million train passengers and 28 million ferry passengers. Buses and trains then recovered to 160 million and 55 million in 2022. Ferry use, which had fallen steadily from 60 million in 2004, only reached 38 million. In 2022, bus and train use remained slightly below their 2016 peaks, by 10 million and 3 million respectively.",
+   "comment": "The answer organises the data logically and includes a clear overview. More precise comparative language would improve it further."
+  },
+  "band8": {
+   "answer": "The line graph compares annual passenger numbers on buses, trains and river ferries in a Bangladeshi city between 2004 and 2022, measured in millions.\n\nOverall, buses carried the most passengers throughout. Bus and train patronage grew until 2016 before a sudden dip in 2020 and a partial recovery, whereas ferry travel declined for most of the period.\n\nIn 2004, buses served 120 million passengers, three times the train figure of 40 million and twice the ferry total of 60 million. Bus use climbed steadily to peak at 170 million in 2016, while trains rose in parallel to 58 million.\n\nAll three modes were hit in 2020, when bus numbers fell to 110 million, trains to 31 million and ferries to 28 million. Thereafter, buses rebounded to 160 million and trains to 55 million by 2022, both close to their previous highs. Ferries, by contrast, had already fallen from 60 million to 44 million by 2016 and managed only a modest recovery to 38 million. In total, the three modes carried 220 million passengers in 2004 and 253 million in 2022.",
+   "comment": "Precise ratios and a well-judged contrast between recovering and declining modes show strong data selection. The structure is clear and cohesive."
+  },
+  "language": [
+   {
+    "p": "annual passenger numbers",
+    "m": "yearly counts of travellers"
+   },
+   {
+    "p": "patronage",
+    "m": "level of use by customers"
+   },
+   {
+    "p": "in parallel",
+    "m": "at the same time, similarly"
+   },
+   {
+    "p": "a sudden dip",
+    "m": "a quick small fall"
+   },
+   {
+    "p": "rebounded to",
+    "m": "recovered to"
+   },
+   {
+    "p": "a modest recovery",
+    "m": "a small rise after a fall"
+   }
+  ],
+  "id": 9
+ },
+ {
+  "type": "line",
+  "title": "The line graph below shows the percentage of adults who smoked daily in three age groups between 1995 and 2020.",
+  "unit": "percent of adults",
+  "data": {
+   "x": [
+    "1995",
+    "2000",
+    "2005",
+    "2010",
+    "2015",
+    "2020"
+   ],
+   "series": [
+    {
+     "name": "Aged 18-29",
+     "values": [
+      32,
+      30,
+      26,
+      21,
+      16,
+      12
+     ]
+    },
+    {
+     "name": "Aged 30-49",
+     "values": [
+      38,
+      37,
+      34,
+      30,
+      25,
+      20
+     ]
+    },
+    {
+     "name": "Aged 50 and over",
+     "values": [
+      28,
+      29,
+      27,
+      25,
+      24,
+      23
+     ]
+    }
+   ]
+  },
+  "overview": "Daily smoking fell in all three age groups, most steeply among the youngest, so that the oldest group ended with the highest rate.",
+  "key_features": [
+   "Youngest group falls most (32 to 12)",
+   "30-49 starts highest",
+   "50+ almost flat, ends highest"
+  ],
+  "band7": {
+   "answer": "The line graph illustrates the proportion of adults who smoked every day in three age groups between 1995 and 2020.\n\nOverall, smoking rates decreased in all three groups, but the fall was far greater among younger adults. As a result, people aged 50 and over had the highest rate by 2020, having started with the lowest.\n\nIn 1995, the 30-49 group had the highest smoking rate at 38 per cent, followed by the 18-29 group at 32 per cent and those aged 50 and over at 28 per cent. The 30-49 figure fell slowly to 34 per cent in 2005 and then more quickly, reaching 20 per cent in 2020.\n\nThe decline was most dramatic among 18-29 year olds. Their rate dropped from 32 per cent to 26 per cent in 2005, and then to just 12 per cent in 2020, the lowest figure on the chart. By contrast, the oldest group changed very little. It rose slightly to 29 per cent in 2000 before easing gradually to 23 per cent in 2020, which was above the other two groups.",
+   "comment": "The overview highlights the reversal in ranking, and figures are accurate. Language is appropriate but could show greater range."
+  },
+  "band8": {
+   "answer": "The line graph shows what percentage of adults smoked daily in three age brackets over a twenty-five-year period, from 1995 to 2020.\n\nOverall, daily smoking declined in every age group, but the reduction was much steeper among younger adults, with the result that those aged 50 and over, who began with the lowest rate, ended with the highest.\n\nIn 1995, adults aged 30 to 49 were the heaviest smokers at 38 per cent, ahead of the 18-29 group on 32 per cent and the oldest group on 28 per cent. The middle group's rate slipped gently to 37 per cent in 2000 and 34 per cent in 2005, then fell faster to 30, 25 and finally 20 per cent in 2020.\n\nYoung adults experienced the most pronounced fall. Their figure dropped consistently, from 32 to 30, 26, 21 and 16 per cent, before bottoming out at 12 per cent, just over a third of the original level. In contrast, smoking among those aged 50 and over remained relatively stable, peaking at 29 per cent in 2000 and then easing to 25 per cent in 2010 and 23 per cent in 2020.",
+   "comment": "Sophisticated overview, precise figures and effective use of comparative language such as ratios and rankings. Cohesion is smooth across paragraphs."
+  },
+  "language": [
+   {
+    "p": "the proportion of",
+    "m": "the share of"
+   },
+   {
+    "p": "far greater among",
+    "m": "much bigger for"
+   },
+   {
+    "p": "as a result",
+    "m": "because of this"
+   },
+   {
+    "p": "most pronounced fall",
+    "m": "biggest, clearest decrease"
+   },
+   {
+    "p": "remained relatively stable",
+    "m": "changed very little"
+   },
+   {
+    "p": "just over a third of",
+    "m": "slightly more than 33 per cent of"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 10
+ },
+ {
+  "type": "bar",
+  "title": "The bar chart below shows the average one-way commuting time to work in five Bangladeshi cities in 2005 and 2023.",
+  "unit": "minutes",
+  "data": {
+   "x": [
+    "Dhaka",
+    "Chattogram",
+    "Khulna",
+    "Rajshahi",
+    "Sylhet"
+   ],
+   "series": [
+    {
+     "name": "2005",
+     "values": [
+      35,
+      28,
+      20,
+      18,
+      17
+     ]
+    },
+    {
+     "name": "2023",
+     "values": [
+      62,
+      45,
+      26,
+      22,
+      25
+     ]
+    }
+   ]
+  },
+  "overview": "Commuting times increased in all five cities, with Dhaka the longest and showing by far the largest rise.",
+  "key_features": [
+   "Dhaka longest in both years",
+   "Dhaka and Chattogram rose sharply",
+   "Rajshahi and Khulna changed least"
+  ],
+  "band7": {
+   "answer": "The bar chart compares the average time that workers spent travelling one way to work in five cities in Bangladesh in 2005 and 2023.\n\nOverall, commuting times became longer in every city. Dhaka had the longest journeys in both years, and it also experienced the largest increase, while the smaller cities saw only modest changes.\n\nIn 2005, a typical commuter in Dhaka spent 35 minutes travelling to work, but by 2023 this had risen to 62 minutes, an increase of 27 minutes. Chattogram showed a similar though smaller trend, with the average journey growing from 28 minutes to 45 minutes.\n\nThe other three cities had much shorter commutes. In Khulna, the time increased from 20 to 26 minutes, and in Rajshahi it went up from 18 to 22 minutes, which was the smallest rise in the chart. Sylhet began with the shortest journey, at 17 minutes, but its figure climbed to 25 minutes by 2023, overtaking Rajshahi. As a result, the gap between Dhaka and the other cities widened considerably over the period.",
+   "comment": "Good coverage of main trends with accurate data. Some phrases are repeated, which limits the lexical score slightly."
+  },
+  "band8": {
+   "answer": "The bar chart shows how long the average one-way journey to work took in five Bangladeshi cities in 2005 and in 2023.\n\nOverall, commuting times lengthened in all five cities, but the increase was far more dramatic in the two largest urban centres. Dhaka recorded the longest journeys in both years, whereas Rajshahi and Khulna remained relatively stable.\n\nIn Dhaka, the typical commute almost doubled, from 35 minutes in 2005 to 62 minutes in 2023, an extra 27 minutes. Chattogram experienced a considerable rise as well, with journey times growing from 28 to 45 minutes, a difference of 17 minutes.\n\nBy contrast, changes elsewhere were marginal. Khulna's average edged up from 20 to 26 minutes, and Rajshahi's from 18 to 22 minutes. Sylhet, which had the shortest commute in 2005 at 17 minutes, saw a rise of 8 minutes to 25 minutes and therefore overtook Rajshahi. By 2023, a Dhaka commuter spent more than twice as long travelling as someone in Khulna or Rajshahi, so the capital's congestion clearly stands apart from the other cities.",
+   "comment": "Excellent selection and comparison of key data with accurate calculations. The range of structures and vocabulary is wide and natural."
+  },
+  "language": [
+   {
+    "p": "one-way journey",
+    "m": "travel in a single direction"
+   },
+   {
+    "p": "lengthened",
+    "m": "became longer"
+   },
+   {
+    "p": "almost doubled",
+    "m": "rose to nearly twice"
+   },
+   {
+    "p": "changes were marginal",
+    "m": "differences were very small"
+   },
+   {
+    "p": "remained relatively stable",
+    "m": "stayed fairly constant"
+   },
+   {
+    "p": "overtook",
+    "m": "went above another city"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 11
+ },
+ {
+  "type": "line",
+  "title": "The line graph below shows the percentage of adults with diabetes in three age groups in Bangladesh between 2000 and 2020.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "percent of age group",
+  "data": {
+   "x": [
+    "2000",
+    "2005",
+    "2010",
+    "2015",
+    "2020"
+   ],
+   "series": [
+    {
+     "name": "Aged 20-39",
+     "values": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ]
+    },
+    {
+     "name": "Aged 40-59",
+     "values": [
+      8,
+      11,
+      14,
+      17,
+      20
+     ]
+    },
+    {
+     "name": "Aged 60 and over",
+     "values": [
+      12,
+      16,
+      20,
+      25,
+      27
+     ]
+    }
+   ]
+  },
+  "overview": "Diabetes became more common in every age group, and the older the group, the higher the rate throughout.",
+  "key_features": [
+   "All three groups rise over 20 years",
+   "Oldest group has the highest rate each year",
+   "Middle group shows the fastest growth"
+  ],
+  "band7": {
+   "answer": "The line graph shows the percentage of adults with diabetes in three age groups in Bangladesh over a twenty-year period from 2000 to 2020.\n\nOverall, the rate of diabetes rose in all three groups. The oldest group had the highest rate in every year, while the youngest group had the lowest, and the gap between the groups widened.\n\nAmong people aged 60 and over, the figure rose from 12 percent in 2000 to 16 percent in 2005 and 20 percent in 2010. It then reached 25 percent in 2015 and 27 percent in 2020, the highest value on the graph.\n\nThe 40 to 59 age group showed a similar upward trend, climbing from 8 percent to 11 percent, 14 percent and 17 percent, before reaching 20 percent in 2020. In contrast, the rate for those aged 20 to 39 grew only slightly, from 3 percent in 2000 to 7 percent in 2020, so it remained far below the other groups.",
+   "comment": "The overview is clear and the figures are used accurately. The writing would benefit from more calculated comparisons between the groups."
+  },
+  "band8": {
+   "answer": "The line graph compares the proportion of adults suffering from diabetes in three age categories in Bangladesh at five-year intervals from 2000 to 2020.\n\nOverall, prevalence increased in every category, and the likelihood of having diabetes was consistently higher among older people, with the differences between groups becoming more pronounced.\n\nThe oldest group, aged 60 and above, started at 12 percent and rose by 4 points every five years until 2010, when it hit 20 percent. Growth then eased to 5 points and finally 2 points, leaving the figure at 27 percent in 2020.\n\nThe middle group experienced the most dramatic proportional change, rising from 8 percent to 20 percent, a 2.5-fold increase, with an increase of 3 points in each interval. Meanwhile, the youngest group saw only a gradual climb of 1 point every five years, from 3 percent to 7 percent, and in 2020 its rate was less than a third of that of the over-60s. The 2020 gap between the oldest and youngest groups was 20 percentage points, compared with just 9 points in 2000, which shows how unevenly the burden has grown.",
+   "comment": "The calculations are accurate and give real analytical depth to the description. Complex sentences are controlled and the vocabulary is precise."
+  },
+  "language": [
+   {
+    "p": "prevalence",
+    "m": "how common something is"
+   },
+   {
+    "p": "more pronounced",
+    "m": "clearer, more obvious"
+   },
+   {
+    "p": "at five-year intervals",
+    "m": "regular data points"
+   },
+   {
+    "p": "a 2.5-fold increase",
+    "m": "growth to 2.5 times"
+   },
+   {
+    "p": "less than a third of",
+    "m": "under one third of"
+   },
+   {
+    "p": "eased to",
+    "m": "slowed to"
+   }
+  ],
+  "id": 12
+ },
+ {
+  "type": "bar",
+  "title": "The bar chart below shows the average number of hours per week that people in five age groups spent using smartphones and computers.",
+  "unit": "hours per week",
+  "data": {
+   "x": [
+    "10-17",
+    "18-24",
+    "25-34",
+    "35-49",
+    "50 and over"
+   ],
+   "series": [
+    {
+     "name": "Smartphone",
+     "values": [
+      14,
+      22,
+      19,
+      13,
+      8
+     ]
+    },
+    {
+     "name": "Computer",
+     "values": [
+      6,
+      11,
+      15,
+      10,
+      4
+     ]
+    }
+   ]
+  },
+  "overview": "Smartphones were used more than computers in every age group, with usage of both devices peaking among young adults.",
+  "key_features": [
+   "Smartphone higher in all groups",
+   "18-24 highest for phones (22)",
+   "Gap smallest at 25-34"
+  ],
+  "band7": {
+   "answer": "The bar chart compares the average weekly time spent on smartphones and computers by people in five age groups.\n\nOverall, smartphones were used for longer than computers in every age group. Usage of both devices was highest among young adults and lowest among people aged 50 and over.\n\nThe 18-24 group spent the most time on smartphones, at 22 hours per week, followed by the 25-34 group at 19 hours and the 10-17 group at 14 hours. Those aged 35-49 used phones for 13 hours, while the figure for the oldest group was only 8 hours.\n\nComputer use showed a similar pattern, but the numbers were lower. People aged 25-34 spent the longest on computers, at 15 hours, which was just 4 hours less than their smartphone use and the smallest gap among all groups. The 18-24 group followed with 11 hours, and those aged 35-49 used a computer for 10 hours. Computer use was much lower for the youngest group, at 6 hours, and the over-50s, at just 4 hours, which was half their smartphone time.",
+   "comment": "Accurate data, clear overview and logical grouping by device. A few more comparative structures would help reach Band 8."
+  },
+  "band8": {
+   "answer": "The bar chart illustrates how many hours per week people in five age brackets spent on smartphones and on computers.\n\nOverall, smartphones took up more time than computers for every age group, and both devices were used most heavily by young adults, with the oldest group spending the least time on each.\n\nSmartphone use peaked at 22 hours among 18 to 24 year olds, comfortably ahead of the 25-34 group on 19 hours. Teenagers aged 10 to 17 came next with 14 hours, marginally above the 35-49 group at 13 hours, while those aged 50 and over recorded just 8 hours.\n\nComputer use followed a similar trend at a lower level. Adults aged 25 to 34 spent the longest on computers, at 15 hours, which was only 4 hours below their smartphone use, the narrowest gap in the chart. The figures for the 18-24 and 35-49 groups were 11 and 10 hours respectively. The youngest and oldest groups used computers least, at 6 and 4 hours. For the over-50s, this was exactly half of their smartphone time.",
+   "comment": "Well-organised with precise comparisons and rankings. Controlled use of linking phrases and varied sentence openings supports a Band 8 score."
+  },
+  "language": [
+   {
+    "p": "took up more time than",
+    "m": "was used for longer than"
+   },
+   {
+    "p": "comfortably ahead of",
+    "m": "clearly higher than"
+   },
+   {
+    "p": "came next with",
+    "m": "was second with"
+   },
+   {
+    "p": "at a lower level",
+    "m": "with smaller numbers"
+   },
+   {
+    "p": "the narrowest gap",
+    "m": "the smallest difference"
+   },
+   {
+    "p": "respectively",
+    "m": "in the order given"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 13
+ },
+ {
+  "type": "pie",
+  "title": "The pie charts below show the main fuels used for cooking in Bangladeshi households in 2000 and 2020.",
+  "unit": "percent of households",
+  "data": {
+   "charts": [
+    {
+     "label": "2000",
+     "slices": [
+      {
+       "name": "Firewood and biomass",
+       "value": 62
+      },
+      {
+       "name": "Natural gas",
+       "value": 20
+      },
+      {
+       "name": "Kerosene",
+       "value": 10
+      },
+      {
+       "name": "LPG",
+       "value": 5
+      },
+      {
+       "name": "Electricity",
+       "value": 3
+      }
+     ]
+    },
+    {
+     "label": "2020",
+     "slices": [
+      {
+       "name": "Firewood and biomass",
+       "value": 38
+      },
+      {
+       "name": "LPG",
+       "value": 30
+      },
+      {
+       "name": "Natural gas",
+       "value": 24
+      },
+      {
+       "name": "Electricity",
+       "value": 6
+      },
+      {
+       "name": "Kerosene",
+       "value": 2
+      }
+     ]
+    }
+   ]
+  },
+  "overview": "Firewood and biomass declined sharply but stayed the largest source, while LPG grew from a tiny share to become the second most common fuel.",
+  "key_features": [
+   "Biomass falls from 62% to 38%",
+   "LPG rises from 5% to 30%",
+   "Kerosene almost disappears"
+  ],
+  "band7": {
+   "answer": "The two pie charts compare the fuels that Bangladeshi households used for cooking in 2000 and in 2020.\n\nOverall, firewood and biomass remained the most common fuel in both years, although its share fell considerably. The biggest change was the rapid growth of LPG, while kerosene became almost insignificant.\n\nIn 2000, firewood and biomass was used by 62 percent of households, which was far higher than any other fuel. Natural gas came second with 20 percent, followed by kerosene at 10 percent. LPG and electricity were used by only 5 percent and 3 percent of households respectively.\n\nBy 2020, the picture had changed noticeably. Firewood and biomass dropped to 38 percent, but it still led the chart. LPG rose dramatically from 5 percent to 30 percent, making it the second most popular fuel ahead of natural gas, which grew slightly to 24 percent. Electricity doubled to 6 percent, whereas kerosene fell from 10 percent to just 2 percent, so it was the least used fuel by the end of the period.",
+   "comment": "Accurate and well structured, with a clear overview. The paragraphing is effective, though more complex comparisons would raise the score."
+  },
+  "band8": {
+   "answer": "The pie charts illustrate the proportion of Bangladeshi households using five different cooking fuels in 2000 and 2020.\n\nOverall, traditional firewood and biomass was the leading fuel in both years despite a steep decline, while LPG showed the most remarkable growth. Kerosene, by contrast, all but disappeared from kitchens.\n\nIn 2000, almost two thirds of households, 62 percent, relied on firewood and biomass. Natural gas was the next most widely used fuel at 20 percent, and kerosene accounted for a further 10 percent. LPG and electricity were marginal, at 5 percent and 3 percent respectively.\n\nOver the twenty years, biomass lost 24 percentage points to stand at 38 percent. LPG, however, increased sixfold to 30 percent and overtook natural gas, which edged up from 20 to 24 percent. Electricity doubled its share to 6 percent, while kerosene collapsed from 10 percent to a mere 2 percent. Consequently, the gap between the leading fuel and the second most popular one narrowed from 42 to only 8 percentage points, indicating a clear move towards cleaner cooking.",
+   "comment": "Strong overview and precise, correctly calculated comparisons. A wide range of lexical and grammatical forms is used accurately."
+  },
+  "language": [
+   {
+    "p": "relied on",
+    "m": "depended on"
+   },
+   {
+    "p": "all but disappeared",
+    "m": "almost vanished completely"
+   },
+   {
+    "p": "increased sixfold",
+    "m": "became six times larger"
+   },
+   {
+    "p": "lost 24 percentage points",
+    "m": "fell by 24 points"
+   },
+   {
+    "p": "a mere",
+    "m": "only, emphasising smallness"
+   },
+   {
+    "p": "narrowed from ... to",
+    "m": "the gap became smaller"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 14
+ },
+ {
+  "type": "table",
+  "title": "The table below shows the average monthly household spending on six food categories by three types of household in Bangladesh.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "BDT per month",
+  "data": {
+   "columns": [
+    "Food category",
+    "Urban households",
+    "Rural households",
+    "Low-income households"
+   ],
+   "rows": [
+    [
+     "Rice and cereals",
+     2400,
+     2900,
+     3100
+    ],
+    [
+     "Vegetables",
+     1800,
+     1500,
+     1100
+    ],
+    [
+     "Fish and meat",
+     4200,
+     3100,
+     1600
+    ],
+    [
+     "Dairy and eggs",
+     1500,
+     800,
+     300
+    ],
+    [
+     "Cooking oil",
+     700,
+     650,
+     600
+    ],
+    [
+     "Fruit",
+     1200,
+     600,
+     200
+    ]
+   ]
+  },
+  "overview": "Urban households spent most on almost every category, but rice took the biggest share of low-income spending.",
+  "key_features": [
+   "Fish and meat is the largest urban cost",
+   "Rice rises as income falls",
+   "Fruit and dairy show the widest gaps"
+  ],
+  "band7": {
+   "answer": "The table compares how much urban, rural and low-income households in Bangladesh spend each month on six categories of food, with figures in BDT.\n\nOverall, urban households spent the most on most items, while low-income households spent the least on everything except rice. Fish and meat was the biggest expense for urban and rural households, but rice was the biggest for low-income households.\n\nUrban households spent 4,200 BDT on fish and meat and 2,400 BDT on rice, compared with 3,100 BDT and 2,900 BDT for rural households. Low-income households spent only 1,600 BDT on fish and meat but 3,100 BDT on rice, the highest figure for this item.\n\nThe differences were also large for fruit and dairy products. Urban households paid 1,200 BDT for fruit and 1,500 BDT for dairy and eggs, whereas low-income families paid just 200 BDT and 300 BDT. Spending on cooking oil was similar across all groups, ranging only from 600 to 700 BDT. Rice was the only item where low-income households spent more than urban households, at 3,100 BDT compared with 2,400 BDT.",
+   "comment": "The answer selects key features and uses accurate data. Adding more comparisons with ratios would raise the level of analysis."
+  },
+  "band8": {
+   "answer": "The table breaks down average monthly household expenditure on six food categories among urban, rural and low-income households in Bangladesh, in BDT.\n\nOverall, spending patterns shifted away from protein and fresh produce towards staple food as household circumstances became more limited, and cooking oil was the only item that showed little variation.\n\nFish and meat accounted for the highest expenditure among urban households, at 4,200 BDT, and rural households, at 3,100 BDT, whereas low-income families spent only 1,600 BDT, which was well below their 3,100 BDT on rice. Rice spending rose steadily from 2,400 BDT in urban homes to 2,900 BDT in rural homes.\n\nThe gaps were most striking for perishable items. Urban households spent six times as much on fruit as low-income households (1,200 BDT compared with 200 BDT) and five times as much on dairy and eggs (1,500 BDT against 300 BDT). Vegetables followed a similar but less extreme pattern, falling from 1,800 BDT to 1,100 BDT, while cooking oil stayed within a narrow range of 600 to 700 BDT.",
+   "comment": "The answer draws multiple accurate ratios and groups the information logically rather than listing figures. The overview captures the underlying pattern effectively."
+  },
+  "language": [
+   {
+    "p": "breaks down",
+    "m": "divides into parts"
+   },
+   {
+    "p": "expenditure",
+    "m": "money spent"
+   },
+   {
+    "p": "shifted away from",
+    "m": "changed from"
+   },
+   {
+    "p": "six times as much as",
+    "m": "six-fold comparison"
+   },
+   {
+    "p": "a narrow range",
+    "m": "small variation"
+   },
+   {
+    "p": "most striking",
+    "m": "most noticeable"
+   }
+  ],
+  "id": 15
+ },
+ {
+  "type": "bar",
+  "title": "The bar chart below shows the amount of rice eaten per person per year in five countries in 1990 and 2020.",
+  "unit": "kilograms per person per year",
+  "data": {
+   "x": [
+    "Bangladesh",
+    "Vietnam",
+    "India",
+    "Japan",
+    "USA"
+   ],
+   "series": [
+    {
+     "name": "1990",
+     "values": [
+      172,
+      150,
+      78,
+      66,
+      9
+     ]
+    },
+    {
+     "name": "2020",
+     "values": [
+      165,
+      120,
+      72,
+      48,
+      12
+     ]
+    }
+   ]
+  },
+  "overview": "Rice consumption was highest in Bangladesh and Vietnam and fell in four of the five countries, the USA being the exception.",
+  "key_features": [
+   "Bangladesh highest in both years",
+   "Vietnam and Japan fall most",
+   "USA tiny but rising"
+  ],
+  "band7": {
+   "answer": "The bar chart compares annual rice consumption per person in five countries in 1990 and 2020, measured in kilograms.\n\nOverall, rice consumption fell in four of the five countries over the period. The USA was the only country where it increased, although it remained very low. Bangladesh had the highest consumption in both years.\n\nIn 1990, Bangladeshis ate 172 kilograms of rice per person, the highest figure, followed by Vietnam at 150 kilograms. By 2020, Bangladesh had declined only slightly to 165 kilograms, whereas Vietnam fell more sharply to 120 kilograms.\n\nThe remaining three countries had much lower figures. India's consumption was 78 kilograms in 1990 and dropped slightly to 72 kilograms in 2020. In Japan, the figure went down from 66 to 48 kilograms, a fall of 18 kilograms. The USA had by far the lowest consumption, at only 9 kilograms in 1990. This was the only figure to rise, increasing to 12 kilograms in 2020, but it was still tiny compared with the Asian countries shown.",
+   "comment": "Clear overview and accurate figures, with a sensible grouping of countries. Comparisons are correct but fairly basic."
+  },
+  "band8": {
+   "answer": "The bar chart shows how much rice individuals consumed per year in five countries, comparing figures for 1990 and 2020, in kilograms per person.\n\nOverall, rice consumption declined in all countries except the USA, where it rose slightly from a very low base. Bangladesh recorded the highest level in both years.\n\nBangladesh and Vietnam were the heaviest consumers in 1990, at 172 and 150 kilograms respectively. By 2020, Bangladesh's figure had edged down to 165 kilograms, a drop of just 7 kilograms, whereas Vietnam's fell substantially to 120 kilograms, a decrease of 30 kilograms and the largest in absolute terms.\n\nConsumption in the other three countries was considerably lower. India's figure fell marginally from 78 to 72 kilograms, and Japan's declined from 66 to 48 kilograms, which was the biggest proportional fall. The USA was an outlier, with the lowest figure of just 9 kilograms in 1990, which grew to 12 kilograms by 2020. Even so, this was less than a tenth of the level recorded in Bangladesh in the final year.",
+   "comment": "Highly accurate with useful calculations of differences and a thoughtful overview. Natural, precise vocabulary and varied structures throughout."
+  },
+  "language": [
+   {
+    "p": "from a very low base",
+    "m": "starting from a small amount"
+   },
+   {
+    "p": "edged down to",
+    "m": "fell slightly to"
+   },
+   {
+    "p": "in absolute terms",
+    "m": "by actual amount, not percentage"
+   },
+   {
+    "p": "the biggest proportional fall",
+    "m": "largest drop relative to size"
+   },
+   {
+    "p": "was an outlier",
+    "m": "was different from the rest"
+   },
+   {
+    "p": "heaviest consumers",
+    "m": "people eating the most"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 16
+ },
+ {
+  "type": "pie",
+  "title": "The pie charts below show how the Bangladesh government divided its national budget among six areas of spending in 2005 and 2022.",
+  "unit": "percent of national budget",
+  "data": {
+   "charts": [
+    {
+     "label": "2005",
+     "slices": [
+      {
+       "name": "Education",
+       "value": 18
+      },
+      {
+       "name": "Health",
+       "value": 6
+      },
+      {
+       "name": "Defence",
+       "value": 12
+      },
+      {
+       "name": "Transport",
+       "value": 15
+      },
+      {
+       "name": "Agriculture",
+       "value": 14
+      },
+      {
+       "name": "Other",
+       "value": 35
+      }
+     ]
+    },
+    {
+     "label": "2022",
+     "slices": [
+      {
+       "name": "Education",
+       "value": 21
+      },
+      {
+       "name": "Health",
+       "value": 9
+      },
+      {
+       "name": "Defence",
+       "value": 9
+      },
+      {
+       "name": "Transport",
+       "value": 24
+      },
+      {
+       "name": "Agriculture",
+       "value": 10
+      },
+      {
+       "name": "Other",
+       "value": 27
+      }
+     ]
+    }
+   ]
+  },
+  "overview": "Transport and health gained a larger share of the budget, while defence, agriculture and other spending fell.",
+  "key_features": [
+   "Transport rises from 15% to 24%",
+   "Health grows by half",
+   "Other spending remains the largest single category but shrinks"
+  ],
+  "band7": {
+   "answer": "The two pie charts show how the government of Bangladesh allocated its national budget to six areas in 2005 and 2022.\n\nOverall, transport and health received a bigger share of the budget by 2022, whereas defence, agriculture and the miscellaneous category all lost ground. The \"other\" category was the largest slice in both years.\n\nIn 2005, 35 percent of the budget went to other items, followed by education at 18 percent and transport at 15 percent. Agriculture took 14 percent and defence 12 percent, while health received the smallest share, only 6 percent.\n\nBy 2022, transport had grown to 24 percent, which made it the biggest named category and close to the \"other\" segment, which fell to 27 percent. Education also rose, though only slightly, to 21 percent. Health increased from 6 percent to 9 percent, but it was still level with defence and below the other main sectors. Defence dropped from 12 percent to 9 percent, and agriculture decreased from 14 percent to 10 percent, so both were given less priority than before.",
+   "comment": "Clear and accurate with a suitable overview. The writing could be improved by using more varied ways to express change."
+  },
+  "band8": {
+   "answer": "The pie charts compare the percentage of the national budget that Bangladesh devoted to six categories of spending in 2005 and 2022.\n\nOverall, transport and health received a noticeably larger share in 2022, while defence and agriculture were allocated less. Although the \"other\" category shrank, it still accounted for the largest portion of the budget in both years.\n\nIn 2005, miscellaneous items took 35 percent, well ahead of education at 18 percent and transport at 15 percent. Agriculture and defence followed with 14 percent and 12 percent respectively, whereas health was a distant last on just 6 percent.\n\nPriorities shifted markedly by 2022. Transport spending rose by 9 percentage points to 24 percent, nearly matching the \"other\" category, which declined to 27 percent. Health expanded by half, reaching 9 percent, and education crept up from 18 to 21 percent. Conversely, defence fell by 3 points to 9 percent, equal to health, and agriculture dropped by 4 points to 10 percent, so both sectors received a smaller share than they had in 2005.",
+   "comment": "Accurate, selective reporting and calculated differences give a convincing answer. The language is flexible and cohesive."
+  },
+  "language": [
+   {
+    "p": "was allocated",
+    "m": "was given a share"
+   },
+   {
+    "p": "devoted to",
+    "m": "spent on"
+   },
+   {
+    "p": "well ahead of",
+    "m": "much larger than"
+   },
+   {
+    "p": "a distant last",
+    "m": "far below all others"
+   },
+   {
+    "p": "crept up",
+    "m": "rose slowly"
+   },
+   {
+    "p": "nearly matching",
+    "m": "almost equal to"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 17
+ },
+ {
+  "type": "table",
+  "title": "The table below shows the number of students enrolled in five subject areas at universities in Bangladesh in 2010 and 2020, and the percentage change.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "thousand students",
+  "data": {
+   "columns": [
+    "Subject area",
+    "2010 (thousand)",
+    "2020 (thousand)",
+    "Change (%)"
+   ],
+   "rows": [
+    [
+     "Business",
+     200,
+     320,
+     60
+    ],
+    [
+     "Engineering",
+     100,
+     150,
+     50
+    ],
+    [
+     "Medicine",
+     40,
+     60,
+     50
+    ],
+    [
+     "Humanities",
+     250,
+     200,
+     -20
+    ],
+    [
+     "Science",
+     120,
+     180,
+     50
+    ]
+   ]
+  },
+  "overview": "Enrolment grew in every subject except humanities, with business showing the largest increase.",
+  "key_features": [
+   "Business grows 60%",
+   "Humanities is the only fall",
+   "Three subjects each rise by 50%"
+  ],
+  "band7": {
+   "answer": "The table shows how many students were enrolled in five subject areas at Bangladeshi universities in 2010 and 2020, in thousands, together with the percentage change.\n\nOverall, enrolment rose in four of the five subjects, with business recording the biggest increase. Humanities was the only subject to decline, although it still had a large number of students in 2020.\n\nIn 2010, humanities was the most popular subject with 250,000 students, followed by business with 200,000. By 2020, however, business had overtaken humanities, with 320,000 students, a rise of 60 percent, while humanities had dropped by 20 percent to 200,000.\n\nEngineering, medicine and science each grew by 50 percent. Engineering enrolment increased from 100,000 to 150,000 and science from 120,000 to 180,000. Medicine remained the smallest subject area, with an increase from 40,000 to 60,000 students. In total, enrolment across the five subjects rose from 710,000 students in 2010 to 910,000 in 2020, an increase of around 28 percent. This suggests that growth in the other fields more than offset the fall in humanities.",
+   "comment": "The answer reports the main changes and uses figures correctly. Adding more varied sentence structures would strengthen the response."
+  },
+  "band8": {
+   "answer": "The table presents university enrolment figures, in thousands, for five subject areas in Bangladesh in 2010 and 2020, along with the percentage change over the decade.\n\nOverall, four subjects expanded, led by business, while humanities experienced a decline that cost it its position as the most popular field of study.\n\nHumanities attracted 250,000 students in 2010, ahead of business on 200,000. A decade later, these positions were reversed: business enrolment rose by 60 percent to 320,000, the largest gain in the table, whereas humanities fell by a fifth to 200,000.\n\nThe remaining three subjects shared an identical growth rate of 50 percent. Science rose from 120,000 to 180,000 and engineering from 100,000 to 150,000, while medicine, the smallest field in both years, grew from 40,000 to 60,000. Consequently, business enrolment in 2020 was more than five times that of medicine. Overall enrolment across the five subjects rose from 710,000 to 910,000, an increase of about 28 percent. Notably, the combined gain of 250,000 students in business, engineering, medicine and science far outweighed the loss of 50,000 in humanities.",
+   "comment": "The answer highlights the reversal in ranking and groups the identical growth rates efficiently. Calculations are accurate and expression is precise."
+  },
+  "language": [
+   {
+    "p": "along with",
+    "m": "together with"
+   },
+   {
+    "p": "over the decade",
+    "m": "across ten years"
+   },
+   {
+    "p": "these positions were reversed",
+    "m": "ranking switched"
+   },
+   {
+    "p": "fell by a fifth",
+    "m": "dropped by 20 percent"
+   },
+   {
+    "p": "an identical growth rate",
+    "m": "the same rate of rise"
+   },
+   {
+    "p": "led by",
+    "m": "with the largest contribution from"
+   }
+  ],
+  "id": 18
+ },
+ {
+  "type": "bar",
+  "title": "The bar chart below shows the average monthly spending of urban households in two cities on five categories in 2023.",
+  "unit": "thousand BDT per month",
+  "data": {
+   "x": [
+    "Housing",
+    "Food",
+    "Transport",
+    "Education",
+    "Health"
+   ],
+   "series": [
+    {
+     "name": "Dhaka",
+     "values": [
+      22,
+      16,
+      6,
+      5,
+      3
+     ]
+    },
+    {
+     "name": "Rajshahi",
+     "values": [
+      12,
+      13,
+      3,
+      3,
+      2
+     ]
+    }
+   ]
+  },
+  "overview": "Dhaka households spent more than Rajshahi households in every category, with housing the largest expense in both cities.",
+  "key_features": [
+   "Housing largest in both cities",
+   "Dhaka higher in all five",
+   "Housing gap biggest (22 vs 12)"
+  ],
+  "band7": {
+   "answer": "The bar chart compares how much urban households in Dhaka and Rajshahi spent each month on five categories in 2023, in thousand taka.\n\nOverall, households in Dhaka spent more than those in Rajshahi in every category. Housing was the biggest expense in both cities, followed by food, while health took the smallest share.\n\nHousing costs were the most significant item for both groups. Dhaka families paid 22 thousand taka a month, which was almost double the 12 thousand paid in Rajshahi. Food was the second largest cost, at 16 thousand taka in Dhaka and 13 thousand in Rajshahi. The difference here was much smaller, at only 3 thousand.\n\nSpending on the other three categories was considerably lower. Transport cost Dhaka households 6 thousand taka, twice as much as the 3 thousand spent in Rajshahi. Education accounted for 5 thousand in Dhaka and 3 thousand in Rajshahi. Finally, health was the lowest expense in both cities, at 3 thousand in Dhaka and just 2 thousand in Rajshahi.",
+   "comment": "Accurate figures with a clear structure that groups major and minor items. Comparisons could use more varied language."
+  },
+  "band8": {
+   "answer": "The bar chart illustrates average monthly household expenditure on five categories in Dhaka and Rajshahi in 2023, expressed in thousand taka.\n\nOverall, Dhaka households outspent their Rajshahi counterparts in every category, and housing was the largest cost in both cities, while health spending was the lowest.\n\nThe greatest disparity appeared in housing, where Dhaka residents paid 22 thousand taka, nearly twice the Rajshahi figure of 12 thousand. Food ranked second in both cities, though the gap was much narrower, with 16 thousand spent in Dhaka against 13 thousand in Rajshahi.\n\nThe remaining categories accounted for far smaller sums of money in both cities. Transport spending in Dhaka was 6 thousand, exactly double Rajshahi's 3 thousand, while education cost 5 thousand in the capital compared with 3 thousand in Rajshahi. Health was the smallest outlay in both places, at 3 thousand and 2 thousand respectively. Taken together, housing and food made up 38 thousand of Dhaka's total spending of 52 thousand, compared with 25 thousand out of 33 thousand in Rajshahi.",
+   "comment": "Sharp overview, accurate calculations and effective use of ranking and ratio language. The summarising final sentence adds analytical depth."
+  },
+  "language": [
+   {
+    "p": "outspent",
+    "m": "spent more than"
+   },
+   {
+    "p": "counterparts",
+    "m": "equivalent people in another place"
+   },
+   {
+    "p": "the greatest disparity",
+    "m": "the biggest difference"
+   },
+   {
+    "p": "ranked second",
+    "m": "was the second highest"
+   },
+   {
+    "p": "accounted for",
+    "m": "made up"
+   },
+   {
+    "p": "taken together",
+    "m": "when combined"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 19
+ },
+ {
+  "type": "table",
+  "title": "The table below shows the value of four main export products from Bangladesh in 2010, 2015, 2020 and 2023.",
+  "unit": "million US dollars",
+  "data": {
+   "columns": [
+    "Product",
+    "2010",
+    "2015",
+    "2020",
+    "2023"
+   ],
+   "rows": [
+    [
+     "Garments",
+     12000,
+     20000,
+     28000,
+     38000
+    ],
+    [
+     "Leather goods",
+     400,
+     600,
+     700,
+     1100
+    ],
+    [
+     "Jute products",
+     800,
+     900,
+     1000,
+     1200
+    ],
+    [
+     "Frozen food",
+     450,
+     600,
+     450,
+     500
+    ]
+   ]
+  },
+  "overview": "Garments dominated exports and grew steadily, while the other three products remained small and changed far less.",
+  "key_features": [
+   "Garments rise threefold",
+   "Frozen food fluctuates",
+   "Leather and jute grow modestly"
+  ],
+  "band7": {
+   "answer": "The table compares the value of four export products from Bangladesh in four different years between 2010 and 2023, measured in millions of US dollars.\n\nOverall, garments were by far the most valuable export throughout the period, and their value increased steadily. The other three products earned much smaller amounts, and only frozen food did not show a consistent upward trend.\n\nGarment exports were worth 12,000 million dollars in 2010 and rose at each stage, reaching 20,000 million in 2015, 28,000 million in 2020 and 38,000 million in 2023. This means that the figure more than tripled over the period.\n\nLeather goods grew from 400 million dollars to 1,100 million, with the strongest rise occurring between 2020 and 2023. Jute products increased gradually from 800 million to 1,200 million. By contrast, frozen food fluctuated, starting at 450 million, rising to 600 million in 2015, falling back to 450 million in 2020 and finishing at 500 million in 2023. In the final year, jute was the second most valuable product.",
+   "comment": "Accurate selection of data with a clear overview. More precise comparative language would help reach a higher band."
+  },
+  "band8": {
+   "answer": "The table presents the value of four of Bangladesh's export products in 2010, 2015, 2020 and 2023, in millions of US dollars.\n\nOverall, garments overwhelmingly dominated exports and rose consistently, whereas the other three products stayed comparatively small. Frozen food was the only product whose earnings failed to grow steadily.\n\nGarment exports climbed from 12,000 million dollars in 2010 to 38,000 million in 2023, a more than threefold increase. The rise was steady, with 8,000 million dollars added in each of the first two intervals and a further 10,000 million between 2020 and 2023. Even in 2010, garments were worth about 15 times as much as jute, the next largest category.\n\nAmong the smaller products, leather goods tripled from 400 million to 1,100 million dollars, with most of the growth after 2020, while jute products grew more gradually from 800 million to 1,200 million. Frozen food fluctuated within a narrow range, peaking at 600 million in 2015, dipping to 450 million in 2020 and recovering slightly to 500 million in 2023, which left it well below leather goods and jute.",
+   "comment": "Precise data, good calculations and an effective overview. Vocabulary and sentence structures are varied and accurate."
+  },
+  "language": [
+   {
+    "p": "by far the most valuable",
+    "m": "much greater than all others"
+   },
+   {
+    "p": "more than tripled",
+    "m": "rose over three times"
+   },
+   {
+    "p": "fluctuated within a narrow range",
+    "m": "varied only slightly"
+   },
+   {
+    "p": "peaking at",
+    "m": "reaching the highest point"
+   },
+   {
+    "p": "dipping to",
+    "m": "falling slightly to"
+   },
+   {
+    "p": "overwhelmingly dominated",
+    "m": "was far larger than the rest"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 20
+ },
+ {
+  "type": "process",
+  "title": "The diagram below shows the stages in the process of turning jute plants into sacks in Bangladesh.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "stages",
+  "data": {
+   "steps": [
+    "Jute plants harvested",
+    "Bundles soaked in water (retting)",
+    "Fibres stripped and washed",
+    "Fibres dried in the sun",
+    "Fibres graded and baled",
+    "Fibres softened and spun into yarn",
+    "Yarn woven into cloth",
+    "Cloth cut and sewn into sacks"
+   ],
+   "note": "Traditional jute processing from field to finished product."
+  },
+  "overview": "The process has eight stages, beginning with harvesting in the field and ending with sewing the finished sacks in a factory.",
+  "key_features": [
+   "Eight linear stages",
+   "Water soaking comes before fibre extraction",
+   "Factory stages follow field stages"
+  ],
+  "band7": {
+   "answer": "The diagram illustrates how jute plants are turned into sacks in Bangladesh, and there are eight stages in total.\n\nOverall, the process begins with the harvesting of the plants in the field and ends with the production of finished sacks, and it moves from natural preparation to factory manufacturing.\n\nFirst, the jute plants are harvested, and the stems are tied into bundles. These bundles are then soaked in water, which is known as retting, so that the fibres loosen. After that, the fibres are stripped from the stems and washed, and they are dried in the sun.\n\nOnce dry, the fibres are graded according to quality and packed into bales. Next, they are softened and spun into yarn. The yarn is then woven into cloth on looms. Finally, the cloth is cut into the required size and sewn into sacks. In this way, the plant material is gradually changed from a raw crop into a strong, usable product. The early stages take place in the countryside, whereas the later ones are carried out in a mill or factory.",
+   "comment": "The stages are described in the correct order with suitable sequencing words and passive forms. A little more precise vocabulary would improve the answer."
+  },
+  "band8": {
+   "answer": "The diagram shows the eight-stage process by which jute plants are converted into sacks.\n\nOverall, production begins in the field with harvesting and finishes in a factory with sewing, and the earlier stages deal with the raw plant while the later stages deal with the fibre and cloth.\n\nInitially, mature jute plants are harvested and bundled. The bundles are submerged in water in a process called retting, after which the fibres are stripped from the stems and thoroughly washed. Subsequently, they are laid out to dry in the sun.\n\nOnce dried, the fibres are sorted by grade and compressed into bales for transport. At the mill, they are softened and spun into yarn, which is then woven into strong cloth. In the final stage, the cloth is cut to size and stitched together to form sacks. The sequence therefore divides into two broad phases. The first four stages prepare the fibre using water and sunlight, while the last four involve manufacturing, in which the fibre is graded, spun, woven and finally made into sacks. Notably, no stage is repeated or runs in parallel.",
+   "comment": "A wide range of sequencing devices and accurate passive forms are used, and the overview groups the stages sensibly. Vocabulary such as submerged and compressed adds precision."
+  },
+  "language": [
+   {
+    "p": "is then woven into",
+    "m": "passive sequencing step"
+   },
+   {
+    "p": "Once dry,",
+    "m": "time clause linking stages"
+   },
+   {
+    "p": "Subsequently,",
+    "m": "afterwards, formal"
+   },
+   {
+    "p": "in the final stage",
+    "m": "describes the last step"
+   },
+   {
+    "p": "is known as",
+    "m": "introduces a term"
+   },
+   {
+    "p": "is converted into",
+    "m": "changed into another form"
+   }
+  ],
+  "id": 21
+ },
+ {
+  "type": "pie",
+  "title": "The pie charts below show the sources of a country's electricity in 2000 and in 2020.",
+  "unit": "percent",
+  "data": {
+   "charts": [
+    {
+     "label": "2000",
+     "slices": [
+      {
+       "name": "Natural gas",
+       "value": 70
+      },
+      {
+       "name": "Oil",
+       "value": 15
+      },
+      {
+       "name": "Coal",
+       "value": 5
+      },
+      {
+       "name": "Hydropower",
+       "value": 5
+      },
+      {
+       "name": "Other",
+       "value": 5
+      }
+     ]
+    },
+    {
+     "label": "2020",
+     "slices": [
+      {
+       "name": "Natural gas",
+       "value": 50
+      },
+      {
+       "name": "Oil",
+       "value": 12
+      },
+      {
+       "name": "Coal",
+       "value": 20
+      },
+      {
+       "name": "Hydropower",
+       "value": 2
+      },
+      {
+       "name": "Solar and other",
+       "value": 16
+      }
+     ]
+    }
+   ]
+  },
+  "overview": "Natural gas remained the main source but lost share, while coal and solar and other sources grew significantly.",
+  "key_features": [
+   "Gas falls from 70 to 50 per cent",
+   "Coal quadruples to 20 per cent",
+   "Hydropower becomes tiny"
+  ],
+  "band7": {
+   "answer": "The pie charts compare the sources of electricity in a country in 2000 and 2020, in percentages.\n\nOverall, natural gas was the main source in both years, although its share decreased considerably. Coal and solar and other sources grew in importance, while oil and hydropower became less significant.\n\nIn 2000, natural gas supplied 70 per cent of electricity, far more than oil at 15 per cent. Coal, hydropower and other sources each provided just 5 per cent. By 2020, gas had fallen to 50 per cent, which was still the largest share, but it was now only half of the total.\n\nThe biggest change occurred in coal, which rose from 5 per cent to 20 per cent, making it the second largest source. Solar and other sources also expanded, from 5 per cent to 16 per cent. In contrast, oil declined slightly to 12 per cent, and hydropower fell from 5 per cent to only 2 per cent, the smallest contribution in 2020.",
+   "comment": "Accurate with a clear overview and sensible grouping of rising and falling sources. Language is correct but somewhat repetitive."
+  },
+  "band8": {
+   "answer": "The two pie charts illustrate the proportion of a country's electricity generated from five sources in 2000 and 2020.\n\nOverall, natural gas continued to be the dominant source, though its share fell sharply, whereas coal and solar and other renewables gained ground at the expense of oil and hydropower.\n\nIn 2000, gas accounted for 70 per cent of electricity, a share almost five times that of oil, the next largest source at 15 per cent. Coal, hydropower and other sources each contributed an identical 5 per cent. By 2020, the gas share had dropped by 20 percentage points to 50 per cent, yet it still made up half of all generation.\n\nCoal showed the most striking growth, quadrupling from 5 to 20 per cent and overtaking oil to become the second most important source. Solar and other sources also rose significantly, from 5 to 16 per cent. Conversely, oil edged down to 12 per cent, while hydropower declined from 5 to merely 2 per cent, making it the smallest category in the later year.",
+   "comment": "Precise percentages and calculated changes, with a strong overview and good linking. Varied vocabulary for proportion and change."
+  },
+  "language": [
+   {
+    "p": "accounted for",
+    "m": "made up a share of"
+   },
+   {
+    "p": "gained ground",
+    "m": "became more important"
+   },
+   {
+    "p": "at the expense of",
+    "m": "while reducing"
+   },
+   {
+    "p": "percentage points",
+    "m": "unit for change between percentages"
+   },
+   {
+    "p": "quadrupling",
+    "m": "becoming four times larger"
+   },
+   {
+    "p": "conversely",
+    "m": "in the opposite way"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 22
+ },
+ {
+  "type": "table",
+  "title": "The table below shows the average number of hours per week that students in three countries spent on four activities in 2023.",
+  "unit": "hours per week",
+  "data": {
+   "columns": [
+    "Activity",
+    "Bangladesh",
+    "Japan",
+    "Canada"
+   ],
+   "rows": [
+    [
+     "Study",
+     24,
+     18,
+     16
+    ],
+    [
+     "Paid work",
+     6,
+     9,
+     14
+    ],
+    [
+     "Social media",
+     15,
+     11,
+     13
+    ],
+    [
+     "Exercise",
+     3,
+     5,
+     6
+    ]
+   ]
+  },
+  "overview": "Bangladeshi students spent most time studying and least time working or exercising, while Canadian students did the opposite.",
+  "key_features": [
+   "Study highest in Bangladesh",
+   "Paid work highest in Canada",
+   "Exercise lowest everywhere"
+  ],
+  "band7": {
+   "answer": "The table compares how many hours per week students in Bangladesh, Japan and Canada spent on four activities in 2023.\n\nOverall, Bangladeshi students spent the most time studying and the least time on paid work and exercise. Canadian students showed the opposite pattern, and exercise was the least time-consuming activity in all three countries.\n\nStudy took up 24 hours a week in Bangladesh, which was higher than the figures for Japan, at 18 hours, and Canada, at 16 hours. Social media use followed a similar pattern, with Bangladeshi students spending 15 hours, compared with 11 hours in Japan and 13 hours in Canada.\n\nIn contrast, paid work was most common in Canada, where students worked for 14 hours a week. Japanese students worked for 9 hours, and Bangladeshi students only 6 hours. Exercise was also highest in Canada, at 6 hours, followed by Japan on 5 hours and Bangladesh on just 3 hours. It is noticeable that Bangladeshi students spent eight times as long on study as on exercise, while the Canadian figures were much more balanced.",
+   "comment": "Accurate and clearly organised, with good use of comparison. Language is correct but less sophisticated than band 8."
+  },
+  "band8": {
+   "answer": "The table shows the average weekly time that students in Bangladesh, Japan and Canada devoted to four activities in 2023.\n\nOverall, students in Bangladesh were the most academically focused, studying longer and working and exercising less than their peers abroad, whereas Canadian students divided their time more evenly. Exercise received the fewest hours in every country.\n\nBangladeshi students studied for 24 hours a week, which was 6 hours more than Japanese students at 18 hours and 8 hours more than their Canadian counterparts at 16 hours. They also spent the longest on social media, at 15 hours, compared with 13 hours in Canada and 11 hours in Japan.\n\nThe pattern reversed for paid work and exercise. Canadian students worked for 14 hours, more than double the 6 hours recorded in Bangladesh, with Japan in between at 9 hours. Likewise, Canadians took 6 hours of exercise, twice the Bangladeshi figure of 3 hours, while Japanese students managed 5 hours. Consequently, Canadian students spent only 2 hours more on study than on paid work.",
+   "comment": "Comparisons are precise and the calculated figures are correct. The overview and cohesion are strong throughout."
+  },
+  "language": [
+   {
+    "p": "devoted to",
+    "m": "spent on"
+   },
+   {
+    "p": "their counterparts",
+    "m": "similar students elsewhere"
+   },
+   {
+    "p": "the pattern reversed",
+    "m": "the trend was opposite"
+   },
+   {
+    "p": "more than double",
+    "m": "over twice as much"
+   },
+   {
+    "p": "in between",
+    "m": "at a middle level"
+   },
+   {
+    "p": "divided their time evenly",
+    "m": "gave equal time to tasks"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 23
+ },
+ {
+  "type": "process",
+  "title": "The diagram below shows how rainwater is collected and made safe for household use.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "stages",
+  "data": {
+   "steps": [
+    "Rain falls on the roof",
+    "Gutters collect the water",
+    "Debris filter removes leaves",
+    "Water stored in a tank",
+    "Water passed through sand and charcoal",
+    "Chlorine added to disinfect",
+    "Water pumped to household taps"
+   ],
+   "note": "A simple household rainwater harvesting system."
+  },
+  "overview": "Rainwater passes through seven stages from roof collection to household taps, with filtering and disinfection before use.",
+  "key_features": [
+   "Seven stages in one direction",
+   "Two cleaning steps before use",
+   "Storage comes before treatment"
+  ],
+  "band7": {
+   "answer": "The diagram shows how rainwater is collected and treated so that it can be used safely in the home. There are seven stages in this process.\n\nOverall, the water is gathered from the roof, stored and cleaned, and then supplied to the household taps.\n\nFirst, rain falls onto the roof of the building. The water then runs into gutters, which collect it. Next, it passes through a filter that removes debris such as leaves, and the clean water is stored in a tank.\n\nAfter storage, the water is treated in two stages. It is first passed through layers of sand and charcoal, which remove smaller particles. Chlorine is then added to disinfect it. In the final stage, the treated water is pumped to the taps in the household, where it is ready for use. Thus, the water passes through three treatment steps, namely debris filtering, sand and charcoal filtering and chlorination, before it reaches the household. The tank separates the collection and rough filtering stages from the final cleaning stages.",
+   "comment": "The answer follows the order of the stages and uses the passive voice well. It could include more specific linking between stages."
+  },
+  "band8": {
+   "answer": "The diagram illustrates a seven-stage system for harvesting rainwater and making it safe for household use.\n\nOverall, water is captured at roof level, held in storage, purified in two steps and finally delivered to the taps by a pump.\n\nThe process begins when rain falls onto the roof, from where it is channelled into gutters. The collected water then flows through a debris filter, which prevents leaves and other large material from entering the system, and it is subsequently kept in a storage tank.\n\nPurification takes place after storage. Initially, the water is filtered through sand and charcoal to remove fine impurities, and chlorine is then added to kill any remaining bacteria. Finally, the disinfected water is pumped to the household taps for everyday use. It is worth noting that the water is cleaned at three separate points: a debris filter removes large material, sand and charcoal remove fine particles, and chlorine deals with bacteria. Because the tank sits between the rough filtering and the final treatment, the water can be stored before it is purified. Overall, the process is entirely linear, with no stage repeated.",
+   "comment": "Precise verbs such as channelled and purified give the answer a natural, technical tone. The overview clearly separates collection, storage, treatment and delivery."
+  },
+  "language": [
+   {
+    "p": "from where",
+    "m": "relative phrase linking stages"
+   },
+   {
+    "p": "is channelled into",
+    "m": "directed into"
+   },
+   {
+    "p": "takes place after",
+    "m": "happens later than"
+   },
+   {
+    "p": "Initially,",
+    "m": "at the start of a step"
+   },
+   {
+    "p": "to kill any remaining",
+    "m": "removes what is left"
+   },
+   {
+    "p": "for everyday use",
+    "m": "normal daily purpose"
+   }
+  ],
+  "id": 24
+ },
+ {
+  "type": "pie",
+  "title": "The pie charts below show the age structure of the population of a country in 2000 and the projected age structure for 2050.",
+  "unit": "percent of population",
+  "data": {
+   "charts": [
+    {
+     "label": "2000",
+     "slices": [
+      {
+       "name": "0-14",
+       "value": 36
+      },
+      {
+       "name": "15-29",
+       "value": 29
+      },
+      {
+       "name": "30-44",
+       "value": 18
+      },
+      {
+       "name": "45-59",
+       "value": 10
+      },
+      {
+       "name": "60 and over",
+       "value": 7
+      }
+     ]
+    },
+    {
+     "label": "2050 (projected)",
+     "slices": [
+      {
+       "name": "0-14",
+       "value": 22
+      },
+      {
+       "name": "15-29",
+       "value": 23
+      },
+      {
+       "name": "30-44",
+       "value": 21
+      },
+      {
+       "name": "45-59",
+       "value": 18
+      },
+      {
+       "name": "60 and over",
+       "value": 16
+      }
+     ]
+    }
+   ]
+  },
+  "overview": "The population is expected to become much older, with the youngest groups shrinking and the oldest groups growing.",
+  "key_features": [
+   "0-14 falls from 36 to 22",
+   "60+ more than doubles",
+   "Distribution becomes more even"
+  ],
+  "band7": {
+   "answer": "The pie charts show the proportion of people in five age groups in a country in 2000, together with a projection for 2050.\n\nOverall, the population is expected to age significantly. The shares of children and young adults are forecast to fall, while those of middle-aged and older people will rise. The distribution will also become more balanced.\n\nIn 2000, the youngest group, aged 0-14, made up the largest share of the population at 36 per cent, followed by the 15-29 group at 29 per cent. The 30-44 group accounted for 18 per cent, while the 45-59 and over-60 groups were much smaller, at 10 and 7 per cent respectively.\n\nBy 2050, the 0-14 share is projected to drop to 22 per cent, and the 15-29 share to 23 per cent, which would make them almost equal to the 30-44 group at 21 per cent. The biggest increases are predicted among older people. The 45-59 group is expected to reach 18 per cent, and the over-60 group is forecast to more than double to 16 per cent.",
+   "comment": "Good use of future forms for the projection and accurate figures. The overview is clear, though phrasing is occasionally repetitive."
+  },
+  "band8": {
+   "answer": "The pie charts compare the age composition of a country's population in 2000 with the projected composition in 2050, divided into five age groups.\n\nOverall, the population is expected to age markedly, with the proportion of younger people declining and the share of those aged 45 and above rising, resulting in a much more even spread across all groups.\n\nIn 2000, children aged 0-14 constituted the largest group at 36 per cent, with those aged 15-29 not far behind on 29 per cent. The 30-44 group made up 18 per cent, whereas the two oldest groups were comparatively small, at 10 per cent for ages 45-59 and only 7 per cent for those aged 60 and over.\n\nBy 2050, the share of children is projected to fall by 14 percentage points to 22 per cent, and the 15-29 group is expected to decrease to 23 per cent, so that every group will account for between 16 and 23 per cent. The 30-44 group will rise slightly to 21 per cent, while the 45-59 group is forecast to climb to 18 per cent. Most strikingly, the oldest group is predicted to more than double to 16 per cent.",
+   "comment": "Excellent handling of projection language and calculated differences, with a perceptive overview about the more even spread. Complex sentences are used accurately."
+  },
+  "language": [
+   {
+    "p": "is projected to",
+    "m": "is predicted to in future"
+   },
+   {
+    "p": "age markedly",
+    "m": "get clearly older as a group"
+   },
+   {
+    "p": "not far behind on",
+    "m": "close to the leader with"
+   },
+   {
+    "p": "is forecast to",
+    "m": "experts expect it to"
+   },
+   {
+    "p": "a more even spread",
+    "m": "less difference between groups"
+   },
+   {
+    "p": "most strikingly",
+    "m": "the most noticeable point is"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 25
+ },
+ {
+  "type": "table",
+  "title": "The table below shows the percentage of adults in Bangladesh with diabetes in four age groups in 2000, 2010 and 2020.",
+  "unit": "percent of age group",
+  "data": {
+   "columns": [
+    "Age group",
+    "2000",
+    "2010",
+    "2020"
+   ],
+   "rows": [
+    [
+     "20-29",
+     2,
+     4,
+     7
+    ],
+    [
+     "30-44",
+     5,
+     9,
+     14
+    ],
+    [
+     "45-59",
+     9,
+     15,
+     22
+    ],
+    [
+     "60 and over",
+     11,
+     18,
+     25
+    ]
+   ]
+  },
+  "overview": "Diabetes became more common in every age group, and the oldest groups were consistently the most affected.",
+  "key_features": [
+   "All groups rise",
+   "60+ highest in every year",
+   "20-29 group more than triples"
+  ],
+  "band7": {
+   "answer": "The table gives information about the proportion of adults with diabetes in four age groups in Bangladesh in 2000, 2010 and 2020.\n\nOverall, the percentage of people with diabetes increased in every age group over the twenty years. Older adults were always more likely to have the disease than younger adults, and the group aged 60 and over had the highest rates.\n\nIn 2000, only 2 percent of people aged 20-29 had diabetes, compared with 5 percent of those aged 30-44. The figures for the two older groups were higher, at 9 percent for the 45-59 group and 11 percent for those aged 60 and over. Ten years later, all rates had gone up, to 4 percent, 9 percent, 15 percent and 18 percent respectively.\n\nBy 2020, the youngest group reached 7 percent, which was more than three times the 2000 figure. The 30-44 group climbed to 14 percent, and the 45-59 group to 22 percent. The oldest group recorded the highest figure of all, at 25 percent, meaning that one in four people aged 60 and over had diabetes by the end of the period.",
+   "comment": "Clear overview and accurate use of the table data. Development is good, although the vocabulary for change is fairly repeated."
+  },
+  "band8": {
+   "answer": "The table shows the percentage of Bangladeshi adults living with diabetes in four age brackets in 2000, 2010 and 2020.\n\nOverall, the prevalence of diabetes rose steadily in every age bracket, and the likelihood of having the condition increased with age throughout the period. The oldest group was the most affected in all three years.\n\nIn 2000, rates ranged from 2 percent among 20 to 29 year olds to 11 percent among those aged 60 and over, with 5 percent and 9 percent recorded for the 30-44 and 45-59 groups respectively. By 2010, these figures had climbed to 4, 9, 15 and 18 percent in turn.\n\nThe upward trend continued into 2020. The youngest group more than tripled its 2000 rate, reaching 7 percent, while the 30-44 group rose to 14 percent. The 45-59 group recorded 22 percent, a 13-point increase on 2000, and the 60 and over group peaked at 25 percent, a rise of 14 points. Overall, the gap between the youngest and oldest groups widened from 9 to 18 percentage points.",
+   "comment": "Precise, well-calculated data and an effective overview. The control of grammar and vocabulary is high."
+  },
+  "language": [
+   {
+    "p": "the prevalence of",
+    "m": "how common something is"
+   },
+   {
+    "p": "ranged from ... to",
+    "m": "varied between two values"
+   },
+   {
+    "p": "in turn",
+    "m": "in the same order"
+   },
+   {
+    "p": "more than tripled",
+    "m": "rose over three times"
+   },
+   {
+    "p": "peaked at",
+    "m": "reached the highest level"
+   },
+   {
+    "p": "the gap widened",
+    "m": "the difference became larger"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 26
+ },
+ {
+  "type": "process",
+  "title": "The diagram below shows how biogas is produced from cow dung in a village household in Bangladesh.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "stages",
+  "data": {
+   "steps": [
+    "Cow dung collected",
+    "Dung mixed with water to make slurry",
+    "Slurry fed into an airtight digester",
+    "Bacteria break down slurry without oxygen",
+    "Gas collects in a storage dome",
+    "Gas piped to the kitchen stove",
+    "Leftover slurry dried and used as fertiliser"
+   ],
+   "note": "A small domestic biogas plant."
+  },
+  "overview": "Biogas production has seven stages, producing cooking gas and a useful fertiliser from the same waste.",
+  "key_features": [
+   "Seven stages",
+   "Airtight digester is the central stage",
+   "Two useful outputs: gas and fertiliser"
+  ],
+  "band7": {
+   "answer": "The diagram shows how cow dung is used to produce biogas for cooking in a village home in Bangladesh, and it has seven stages.\n\nOverall, the process turns animal waste into two useful products, which are cooking gas and fertiliser.\n\nAt the start of the process, cow dung is collected and then mixed with water to make a slurry. This mixture is fed into an airtight digester. Inside the digester, bacteria break down the slurry without oxygen, and this produces gas.\n\nThe gas rises and collects in a storage dome above the digester. After that, it is piped to the stove in the kitchen, where it is burned for cooking. Meanwhile, the slurry that is left over is removed from the digester, dried and used as fertiliser on the fields. The two outputs are produced in different ways. The gas is the direct result of the bacterial action in the digester, while the fertiliser is made from the slurry that remains. As a result, almost nothing from the original dung is wasted in the process.",
+   "comment": "The process is described in the correct order, and the overview identifies both outputs. Some sentences are repetitive and could be more varied."
+  },
+  "band8": {
+   "answer": "The diagram illustrates the seven stages involved in generating biogas from cow dung at a rural household in Bangladesh.\n\nOverall, the system converts livestock waste into two valuable outputs, namely cooking fuel and fertiliser, and the digester is at the centre of the process.\n\nTo begin with, cow dung is gathered and combined with water to form a slurry, which is then fed into a sealed, airtight digester. Within this chamber, bacteria decompose the slurry in the absence of oxygen, releasing gas as a by-product.\n\nThe gas accumulates in a dome-shaped storage chamber and is subsequently piped directly to the kitchen stove, where it is used as fuel. In the meantime, the residue left in the digester is removed and dried, after which it is spread on crops as fertiliser. It is worth noting that the process yields two outputs from a single input. The gas comes from the bacterial breakdown of the slurry, whereas the fertiliser is the solid material that remains afterwards, so almost none of the original dung is wasted. The digester is therefore the central stage, as every later stage depends on what happens inside it.",
+   "comment": "Accurate passive forms and varied linking phrases create smooth progression. The explanation of both outputs in the overview adds clarity."
+  },
+  "language": [
+   {
+    "p": "To begin with,",
+    "m": "opening the first stage"
+   },
+   {
+    "p": "combined with",
+    "m": "mixed with"
+   },
+   {
+    "p": "in the absence of",
+    "m": "without"
+   },
+   {
+    "p": "as a by-product",
+    "m": "secondary result"
+   },
+   {
+    "p": "in the meantime",
+    "m": "at the same time as"
+   },
+   {
+    "p": "after which",
+    "m": "and then, linking clauses"
+   }
+  ],
+  "id": 27
+ },
+ {
+  "type": "pie",
+  "title": "The pie chart below shows how university students in Bangladesh spent their time online in 2023.",
+  "unit": "percent of total online time",
+  "data": {
+   "charts": [
+    {
+     "label": "2023",
+     "slices": [
+      {
+       "name": "Social media",
+       "value": 34
+      },
+      {
+       "name": "Study and research",
+       "value": 26
+      },
+      {
+       "name": "Video streaming",
+       "value": 20
+      },
+      {
+       "name": "Online gaming",
+       "value": 12
+      },
+      {
+       "name": "Online shopping",
+       "value": 5
+      },
+      {
+       "name": "Other",
+       "value": 3
+      }
+     ]
+    }
+   ]
+  },
+  "overview": "Students spent most of their online time on social media, with study and video streaming also significant and shopping minor.",
+  "key_features": [
+   "Social media largest at 34 per cent",
+   "Study second at 26 per cent",
+   "Shopping and other under 10 per cent combined"
+  ],
+  "band7": {
+   "answer": "The pie chart illustrates how university students in Bangladesh divided their online time among six activities in 2023.\n\nOverall, social media took up the largest share of students' time online, followed by study and research. Online shopping and other activities accounted for the smallest proportions.\n\nSocial media was the most popular activity, at 34 per cent of total time, which was 8 percentage points higher than study and research at 26 per cent. Together, these two activities made up 60 per cent of everything students did online.\n\nVideo streaming came third, at 20 per cent, so one fifth of the total. Online gaming accounted for a further 12 per cent. The two remaining categories were far smaller. Students spent only 5 per cent of their time on online shopping, and 3 per cent on other activities. Combined, these two categories accounted for just 8 per cent, which was less than the share of gaming alone. This shows that entertainment and communication dominated the online habits of the students.",
+   "comment": "Accurate figures with simple, clear grouping and a sound overview. Range of vocabulary for proportion is adequate but limited."
+  },
+  "band8": {
+   "answer": "The pie chart shows the distribution of university students' online time in Bangladesh across six categories in 2023.\n\nOverall, social media absorbed the biggest portion of students' time online, while study and research came a clear second. Shopping and miscellaneous uses were minor activities by comparison.\n\nSocial media accounted for 34 per cent of total online time, slightly more than a third and 8 percentage points above study and research, which made up 26 per cent. Between them, these two categories represented 60 per cent of all online activity.\n\nEntertainment-related uses made up most of the remainder. Video streaming constituted exactly one fifth of the total, and online gaming took a further 12 per cent. The remaining categories were marginal. Online shopping was the choice of only 5 per cent of students' time, and other activities were 3 per cent. These last two combined came to 8 per cent, which was lower than gaming alone, and well under a quarter of the share taken by social media and study together.",
+   "comment": "Precise percentages, well-chosen combined figures and fluent complex sentences. The overview and the closing comparison show strong analytical selection."
+  },
+  "language": [
+   {
+    "p": "took up the largest share",
+    "m": "was the biggest part"
+   },
+   {
+    "p": "a clear second",
+    "m": "definitely the second highest"
+   },
+   {
+    "p": "percentage points above",
+    "m": "higher by this many points"
+   },
+   {
+    "p": "made up the remainder",
+    "m": "formed the rest"
+   },
+   {
+    "p": "were marginal",
+    "m": "were very small"
+   },
+   {
+    "p": "combined",
+    "m": "when added together"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 28
+ },
+ {
+  "type": "table",
+  "title": "The table below shows the number of passengers who used four forms of public transport in Bangladesh in 2015, 2020 and 2023.",
+  "unit": "million passengers",
+  "data": {
+   "columns": [
+    "Transport mode",
+    "2015",
+    "2020",
+    "2023"
+   ],
+   "rows": [
+    [
+     "Bus",
+     420,
+     510,
+     590
+    ],
+    [
+     "Rail",
+     58,
+     62,
+     71
+    ],
+    [
+     "Inland waterways",
+     95,
+     88,
+     92
+    ],
+    [
+     "Domestic air",
+     3.1,
+     1.8,
+     4.6
+    ]
+   ]
+  },
+  "overview": "Bus travel was far more popular than any other mode and grew steadily, while domestic air was the smallest and most volatile.",
+  "key_features": [
+   "Bus dominates and keeps rising",
+   "Rail grows slowly",
+   "Air falls then recovers above its 2015 level"
+  ],
+  "band7": {
+   "answer": "The table compares the number of passengers, in millions, who travelled by four types of public transport in Bangladesh in 2015, 2020 and 2023.\n\nOverall, buses carried far more passengers than any other form of transport, and their numbers grew throughout the period. Domestic air travel was the least used mode, although it showed the most noticeable change in percentage terms.\n\nIn 2015, 420 million passengers used buses, and this rose to 510 million in 2020 and 590 million in 2023. Rail travel also increased steadily, from 58 million to 62 million and then to 71 million, but it remained much lower than the bus figures.\n\nInland waterways carried 95 million passengers in 2015, which fell slightly to 88 million in 2020 before recovering to 92 million in 2023. This meant that waterway use ended the period a little below where it started. Domestic air travel was very small. It attracted 3.1 million passengers in 2015, fell to 1.8 million in 2020, and then rose to 4.6 million in 2023, which was higher than the starting figure.",
+   "comment": "Accurate reporting of all four modes with a good overview. A little more comparison between modes would improve the score."
+  },
+  "band8": {
+   "answer": "The table illustrates how many passengers used four public transport modes in Bangladesh in 2015, 2020 and 2023, in millions.\n\nOverall, buses were overwhelmingly the most popular mode and attracted steadily growing numbers, whereas domestic air travel remained marginal despite considerable fluctuation. Inland waterways were the only mode to end the period slightly below its starting level.\n\nBus passengers rose from 420 million in 2015 to 510 million in 2020 and then to 590 million in 2023, an overall increase of 170 million. By 2023 buses carried more than eight times as many passengers as rail, which itself grew modestly from 58 million to 62 million and finally 71 million.\n\nWaterway travel was more erratic. It slipped from 95 million to 88 million between 2015 and 2020 before recovering to 92 million. Domestic air travel recorded the smallest figures, dropping from 3.1 million to 1.8 million in 2020, probably reflecting the disruption of that year, before climbing to 4.6 million in 2023, nearly 50 percent above its 2015 level and its highest figure in the table.",
+   "comment": "Detailed, accurate and well-organised with sound calculations. The answer shows a wide range of vocabulary and complex structures."
+  },
+  "language": [
+   {
+    "p": "far more ... than any other",
+    "m": "much greater than the rest"
+   },
+   {
+    "p": "in percentage terms",
+    "m": "measured as a proportion"
+   },
+   {
+    "p": "ended the period slightly lower",
+    "m": "finished a bit below the start"
+   },
+   {
+    "p": "slipped from ... to",
+    "m": "fell slowly between two values"
+   },
+   {
+    "p": "more erratic",
+    "m": "changing in an unpredictable way"
+   },
+   {
+    "p": "recovering to",
+    "m": "rising again to"
+   }
+  ],
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "id": 29
+ },
+ {
+  "type": "process",
+  "title": "The diagram below shows how used plastic bottles are recycled into new plastic products.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "unit": "stages",
+  "data": {
+   "steps": [
+    "Used bottles collected",
+    "Bottles sorted by type and colour",
+    "Bottles washed to remove labels and dirt",
+    "Bottles shredded into small flakes",
+    "Flakes melted at high temperature",
+    "Molten plastic cut into pellets",
+    "Pellets sold to factories for new products"
+   ],
+   "note": "Industrial plastic bottle recycling."
+  },
+  "overview": "Recycling has seven stages, moving from collection and cleaning to melting and the sale of pellets.",
+  "key_features": [
+   "Seven sequential stages",
+   "Cleaning happens before shredding",
+   "Pellets are the final product"
+  ],
+  "band7": {
+   "answer": "The diagram shows the process of recycling used plastic bottles into new plastic goods. There are seven stages in total.\n\nOverall, the bottles are collected, cleaned and broken down, and are then melted and turned into pellets, which are sold to manufacturers.\n\nFirst, the used bottles are collected, and they are sorted according to their type and colour. They are then washed to remove labels and dirt. Next, the clean bottles are shredded into small flakes by a machine.\n\nIn the following stage, the flakes are melted at a high temperature. The molten plastic is cut into small pellets, which is the last stage of the recycling itself. Finally, the pellets are sold to factories, where they are used to make new plastic products. In summary, the process includes four preparation stages, which are collection, sorting, washing and shredding, followed by two stages in which the plastic is melted and shaped, and a final sale stage. Washing is carried out before shredding so that dirt and labels do not contaminate the melted plastic.",
+   "comment": "The stages are in the right order and the passive is used well. The sentences are fairly simple, so greater variety would help."
+  },
+  "band8": {
+   "answer": "The diagram illustrates how discarded plastic bottles are recycled into raw material for new products, in seven stages.\n\nOverall, the process moves from collection and cleaning through to melting and pelletising, and the end product is sold to manufacturers instead of being a finished item.\n\nInitially, used bottles are collected and sorted by type and colour. They are subsequently washed to remove labels and dirt before being shredded into small flakes.\n\nOnce the flakes have been produced, they are melted at a high temperature, and the molten plastic is cut into uniform pellets. In the final stage, these pellets are sold to factories, where they serve as the raw material for making new plastic products. In summary, the seven stages fall into three groups. The first four, which are collection, sorting, washing and shredding, prepare the material. The next two, melting and cutting, change its physical form, and the last stage, sale to factories, delivers the pellets to manufacturers. Washing precedes shredding so that dirt and labels are removed while the bottles are still whole.",
+   "comment": "The answer shows excellent control of passive and sequencing structures. The overview notes that the pellets are an intermediate product, which shows good understanding of the diagram."
+  },
+  "language": [
+   {
+    "p": "discarded",
+    "m": "thrown away"
+   },
+   {
+    "p": "sorted by type",
+    "m": "grouped by category"
+   },
+   {
+    "p": "before being shredded",
+    "m": "action order with -ing"
+   },
+   {
+    "p": "Once the flakes have been produced",
+    "m": "time clause, past action"
+   },
+   {
+    "p": "uniform pellets",
+    "m": "same-sized pieces"
+   },
+   {
+    "p": "serve as the raw material for",
+    "m": "are used as input for"
+   }
+  ],
+  "id": 30
+ }
+]

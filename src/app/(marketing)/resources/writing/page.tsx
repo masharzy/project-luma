@@ -1,6 +1,5 @@
-import Link from "next/link";
-import {PageIntro,PageWrap} from "@/components/page-parts";
-import {PublicResourceList} from "@/components/public-resource-list";
+import {writingSamples} from "@/lib/writing-samples";
+import {WritingApp} from "@/components/writing-samples/writing-app";
 export const dynamic="force-dynamic";
-export const metadata={title:"Writing Samples"};
-export default function Page(){return <PageWrap tone="resources-page"><PageIntro eyebrow="WRITING / SAMPLES" title="Writing Samples" description="IELTS Writing Task 1 ও Task 2-এর নমুনা উত্তর।"><Link href="/resources" className="text-link">All resources ↗</Link></PageIntro><PublicResourceList category="writing"/></PageWrap>;}
+export const metadata={title:"IELTS Writing Samples: Task 1 and Task 2 Model Answers",description:"Original IELTS Academic Writing Task 1 charts and Task 2 essays with Band 7 and Band 8 model answers, examiner comments, structure notes and useful language."};
+export default async function Page(){return <WritingApp samples={await writingSamples()}/>;}
