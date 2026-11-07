@@ -1,20 +1,20 @@
-.ck{background:var(--paper,#fff);color:var(--ink,#111);min-height:70vh;padding:clamp(24px,4vw,56px) 0 clamp(56px,8vw,112px);font:400 1rem/1.55 'Instrument Sans',system-ui,sans-serif}
+.ck{background:var(--paper,#fff);color:#0a0a0a;min-height:70vh;padding:clamp(24px,4vw,56px) 0 clamp(56px,8vw,112px);font:400 1rem/1.55 'Instrument Sans',system-ui,sans-serif}
 .ck *{box-sizing:border-box}
 .ck-wrap{max-width:980px;margin:0 auto;padding:0 clamp(18px,4vw,36px)}
 .ck-crumb{display:flex;gap:.5em;font-size:.85rem;opacity:.65;margin-bottom:18px}
 .ck-crumb a{color:inherit;text-decoration:none}
 .ck-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;align-items:start}
 @media(max-width:820px){.ck-grid{grid-template-columns:1fr}}
-.ck-card{border:1px solid var(--line,#e5e5e5);border-radius:18px;padding:clamp(20px,3vw,30px);background:var(--paper,#fff)}
-.ck-side{position:sticky;top:20px}
-@media(max-width:820px){.ck-side{position:static}}
+.ck .ck-card{border:1px solid #e5e5e5;border-radius:18px;padding:clamp(20px,3vw,30px);background:#fff}
+.ck .ck-side{position:sticky;top:20px}
+@media(max-width:820px){.ck .ck-side{position:static}}
 .ck-kicker{margin:0 0 6px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;opacity:.55}
 .ck-card h1{margin:0;font-size:clamp(1.7rem,3.4vw,2.2rem);letter-spacing:-.03em;line-height:1.1}
 .ck-desc{margin:8px 0 0;opacity:.7}
 .ck-big{display:flex;align-items:baseline;gap:8px;margin:18px 0 6px}
 .ck-big b{font-size:2.4rem;font-weight:650;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .ck-big span{opacity:.65;font-size:.95rem}
-.ck-list{list-style:none;margin:16px 0 0;padding:16px 0 0;border-top:1px solid var(--line,#e5e5e5);display:grid;gap:10px}
+.ck-list{list-style:none;margin:16px 0 0;padding:16px 0 0;border-top:1px solid #e5e5e5;display:grid;gap:10px}
 .ck-list li{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:baseline;font-size:.95rem}
 .ck-list em{font-style:normal}.ck-list b{font-weight:600}.ck-list u{text-decoration:none;font-size:.85rem}
 .ck-list .on span{color:#16a34a;font-weight:700}
@@ -29,24 +29,24 @@
 .ck-coupon{margin-top:16px}
 .ck-coupon label{display:block;margin-bottom:6px;font-size:.85rem;opacity:.7}
 .ck-coupon>div{display:flex;gap:8px}
-.ck input[type=text],.ck-coupon input,.ck-how input{flex:1;min-width:0;height:44px;border:1px solid var(--line,#d4d4d4);border-radius:12px;padding:0 14px;font:inherit;background:transparent;color:inherit}
-.ck-coupon button{height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line,#d4d4d4);background:transparent;color:inherit;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer}
+.ck input[type=text],.ck-coupon input,.ck-how input{flex:1;min-width:0;height:44px;border:1px solid #e5e5e5;border-radius:12px;padding:0 14px;font:inherit;background:transparent;color:inherit}
+.ck-coupon button{height:44px;padding:0 18px;border-radius:12px;border:1px solid #e5e5e5;background:transparent;color:inherit;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer}
 .ck-coupon button:disabled{opacity:.5;cursor:not-allowed}
-.ck-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:16px;border-top:1px solid var(--line,#e5e5e5)}
+.ck-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:16px;border-top:1px solid #e5e5e5}
 .ck-total strong{font-size:1.9rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .ck-h{margin:22px 0 10px;font-size:1rem}
 .ck-methods{display:flex;flex-wrap:wrap;gap:8px}
-.ck-methods label{cursor:pointer;border:1px solid var(--line,#d4d4d4);border-radius:12px;padding:9px 16px;font-size:.92rem}
-.ck-methods label.on{border-color:var(--ink,#111);box-shadow:0 0 0 1px var(--ink,#111)}
+.ck-methods label{cursor:pointer;border:1px solid #e5e5e5;border-radius:12px;padding:9px 16px;font-size:.92rem}
+.ck-methods label.on{border-color:#0a0a0a;box-shadow:0 0 0 1px #0a0a0a}
 .ck-methods input{position:absolute;opacity:0;pointer-events:none}
 .ck-how{margin-top:14px;font-size:.92rem}
 .ck-how p{margin:0 0 6px}.ck-how ol{margin:0 0 12px;padding-left:1.2em;opacity:.75}
 .ck-how label{display:block;margin-bottom:6px;font-size:.85rem;opacity:.7}
 .ck-how input{width:100%}
 .ck-soft{margin:8px 0 0;font-size:.9rem;opacity:.7}
-.ck-go{width:100%;height:50px;margin-top:20px;border:0;border-radius:14px;background:var(--ink,#111);color:var(--paper,#fff);font:inherit;font-weight:600;cursor:pointer}
+.ck .ck-go{width:100%;height:50px;margin-top:20px;border:0;border-radius:14px;background:#0a0a0a;color:#fff;font:inherit;font-weight:600;cursor:pointer}
 .ck-go:disabled{opacity:.45;cursor:not-allowed}
-.ck-go:focus-visible,.ck-coupon button:focus-visible{outline:2px solid var(--c,#111);outline-offset:3px}
+.ck-go:focus-visible,.ck-coupon button:focus-visible{outline:2px solid #0a0a0a;outline-offset:3px}
 .ck-err{margin:8px 0 0;color:#b3163d;font-size:.88rem}
-.ck-state{border:1px solid var(--line,#e5e5e5);border-radius:14px;padding:14px 16px;background:rgba(22,163,74,.07)}
+.ck-state{border:1px solid #e5e5e5;border-radius:14px;padding:14px 16px;background:rgba(22,163,74,.07)}
 .ck-state p{margin:6px 0 0;font-size:.92rem}

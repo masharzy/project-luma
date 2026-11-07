@@ -36,7 +36,7 @@ export default async function Page({ params }: { params: Promise<{ plan: string 
       <div className="ck-wrap">
         <nav className="ck-crumb" aria-label="Breadcrumb"><Link href="/pricing">Plans</Link><span aria-hidden="true">/</span><span aria-current="page">Checkout</span></nav>
         <div className="ck-grid">
-          <section className="ck-card" aria-labelledby="ck-plan">
+          <div className="ck-card" role="region" aria-labelledby="ck-plan">
             <p className="ck-kicker">Your plan</p>
             <h1 id="ck-plan">{String(plan.name)}</h1>
             {plan.description && <p className="ck-desc">{String(plan.description)}</p>}
@@ -45,8 +45,8 @@ export default async function Page({ params }: { params: Promise<{ plan: string 
               {lines.map(l => <li key={l.label} className={l.on ? 'on' : 'off'}><span aria-hidden="true">{l.on ? '✓' : '–'}</span><em>{l.label}</em>{l.on ? <b>{l.value}</b> : <u>Not included</u>}</li>)}
             </ul>
             <p className="ck-fine">Evaluations reset on the first day of each month (UTC).</p>
-          </section>
-          <section className="ck-card ck-side" aria-labelledby="ck-sum">
+          </div>
+          <div className="ck-card ck-side" role="region" aria-labelledby="ck-sum">
             <p className="ck-kicker" id="ck-sum">Order</p>
             <p className="ck-who">{user.email}</p>
             {pending ? (
@@ -57,7 +57,7 @@ export default async function Page({ params }: { params: Promise<{ plan: string 
             ) : (
               <CheckoutForm planId={String(plan.id)} planName={String(plan.name)} duration={duration} listPrice={Number(plan.price_bdt)} methods={paymentMethods} replacing={active ? `${String(active.plan_name)} (until ${date(active.expires_at)})` : undefined} />
             )}
-          </section>
+          </div>
         </div>
       </div>
     </main>
