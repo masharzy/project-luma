@@ -353,7 +353,7 @@ async function record() {
      const quiet = lastVoice ? now - lastVoice : now - started;
      if (voiced >= 600) {
       const limit = long ? (seconds >= 30 ? 8000 : 1e9) : 6000;
-      if (quiet >= 2500 && quiet < limit) $('status-detail').textContent = 'Pause detected · moving on in ' + Math.ceil((limit - quiet) / 1000) + 's · keep talking to continue';
+      if (limit < 1e8 && quiet >= 2500 && quiet < limit) $('status-detail').textContent = 'Pause detected · moving on in ' + Math.ceil((limit - quiet) / 1000) + 's · keep talking to continue';
       if (quiet >= limit) { stopRecording(); return; }
      } else if (quiet >= 20000 && !warned) { warned = true; notify('We cannot hear you yet. Check your microphone, or tap the button to continue.'); }
     }
