@@ -1,5 +1,5 @@
 import "server-only";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { db } from "./db";
 import { digest, randomToken, validToken } from "./crypto";
 import { sessionCookieName, secureCookies } from "./config";
@@ -34,7 +34,22 @@ async function issueSession(userId: string, pending: boolean) {
     [digest(token), userId, pending ? 86400 : 604800, pending],
   );
   if (!rows[0]) throw new Error("Cannot establish session.");
+  if (!pending) await recordDevice(userId, digest(token));
   return token;
+}
+// Best effort: a failure here must never block sign-in.
+async function recordDevice(userId: string, tokenHash: string) {
+  try {
+    const agent = (await headers()).get("user-agent")?.slice(0, 300) || null;
+    await db().query(
+      `WITH me AS (UPDATE app_auth.sessions SET user_agent=$3 WHERE token_hash=$1 RETURNING user_id),
+       cap AS (SELECT coalesce(u.device_limit,p.default_device_limit) AS n FROM app_auth.users u LEFT JOIN public.evaluation_policy p ON p.id=true WHERE u.id=$2)
+       DELETE FROM app_auth.sessions s WHERE s.user_id=$2 AND s.expires_at>now() AND s.token_hash IN (
+         SELECT token_hash FROM app_auth.sessions WHERE user_id=$2 AND expires_at>now() AND (SELECT n FROM cap) IS NOT NULL
+         ORDER BY last_seen_at DESC, created_at DESC OFFSET (SELECT n FROM cap))`,
+      [tokenHash, userId, agent],
+    );
+  } catch {}
 }
 export const createSession = (userId: string) => issueSession(userId, false);
 export const createPendingSession = (userId: string) => issueSession(userId, true);

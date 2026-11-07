@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState, useTransition, type MouseEvent } from 'react';
 import { Bell, Menu, X, Search, Sun, Moon, Monitor, ExternalLink } from 'lucide-react';
 import { Icon } from '@/components/ui/icon';
-import { SignOut } from '@/components/sign-out';
+import { AccountMenu } from '@/components/admin/account-menu';
 import { adminNavigation, adminLinkActive, adminPageLabel, type AdminTheme } from '@/lib/admin/navigation';
 
 function Navigation({ path, onNavigate }: { path: string; onNavigate?: () => void }) {
@@ -20,7 +20,7 @@ function Navigation({ path, onNavigate }: { path: string; onNavigate?: () => voi
     </nav>
   </>;
 }
-export function AdminShell({ children, name, initialTheme }: { children: React.ReactNode; name: string; initialTheme: AdminTheme }) {
+export function AdminShell({ children, name, email, initialTheme }: { children: React.ReactNode; name: string; email: string; initialTheme: AdminTheme }) {
   const path = usePathname();
   const router = useRouter();
   const [speakingFailures,setSpeakingFailures] = useState(0);
@@ -82,7 +82,7 @@ export function AdminShell({ children, name, initialTheme }: { children: React.R
       {speakingFailures>0&&<Link href="/admin/ai-operations#speaking-failures" aria-label={speakingFailures+' failed Speaking evaluations'} title="Speaking evaluations that need review"><Bell size={16} aria-hidden="true" /> {speakingFailures}</Link>}
       <div className="adm-theme" role="group" aria-label="Admin color theme">{([
         ['light','Light',Sun],['dark','Dark',Moon],['system','System',Monitor],
-      ] as const).map(([value,label,ThemeIcon])=><button key={value} type="button" aria-label={label+' mode'} title={label+' mode'} aria-pressed={theme===value} onClick={()=>chooseTheme(value)}><ThemeIcon size={16} aria-hidden="true" /></button>)}</div><span className="adm-account" title={name}>{name}</span><SignOut /></div>
+      ] as const).map(([value,label,ThemeIcon])=><button key={value} type="button" aria-label={label+' mode'} title={label+' mode'} aria-pressed={theme===value} onClick={()=>chooseTheme(value)}><ThemeIcon size={16} aria-hidden="true" /></button>)}</div><AccountMenu name={name} email={email} /></div>
     </header><div className="adm-content" id="admin-content">{children}</div></div>
     <dialog ref={dialog} id={drawerId} className="adm-drawer" aria-labelledby={drawerId+'-title'} onCancel={()=>setOpen(false)} onClose={()=>setOpen(false)} onClick={e=>{if(e.target===e.currentTarget){const r=e.currentTarget.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right)setOpen(false);}}}>
       <div className="adm-drawer-heading"><strong id={drawerId+'-title'}>Administration</strong><button type="button" aria-label="Close admin menu" onClick={()=>setOpen(false)}><X size={19} aria-hidden="true" /></button></div><Navigation path={path} onNavigate={()=>setOpen(false)} /><div className="adm-sidebar-bottom"><Link href="/" onClick={()=>setOpen(false)}>View website</Link></div>

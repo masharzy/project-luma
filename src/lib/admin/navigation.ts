@@ -12,9 +12,7 @@ export const adminNavigation: { label: string; links: AdminLink[] }[] = [
   ] },
   { label: 'People & access', links: [
     { href: '/admin/users', label: 'Users', icon: 'users', keywords: 'accounts roles verify block access' },
-    { href: '/admin/subscriptions', label: 'Plans & subscriptions', icon: 'chart', keywords: 'pricing credits membership free allowances payments' },
-    { href: '/admin/payments', label: 'Payments ledger', icon: 'chart', keywords: 'revenue invoices csv export activations' },
-    { href: '/admin/evaluations', label: 'Evaluation access', icon: 'shield', keywords: 'account overrides grants' },
+    { href: '/admin/subscriptions', label: 'Plans', icon: 'chart', keywords: 'pricing credits membership free allowances subscriptions requests payments export' },
   ] },
   { label: 'Operations', links: [
     { href: '/admin/results', label: 'Results & publishing', icon: 'chart', keywords: 'review releases mocks' },

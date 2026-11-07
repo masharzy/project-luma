@@ -1,7 +1,7 @@
 import {requireAdmin} from '@/lib/auth/guards';
 import {adminSalesOverview} from '@/lib/admin/overview';
 import Link from 'next/link';
-import { WorkspaceHeading } from '@/components/page-parts';
+import { Card, CardTitle, PageHeader, Stat, PersonCell, Badge, dhaka } from '@/components/admin/ui';
 import { db } from '@/lib/auth/db';
 export const dynamic='force-dynamic';
 export default async function Page() {
@@ -26,19 +26,38 @@ export default async function Page() {
   (SELECT count(*)::int FROM public.speaking_evaluations WHERE status IN ('pending','running')) speaking_pending,
   ((SELECT count(*) FROM public.writing_evaluations WHERE status='failed')+(SELECT count(*) FROM public.speaking_evaluations WHERE status='failed'))::int ai_failed`);
  const sales=await adminSalesOverview();const money=(n:unknown)=>'৳'+Number(n||0).toLocaleString('en-US');
- const cards=[
-  ['Users',rows.users,'/admin/users'],['New users today',rows.users_today,'/admin/users'],
-  ['Cambridge books',rows.cambridge_books,'/admin/cambridge'],['Cambridge tests',rows.cambridge_tests,'/admin/cambridge'],
-  ['More Books tests',rows.more_books,'/admin/other-books'],['Recent Tests',rows.recent_tests,'/admin/recent-tests'],
-  ['Active users · 24h',rows.active_users,'/admin/users'],['Speaking tests',rows.speaking_tests,'/admin/speaking-tests'],['Learning resources',rows.resources,'/admin/resources'],['Vocabulary entries',rows.vocabulary,'/admin/vocabulary'],
-  ['Mock exams',rows.mocks,'/admin/mocks'],['Question items',rows.questions,'/admin/recent-tests'],
+ const num=(n:unknown)=>Number(n||0).toLocaleString('en-US');
+ const attention=[
+  ['Subscription requests',rows.subscriptions_pending,'/admin/subscriptions'],['Mock results to review',rows.results_pending,'/admin/results'],
+  ['Failed AI evaluations',rows.ai_failed,'/admin/ai-operations'],['Queued AI jobs',Number(rows.writing_pending)+Number(rows.speaking_pending),'/admin/ai-operations'],['Draft resources',rows.resources_draft,'/admin/resources'],
  ] as const;
- return <div className="admin-refactor"><WorkspaceHeading eyebrow="ADMIN" title="Overview"  />
-  <div className="adm-quick-actions"><Link className="button" href="/admin/cambridge">Manage Cambridge</Link><Link className="button outline" href="/admin/mocks/new">Create mock</Link><Link className="button outline" href="/admin/import">Import tests</Link><Link className="button outline" href="/admin/resources">Manage resources</Link></div>
-  <section className="adm-sales-overview"><div className="adm-section-heading"><div><h2>Sales & subscriptions</h2><p>Activated subscription values · recorded plan prices in BDT</p></div><Link className="button" href="/admin/subscriptions">Manage sales & plans ↗</Link></div><div className="admin-kpi-grid">{[['Activated plan value',money(sales.totals.activated_value)],['This month',money(sales.totals.month_value)],['Customers',sales.totals.buyers],['Total activations',sales.totals.activations],['Activated today',sales.totals.today_activations],['Active memberships',sales.totals.active],['Pending requests',sales.totals.pending],['Expired memberships',sales.totals.expired]].map(([label,value])=><div className="admin-kpi" key={String(label)}><span>{label}</span><strong>{String(value??0)}</strong></div>)}</div><p className="adm-note">Pending request value: {money(sales.totals.pending_value)}. These totals reflect activated plans, not independently verified payment receipts.</p><div className="adm-overview-columns"><section className="workspace-panel"><h3>Plan performance</h3><div className="table-scroll"><table className="adm-data-table"><thead><tr><th>Plan</th><th>Customers</th><th>Activations</th><th>Value</th></tr></thead><tbody>{sales.plans.map((p:any)=><tr key={p.plan_name}><td>{p.plan_name}</td><td>{p.buyers}</td><td>{p.activations}</td><td>{money(p.value)}</td></tr>)}{!sales.plans.length&&<tr><td colSpan={4}>No activated subscriptions yet.</td></tr>}</tbody></table></div></section><section className="workspace-panel"><h3>Last 7 days</h3><div className="adm-daily-sales">{sales.days.map((d:any)=><div key={d.label}><span>{d.label}</span><strong>{d.activations} activations</strong><span>{money(d.value)}</span></div>)}</div></section></div><section className="workspace-panel"><h3>Recent subscription requests</h3><div className="table-scroll"><table className="adm-data-table"><thead><tr><th>Customer</th><th>Plan</th><th>Value</th><th>Status</th><th>Manage</th></tr></thead><tbody>{sales.recent.map((r:any)=><tr key={r.id}><td><Link href={'/admin/users/'+r.user_id}>{r.name}</Link><small>{r.email}</small></td><td>{r.plan_name}</td><td>{money(r.price_bdt)}</td><td>{r.status}</td><td><Link href={'/admin/subscriptions?search='+encodeURIComponent(r.email)}>Open ↗</Link></td></tr>)}{!sales.recent.length&&<tr><td colSpan={5}>No subscription requests yet.</td></tr>}</tbody></table></div></section></section>
-  <div className="adm-section-heading"><h2>Content & operations</h2></div><div className="admin-kpi-grid">{cards.map(([label,value,href])=><Link href={href} className="admin-kpi" key={label}><span>{label}</span><strong>{Number(value||0).toLocaleString('en-US')}</strong></Link>)}</div>
-  <section aria-labelledby="review-title"><h2 id="review-title">Needs attention</h2><div className="adm-operations">{[
-   ['Mock results to review',rows.results_pending,'/admin/results'],['Writing jobs queued',rows.writing_pending,'/admin/ai-operations'],['Subscription requests',rows.subscriptions_pending,'/admin/subscriptions'],['Speaking jobs queued',rows.speaking_pending,'/admin/ai-operations'],['Failed AI evaluations',rows.ai_failed,'/admin/ai-operations'],['Draft resources',rows.resources_draft,'/admin/resources'],
-  ].map(([label,count,href])=><Link className="adm-operation" href={String(href)} key={String(href)}><span>{label}</span><strong>{Number(count||0).toLocaleString('en-US')}</strong></Link>)}</div></section>
+ const content=[
+  ['Cambridge tests',rows.cambridge_tests,'/admin/cambridge'],['More Books tests',rows.more_books,'/admin/other-books'],['Recent Tests',rows.recent_tests,'/admin/recent-tests'],
+  ['Speaking tests',rows.speaking_tests,'/admin/speaking-tests'],['Mock exams',rows.mocks,'/admin/mocks'],['Question items',rows.questions,'/admin/recent-tests'],
+  ['Learning resources',rows.resources,'/admin/resources'],['Vocabulary entries',rows.vocabulary,'/admin/vocabulary'],
+ ] as const;
+ const peak=Math.max(1,...sales.days.map((d:any)=>Number(d.value)));
+ const pill='rounded-full border border-line px-4 py-2 text-[13px] font-medium text-ink no-underline hover:bg-soft';
+ return <div>
+  <PageHeader title="Overview" actions={<div className="flex flex-wrap gap-2"><Link className={pill} href="/admin/cambridge">Cambridge</Link><Link className={pill} href="/admin/mocks/new">New mock</Link><Link className={pill} href="/admin/import">Import tests</Link></div>} />
+  <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+   <Stat label="Accounts" value={num(rows.users)} sub={`${num(rows.users_today)} today`} />
+   <Stat label="Active in 24 hours" value={num(rows.active_users)} />
+   <Stat label="Active memberships" value={num(sales.totals.active)} sub={`${num(sales.totals.expired)} expired`} />
+   <Stat label="Revenue this month" value={money(sales.totals.month_value)} sub={`${money(sales.totals.activated_value)} in total`} />
+  </div>
+  <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+   {attention.map(([label,count,href])=><Link key={label} href={href} className={`rounded-card border px-4 py-3 no-underline ${Number(count)>0?'border-transparent bg-warn-soft':'border-line bg-surface'}`}><span className={`block text-[12px] ${Number(count)>0?'text-warn':'text-muted'}`}>{label}</span><strong className={`block text-[22px] font-semibold tabular-nums ${Number(count)>0?'text-warn':'text-ink'}`}>{num(count)}</strong></Link>)}
+  </div>
+  <div className="mb-5 grid gap-5 xl:grid-cols-[1.4fr_1fr]">
+   <Card><CardTitle title="Recent plan requests" hint="Activated and pending, newest first." action={<Link href="/admin/subscriptions" className="text-[13px] text-muted no-underline hover:text-ink">All plans</Link>} />
+    <ul className="m-0 grid list-none gap-1 p-0">{sales.recent.map((r:any)=><li key={r.id} className="flex items-center justify-between gap-3 border-b border-line py-2.5 last:border-0"><PersonCell id={r.user_id} name={r.name} email={r.email} /><span className="flex shrink-0 items-center gap-3 text-[13px]"><span className="hidden text-muted sm:inline">{r.plan_name} · {money(r.price_bdt)}</span><Badge tone={r.status==='active'?'good':r.status==='pending'?'info':'neutral'}>{r.status}</Badge></span></li>)}
+     {!sales.recent.length&&<li className="py-6 text-center text-[13px] text-muted">No plan requests yet.</li>}</ul></Card>
+   <Card><CardTitle title="Last 7 days" hint="Plan value activated per day." />
+    <div className="flex h-36 items-end gap-2" role="img" aria-label="Plan value activated in the last 7 days">{sales.days.map((d:any)=><div key={d.label} className="flex flex-1 flex-col items-center gap-1.5"><div className="flex w-full flex-1 items-end"><div className="w-full rounded-t-md bg-ink" style={{height:Math.max(3,Number(d.value)/peak*100)+'%',opacity:Number(d.value)?1:.15}} title={`${d.label}: ${money(d.value)}`} /></div><span className="text-[11px] text-muted">{d.label.slice(0,6)}</span></div>)}</div>
+    {sales.plans.length>0&&<div className="mt-5 border-t border-line pt-3">{sales.plans.map((p:any)=><div key={p.plan_name} className="flex justify-between py-1 text-[13px]"><span className="text-ink">{p.plan_name}</span><span className="tabular-nums text-muted">{p.activations} · {money(p.value)}</span></div>)}</div>}</Card>
+  </div>
+  <Card><CardTitle title="Content" />
+   <div className="grid grid-cols-2 gap-x-6 gap-y-1 md:grid-cols-4">{content.map(([label,value,href])=><Link key={label} href={href} className="flex items-baseline justify-between gap-2 rounded-lg px-2 py-2 text-ink no-underline hover:bg-soft"><span className="text-[13px] text-muted">{label}</span><strong className="text-[15px] font-semibold tabular-nums">{num(value)}</strong></Link>)}</div></Card>
  </div>;
 }

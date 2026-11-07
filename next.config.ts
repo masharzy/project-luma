@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 const config: NextConfig = {
   poweredByHeader: false,
   outputFileTracingIncludes: {"/api/products/writing/tasks": ["./public/fonts/font-0.woff2","./public/fonts/font-2.woff2"],"/speaking/evaluation/*": ["./src/lib/speaking/*.html","./src/lib/speaking/*.js"]},
+  async redirects() {
+    return [
+      { source: "/admin/payments", destination: "/admin/subscriptions", permanent: false },
+      { source: "/admin/evaluations", destination: "/admin/users", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

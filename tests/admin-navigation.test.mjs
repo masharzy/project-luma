@@ -8,7 +8,7 @@ vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/lib/admin/navigation.
 const {adminNavigation,adminLinkActive,adminPageLabel,adminTheme}=module.exports;
 const links=adminNavigation.flatMap(g=>g.links);
 test('all admin destinations are real, unique routes and all management sections are reachable',()=>{
- assert.equal(links.length,21);assert.equal(new Set(links.map(l=>l.href)).size,links.length);
+ assert.equal(links.length,19);assert.equal(new Set(links.map(l=>l.href)).size,links.length);
  for(const link of links)assert.ok(fs.existsSync('src/app/(management)'+link.href+'/page.tsx'),link.href+' must exist');
  const dirs=fs.readdirSync('src/app/(management)/admin',{withFileTypes:true}).filter(d=>d.isDirectory()&&!['engine','tests','questions','speaking-diagnostic'].includes(d.name));
  for(const dir of dirs.filter(d=>!fs.readFileSync('src/app/(management)/admin/'+d.name+'/page.tsx','utf8').includes('permanentRedirect')))assert.ok(links.some(l=>l.href==='/admin/'+dir.name),dir.name+' missing from menu');

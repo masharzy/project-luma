@@ -28,7 +28,6 @@ const admin = [
   ["/admin/resources", "Learning resources", "pen"],
   ["/admin/speaking-tests", "Speaking question bank", "file"],
   ["/admin/subscriptions", "Plans & subscriptions", "chart"],
-  ["/admin/evaluations", "Account overrides", "chart"],
   ["/admin/ai-operations", "AI operations", "chart"],
   ["/admin/users", "Users & access", "users"],
   ["/admin/activity", "Activity log", "clock"],
