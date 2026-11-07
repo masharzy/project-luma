@@ -6,16 +6,16 @@ import { writingAssessmentSchema,writingResponseSchema } from '@/lib/evaluation/
 // Admin-only Writing benchmark on the production prompt + schema. Cheap OpenRouter models only:
 // the per-million price cap below keeps premium models out, and max_price is sent to OpenRouter too.
 export const priceCap={prompt:1,completion:3};
-export const writingBenchInput=z.object({model:z.string().min(3).max(150).regex(/^[a-zA-Z0-9._:/-]+$/),task:z.number().int().min(1).max(2),question:z.string().min(5).max(16000),answer:z.string().max(40000),variant:z.enum(['current','v2']).default('current'),maxTokens:z.number().int().min(500).max(8000).default(4000),shape:z.enum(['bench','sdk']).default('bench')});
+export const writingBenchInput=z.object({model:z.string().min(3).max(150).regex(/^[a-zA-Z0-9._:/-]+$/),task:z.number().int().min(1).max(2),question:z.string().min(5).max(16000),answer:z.string().max(40000),variant:z.enum(['current','v2']).default('current'),maxTokens:z.number().int().min(500).max(8000).default(4000),shape:z.enum(['bench','sdk']).default('bench'),imageUrl:z.string().url().max(2000).startsWith('https://').optional()});
 // v2: stricter, more mechanical wording for verbatim quotes. Everything else unchanged.
 const oldRule='corrections.original must be a nonempty EXACT substring of that task\'s answer.';
 export const writingPromptV2=writingSystemPrompt.replace(oldRule,'corrections.original must be a nonempty EXACT substring of that task\'s answer: copy 3 to 12 consecutive words character by character (same spelling, capitalisation, punctuation, apostrophes and spaces), taken from inside one sentence and never across a line break. Never repair, shorten with ellipses or paraphrase inside original. If you cannot copy the excerpt exactly, omit that correction.').replace('Optional strengths (up to 2) must also quote exact substrings.','Optional strengths (up to 2) must also be exact copies of 3 to 12 consecutive words from the answer.');
-type Entry={id:string;prompt:number;completion:number;ctx:number;reasoning:boolean;text:boolean};
+type Entry={id:string;prompt:number;completion:number;ctx:number;reasoning:boolean;text:boolean;image:boolean};
 let cache:{at:number;list:Entry[]}|null=null;
 export async function cheapModels(){
  if(cache&&Date.now()-cache.at<600000)return cache.list;
  const r=await fetch('https://openrouter.ai/api/v1/models',{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Model catalog unavailable');
- const list:Entry[]=((await r.json()).data||[]).map((m:{id:string;pricing?:{prompt?:string;completion?:string};context_length?:number;supported_parameters?:string[];architecture?:{input_modalities?:string[];output_modalities?:string[]}})=>({id:m.id,prompt:Number(m.pricing?.prompt)*1e6,completion:Number(m.pricing?.completion)*1e6,ctx:m.context_length||0,reasoning:Boolean(m.supported_parameters?.includes('reasoning')),text:Boolean(m.architecture?.input_modalities?.includes('text')&&(m.architecture?.output_modalities||['text']).join()==='text')}))
+ const list:Entry[]=((await r.json()).data||[]).map((m:{id:string;pricing?:{prompt?:string;completion?:string};context_length?:number;supported_parameters?:string[];architecture?:{input_modalities?:string[];output_modalities?:string[]}})=>({id:m.id,prompt:Number(m.pricing?.prompt)*1e6,completion:Number(m.pricing?.completion)*1e6,ctx:m.context_length||0,reasoning:Boolean(m.supported_parameters?.includes('reasoning')),image:Boolean(m.architecture?.input_modalities?.includes('image')),text:Boolean(m.architecture?.input_modalities?.includes('text')&&(m.architecture?.output_modalities||['text']).join()==='text')}))
   .filter((m:Entry)=>Number.isFinite(m.prompt)&&Number.isFinite(m.completion)&&m.text&&m.prompt<=priceCap.prompt&&m.completion<=priceCap.completion&&m.ctx>=16000);
  cache={at:Date.now(),list};return list;
 }
@@ -25,9 +25,10 @@ export async function runWritingBench(input:z.infer<typeof writingBenchInput>){
  if(!model)throw Error('Model not in the cheap list (max $1 in / $3 out per 1M tokens, text only)');
  const key=await getKey('openrouter');
  const system=(input.variant==='v2'?writingPromptV2:writingSystemPrompt)+`\nRequired JSON schema: ${JSON.stringify(z.toJSONSchema(writingAssessmentSchema))}`;
- const userText=JSON.stringify({tasks:[{task:input.task,question:input.question,answer:input.answer,imageAttached:false}]});
+ const userText=JSON.stringify({tasks:[{task:input.task,question:input.question,answer:input.answer,imageAttached:Boolean(input.imageUrl)}]});
+ if(input.imageUrl&&!model.image)throw Error('Model does not accept images');
  // 'sdk' mirrors the request the production AI SDK path sends (parts array, no temperature, no max_price).
- const body=input.shape==='sdk'?{model:input.model,max_tokens:input.maxTokens,response_format:{type:'json_object'},reasoning:{enabled:false},provider:{allow_fallbacks:false,require_parameters:true},messages:[{role:'system',content:system},{role:'user',content:[{type:'text',text:userText}]}]}:{model:input.model,max_tokens:input.maxTokens,temperature:0,response_format:{type:'json_object'},reasoning:{enabled:false},provider:{allow_fallbacks:false,require_parameters:true,max_price:{prompt:priceCap.prompt,completion:priceCap.completion}},messages:[{role:'system',content:system},{role:'user',content:userText}]};
+ const body=input.shape==='sdk'?{model:input.model,max_tokens:input.maxTokens,response_format:{type:'json_object'},reasoning:{enabled:false},provider:{allow_fallbacks:false,require_parameters:true},messages:[{role:'system',content:system},{role:'user',content:[{type:'text',text:userText}]}]}:{model:input.model,max_tokens:input.maxTokens,temperature:0,response_format:{type:'json_object'},reasoning:{enabled:false},provider:{allow_fallbacks:false,require_parameters:true,max_price:{prompt:priceCap.prompt,completion:priceCap.completion}},messages:[{role:'system',content:system},{role:'user',content:input.imageUrl?[{type:'text',text:userText},{type:'text',text:'Reference image for Writing Task '+input.task},{type:'image_url',image_url:{url:input.imageUrl}}]:userText}]};
  const started=performance.now();let raw='';
  const base={model:input.model,shape:input.shape,variant:input.variant,task:input.task,price:{prompt:model.prompt,completion:model.completion}};
  try{
