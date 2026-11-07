@@ -10,7 +10,7 @@ export function PracticeTestCards({tests,moduleFilter,startNumber=1,hrefBase='/e
   const fullReady=!locked&&ready.has('listening')&&ready.has('reading')&&ready.has('writing');
   return <article className="cambridge-test-row lib-test" key={test.id}>
    <div className="lib-test-id"><span className="lib-test-no" aria-hidden>{no}</span><div><span className="eyebrow">TEST {no}</span><h2>{test.title}</h2>{test.description&&<p lang="bn">{test.description}</p>}</div></div>
-   <div className="lib-test-modules" role="group" aria-label={`${test.title} modules`}>
+   <div className="lib-test-modules is-fixed" style={{'--n':shownModules.length} as React.CSSProperties} data-count={shownModules.length} role="group" aria-label={`${test.title} modules`}>
     {shownModules.map(module=>{
      const Icon=module==='listening'?Headphones:module==='reading'?BookOpenText:module==='speaking'?Mic2:PenLine,available=ready.has(module);
      const content=<><span className={'module-letter module-icon-'+module}><Icon size={20}/></span><span className="lib-mod-text"><strong>{module[0].toUpperCase()+module.slice(1)}</strong><small>{!available?'Coming soon':(minutes as Record<string,number>)[module]+' minutes'}</small></span>{locked?<Lock size={15}/>:<ArrowUpRight size={17}/>}</>;

@@ -17,6 +17,10 @@ export async function listOtherBookTests(bookSlug?:string):Promise<BookTest[]> {
  for(const part of doc.parts||[])for(const group of part.question_groups||[])groups.set(group.id,group);
  const types=[...new Set<string>((doc.questions||[]).map((q:Record<string,any>)=>questionType(q,groups.get(q.group_id))))].sort();
  tests.get(id)!.modules.push({module:String(row.module),types});}
+ // Speaking lives in speaking_sets, not exam_modules: surface it on the card when a published set is linked.
+ const ids=[...tests.keys()];
+ if(ids.length){const sets=await db().query(`SELECT practice_content_id::text AS id FROM public.speaking_sets WHERE published=true AND document IS NOT NULL AND practice_content_id::text=ANY($1::text[])`,[ids]);
+  for(const r of sets){const t=tests.get(String(r.id));if(t&&(t.sections||[]).includes('speaking')&&!t.modules.some(m=>m.module==='speaking'))t.modules.push({module:'speaking',types:[]});}}
  // Metadata only: locked passages, questions and answer keys never cross this boundary.
  return [...tests.values()];
 }
