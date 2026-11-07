@@ -40,7 +40,7 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
    if(topic&&!i.t.includes(topic))return false;
    if(band&&i.b!==band)return false;
    if(use&&!i.u.includes(use))return false;
-   if(needle&&!i.w.startsWith(needle)&&!(i.m||'').toLowerCase().includes(needle)&&!(i.n||'').includes(needle))return false;
+   if(needle&&!i.w.startsWith(needle)&&!new RegExp('\\b'+needle.replace(/[^a-z0-9\u0980-\u09FF ]/g,''),'i').test(i.m||'')&&!(i.n||'').includes(needle))return false;
    const isLocked=!i.m;
    if(status==='locked')return isLocked;
    if(status==='all')return true;

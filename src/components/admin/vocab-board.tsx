@@ -46,15 +46,15 @@ export function VocabBoard({freeLimit}:{freeLimit:number}){
    <p className="m-0 mt-3 text-[12px] text-muted">{total} of {all} words. Words at position 1–{freeLimit} are free for everyone; the rest open by plan. Change a word&apos;s position to move it in or out of the free group.</p>
    {msg&&<p role="status" className="m-0 mt-3 rounded-xl bg-ok-soft px-3 py-2 text-[12px] text-ok">{msg}</p>}
   </Card>
-  <Card className="!p-0 overflow-hidden"><div className="overflow-x-auto"><table className="w-full border-collapse text-[13px]">
+  <Card className="!p-0 overflow-hidden"><div className="overflow-x-auto"><table className="w-full min-w-[960px] border-collapse text-[13px]">
    <thead><tr className="border-b border-line"><th className={th}>#</th><th className={th}>Word</th><th className={th}>Meaning</th><th className={th}>Tier / band</th><th className={th}>Topics</th><th className={th}>Status</th><th className={th}></th></tr></thead>
    <tbody>{items.map(w=><tr key={w.id} className={'border-b border-line '+(w.position<=freeLimit?'bg-ok-soft/30':'')}>
     <td className="px-4 py-3 text-muted">{w.position}</td>
-    <td className="px-4 py-3 font-semibold text-ink">{w.word} <span className="font-normal text-muted">{w.pos.join('/')}</span></td>
+    <td className="whitespace-nowrap px-4 py-3 font-semibold text-ink">{w.word} <span className="font-normal text-muted">{w.pos.join('/')}</span></td>
     <td className="max-w-[320px] px-4 py-3 text-muted"><div className="truncate">{w.meaningEn}</div><div className="truncate">{w.meaningBn}</div></td>
     <td className="px-4 py-3"><Badge tone={w.tier==='core'?'good':w.tier==='advanced'?'info':'neutral'}>{w.tier}</Badge> <span className="text-muted">B{w.band}</span></td>
     <td className="max-w-[200px] px-4 py-3 text-muted"><div className="truncate">{w.topics.join(', ')}</div></td>
-    <td className="px-4 py-3"><button className={smallGhost} onClick={()=>void toggle(w)}>{w.published?'Published':'Hidden'}</button></td>
+    <td className="whitespace-nowrap px-4 py-3"><button className={smallGhost} onClick={()=>void toggle(w)}>{w.published?'Published':'Hidden'}</button></td>
     <td className="whitespace-nowrap px-4 py-3"><button className={smallGhost} onClick={()=>{setErr('');setEditing({...w});}}>Edit</button> <button className={smallGhost} onClick={()=>void remove(w)}>Delete</button></td>
    </tr>)}{!items.length&&<tr><td colSpan={7} className="px-4 py-8 text-center text-muted">No words match.</td></tr>}</tbody>
   </table></div>
