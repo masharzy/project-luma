@@ -116,3 +116,52 @@
 .prose p{margin:0 0 1.1em}
 .prose ul{padding-left:1.3em;display:grid;gap:.4em;margin:0 0 1.1em}
 @media (max-width:860px){.rBody.withPanel{grid-template-columns:1fr}.panel{border-left:0;border-top:1.5px solid var(--ln);position:static;max-height:none}.bookHead{grid-template-columns:1fr}}
+
+/* Paged reader */
+.stage{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;padding:18px 8px 6px;gap:4px}
+.paper{min-width:0;padding:8px clamp(8px,2vw,28px);height:var(--ph,clamp(440px,calc(100dvh - 270px),760px));display:flex;touch-action:pan-y}
+.viewport{flex:1;min-width:0;overflow:hidden;height:100%;position:relative}
+.flow{height:100%;column-fill:auto;transition:transform .38s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.flow h2,.flow .callout,.flow .take{break-inside:avoid}
+.flow p,.flow li{line-height:1.8;margin:0 0 .9em}
+.flow ul{margin:0 0 .9em;padding-left:1.3em}
+.flow li{margin:0 0 .3em}
+.pageTitle{margin:0 0 6px;font-size:1.55em;line-height:1.25;letter-spacing:-.015em}
+.edge{width:40px;height:72px;border:1.5px solid var(--ln);border-radius:14px;background:var(--bg);color:var(--fg);font-size:28px;cursor:pointer;line-height:1}
+.edge:disabled{opacity:.25;cursor:default}
+.edge:hover:not(:disabled){border-color:#c60936;color:#c60936}
+.pager{display:flex;align-items:center;gap:14px;padding:10px 18px 4px;font-size:13px;color:var(--mut)}
+.pbar{flex:1;height:4px;border-radius:99px;background:var(--ln);overflow:hidden}
+.pbar i{display:block;height:100%;background:#c60936;border-radius:99px;transition:width .3s}
+.hintRow{margin:0;padding:0 18px 14px;text-align:center;font-size:12px;color:var(--mut)}
+@media (max-width:700px){.stage{grid-template-columns:minmax(0,1fr);padding:12px 4px 0}.edge{display:none}.paper{padding:6px 12px}}
+
+/* Shelf redesign */
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0 0 26px}
+.feat div{padding:14px 16px;border:1.5px solid #e7e0e2;border-radius:16px;background:#fff;font-size:13.5px;color:#4a4249;line-height:1.45}
+.feat b{display:block;color:#211e25;margin-bottom:2px;font-size:14.5px}
+.resume{display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:center;padding:18px;border:1.5px solid #e7e0e2;border-radius:22px;background:#fff;margin-bottom:26px;text-align:left;cursor:pointer;width:100%}
+.resume:hover{border-color:#211e25}
+.resume .cover{aspect-ratio:3/4;padding:12px;border-radius:4px 10px 10px 4px}
+.resume .cover b{font-size:12px}
+.cover::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 85% 12%,rgba(255,255,255,.22) 0 22%,transparent 23%),radial-gradient(circle at 85% 12%,rgba(255,255,255,.12) 0 36%,transparent 37%),linear-gradient(to bottom,rgba(255,255,255,.08),rgba(0,0,0,.14));pointer-events:none}
+.cover>*{position:relative}
+.bookBar{height:5px;border-radius:99px;background:#f0eaec;overflow:hidden;margin-top:4px}
+.bookBar i{display:block;height:100%;background:#c60936}
+@media (max-width:640px){.resume{grid-template-columns:80px 1fr}.resume>:last-child{display:none}}
+
+/* Resources hub */
+.hubGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.hubCard{display:flex;flex-direction:column;gap:10px;padding:24px;border:1.5px solid #e7e0e2;border-radius:22px;background:#fff;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+.hubCard:hover{border-color:#211e25;box-shadow:0 10px 28px rgba(33,30,37,.08)}
+.hubIcon{width:50px;height:50px;border-radius:14px;background:#fff0f3;color:#c60936;display:flex;align-items:center;justify-content:center}
+.hubCard h3{margin:4px 0 0;font-size:21px;letter-spacing:-.01em}
+.hubCard p{margin:0;color:#4a4249;line-height:1.6;font-size:14.5px}
+.hubCard ul{margin:2px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.hubCard li{font-size:12.5px;background:#f4f1f2;border-radius:8px;padding:3px 10px;color:#211e25}
+.hubFoot{margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hubFoot small{color:#4a4249;font-size:12.5px}
+.hubFoot b{color:#c60936;font-size:14px;white-space:nowrap}
+.resumeLink{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border:1.5px solid #e7e0e2;border-radius:16px;background:#fff;text-decoration:none;color:#211e25}
+.resumeLink:hover{border-color:#211e25}
+.resumeLink span{font-size:13px;color:#4a4249;font-weight:400}

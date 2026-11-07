@@ -26,24 +26,35 @@ function Marked({text,hls,onNote}:{text:string;hls:Hl[];onNote:(h:Hl)=>void}){
 }
 function Reader({book,ci,store,update,go,exit}:{book:Book;ci:number;store:Store;update:(f:(s:Store)=>Store)=>void;go:(i:number)=>void;exit:()=>void}){
  const ch=book.chapters[ci],st=bs(store,book.slug);
- const [panel,setPanel]=useState<''|'marks'|'notes'|'search'>(''),[showSet,setShowSet]=useState(false),[pct,setPct]=useState(0),[q,setQ]=useState(''),[sel,setSel]=useState<{x:number;y:number;b:number;text:string}|null>(null);
- const ref=useRef<HTMLElement>(null);
+ const [panel,setPanel]=useState<''|'notes'|'search'>(''),[showSet,setShowSet]=useState(false),[q,setQ]=useState(''),[sel,setSel]=useState<{x:number;y:number;b:number;text:string}|null>(null);
+ const [page,setPage]=useState(0),[pages,setPages]=useState(1),[geo,setGeo]=useState({w:0,gap:0});
+ const wrap=useRef<HTMLDivElement>(null),flow=useRef<HTMLDivElement>(null),landLast=useRef(false),touch=useRef<{x:number;y:number}|null>(null);
  const set=(f:(b:BookState)=>BookState)=>update(s=>({...s,books:{...s.books,[book.slug]:f(bs(s,book.slug))}}));
- useEffect(()=>{set(b=>({...b,last:ci}));window.scrollTo({top:0});setSel(null);/* eslint-disable-next-line */},[ci,book.slug]);
- useEffect(()=>{const f=()=>{const el=ref.current;if(!el)return;const r=el.getBoundingClientRect(),h=r.height-innerHeight;setPct(h<=0?100:Math.min(100,Math.max(0,-r.top/h*100)));};f();addEventListener('scroll',f,{passive:true});return()=>removeEventListener('scroll',f);},[ci]);
  const blocks=useMemo(()=>ch.body?parseBody(ch.body):[],[ch.body]);
  const myHl=st.hl.filter(h=>h.ch===ci);
+ const cols=geo.w>=900?2:1;
+ const measure=useCallback(()=>{const w=wrap.current?.clientWidth||0,f=flow.current;if(!w||!f)return;const c=w>=900?2:1,gap=c===2?64:0;setGeo({w,gap});
+  const n=Math.max(1,Math.round((f.scrollWidth+gap)/(w+gap)));setPages(n);setPage(p=>landLast.current?(landLast.current=false,n-1):Math.min(p,n-1));},[]);
+ useEffect(()=>{set(b=>({...b,last:ci}));setPage(0);setSel(null);/* eslint-disable-next-line */},[ci,book.slug]);
+ useEffect(()=>{const id=requestAnimationFrame(measure);return()=>cancelAnimationFrame(id);},[measure,blocks,store.size,store.serif,panel,showSet,ch.locked]);
+ useEffect(()=>{const ro=new ResizeObserver(()=>measure());if(wrap.current)ro.observe(wrap.current);document.fonts?.ready.then(measure);return()=>ro.disconnect();},[measure]);
+ const last=ci>=book.chapters.length-1;
+ const next=useCallback(()=>{if(page<pages-1)setPage(page+1);else if(!last){set(b=>({...b,done:b.done.includes(ci)?b.done:[...b.done,ci]}));go(ci+1);}/* eslint-disable-next-line */},[page,pages,last,ci,go]);
+ const prev=useCallback(()=>{if(page>0)setPage(page-1);else if(ci>0){landLast.current=true;go(ci-1);}},[page,ci,go]);
+ useEffect(()=>{const k=(e:KeyboardEvent)=>{const t=e.target as HTMLElement;if(t&&/INPUT|TEXTAREA/.test(t.tagName))return;if(e.key==='ArrowRight'||e.key==='PageDown')next();if(e.key==='ArrowLeft'||e.key==='PageUp')prev();};addEventListener('keydown',k);return()=>removeEventListener('keydown',k);},[next,prev]);
  const onUp=()=>{const s=getSelection();if(!s||s.isCollapsed){setSel(null);return;}const text=s.toString().trim();if(text.length<3||text.length>400){setSel(null);return;}
   let n:Node|null=s.anchorNode;while(n&&!(n instanceof HTMLElement&&n.dataset.b))n=n.parentNode;
-  if(!n)return setSel(null);const b=Number((n as HTMLElement).dataset.b),raw=blocks[b]?.text||(blocks[b]?.items||[]).join(' ');
+  if(!n)return setSel(null);const b=Number((n as HTMLElement).dataset.b),raw=blocks[b]?.text||'';
   if(!raw.includes(text)||blocks[b].t==='ul')return setSel(null);
-  const r=s.getRangeAt(0).getBoundingClientRect();setSel({x:Math.max(8,r.left+r.width/2-70),y:Math.max(8,r.top-48),b,text});};
- const addHl=(note:boolean)=>{if(!sel)return;const nt=note?(prompt('Your note')||''):'';if(note&&!nt){return;}set(b=>({...b,hl:[...b.hl,{ch:ci,b:sel.b,text:sel.text,note:nt}]}));setSel(null);getSelection()?.removeAllRanges();};
+  const r=s.getRangeAt(0).getBoundingClientRect();setSel({x:Math.max(8,Math.min(innerWidth-160,r.left+r.width/2-70)),y:Math.max(8,r.top-48),b,text});};
+ const addHl=(note:boolean)=>{if(!sel)return;const nt=note?(prompt('Your note')||''):'';if(note&&!nt)return;set(b=>({...b,hl:[...b.hl,{ch:ci,b:sel.b,text:sel.text,note:nt}]}));setSel(null);getSelection()?.removeAllRanges();};
  const editHl=(h:Hl)=>{const act=prompt(h.note?`Note: ${h.note}\n\nType a new note, or leave empty and press OK to remove this highlight.`:'Leave empty and press OK to remove this highlight, or type a note.',h.note);if(act===null)return;set(b=>({...b,hl:act?b.hl.map(x=>x===h?{...x,note:act}:x):b.hl.filter(x=>x!==h)}));};
  const marked=st.marks.includes(ci);
  const results=useMemo(()=>{const n=q.trim().toLowerCase();if(n.length<3)return[];const r:{ci:number;t:string}[]=[];book.chapters.forEach((c,i)=>{if(!c.body)return;const l=c.body.toLowerCase();let at=l.indexOf(n),k=0;while(at>=0&&k<3){r.push({ci:i,t:'…'+c.body!.slice(Math.max(0,at-40),at+80).replace(/\s+/g,' ')+'…'});at=l.indexOf(n,at+n.length);k++;}});return r.slice(0,30);},[q,book]);
+ const bookPct=Math.round(((st.done.filter(i=>i!==ci).length+(pages>1?page/(pages-1):1))/book.chapters.length)*100);
  const fontStyle={fontSize:store.size,fontFamily:store.serif?'Georgia,"Noto Serif",serif':'inherit'};
- const complete=()=>set(b=>({...b,done:b.done.includes(ci)?b.done.filter(x=>x!==ci):[...b.done,ci]}));
+ const onTS=(e:React.TouchEvent)=>{touch.current={x:e.touches[0].clientX,y:e.touches[0].clientY};};
+ const onTE=(e:React.TouchEvent)=>{const t=touch.current;touch.current=null;if(!t)return;const dx=e.changedTouches[0].clientX-t.x,dy=e.changedTouches[0].clientY-t.y;if(Math.abs(dx)>50&&Math.abs(dy)<70&&getSelection()?.isCollapsed!==false)dx<0?next():prev();};
  return <div className={es.reader} data-theme={store.theme} onMouseUp={onUp} onKeyUp={onUp}>
   <div className={es.rBar}>
    <button onClick={exit}>Contents</button>
@@ -53,29 +64,33 @@ function Reader({book,ci,store,update,go,exit}:{book:Book;ci:number;store:Store;
    <button aria-pressed={panel==='search'} onClick={()=>setPanel(panel==='search'?'':'search')}>Search</button>
    <button aria-pressed={showSet} onClick={()=>setShowSet(!showSet)}>Aa</button>
   </div>
-  <div className={es.prog}><i style={{width:`${pct}%`}}/></div>
   {showSet&&<div className={es.settings}>
    <span>Size</span><button onClick={()=>update(s=>({...s,size:Math.max(14,s.size-1)}))}>A−</button><b>{store.size}</b><button onClick={()=>update(s=>({...s,size:Math.min(26,s.size+1)}))}>A+</button>
    <span>Theme</span>{(['light','sepia','dark'] as const).map(t=><button key={t} aria-pressed={store.theme===t} onClick={()=>update(s=>({...s,theme:t}))}>{t}</button>)}
    <span>Font</span><button aria-pressed={store.serif} onClick={()=>update(s=>({...s,serif:true}))}>Serif</button><button aria-pressed={!store.serif} onClick={()=>update(s=>({...s,serif:false}))}>Sans</button>
   </div>}
   <div className={`${es.rBody} ${panel?es.withPanel:''}`}>
-   <article ref={ref} className={es.article} style={{...fontStyle,maxWidth:760}}>
-    <h1>{ch.title}</h1><div className={es.chMeta}>{mins(ch.words)} min read · {book.title}</div>
-    {ch.locked||!ch.body?<div className={styles.lockPanel} style={{margin:'20px 0'}}><Lock/><h2>Chapter locked</h2><p>এই chapter plan-এর সাথে খোলে। প্রতিটা বইয়ের প্রথম ২টা chapter free।</p><div className={styles.row}><Link href="/pricing" className={styles.primary}>See plans</Link></div></div>
-    :<>{blocks.map((b,k)=>{
-      if(b.t==='h')return <h2 key={k}>{b.text}</h2>;
-      if(b.t==='ul')return <ul key={k}>{b.items!.map(i=><li key={i}>{i}</li>)}</ul>;
-      const inner=<Marked text={b.text!} hls={myHl.filter(h=>h.b===k)} onNote={editHl}/>;
-      if(b.t==='tip'||b.t==='ex')return <div key={k} className={es.callout}><b>{b.t==='tip'?'Tip':'Example'}</b><p data-b={k}>{inner}</p></div>;
-      return <p key={k} data-b={k}>{inner}</p>;})}
-     {ch.takeaways&&<div className={es.take}><h3>Key takeaways</h3><ul>{ch.takeaways.map(t=><li key={t}>{t}</li>)}</ul></div>}
-     {ch.exercise&&<div className={es.callout}><b>Try it</b><p>{ch.exercise}</p></div>}
-     <div className={es.nextRow}><button className={st.done.includes(ci)?styles.doneOn:styles.doneBtn} onClick={complete}>{st.done.includes(ci)&&<Check/>}{st.done.includes(ci)?'Chapter completed':'Mark chapter complete'}</button>
-      <div className={styles.row}>{ci>0&&<button className={styles.ghost} onClick={()=>go(ci-1)}>Previous</button>}{ci<book.chapters.length-1&&<button className={styles.primary} onClick={()=>{if(!st.done.includes(ci))complete();go(ci+1);}}>Next chapter</button>}</div></div></>}
-   </article>
+   <div className={es.stage}>
+    <button className={`${es.edge} ${es.edgeL}`} aria-label="Previous page" onClick={prev} disabled={page===0&&ci===0}>‹</button>
+    <div className={es.paper} onTouchStart={onTS} onTouchEnd={onTE}>
+     {ch.locked||!ch.body?<div className={styles.lockPanel} style={{margin:'20px auto',background:'transparent'}}><Lock/><h2>Chapter locked</h2><p>এই chapter plan-এর সাথে খোলে। প্রতিটা বইয়ের প্রথম ২টা chapter free।</p><div className={styles.row}><Link href="/pricing" className={styles.primary}>See plans</Link></div></div>
+     :<div ref={wrap} className={es.viewport}>
+      <div ref={flow} className={es.flow} style={{...fontStyle,width:geo.w||undefined,columnCount:cols,columnGap:geo.gap,transform:`translateX(${-page*(geo.w+geo.gap)}px)`}}>
+       <h1 className={es.pageTitle}>{ch.title}</h1><div className={es.chMeta}>{mins(ch.words)} min read · {book.title}</div>
+       {blocks.map((b,k)=>{
+        if(b.t==='h')return <h2 key={k}>{b.text}</h2>;
+        if(b.t==='ul')return <ul key={k}>{b.items!.map(i=><li key={i}>{i}</li>)}</ul>;
+        const inner=<Marked text={b.text!} hls={myHl.filter(h=>h.b===k)} onNote={editHl}/>;
+        if(b.t==='tip'||b.t==='ex')return <div key={k} className={es.callout}><b>{b.t==='tip'?'Tip':'Example'}</b><p data-b={k}>{inner}</p></div>;
+        return <p key={k} data-b={k}>{inner}</p>;})}
+       {ch.takeaways&&<div className={es.take}><h3>Key takeaways</h3><ul>{ch.takeaways.map(t=><li key={t}>{t}</li>)}</ul></div>}
+       {ch.exercise&&<div className={es.callout}><b>Try it</b><p>{ch.exercise}</p></div>}
+      </div></div>}
+    </div>
+    <button className={`${es.edge} ${es.edgeR}`} aria-label="Next page" onClick={next} disabled={page>=pages-1&&last}>›</button>
+   </div>
    {panel&&<aside className={es.panel}>
-    {panel==='notes'&&<><h4>Highlights and notes</h4>{!st.hl.length&&<small>Select any text in a chapter, then choose Highlight or Add note.</small>}
+    {panel==='notes'&&<><h4>Highlights and notes</h4>{!st.hl.length&&<small>Select any text on a page, then choose Highlight or Add note.</small>}
      {st.hl.map((h,i)=><button key={i} className="item" onClick={()=>go(h.ch)}><b>Ch. {h.ch+1}</b> {h.text.slice(0,110)}{h.note&&<><br/><small>Note: {h.note}</small></>}</button>)}
      <h4>Bookmarks</h4>{!st.marks.length&&<small>No bookmarks yet.</small>}
      {st.marks.slice().sort((a,b)=>a-b).map(m=><button key={m} className="item" onClick={()=>go(m)}>Ch. {m+1}: {book.chapters[m].title}</button>)}</>}
@@ -83,6 +98,12 @@ function Reader({book,ci,store,update,go,exit}:{book:Book;ci:number;store:Store;
      {results.map((r,i)=><button key={i} className="item" onClick={()=>go(r.ci)}><b>Ch. {r.ci+1}</b> {r.t}</button>)}</>}
    </aside>}
   </div>
+  <div className={es.pager}>
+   <span>{ch.locked?'Locked':`Page ${Math.min(cols===2?page*2+1:page+1,Math.max(1,pages*cols))}${cols===2?`–${Math.min(page*2+2,pages*2)}`:''} of ${pages*cols}`}</span>
+   <div className={es.pbar}><i style={{width:`${Math.min(100,bookPct)}%`}}/></div>
+   <span>{Math.min(100,bookPct)}% of book</span>
+  </div>
+  <p className={es.hintRow}>Swipe, tap the arrows, or use ← → keys to turn pages</p>
   {sel&&<div className={es.floatBtn} style={{left:sel.x,top:sel.y}} onMouseDown={e=>e.preventDefault()}><button onClick={()=>addHl(false)}>Highlight</button><button onClick={()=>addHl(true)}>Add note</button></div>}
  </div>;
 }
@@ -116,18 +137,22 @@ export function EbookApp({books}:{books:Book[]}){
  }
  const cont=ready?books.filter(b=>bs(store,b.slug).last>=0):[];
  const shown=skill?books.filter(b=>b.skill===skill):books;
+ const resumeBook=cont.slice().sort((x,y)=>pctOf(y)-pctOf(x))[0];
+ const Cover=({b,small}:{b:Book;small?:boolean})=><div className={es.cover} style={{background:`linear-gradient(160deg,${COVERS[books.indexOf(b)%COVERS.length]},${COVERS[books.indexOf(b)%COVERS.length]}cc)`}}><small>{b.skill}</small><b>{b.title}</b>{!small&&<span>{b.level}</span>}</div>;
+ const total=books.reduce((t,b)=>t+b.chapters.length,0),free=books.reduce((t,b)=>t+b.chapters.filter(c=>!c.locked).length,0);
  return <div className={styles.page}>
   <section className={styles.hero}>
    <span className={styles.eyebrow}>THE EBOOK SHELF</span>
-   <h1>IELTS ebooks, <em>read right here</em></h1>
-   <p>আমাদের নিজের লেখা {books.length}টা বই, সরাসরি browser-এ পড়ো। Highlight করো, note লেখো, bookmark রাখো, আর কোথায় থেমেছিলে সেখান থেকে আবার শুরু করো। কিছু download করতে হয় না।</p>
-   <ul className={styles.stats}><li><b>{books.length}</b>ebooks</li><li><b>{books.reduce((t,b)=>t+b.chapters.length,0)}</b>chapters</li><li><b>{books.reduce((t,b)=>t+b.chapters.filter(c=>!c.locked).length,0)}</b>free chapters</li></ul>
-   <div className={es.chips2}>{['Highlights and notes','Bookmarks','Search in book','Light, sepia and dark','Resume where you stopped'].map(f=><span key={f}>{f}</span>)}</div>
+   <h1>IELTS ebooks, <em>read like a book</em></h1>
+   <p>আমাদের নিজের লেখা {books.length}টা বই। পাতা উল্টে পড়ো: phone-এ swipe করো, computer-এ দুই পাতার spread পাবে। Highlight, note আর bookmark রাখতে পারবে, আর যেখানে থেমেছিলে সেখান থেকেই শুরু হবে।</p>
+   <ul className={styles.stats}><li><b>{books.length}</b>ebooks</li><li><b>{total}</b>chapters</li><li><b>{free}</b>free chapters</li></ul>
   </section>
-  {cont.length>0&&<><div className={styles.sectionHead}><h2>Continue reading</h2></div><div className={es.shelf} style={{marginBottom:28}}>{cont.map(b=><button key={b.slug} className={es.book} onClick={()=>nav(b.slug,bs(store,b.slug).last)}><div className={es.cover} style={{background:COVERS[books.indexOf(b)%COVERS.length]}}><small>{b.skill}</small><b>{b.title}</b><span>{pctOf(b)}% complete</span></div></button>)}</div></>}
-  <div className={es.chips2} style={{marginBottom:14}}><button className={skill?'':styles.doneOn} style={{border:'1.5px solid #e7e0e2',borderRadius:999,padding:'7px 14px',background:skill?'#fff':undefined,cursor:'pointer',fontWeight:600}} onClick={()=>setSkill('')}>All</button>{skills.map(s=><button key={s} className={skill===s?styles.doneOn:''} style={{border:'1.5px solid #e7e0e2',borderRadius:999,padding:'7px 14px',background:skill===s?undefined:'#fff',cursor:'pointer',fontWeight:600}} onClick={()=>setSkill(s)}>{s}</button>)}</div>
+  {resumeBook&&<button className={es.resume} onClick={()=>nav(resumeBook.slug,bs(store,resumeBook.slug).last)}><Cover b={resumeBook} small/><div><span className={styles.eyebrow}>CONTINUE READING</span><h3 style={{margin:'6px 0 4px',fontSize:20}}>{resumeBook.title}</h3><p style={{margin:0,color:'#4a4249',fontSize:14}}>Chapter {bs(store,resumeBook.slug).last+1}: {resumeBook.chapters[bs(store,resumeBook.slug).last]?.title}</p><div className={es.bookBar}><i style={{width:`${pctOf(resumeBook)}%`}}/></div></div><span className={styles.primary}>Resume</span></button>}
+  <div className={es.feat}>{[['Page-turn reading','Swipe on phone, arrow keys or buttons on desktop'],['Highlights and notes','Select any text to save it'],['Bookmarks and search','Jump to any chapter or phrase'],['Light, sepia, dark','Adjust size and font for comfort']].map(([t,d])=><div key={t}><b>{t}</b>{d}</div>)}</div>
+  <div className={styles.sectionHead}><h2>All books</h2></div>
+  <div className={es.chips2} style={{marginBottom:16}}>{['',...skills].map(k=><button key={k||'all'} className={skill===k?styles.doneOn:''} style={{border:'1.5px solid #e7e0e2',borderRadius:999,padding:'7px 14px',background:skill===k?undefined:'#fff',cursor:'pointer',fontWeight:600}} onClick={()=>setSkill(k)}>{k||'All'}</button>)}</div>
   <div className={es.shelf}>{shown.map(b=><button key={b.slug} className={es.book} onClick={()=>nav(b.slug)}>
-   <div className={es.cover} style={{background:COVERS[books.indexOf(b)%COVERS.length]}}><small>{b.skill}</small><b>{b.title}</b><span>{b.level}</span></div>
-   <div className={es.bookMeta}><b>{b.title}</b><small>{b.subtitle}</small><small>{b.chapters.length} chapters · {b.chapters.filter(c=>!c.locked).length} free{ready&&pctOf(b)?` · ${pctOf(b)}% done`:''}</small></div></button>)}</div>
+   <Cover b={b}/>
+   <div className={es.bookMeta}><b>{b.subtitle}</b><small>{b.chapters.length} chapters · {b.chapters.filter(c=>!c.locked).length} free · {mins(b.chapters.reduce((t,c)=>t+c.words,0))} min</small>{ready&&pctOf(b)>0&&<div className={es.bookBar}><i style={{width:`${pctOf(b)}%`}}/></div>}</div></button>)}</div>
  </div>;
 }
