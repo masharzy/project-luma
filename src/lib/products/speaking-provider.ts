@@ -99,6 +99,9 @@ type AssessmentOptions = {
  onProgress?:(report:PartReport)=>Promise<void>;
  providerKey?:string;
  loadAudio?:(key:string)=>Promise<Uint8Array>;
+ // Admin benchmark only: evaluate with another audio model. providerOnly null lets OpenRouter pick the provider.
+ model?:string;
+ providerOnly?:string|null;
 };
 const isSpeech=(status:string)=>status==='speech'||status==='partial_speech';
 const criterionKeys=['fluency_coherence','lexical_resource','grammar','pronunciation'] as const;
@@ -155,8 +158,8 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
    method:'POST',signal:AbortSignal.timeout(260_000),
    headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Speaking Evaluation'},
    body:JSON.stringify({
-    model:speakingModel,stream:true,stream_options:{include_usage:true},max_tokens:16000,
-    reasoning:{enabled:false,exclude:true},provider:{only:[speakingProvider],allow_fallbacks:false,require_parameters:true},
+    model:options.model??speakingModel,stream:true,stream_options:{include_usage:true},max_tokens:16000,
+    reasoning:{enabled:false,exclude:true},provider:{...(options.providerOnly===null?{}:{only:[options.providerOnly??speakingProvider]}),allow_fallbacks:false,require_parameters:true},
     response_format:modelJsonFormat(steps),
     messages:[{role:'system',content:systemPrompt},{role:'user',content}],
    }),
@@ -249,7 +252,7 @@ export async function assessSpeakingDirect(input:SpeakingInput,options:Assessmen
  if(models.some(m=>!m.answers.some(a=>isSpeech(a.speech_status))))result.estimatedBand=null;
  result.assessmentDetails={answers,parts:parts.map(p=>({part:p.report.part,criteria:p.model!.criteria}))};
  const costs=reports.flatMap(r=>typeof r.rawResponse==='object'&&typeof r.rawResponse.usage?.cost==='number'?[r.rawResponse.usage.cost]:[]);
- return {result,usage:{promptVersion,reasoningEnabled:false,cost:costs.length===parts.length?costs.reduce((a,b)=>a+b,0):null,parts:reports},model:speakingModel};
+ return {result,usage:{promptVersion,reasoningEnabled:false,cost:costs.length===parts.length?costs.reduce((a,b)=>a+b,0):null,parts:reports},model:options.model??speakingModel};
 }
 
 export const assessSpeaking = assessSpeakingDirect;
