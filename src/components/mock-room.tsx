@@ -4,6 +4,7 @@ import {useRouter} from 'next/navigation';
 import { useCallback,useEffect,useState } from 'react';
 import { Headphones,BookOpenText,PenLine,Mic,CalendarDays,Clock3,Check,ArrowUpRight,Lock } from 'lucide-react';
 import { mockFull,mockTime } from '@/lib/mock-phase';
+import { MockPreflight } from './mock-preflight';
 type Event={title:string;description:string;access:string;startsAt:string;endsAt:string;phase:string;serverNow:number;registered:boolean;attemptId:string|null;signedIn:boolean;published:boolean;modules:{module:string;minutes:number}[]};
 export function MockRoom({id}:{id:string}){
  const router=useRouter();
@@ -43,6 +44,7 @@ export function MockRoom({id}:{id:string}){
    {phase==='waiting'&&<div className="mkr-count" role="timer" aria-label={`Starts in ${d} days ${h} hours ${m} minutes ${sec} seconds`}><span className="mkr-count-label">Starts in</span><div>{([[d,'days'],[h,'hrs'],[m,'min'],[sec,'sec']] as const).map(([v,u])=><span key={u}><b>{String(v).padStart(2,'0')}</b>{u}</span>)}</div></div>}
    {phase==='live'&&<div className="mkr-count"><span className="mkr-count-label">Live now</span><p>Exam window closes at {mockTime(event.endsAt)}</p></div>}
    {phase==='ended'&&<div className="mkr-count"><span className="mkr-count-label">Finished</span><p>{event.published?'Results are published.':'Results are not published yet.'}</p></div>}
+   {phase==='waiting'&&event.registered&&<MockPreflight hasListening={event.modules.some(m=>m.module==='listening')} hasSpeaking={hasSpeaking} online={!error}/>}
    {cta}
    {error&&<p role="alert" className="mkr-error">{error}</p>}
   </aside>

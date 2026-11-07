@@ -401,3 +401,18 @@ a.lib-page-num:hover,a.lib-page-step:hover{border-color:var(--lib-red);color:var
  .lib-catalog .lib-test .lib-test-modules[data-count="4"] .lib-mod>svg:last-child{display:none}
 }
 @media(max-width:1100px) and (min-width:601px){.lib-catalog .lib-test .lib-test-modules[data-count="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Mock waiting room: setup checks */
+.mkr-preflight{display:grid;gap:10px;margin:14px 0;padding:14px;border:1px solid var(--lib-line,#e4d8c8);background:var(--lib-card,#fff);border-radius:2px}
+.mkr-preflight h2{margin:0;font:600 1rem var(--lib-display,inherit)}
+.mkr-preflight ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.mkr-preflight li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mkr-preflight li>div{display:grid;gap:4px;min-width:0}
+.mkr-check{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--lib-line-strong,#cdbfa9);color:var(--lib-mute,#6b6259)}
+.mkr-preflight li.is-done .mkr-check{background:var(--lib-red,#c8102e);border-color:var(--lib-red,#c8102e);color:#fff}
+.mkr-preflight small{font-size:.8rem;color:var(--lib-mute,#6b6259);line-height:1.45}
+.mkr-preflight button{justify-self:start;min-height:40px;padding:0 14px;border:1px solid var(--lib-red,#c8102e);border-radius:2px;background:var(--lib-red,#c8102e);color:#fff;font:600 .86rem system-ui,sans-serif;cursor:pointer}
+.mkr-preflight button.is-quiet{background:#fff;color:var(--lib-red,#c8102e)}
+.mkr-pre-actions{display:flex;gap:8px;flex-wrap:wrap}
+.mkr-preflight .mkr-pre-error{color:#b42318}
+.mkr-preflight button:focus-visible{outline:3px solid #241b18;outline-offset:2px}

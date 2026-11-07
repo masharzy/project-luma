@@ -283,3 +283,11 @@
 .exam-engine .luma-submit-dialog .luma-submit-footer button:first-child{background:#fff!important;color:#c8102e!important;border:1px solid #c8102e!important}
 .exam-engine .luma-submit-dialog .luma-submit-footer button:last-child{background:#c8102e!important;color:#fff!important;border:1px solid #c8102e!important}
 .exam-engine .luma-submit-dialog .luma-submit-time{justify-content:center;gap:12px}
+
+/* Submit dialog: always centred in the viewport, regardless of utility-class support */
+.exam-engine .luma-submit-dialog{position:fixed!important;top:50%!important;left:50%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important;translate:none!important;width:min(440px,calc(100vw - 32px))!important;margin:0!important;max-height:calc(100dvh - 32px);overflow:auto}
+/* Palette: white and red. Blue accents become red in the standard contrast mode */
+.exam-engine .ielts-contrast-black-on-white{--ielts-blue:#c8102e}
+.exam-engine .ielts-contrast-black-on-white .ielts-qnav.answered{background:#fdecef;border-color:#c8102e;color:#111}
+.exam-engine .ProseMirror-selectednode{outline-color:#c8102e}
+.exam-engine .exam-notice{border-left-color:#c8102e}
