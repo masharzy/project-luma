@@ -35,7 +35,7 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
  const base={model,sourceSeconds:Math.round(input.clips.reduce((n,c)=>n+c.seconds,0)),clips:input.clips.length};
  let out:Record<string,unknown>;
  try{
-  const {result,usage}=await assessSpeakingDirect(input,{providerKey:key,model,providerOnly:null,reasoning:d.reasoning==='low'||d.reasoning==='medium'?d.reasoning:undefined,simpleSchema:d.simpleSchema===true,noStepEnum:d.noStepEnum===true,pack:d.pack===true});
+  const {result,usage}=await assessSpeakingDirect(input,{providerKey:key,model,providerOnly:null,reasoning:d.reasoning==='low'||d.reasoning==='medium'?d.reasoning:undefined,simpleSchema:d.simpleSchema===true,noStepEnum:d.noStepEnum===true,pack:d.pack===true,loose:d.loose===true});
   const tr=new Map(result.transcripts.map(t=>[t.step,t.verbatim]));
   const perStep=input.clips.map(c=>({step:c.step,sec:c.seconds,wer:wer(norm(refText.get(c.step)||''),norm(tr.get(c.step)||'')),chars:(tr.get(c.step)||'').length}));
   const refAll=input.clips.flatMap(c=>norm(refText.get(c.step)||'')),hypAll=input.clips.flatMap(c=>norm(tr.get(c.step)||''));

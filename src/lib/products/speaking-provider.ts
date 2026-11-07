@@ -109,6 +109,8 @@ type AssessmentOptions = {
  noStepEnum?:boolean;
  // One joined audio per part (clips separated by 1 s silence, explicit start/end offsets) instead of one audio part per clip.
  pack?:boolean;
+ // Admin benchmark only: drop array-size/length constraints (Gemini rejects large nested constrained schemas). Coverage is still validated in code.
+ loose?:boolean;
 };
 const isSpeech=(status:string)=>status==='speech'||status==='partial_speech';
 const criterionKeys=['fluency_coherence','lexical_resource','grammar','pronunciation'] as const;
@@ -176,7 +178,7 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
    body:JSON.stringify({
     model:options.model??speakingModel,stream:true,stream_options:{include_usage:true},max_tokens:16000,
     reasoning:options.reasoning?{effort:options.reasoning,exclude:true}:{enabled:false,exclude:true},provider:{...(options.providerOnly===null?{}:{only:[options.providerOnly??speakingProvider]}),allow_fallbacks:false,require_parameters:true},
-    response_format:options.simpleSchema||options.noStepEnum?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'||(options.noStepEnum&&k==='enum'&&Array.isArray(v)&&v.every(x=>typeof x==='number'))?undefined:v)):modelJsonFormat(steps),
+    response_format:options.simpleSchema||options.noStepEnum||options.loose?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'||(options.loose&&['minItems','maxItems','maxLength','minLength'].includes(k))||((options.noStepEnum||options.loose)&&k==='enum'&&Array.isArray(v)&&v.every(x=>typeof x==='number'))?undefined:v)):modelJsonFormat(steps),
     messages:[{role:'system',content:systemPrompt},{role:'user',content}],
    }),
   });
