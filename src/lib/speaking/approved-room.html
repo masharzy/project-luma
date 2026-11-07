@@ -61,6 +61,12 @@ h1,h2,p{margin:0}h1{font:600 clamp(1.6rem,4vw,2.4rem)/1.1 var(--display);letter-
 .paper h2{font:600 1.25rem/1.3 var(--display);letter-spacing:-.02em;margin-bottom:8px;overflow-wrap:anywhere}.paper p,.paper li{white-space:pre-line;overflow-wrap:anywhere}
 .paper ul{padding-left:20px;margin:8px 0}.source-card-image{max-width:100%;display:block;margin-top:10px}
 .paper textarea{width:100%;min-height:160px;resize:vertical;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.7);padding:12px;font-size:1rem}
+/* Cue-card mode: the card and notes come first, large and readable; the orb shrinks. */
+.layout.card-mode .heading{order:-3}.layout.card-mode .preparation{order:-2}.layout.card-mode .stage{order:-1;padding:6px 12px 0}
+.layout.card-mode .orb{--size:84px}.layout.card-mode .examiner{margin-top:6px}
+.layout.card-mode #paper-overlay h2{font-size:clamp(1.35rem,4vw,1.8rem)}.layout.card-mode #paper-overlay{font-size:1.05rem}
+.layout.card-mode #paper-overlay .clock{font-size:1.5rem;color:var(--accent)}
+.layout.card-mode .preparation{position:sticky;top:64px;z-index:3}
 @keyframes card-in{from{opacity:0;transform:translateY(-18px) rotateX(-12deg)}to{opacity:1;transform:none}}
 @keyframes notes-in{from{opacity:0;transform:translateX(24px) rotate(1.5deg)}to{opacity:1;transform:none}}
 #tp{height:3px;background:var(--accent);width:0;transition:width .2s}
@@ -93,7 +99,7 @@ h1,h2,p{margin:0}h1{font:600 clamp(1.6rem,4vw,2.4rem)/1.1 var(--display);letter-
     <article class="paper" id="paper-overlay" hidden><div class="paper-head"><span class="tag">Cue card</span><strong class="clock" id="prep-clock" role="timer" aria-label="Preparation or speaking time remaining"></strong><button class="secondary-button" id="close-paper" type="button">Close</button></div><h2 id="cue-title"></h2><div id="cue-details"></div></article>
     <section class="paper notes-panel" id="notes-panel" hidden><div class="paper-head"><label class="tag" for="notes">Your notes</label><button class="secondary-button" id="close-notes" type="button">Close</button></div><textarea id="notes" placeholder="Write a few ideas…"></textarea></section>
   </section>
-  <section class="controls" id="controls"><div><strong id="status-title">Start the interview</strong><small id="status-detail">Your microphone turns on when you record.</small><small id="saved-count" aria-live="polite"></small></div><div class="control-actions"><div class="review-strip" id="review" hidden><audio id="playback" controls aria-label="Listen to your recorded answer"></audio><button class="secondary-button" id="retake" type="button">Retake</button></div><button class="secondary-button" id="skip" type="button" hidden>Skip question</button><button class="record-button" id="main-action" type="button">Start speaking test</button></div></section>
+  <section class="controls" id="controls"><div><strong id="status-title">Start the interview</strong><small id="status-detail">Your microphone turns on when you record.</small><small id="saved-count" aria-live="polite"></small></div><div class="control-actions"><div class="review-strip" id="review" hidden><audio id="playback" controls aria-label="Listen to your recorded answer"></audio><button class="secondary-button" id="retake" type="button">Retake</button></div><button class="secondary-button" id="auto-toggle" type="button" aria-pressed="true">Auto mode: On</button><button class="secondary-button" id="skip" type="button" hidden>Skip question</button><button class="record-button" id="main-action" type="button">Start speaking test</button></div></section>
 </main>
 <div class="complete-overlay" id="complete" hidden><div role="dialog" aria-modal="true" aria-labelledby="complete-title"><h2 id="complete-title">Speaking test complete</h2><p id="complete-text"></p><div id="answer-downloads"></div><button class="secondary-button" id="restart" type="button">Start again</button></div></div>
 <div class="toast" id="toast" role="status" hidden></div>

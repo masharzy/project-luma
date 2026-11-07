@@ -15,6 +15,10 @@ let recorder, stream, recorded = [], seconds = 0, clipUrl = '';
 let context, examinerAnalyser, micSource, frame;
 let practiceDeadline = 0, deadlineExpired = false;
 let currentCard;
+// Auto mode: mic starts after the examiner, a clear pause ends the answer, the answer saves and the next question follows. Manual mode keeps the old buttons.
+let auto = true, micPrimed = false, vadAnalyser, vadData;
+try { auto = localStorage.getItem('j9-speaking-auto') !== '0'; } catch {}
+try { navigator.permissions?.query({ name: 'microphone' }).then(r => { if (r.state === 'granted') micPrimed = true; }).catch(() => {}); } catch {}
 
 function action(label) { $('main-action').textContent = label; }
 function notify(text) {
@@ -113,6 +117,7 @@ function showPreparation(cardOpen, notesOpen) {
  $('preparation').hidden = !cardOpen && !notesOpen;
  $('desk-card').setAttribute('aria-expanded', String(cardOpen));
  $('desk-notes').setAttribute('aria-expanded', String(notesOpen));
+ document.querySelector('.layout').classList.toggle('card-mode', cardOpen || notesOpen);
 }
 function loadCard() {
  const source = ROOM.questions.sourceParts?.find((entry, i) => (entry.part ?? i + 1) === part);
@@ -192,12 +197,14 @@ function ready() {
  $('skip').hidden = !!S[si]?.long;
  $('main-action').disabled = false;
  action('Record answer');
+ if (auto && micPrimed && !deadlineExpired) { const at = si, token = generation; setTimeout(() => { if (phase === 'ready' && si === at && token === generation) void record(); }, 350); }
 }
 function after(step) {
  if (step.t === 'ask') { ready(); return; }
  if (step.t === 'end') { finish(); return; }
  if (step.t === 'say' || step.t === 'deal') { advance(); return; }
  phase = 'confirm';
+ if (auto && step.t !== 'end') { const at = si; setTimeout(() => { if (phase === 'confirm' && si === at) advance(); }, 1200); }
  status('Ready to continue?', 'Your microphone is off.');
  $('main-action').disabled = false;
  $('replay').disabled = false;
@@ -290,6 +297,7 @@ async function record() {
   const input = await navigator.mediaDevices.getUserMedia({ audio: true });
   if (token !== generation) { input.getTracks().forEach(track => track.stop()); return; }
   stream = input;
+  micPrimed = true;
   recorder = new MediaRecorder(input, { audioBitsPerSecond: 64000 });
   recorded = [];
   recorder.ondataavailable = event => { if (event.data.size) recorded.push(event.data); };
@@ -304,29 +312,52 @@ async function record() {
    status('Review your answer', fmt(seconds) + ' recorded. Listen back or retake it.');
    $('main-action').disabled = false;
    action('Save & continue');
+   if (auto && !deadlineExpired) { status('Answer saved', 'Moving to the next question…'); const at = si; setTimeout(() => { if (phase === 'review' && si === at) void next(); }, 400); }
   };
   recorder.start();
   seconds = 0;
   phase = 'recording';
   stage.classList.add('is-recording');
   let analyser;
+  vadAnalyser = null;
   if (context?.state === 'running') {
    try {
     analyser = context.createAnalyser();
     analyser.fftSize = 128;
     micSource = context.createMediaStreamSource(input);
     micSource.connect(analyser);
-   } catch {}
+    vadAnalyser = context.createAnalyser();
+    vadAnalyser.fftSize = 1024;
+    micSource.connect(vadAnalyser);
+    vadData = new Uint8Array(vadAnalyser.fftSize);
+   } catch { vadAnalyser = null; }
   }
   showWave(analyser, () => phase === 'recording');
   status('Recording answer', '00:00 · Recording', 'Examiner listening');
   $('main-action').disabled = false;
   action('Stop recording');
   const cap = S[si]?.long ? timings.longTurnSeconds ?? 120 : timings.shortAnswerSeconds ?? 90;
-  const started = Date.now();
+  const started = Date.now(), long = !!S[si]?.long;
+  let floor = null, voiced = 0, lastVoice = 0, calibrating = [], warned = false;
   timer = setInterval(() => {
    seconds = Math.floor((Date.now() - started) / 1000);
    $('status-detail').textContent = fmt(seconds) + ' / ' + fmt(cap) + ' · Recording';
+   if (auto && vadAnalyser) {
+    vadAnalyser.getByteTimeDomainData(vadData);
+    let sq = 0;
+    for (let i = 0; i < vadData.length; i++) { const v = (vadData[i] - 128) / 128; sq += v * v; }
+    const rms = Math.sqrt(sq / vadData.length), now = Date.now();
+    if (floor === null) { calibrating.push(rms); if (calibrating.length >= 4) floor = Math.min(.02, Math.min(...calibrating)); }
+    else if (rms > Math.min(.04, Math.max(.018, floor * 3 + .006))) { voiced += 250; lastVoice = now; }
+    if (floor !== null) {
+     const quiet = lastVoice ? now - lastVoice : now - started;
+     if (voiced >= 600) {
+      const limit = long ? (seconds >= 30 ? 8000 : 1e9) : 6000;
+      if (quiet >= 2500 && quiet < limit) $('status-detail').textContent = 'Pause detected · moving on in ' + Math.ceil((limit - quiet) / 1000) + 's · keep talking to continue';
+      if (quiet >= limit) { stopRecording(); return; }
+     } else if (quiet >= 20000 && !warned) { warned = true; notify('We cannot hear you yet. Check your microphone, or tap the button to continue.'); }
+    }
+   }
    if (S[si]?.long) $('prep-clock').textContent = fmt(Math.max(0, cap - seconds));
    if (seconds >= cap) stopRecording();
   }, 250);
@@ -430,6 +461,19 @@ $('replay').onclick = () => {
   speak(si, () => after(step));
  }
 };
+function paintAuto() {
+ const b = $('auto-toggle');
+ b.textContent = 'Auto mode: ' + (auto ? 'On' : 'Off');
+ b.setAttribute('aria-pressed', String(auto));
+}
+$('auto-toggle').onclick = () => {
+ auto = !auto;
+ try { localStorage.setItem('j9-speaking-auto', auto ? '1' : '0'); } catch {}
+ paintAuto();
+ notify(auto ? 'Auto mode on. The mic starts after each question and moves on when you pause.' : 'Auto mode off. Use the buttons to record and continue.');
+ if (auto && phase === 'ready' && micPrimed) void record();
+};
+paintAuto();
 $('skip').onclick = () => next(false);
 $('retake').onclick = () => { resetClip(); ready(); };
 $('desk-card').onclick = () => showPreparation($('paper-overlay').hidden, !$('notes-panel').hidden);
