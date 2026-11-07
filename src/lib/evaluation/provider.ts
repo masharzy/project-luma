@@ -5,7 +5,9 @@ import { writingSystemPrompt, assessmentPromptVersion } from './prompts';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText, Output, type UserContent } from 'ai';
 import { writingAssessmentSchema,writingResponseSchema,finalizeAssessment,type WritingInput } from './schema';
-export const writingModel='deepseek/deepseek-v4-flash';
+// Task 1 always carries a chart image, so the evaluation model must accept images.
+// DeepSeek V4 Flash is text-only (404 from OpenRouter with an image part), so it cannot be the default.
+export const writingModel='qwen/qwen3.7-flash';
 // Task generation was not benchmarked with the evaluation model; keep it on its previous model.
 export const taskModel='qwen/qwen3.7-flash';
 export { speakingModel } from '@/lib/products/speaking-model';
