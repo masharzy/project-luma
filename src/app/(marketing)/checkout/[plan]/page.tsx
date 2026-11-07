@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { readAccountSession } from '@/lib/auth/session';
 import { db } from '@/lib/auth/db';
 import { uuid } from '@/lib/products/access';
+import { briofoldConfig } from '@/lib/briofold';
 import { paymentMethods } from '@/lib/payment-methods';
 import { creditText } from '@/lib/plan-presentation';
 import { accessLines, durationLabel } from '@/lib/plan-access';
@@ -55,7 +56,7 @@ export default async function Page({ params }: { params: Promise<{ plan: string 
                 <p>It is waiting for payment confirmation. <Link href="/dashboard/subscription">View your subscription</Link></p>
               </div>
             ) : (
-              <CheckoutForm planId={String(plan.id)} planName={String(plan.name)} duration={duration} listPrice={Number(plan.price_bdt)} methods={paymentMethods} replacing={active ? `${String(active.plan_name)} (until ${date(active.expires_at)})` : undefined} />
+              <CheckoutForm planId={String(plan.id)} planName={String(plan.name)} duration={duration} listPrice={Number(plan.price_bdt)} methods={paymentMethods} gateway={briofoldConfig() !== null} replacing={active ? `${String(active.plan_name)} (until ${date(active.expires_at)})` : undefined} />
             )}
           </div>
         </div>
