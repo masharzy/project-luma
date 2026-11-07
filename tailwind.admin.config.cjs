@@ -16,8 +16,8 @@ module.exports = {
         'on-solid': v('on-solid'), ok: v('success'), 'ok-soft': v('success-soft'), warn: v('warning'), 'warn-soft': v('warning-soft'),
         info: v('info'), 'info-soft': v('info-soft'),
       },
-      borderRadius: { card: '14px' },
-      boxShadow: { card: '0 1px 0 rgb(255 255 255 / .04) inset, 0 8px 24px -12px rgb(0 0 0 / .5)' },
+      borderRadius: { card: '12px' },
+      boxShadow: { card: 'none', pop: '0 8px 30px rgb(0 0 0 / .12), 0 0 0 1px var(--adm-line)' },
     },
   },
 };

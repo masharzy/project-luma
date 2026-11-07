@@ -27,5 +27,6 @@ test('membership sign-in preserves only a validated first-party plan selection',
  const {mockReturnPath}=load('src/lib/auth/return-path.ts');
  const path='/dashboard/subscription?plan=11111111-1111-4111-8111-111111111111';
  assert.equal(mockReturnPath(path),path);assert.equal(mockReturnPath('/mocks/42'),'/mocks/42');
+ const checkout='/checkout/11111111-1111-4111-8111-111111111111';assert.equal(mockReturnPath(checkout),checkout);assert.equal(mockReturnPath('/checkout/x'),'/dashboard');assert.equal(mockReturnPath(checkout+'?next=//evil.test'),'/dashboard');
  for(const value of ['https://evil.test','//evil.test','/dashboard/subscription?plan=x&next=//evil.test','/dashboard/subscription/evil','javascript:alert(1)'])assert.equal(mockReturnPath(value),'/dashboard');
 });

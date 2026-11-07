@@ -68,7 +68,7 @@ export function AccountMenu({ name, email }: { name: string; email: string }) {
         <div
           id={menuId}
           role="menu"
-          className="absolute right-0 top-[calc(100%+8px)] z-50 w-[260px] rounded-card border border-line bg-raised p-1.5 shadow-card"
+          className="absolute right-0 top-[calc(100%+8px)] z-50 w-[260px] rounded-card border border-line bg-raised p-1.5 shadow-pop"
         >
           <div className="flex items-center gap-3 px-3 py-3">
             <Avatar name={name} email={email} size={40} />

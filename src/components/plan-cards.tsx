@@ -15,7 +15,7 @@ export function PlanCards({ plans }: { plans: DisplayPlan[] }) {
         <i aria-hidden="true"><u><svg viewBox="0 0 100 3" preserveAspectRatio="none" focusable="false"><rect width={creditPercent(count, [...values])} height="3" /></svg></u></i>
       </div>)}</div>
       {plan.features.length > 0 && <ul className="p-ft">{plan.features.map((feature, i) => <li key={i}>{feature}</li>)}</ul>}
-      <a className="p-btn" href={'/dashboard/subscription?plan=' + encodeURIComponent(plan.id) + '#plan-' + encodeURIComponent(plan.id)}>Choose {plan.name}</a>
+      <a className="p-btn" href={'/checkout/' + encodeURIComponent(plan.id)}>Choose {plan.name}</a>
     </article>)}
   </div>;
 }
