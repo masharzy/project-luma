@@ -535,3 +535,10 @@ a:hover {
 .learn-dropdown > a.sub { padding: 8px 0 8px 16px; }
 .learn-dropdown > a.sub b { font-size: 12px; font-weight: 600; color: #5a4650; }
 .learn-dropdown { max-height: min(76vh, 640px); overflow-y: auto; }
+
+/* Collapsible More Test Books row */
+.learn-dropdown .dd-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; border-bottom: 1px solid #f0e5e8; }
+.learn-dropdown .dd-row > a { flex: 1; padding: 12px 0; }
+.learn-dropdown .dd-row > a:hover b { color: var(--red); }
+.learn-dropdown .dd-toggle { border: 1px solid #e7d8dd; background: #fff; border-radius: 6px; width: 28px; height: 28px; font-weight: 700; cursor: pointer; line-height: 1; }
+.learn-dropdown .dd-toggle:hover { color: var(--red); border-color: var(--red); }
