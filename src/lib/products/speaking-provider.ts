@@ -8,14 +8,17 @@ import { readSpeakingStream, type SpeakingEnvelope } from './speaking-stream';
 import { speakingCoverageIssues, speakingEvidenceIssues, repairSpeakingPart } from './speaking-coverage';
 import { speakingMp3,encodeSpeakingPcm } from './speaking-audio';
 import { packSpeakingAudio } from './speaking-audio-pack';
+import { vocabularyProfile, vocabularyLevels } from './speaking-vocabulary';
 
-const promptVersion = 'gemini-3.8-flash-part-rubric-v1';
+const promptVersion = 'gemini-3.8-flash-part-lean-v2';
 const systemPrompt = `Assess one IELTS Speaking part. Each question label is followed by its own audio clip. All evidence timestamps are seconds from the START of that clip.
-1. Transcribe every clip verbatim, in step order, preserving mistakes, fillers and repetitions. Use [unclear] for uncertain speech. Use an empty transcript and the actual audio status for silence or unusable audio. Never skip a later clip because of words spoken in an earlier one.
-2. From each transcript assess vocabulary and grammar. Quote actual errors exactly and explain corrections. Keep optional improvements separate. For every spoken answer, say how well it answers the question and, if short, suggest one specific detail to develop it without inventing the candidate's experience.
-3. Listen to the actual audio for fluency/coherence and pronunciation. Describe audible delivery for every spoken answer. Cite a clip-relative timestamp and an audible feature for both criterion bands. Never infer pronunciation from spelling or penalize accent alone. If you cannot hear or access the audio, set audio_access to unavailable and explain. For a silent part leave criterion bands null with a reason.
+1. For every clip, transcribe verbatim as "lines": one entry per sentence or natural clause, in order, preserving mistakes, fillers and repetitions. Use [unclear] for uncertain speech. For silence or unusable audio return an empty lines array and the actual speech_status. Never skip a later clip because of words spoken in an earlier one.
+2. Give every line a mark: "g" = natural and accurate; "y" = understandable but could be improved (weak or repeated word choice, awkward phrasing, off-topic or unnecessary detail); "r" = contains a clear grammar or word error. Marks judge wording and grammar only, never accent or pronunciation. Most lines in a strong answer are "g". Do not explain "g" lines.
+3. For lines marked "y" or "r" add corrections that point at exact words: "original" is an exact substring of that line; "corrected" is the replacement. Use category "redundant" with an empty "corrected" when the words are irrelevant, filler or needlessly repeated and should simply be removed. Use "vocabulary" for a better word, "grammar" for an error. Reasons are at most 12 words. At most 3 corrections per answer; choose the most useful. Never invent an experience for the candidate.
+4. Listen to the actual audio for fluency/coherence and pronunciation. Cite a clip-relative timestamp and an audible feature for both criterion bands. Report at most 3 pronunciation words for the whole part, only if clearly audible. Never infer pronunciation from spelling or penalize accent alone. If you cannot hear or access the audio, set audio_access to unavailable and explain. For a silent part leave criterion bands null with a reason.
+5. Part 2: say whether the cue card prompts were covered and whether the candidate sustained the talk. Part 3: judge opinions with reasons, examples and abstract language. Part 1: judge direct answers with a natural extension. Put this in the part summary (at most 2 sentences).
 Use the full IELTS scale when the evidence warrants it. Separate content-planning pauses and natural self-repair from difficulty finding words or extending answers. Judge vocabulary by precision, flexibility and natural paraphrase. Judge grammar by range and the pattern of errors across answers. A band 5 shows limited flexibility and recurring difficulty, 6 communicates clearly with noticeable limitations, 7 sustains flexible speech with lapses, 8 shows wide command with occasional lapses, and 9 is consistently precise, effortless and clear. Do not reduce a strong score for an isolated slip.
-Use IELTS bands in half-point steps for the four criteria, with concise evidence. Return one JSON object matching the response schema. Fill all four criteria, then every listed step in answers, even after a spoken skip. Report only genuine corrections with a changed replacement; use [] if there are none.`;
+vocabulary_level is the CEFR level (A1-C2) of the vocabulary actually used in this part, or null for a silent part. Use IELTS bands in half-point steps for the four criteria. Each criterion reason is at most 2 short sentences with 1 or 2 evidence items (each evidence "reason" at most 12 words; fluency and pronunciation evidence need a timestamp). At most 2 next_steps. Return one JSON object matching the response schema and fill every listed step in answers, even after a spoken skip.`;
 
 const assessmentCriterion=z.object({band:z.number().min(0).max(9).multipleOf(.5).nullable(),feedback:z.string(),evidence:z.array(z.string())});
 export const speakingAssessmentSchema=z.object({scorable:z.boolean(),limitation:z.string(),confidence:z.enum(['low','medium','high']),transcripts:z.array(z.object({step:z.number().int(),verbatim:z.string(),uncertain:z.array(z.string())})),fluency:assessmentCriterion,lexicalResource:assessmentCriterion,grammar:assessmentCriterion,pronunciation:assessmentCriterion,summary:z.string(),nextSteps:z.array(z.string())});
@@ -26,31 +29,28 @@ export type SpeakingAssessment=z.infer<typeof speakingAssessmentSchema>&{estimat
 const band=z.number().min(0).max(9).multipleOf(.5).nullable();
 const observation=z.object({quote:z.string(),why:z.string()});
 const correction=z.object({
- original:z.string(),corrected:z.string(),category:z.enum(['grammar','vocabulary','coherence']),
+ original:z.string(),corrected:z.string(),category:z.enum(['grammar','vocabulary','coherence','redundant']),
  reason:z.string(),confidence:z.enum(['high','medium']),
 });
-const answer=z.object({
- step:z.number().int(),verbatim:z.string(),
+const lineMark=z.enum(['g','y','r']);
+const answerWire=z.object({
+ step:z.number().int(),
  speech_status:z.enum(['speech','partial_speech','no_speech','unintelligible_audio','technical_failure']),
+ lines:z.array(z.object({text:z.string(),mark:lineMark})),
  corrections:z.array(correction),
  pronunciation:z.array(z.object({word:z.string(),observation:z.string(),confidence:z.enum(['high','medium']),timestamp_seconds:z.number().nonnegative().nullable()})),
- strengths:z.array(observation),
  uncertain:z.array(z.string()),
- vocabulary_feedback:z.string(),
- grammar_feedback:z.string(),
- development:z.string(),
- fluency_feedback:z.string(),
- pronunciation_feedback:z.string(),
 });
 const criterion=z.object({band,reason:z.string(),evidence:z.array(z.object({step:z.number().int(),quote:z.string(),reason:z.string().trim().min(1),timestamp_seconds:z.number().nonnegative().nullable()}))});
 const modelOutput=z.object({
  audio_access:z.enum(['heard','unavailable']),
  criteria:z.object({fluency_coherence:criterion,lexical_resource:criterion,grammar:criterion,pronunciation:criterion}),
+ vocabulary_level:z.enum(vocabularyLevels).nullable(),
  summary:z.string(),
  next_steps:z.array(z.string()),
  limitations:z.array(z.string()),
  confidence:z.enum(['high','medium','low']),
- answers:z.array(answer),
+ answers:z.array(answerWire),
 });
 
 
@@ -90,7 +90,11 @@ export function finalizeSpeaking(raw:unknown,input:SpeakingInput):SpeakingAssess
  return {...r,scorable,estimatedBand,limitation:formatNote+evidenceNote+r.limitation};
 }
 
-type PartModel = z.infer<typeof modelOutput>;
+type WireModel = z.infer<typeof modelOutput>;
+type PartAnswer = Omit<WireModel['answers'][number],'lines'> & {verbatim:string;lines:{text:string;mark:'g'|'y'|'r'}[];strengths:{quote:string;why:string}[]};
+type PartModel = Omit<WireModel,'answers'> & {answers:PartAnswer[]};
+// The model returns the transcript once, as marked lines. verbatim is derived (one line per entry) so evidence matching still works on one text.
+const normalizePart=(m:WireModel):PartModel=>({...m,answers:m.answers.map(a=>({...a,lines:a.lines.filter(l=>l.text.trim()),verbatim:a.lines.filter(l=>l.text.trim()).map(l=>l.text.trim()).join('\n'),strengths:[]}))});
 type Clip = SpeakingInput['clips'][number];
 type PartReport = {
  part:number; issues:string[]; providerRequestId?:string; httpStatus?:number;
@@ -130,10 +134,7 @@ function validatePart(model:PartModel,clips:Clip[]){
   if(a.speech_status==='technical_failure')issues.push('audio_processing_failed:'+a.step);
   if(!isSpeech(a.speech_status)&&a.verbatim.trim())issues.push('unscorable_transcript:'+a.step);
   if(!isSpeech(a.speech_status))continue;
-  for(const field of ['vocabulary_feedback','grammar_feedback','development','fluency_feedback','pronunciation_feedback'] as const){
-   if(!a[field].trim())issues.push('missing_'+field+':'+a.step);
-  }
-  if(noAudio.test(a.fluency_feedback)||noAudio.test(a.pronunciation_feedback))issues.push('audio_not_heard:'+a.step);
+  if(!a.lines.length)issues.push('missing_lines:'+a.step);
  }
  for(const name of criterionKeys){
   const c=model.criteria[name];
@@ -221,8 +222,8 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
     if(!parsed.success)report.issues.push(...parsed.error.issues.map(issue=>'schema:'+issue.path.join('.')+': '+issue.message));
     else{
      // Size limits are applied here instead of failing the whole part when a model is slightly verbose.
-     const bounded={...parsed.data,next_steps:parsed.data.next_steps.slice(0,4),limitations:parsed.data.limitations.slice(0,8),
-      criteria:Object.fromEntries(Object.entries(parsed.data.criteria).map(([k,c])=>[k,{...c,evidence:c.evidence.slice(0,5)}])) as PartModel['criteria']};
+     const bounded={...normalizePart(parsed.data),next_steps:parsed.data.next_steps.slice(0,2),limitations:parsed.data.limitations.slice(0,8),
+      criteria:Object.fromEntries(Object.entries(parsed.data.criteria).map(([k,c])=>[k,{...c,evidence:c.evidence.slice(0,3)}])) as PartModel['criteria']};
      const repaired=repairSpeakingPart(bounded,clips);
      if(Object.keys(repaired.dropped).length)report.repaired=repaired.dropped;
      report.issues.push(...validatePart(repaired.model,clips));
@@ -281,11 +282,12 @@ export async function assessSpeakingDirect(input:SpeakingInput,options:Assessmen
   transcripts:input.clips.map(c=>{const a=byStep.get(c.step)!;return {step:a.step,verbatim:a.verbatim,uncertain:a.uncertain};}),
   fluency:rubric('fluency_coherence'),lexicalResource:rubric('lexical_resource'),grammar:rubric('grammar'),pronunciation:rubric('pronunciation'),
   summary:parts.map(p=>'Part '+p.report.part+': '+p.model!.summary).join(' '),
-  nextSteps:[...new Set(models.flatMap(m=>m.next_steps))],
+  nextSteps:[...new Set(models.flatMap(m=>m.next_steps))].slice(0,3),
  },input);
  // A wholly silent or unintelligible part can have feedback but cannot support a full band.
  if(models.some(m=>!m.answers.some(a=>isSpeech(a.speech_status))))result.estimatedBand=null;
- result.assessmentDetails={answers,parts:parts.map(p=>({part:p.report.part,criteria:p.model!.criteria}))};
+ result.assessmentDetails={answers,parts:parts.map(p=>({part:p.report.part,criteria:p.model!.criteria})),
+  vocabulary:vocabularyProfile(parts.map(p=>({part:p.report.part,level:p.model!.vocabulary_level,texts:p.model!.answers.filter(a=>isSpeech(a.speech_status)).map(a=>a.verbatim)})))};
  const costs=reports.flatMap(r=>typeof r.rawResponse==='object'&&typeof r.rawResponse.usage?.cost==='number'?[r.rawResponse.usage.cost]:[]);
  return {result,usage:{promptVersion,reasoningEnabled:false,cost:costs.length===parts.length?costs.reduce((a,b)=>a+b,0):null,parts:reports},model:options.model??speakingModel};
 }

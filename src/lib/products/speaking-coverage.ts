@@ -12,7 +12,7 @@ export function speakingCoverageIssues(answers:{step:number;verbatim:string;spee
 }
 
 /** Structural evidence checks only. A matching quote does not prove linguistic correctness. */
-export type EvidenceAnswer={step:number;verbatim:string;speech_status:string;uncertain:string[];corrections:{original:string;corrected:string}[];strengths:{quote:string}[];pronunciation:{word:string;timestamp_seconds:number|null}[]};
+export type EvidenceAnswer={step:number;verbatim:string;speech_status:string;uncertain:string[];corrections:{original:string;corrected:string;category?:string}[];strengths:{quote:string}[];pronunciation:{word:string;timestamp_seconds:number|null}[]};
 export function speakingEvidenceIssues(model:{answers:EvidenceAnswer[];criteria:Record<string,{band:number|null;evidence:{step:number;quote:string}[]}>},clips:{step:number;seconds:number}[]){
  const issues:string[]=[],byStep=new Map<number,typeof model.answers[number]>(model.answers.map(a=>[a.step,a]));
  const disputed=(a:typeof model.answers[number],q:string)=>q.includes('[unclear]')||a.uncertain.some((u:string)=>u.trim()&&(q.toLowerCase().includes(u.trim().toLowerCase())||u.trim().toLowerCase().includes(q.toLowerCase())));
@@ -21,7 +21,7 @@ export function speakingEvidenceIssues(model:{answers:EvidenceAnswer[];criteria:
   if(silent&&(a.corrections.length||a.strengths.length||a.pronunciation.length))issues.push('feedback_on_silence:'+a.step);
   for(const c of a.corrections){
    if(!c.original.trim()||!a.verbatim.includes(c.original))issues.push('correction_not_verbatim:'+a.step);
-   if(!c.corrected.trim()||c.original.trim()===c.corrected.trim())issues.push('unchanged_correction:'+a.step);
+   if(c.category==='redundant'?!!c.corrected.trim():(!c.corrected.trim()||c.original.trim()===c.corrected.trim()))issues.push('unchanged_correction:'+a.step);
    if(disputed(a,c.original))issues.push('correction_on_uncertain_speech:'+a.step);
   }
   for(const s of a.strengths)if(!s.quote.trim()||!a.verbatim.includes(s.quote))issues.push('strength_not_verbatim:'+a.step);
@@ -60,7 +60,7 @@ export function repairSpeakingPart<M extends {answers:(EvidenceAnswer&Record<str
   const silent=a.speech_status==='no_speech';
   const corrections=silent?[]:a.corrections.flatMap(c=>{
    const original=snapQuote(a.verbatim,c.original);
-   if(!original||!c.corrected.trim()||original.trim().toLowerCase()===c.corrected.trim().toLowerCase()||disputed(a,original)){bump('corrections');return [];}
+   if(!original||(c.category==='redundant'?!!c.corrected.trim():(!c.corrected.trim()||original.trim().toLowerCase()===c.corrected.trim().toLowerCase()))||disputed(a,original)){bump('corrections');return [];}
    return [{...c,original}];
   });
   // Strength highlights are optional and may be shortened; they stay as returned.

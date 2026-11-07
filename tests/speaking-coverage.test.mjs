@@ -21,7 +21,7 @@ test('duplicate/unknown steps and contradictory empty speech fail',()=>{
  assert.deepEqual(speakingCoverageIssues([{...answer(0),speech_status:'no_speech',verbatim:''}],[0]),[]);
 });
 test('provider schema requires exactly the submitted count and restricts step IDs',()=>{
- const provider=load('../src/lib/products/speaking-provider.ts',id=>id==='zod'?require(id):id==='./speaking-coverage'?coverage:{});
+ const provider=load('../src/lib/products/speaking-provider.ts',id=>id==='zod'?require(id):id==='./speaking-coverage'?coverage:id==='./speaking-vocabulary'?load('../src/lib/products/speaking-vocabulary.ts',require):{});
  const schema=provider.modelJsonFormat(steps).json_schema.schema.properties.answers;
  assert.equal(schema.minItems,15);assert.equal(schema.maxItems,15);assert.deepEqual(schema.items.properties.step.enum,steps);
 });
@@ -47,6 +47,6 @@ test('silence, uncertain hearing, unchanged edits and out-of-range timestamps ca
 test('all supported corrections remain allowed, including more than three per answer',()=>{
  const a=evidenceAnswer();a.corrections=Array.from({length:8},()=>({original:'I can',corrected:'I could'}));
  assert.deepEqual(speakingEvidenceIssues(model(a),[{step:0,seconds:5}]),[]);
- const provider=load('../src/lib/products/speaking-provider.ts',id=>id==='zod'?require(id):id==='./speaking-coverage'?coverage:{});
+ const provider=load('../src/lib/products/speaking-provider.ts',id=>id==='zod'?require(id):id==='./speaking-coverage'?coverage:id==='./speaking-vocabulary'?load('../src/lib/products/speaking-vocabulary.ts',require):{});
  assert.equal(provider.modelJsonFormat([0]).json_schema.schema.properties.answers.items.properties.corrections.maxItems,undefined);
 });

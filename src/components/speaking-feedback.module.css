@@ -70,3 +70,23 @@
 .hero{background:#fff}
 .filters button[aria-pressed=true]{background:var(--red);border-color:var(--red)}
 .next{background:#FFF4F6}
+.srOnly{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.markedLine{display:grid;grid-template-columns:30px 1fr;gap:10px;padding:8px 10px 8px 0;margin:6px 0;border-left:4px solid var(--line);border-radius:2px;background:#fff}
+.markedLine>span{font-size:11px;line-height:32px;color:var(--muted);padding-left:8px}
+.markedLine p{font-size:17px;line-height:2.3;color:var(--ink)}
+.markedLine[data-mark=g]{border-left-color:#4c8a5a;background:#F1F7F1}
+.markedLine[data-mark=y]{border-left-color:#d9a21b;background:#FFF8E3}
+.markedLine[data-mark=r]{border-left-color:var(--red);background:#FBE6EA}
+.wordMark{font:inherit;color:inherit;background:none;border:0;padding:0 2px;margin:0 1px;cursor:pointer;display:inline-flex;flex-direction:column-reverse;align-items:center;vertical-align:baseline;line-height:1.1;border-bottom:2px dotted var(--red);min-height:32px;justify-content:flex-end}
+.wordMark del{text-decoration-thickness:2px;text-decoration-color:var(--red);color:#7a2a3a}
+.wordMark small{font-size:12px;font-weight:700;color:#1e6b34;line-height:1.1;margin-bottom:1px}
+.wordMark[aria-expanded=true]{background:#fff;box-shadow:0 0 0 2px var(--red)}
+.markReason{font-size:14px!important;line-height:1.5!important;color:var(--muted)!important;margin-top:2px;padding:8px 10px;background:#fff;border:1px solid var(--line);border-radius:2px}
+.markReason b{color:var(--ink)}
+.legend span[data-kind=line-g]:before{background:#4c8a5a}.legend span[data-kind=line-y]:before{background:#d9a21b}.legend span[data-kind=line-r]:before{background:var(--red)}
+.vocab{display:grid;grid-template-columns:1fr 1.4fr;gap:14px;margin:14px 0;padding:20px;background:#fff;border:1px solid var(--line);border-radius:2px}
+.vocab h3{font-size:30px;font-weight:700;color:var(--red);margin:4px 0}
+.vocab p{font-size:14px;color:var(--muted);line-height:1.5}.vocab small{font-size:12px;color:var(--muted)}
+.vocab ul{list-style:none;margin:8px 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.vocab li{display:flex;gap:8px;align-items:baseline;padding:6px 12px;background:#FBE6EA;border-radius:999px;font-size:15px}.vocab li span{font-size:13px;color:var(--muted)}
+@media(max-width:640px){.vocab{grid-template-columns:1fr}.markedLine p{font-size:16px}}

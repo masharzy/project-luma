@@ -2,13 +2,28 @@
 import {useCallback,useEffect,useMemo,useState,type ReactNode} from 'react';
 import {ArrowDown,ArrowUpRight,Check,ChevronDown,Headphones,MessageSquare,Quote,Sparkles} from 'lucide-react';
 import type {SpeakingAssessment} from '@/lib/products/speaking-provider';
-import {feedbackAnswers,feedbackSpans,transcriptLines,type FeedbackAnswer} from '@/lib/products/speaking-feedback-data';
+import {feedbackAnswers,feedbackSpans,feedbackVocabulary,lineSegments,transcriptLines,type FeedbackAnswer} from '@/lib/products/speaking-feedback-data';
 import styles from './speaking-feedback.module.css';
 type Question={step:number;part:number;question:string};
 type Job={status:string;result:SpeakingAssessment|null;error_code?:string};
 const number=(v:number|null|undefined)=>typeof v==='number'&&Number.isFinite(v)?v.toFixed(1):'—';
 const criteria=[['Fluency & coherence','FC','fluency'],['Lexical resource','LR','lexicalResource'],['Grammar & accuracy','GRA','grammar'],['Pronunciation','PR','pronunciation']] as const;
+const markLabel={g:'Natural and accurate',y:'Can be improved',r:'Contains an error'} as const;
+/** Sentence colours plus word marks: crossed-out word with the suggested replacement above it. Tap a mark to read why. */
+function MarkedTranscript({answer}:{answer:FeedbackAnswer}){
+ const [open,setOpen]=useState<string|null>(null);
+ return <div className={styles.transcript}>{answer.lines!.map((line,i)=>{
+  const segs=lineSegments(line.text,answer.corrections),key=answer.step+'-'+i,active=segs.find(sg=>'correction' in sg&&key+'-'+sg.index===open);
+  return <div className={styles.markedLine} data-mark={line.mark} key={key}><span aria-hidden="true">{String(i+1).padStart(2,'0')}</span><div>
+   <p><span className={styles.srOnly}>{markLabel[line.mark]}: </span>{segs.map((sg,j)=>'correction' in sg
+    ?<button type="button" key={j} className={styles.wordMark} data-kind={sg.correction.category==='redundant'?'remove':'swap'} aria-expanded={open===key+'-'+sg.index} onClick={()=>setOpen(open===key+'-'+sg.index?null:key+'-'+sg.index)}>{sg.correction.corrected.trim()&&<small>{sg.correction.corrected}</small>}<del>{sg.text}</del></button>
+    :<span key={j}>{sg.text}</span>)}</p>
+   {active&&'correction' in active&&<p className={styles.markReason}><b>{active.correction.corrected.trim()?active.correction.original+' → '+active.correction.corrected:'Not needed: '+active.correction.original}</b> {active.correction.reason}</p>}
+  </div></div>;
+ })}</div>;
+}
 function Transcript({answer}:{answer:FeedbackAnswer}){
+ if(answer.lines?.length)return <MarkedTranscript answer={answer}/>;
  const spans=feedbackSpans(answer);
  return <div className={styles.transcript}>{transcriptLines(answer.verbatim).map((line,i)=>{
   const nodes:ReactNode[]=[];let at=line.start;
@@ -17,20 +32,28 @@ function Transcript({answer}:{answer:FeedbackAnswer}){
  })}</div>;
 }
 function AnswerCard({answer,question,index,audio}:{answer:FeedbackAnswer;question?:Question;index:number;audio?:string}){
- const anchored=new Set(feedbackSpans(answer).filter(s=>s.kind==='correction').map(s=>s.index));
+ const anchored=new Set(feedbackSpans(answer).filter(s=>s.kind==='correction').map(s=>s.index)),marked=!!answer.lines?.length;
  return <article className={styles.answer} id={'answer-'+answer.step}>
   <div className={styles.answerHeading}><div><span className={styles.eyebrow}>Answer {String(index+1).padStart(2,'0')}{question?` / Part ${question.part}`:''}</span><h3>{question?.question||'Your recorded response'}</h3></div><span className={styles.answerNumber} aria-hidden="true">{String(index+1).padStart(2,'0')}</span></div>
   {audio&&<details className={styles.audio}><summary><Headphones size={15}/> Listen to your answer <ChevronDown size={14}/></summary><audio controls preload="none" src={audio} aria-label={'Original recording for answer '+(index+1)}/></details>}
-  <div className={styles.labelRow}><span>Your original words</span><span>{anchored.size?`${anchored.size} marked ${anchored.size===1?'suggestion':'suggestions'}`:'No marked edits'}</span></div>
+  <div className={styles.labelRow}><span>Your original words</span><span>{marked?`${answer.corrections.length} word ${answer.corrections.length===1?'mark':'marks'}`:anchored.size?`${anchored.size} marked ${anchored.size===1?'suggestion':'suggestions'}`:'No marked edits'}</span></div>
   {answer.verbatim.trim()?<Transcript answer={answer}/>:<p className={styles.emptyTranscript}>No reliable transcript was returned for this answer.</p>}
-  {(answer.corrections.length>0||answer.strengths.length>0||answer.uncertain.length>0||answer.pronunciation.length>0||!!answer.notes?.length)&&<div className={styles.annotations}>
+  {(marked?answer.uncertain.length>0||answer.pronunciation.length>0:(answer.corrections.length>0||answer.strengths.length>0||answer.uncertain.length>0||answer.pronunciation.length>0||!!answer.notes?.length))&&<div className={styles.annotations}>
    {answer.notes?.map(note=><div className={styles.annotation} key={note.label}><span className={styles.noteIcon}><MessageSquare size={15}/></span><div><span className={styles.noteLabel}>{note.label}</span><p>{note.text}</p></div></div>)}
-   {answer.corrections.map((c,i)=><div className={styles.annotation} id={`answer-${answer.step}-correction-${i}`} key={'c'+i} data-kind="correction"><span className={styles.noteIcon}><ArrowUpRight size={15}/></span><div><span className={styles.noteLabel}>{c.category||'Language'} · {anchored.has(i)?'Suggested edit':'Review suggestion'}</span><p className={styles.edit}><del>{c.original||'Unanchored wording'}</del><span aria-hidden="true"> → </span><ins>{c.corrected||'No replacement supplied'}</ins></p><p>{c.reason}</p>{!anchored.has(i)&&<small>This proposal is unchanged, overlaps another note, or cannot be linked confidently to these words.</small>}</div></div>)}
+   {!marked&&answer.corrections.map((c,i)=><div className={styles.annotation} id={`answer-${answer.step}-correction-${i}`} key={'c'+i} data-kind="correction"><span className={styles.noteIcon}><ArrowUpRight size={15}/></span><div><span className={styles.noteLabel}>{c.category||'Language'} · {anchored.has(i)?'Suggested edit':'Review suggestion'}</span><p className={styles.edit}><del>{c.original||'Unanchored wording'}</del><span aria-hidden="true"> → </span><ins>{c.corrected||'No replacement supplied'}</ins></p><p>{c.reason}</p>{!anchored.has(i)&&<small>This proposal is unchanged, overlaps another note, or cannot be linked confidently to these words.</small>}</div></div>)}
    {answer.strengths.map((s,i)=><div className={styles.annotation} id={`answer-${answer.step}-strength-${i}`} key={'s'+i} data-kind="strength"><span className={styles.noteIcon}><Check size={15}/></span><div><span className={styles.noteLabel}>Effective language</span><p className={styles.goodQuote}>“{s.quote}”</p><p>{s.why}</p></div></div>)}
    {answer.uncertain.map((word,i)=><div className={styles.annotation} id={`answer-${answer.step}-uncertain-${i}`} key={'u'+i} data-kind="uncertain"><span className={styles.noteIcon}>?</span><div><span className={styles.noteLabel}>Uncertain hearing</span><p>“{word}”</p><small>Check the recording before treating this wording as an error.</small></div></div>)}
    {answer.pronunciation.map((p,i)=><div className={styles.annotation} key={'p'+i} data-kind="pronunciation"><span className={styles.noteIcon}><Headphones size={14}/></span><div><span className={styles.noteLabel}>Pronunciation · {p.word}</span><p>{p.observation}</p><small>Audio-based model observation.</small></div></div>)}
   </div>}
  </article>;
+}
+function VocabularyCard({details,part}:{details:unknown;part:number}){
+ const v=feedbackVocabulary(details);if(!v||(!v.level&&!v.repeated.length))return null;
+ const scoped=part?v.parts.find(p=>p.part===part):null,level=scoped?scoped.level:v.level,repeated=scoped?scoped.repeated:v.repeated;
+ return <div className={styles.vocab}>
+  <div><span className={styles.eyebrow}>Vocabulary {part?`· Part ${part}`:'· all parts'}</span><h3>{level?`Level ${level}`:'Level not rated'}</h3><p>{level&&['A1','A2'].includes(level)?'Try more varied and precise words.':level==='B1'?'Good base. Add less common words and phrases.':level?'Strong range. Keep using precise, natural phrases.':''}</p><small>AI estimate</small></div>
+  <div><span className={styles.eyebrow}>Words you repeated</span>{repeated.length?<ul>{repeated.map(r=><li key={r.word}><b>{r.word}</b><span>{r.count}×</span></li>)}</ul>:<p>No word was repeated three times or more.</p>}{repeated.length>0&&<small>Try synonyms for these words.</small>}</div>
+ </div>;
 }
 export function SpeakingFeedback({id,questions=[]}:{id:string;questions?:Question[]}){
  const [clips,setClips]=useState<{step:number;url:string}[]>([]),[job,setJob]=useState<Job|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[part,setPart]=useState(0);
@@ -40,7 +63,7 @@ export function SpeakingFeedback({id,questions=[]}:{id:string;questions?:Questio
  useEffect(()=>{let active=true;setClips([]);void fetch('/api/products/speaking/recording/'+id).then(async response=>{if(response.ok){const data=await response.json();if(active)setClips(data.clips);}}).catch(()=>{});return()=>{active=false;};},[id]);
  const retry=async()=>{setBusy(true);setError('');try{const response=await fetch('/api/products/speaking/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({attemptId:id,retry:job?.status==='failed'})}),data=await response.json();if(!response.ok)throw Error(data.error||'Unable to submit');setJob(data.evaluation);}catch(e){setError(e instanceof Error?e.message:'Unable to submit');}finally{setBusy(false);}};
  const result=job?.result,answers=useMemo(()=>result?feedbackAnswers(result.assessmentDetails,result.transcripts):[],[result]),questionByStep=useMemo(()=>new Map(questions.map(q=>[q.step,q])),[questions]);
- const parts=[...new Set(questions.map(q=>q.part))].sort((a,b)=>a-b),corrections=answers.reduce((n,a)=>n+feedbackSpans(a).filter(s=>s.kind==='correction').length,0),shown=answers.filter(a=>!part||questionByStep.get(a.step)?.part===part);
+ const parts=[...new Set(questions.map(q=>q.part))].sort((a,b)=>a-b),corrections=answers.reduce((n,a)=>n+(a.lines?.length?a.corrections.length:feedbackSpans(a).filter(s=>s.kind==='correction').length),0),shown=answers.filter(a=>!part||questionByStep.get(a.step)?.part===part);
  return <section className={styles.root} aria-label="Speaking feedback">
   {error&&<div className={styles.notice} role="alert">{error}</div>}
   {loading&&<div className={styles.loading} role="status"><span className={styles.eyebrow}>Your speaking review</span><h2>Loading your feedback…</h2></div>}
@@ -51,9 +74,10 @@ export function SpeakingFeedback({id,questions=[]}:{id:string;questions?:Questio
   {job?.status==='completed'&&result&&<>
    <div className={styles.hero}><div className={styles.heroCopy}><span className={styles.heroEyebrow}><Sparkles size={14}/> Your speaking review</span><h2>Your voice.<br/>A clearer next step.</h2><p>{result.summary}</p><a href="#speaking-transcript">Explore your transcript <ArrowDown size={15}/></a></div><div className={styles.overall}><span>Overall band estimate</span><strong>{number(result.estimatedBand)}</strong><span className={styles.bandScale}>/ 9.0</span><p>{result.estimatedBand===null?'Limited evidence · no full-test band':'IELTS Speaking · practice estimate'}</p><small>AI feedback · not an official IELTS result</small></div></div>
    <div className={styles.scoreGrid}>{criteria.map(([name,code,key])=>{const c=result[key];return <a href={'#criterion-'+key} className={styles.scoreCard} key={key}><div><span>{code}</span><ArrowUpRight size={16}/></div><strong>{number(c.band)}</strong><h3>{name}</h3><meter min={0} max={9} value={c.band??0} aria-label={`${name}: ${number(c.band)} out of 9`}/></a>;})}</div>
+   <VocabularyCard details={result.assessmentDetails} part={0}/>
    <div className={styles.overview}><div><span className={styles.eyebrow}>From speaking to progress</span><h2>Understand every answer.</h2><p lang="bn">চিহ্নিত কথায় ক্লিক করলে নিচে suggested correction ও কারণ পাবে। সবুজ অংশে ভালো ব্যবহারের ব্যাখ্যা আছে।</p></div><div className={styles.reviewStats}><div><strong>{answers.length}</strong><span>Answers reviewed</span></div><div><strong>{corrections}</strong><span>Marked suggestions</span></div></div></div>
    {result.limitation&&<details className={styles.limitations}><summary><MessageSquare size={15}/> Assessment notes & limitations <ChevronDown size={14}/></summary><p>{result.limitation}</p></details>}
-   <div className={styles.sectionTitle} id="speaking-transcript"><div><span className={styles.eyebrow}>01 / Your words, in focus</span><h2>Transcript & feedback</h2></div><div className={styles.legend}><span data-kind="correction">Suggested edit</span><span data-kind="strength">Effective language</span><span data-kind="uncertain">Uncertain</span></div></div>
+   <div className={styles.sectionTitle} id="speaking-transcript"><div><span className={styles.eyebrow}>01 / Your words, in focus</span><h2>Transcript & feedback</h2></div><div className={styles.legend}><span data-kind="line-g">Natural</span><span data-kind="line-y">Improve</span><span data-kind="line-r">Error</span><span data-kind="uncertain">Uncertain</span></div></div>
    {parts.length>1&&<div className={styles.filters} role="group" aria-label="Filter answers by part"><button aria-pressed={part===0} onClick={()=>setPart(0)}>All answers <span>{answers.length}</span></button>{parts.map(p=><button key={p} aria-pressed={part===p} onClick={()=>setPart(p)}>Part {p} <span>{answers.filter(a=>questionByStep.get(a.step)?.part===p).length}</span></button>)}</div>}
    <div className={styles.answers}>{shown.map(answer=><AnswerCard key={answer.step} answer={answer} index={answers.findIndex(a=>a.step===answer.step)} question={questionByStep.get(answer.step)} audio={clips.find(c=>c.step===answer.step)?.url}/>)}</div>
    <div className={styles.sectionTitle}><div><span className={styles.eyebrow}>02 / Behind your bands</span><h2>The four criteria</h2></div><p>What supported each estimate.</p></div>

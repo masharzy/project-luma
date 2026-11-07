@@ -4,7 +4,7 @@ import ts from 'typescript';
 import {readFileSync} from 'node:fs';
 const m={exports:{}};
 new Function('module','exports',ts.transpileModule(readFileSync(new URL('../src/lib/products/speaking-feedback-data.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText)(m,m.exports);
-const {feedbackAnswers,feedbackSpans,transcriptLines}=m.exports;
+const {feedbackAnswers,feedbackSpans,transcriptLines,lineSegments,feedbackVocabulary}=m.exports;
 const base=(text)=>({step:12,verbatim:text,uncertain:[],corrections:[],strengths:[],pronunciation:[]});
 test('maps rich answers by saved step IDs without dropping legacy transcripts',()=>{
  const fallback=[{step:0,verbatim:'First.',uncertain:[]},{step:12,verbatim:'Saved answer.',uncertain:[]}];
@@ -32,4 +32,27 @@ test('line offsets preserve unicode, punctuation and the complete words being an
  const text='😊 I read books. They help me.\nবাংলা কথা';const lines=transcriptLines(text);
  assert.deepEqual(lines.map(l=>text.slice(l.start,l.end)),['😊 I read books.','They help me.','বাংলা কথা']);
  const a=base(text);a.corrections=[{original:'They help',corrected:'They helped'}];const span=feedbackSpans(a)[0];assert.equal(text.slice(span.start,span.end),'They help');assert(lines.some(l=>l.start<=span.start&&span.end<=l.end));
+});
+
+test('marked lines come from saved lines, ignore invalid marks and keep legacy answers on text-only',()=>{
+ const fallback=[{step:1,verbatim:'A.\nB.',uncertain:[]},{step:2,verbatim:'Old.',uncertain:[]}];
+ const r=feedbackAnswers({answers:[{step:1,lines:[{text:'A.',mark:'g'},{text:'B.',mark:'y'},{text:'C.',mark:'x'},{text:' ',mark:'g'}]}]},fallback);
+ assert.deepEqual(r[0].lines,[{text:'A.',mark:'g'},{text:'B.',mark:'y'}]);
+ assert.equal(r[1].lines,undefined);
+});
+test('word marks: swap shows replacement, redundant removal has no replacement, unchanged or missing words are ignored',()=>{
+ const text='I use bus because bus is cheap';
+ const segs=lineSegments(text,[
+  {original:'use',corrected:'take',category:'vocabulary',reason:'r',confidence:'high'},
+  {original:'bus is',corrected:'',category:'redundant',reason:'r',confidence:'high'},
+  {original:'cheap',corrected:'cheap',category:'vocabulary',reason:'r',confidence:'high'},
+  {original:'absent',corrected:'x',category:'grammar',reason:'r',confidence:'high'},
+  {original:'bus',corrected:'',category:'grammar',reason:'r',confidence:'high'}]);
+ assert.equal(segs.map(s=>s.text).join(''),text);
+ assert.deepEqual(segs.filter(s=>s.correction).map(s=>[s.text,s.correction.corrected]),[['use','take'],['bus is','']]);
+});
+test('vocabulary profile is read defensively',()=>{
+ assert.equal(feedbackVocabulary({}),null);
+ const v=feedbackVocabulary({vocabulary:{level:'B1',words:90,uniqueWords:50,repeated:[{word:'family',count:4},{word:5}],parts:[{part:1,level:'A2',repeated:[]},{x:1}]}});
+ assert.deepEqual(v.repeated,[{word:'family',count:4}]);assert.equal(v.parts.length,1);
 });
