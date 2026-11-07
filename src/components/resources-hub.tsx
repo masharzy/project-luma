@@ -38,7 +38,7 @@ export function ResourcesHub({d}:{d:HubData}){
   <ResumeStrip/>
   <div className={styles.sectionHead}><h2>Choose a resource</h2><p>নিজের দুর্বল জায়গা অনুযায়ী বেছে নাও।</p></div>
   <div className={hs.bentoGrid}>
-   <Card href="/resources/cue-cards" span="s3" title="Speaking Cue Cards" blurb="Pick a topic and follow a step-by-step sample answer, with Part 3 model answers and useful phrases." chips={[`${c.cue} topics`,`${c.cats} categories`,'Part 3 included']} access="First 3 topics per category free" cta="Open cue cards">
+   <Card href="/resources/cue-cards" span="s3" title="Speaking Cue Cards" blurb="Pick a topic and follow a step-by-step sample answer, with Part 3 model answers and useful phrases." chips={[`${c.cue} topics`,`${c.cats} categories`,'Part 3 included']} access="First category free" cta="Open cue cards">
     <div className={hs.miniCue}><span>Cue card</span><b>{d.cue.title}</b></div>
     <div className={hs.stepRow}>{d.cue.steps.map((s,i)=><span key={s}><i>{i+1}</i>{s}</span>)}</div>
    </Card>

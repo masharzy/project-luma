@@ -13,7 +13,7 @@ export default function Page() {
         {[
           [
             "01",
-            "Cambridge 1–10",
+            "Cambridge 1–21",
             "চেনা বইয়ের Listening আর Reading practice।",
             "/cambridge",
           ],

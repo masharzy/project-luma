@@ -114,7 +114,7 @@ export function CueApp({cards,categories}:{cards:CueCard[];categories:string[]})
   </section>
   {q?<section><p className={styles.count}><b>{found.length}</b> results</p><div className={styles.list}>{found.map(c=><Row key={c.id} c={c}/>)}</div></section>
   :<>
-   <div className={styles.sectionHead}><h2>Choose a category</h2><p>The first 3 topics in every category are free.</p></div>
+   <div className={styles.sectionHead}><h2>Choose a category</h2><p>The first category is free. The others open with a plan.</p></div>
    <div className={styles.catGrid}>{categories.map(c=>{const l=cards.filter(x=>x.category===c);const d=l.filter(x=>done.includes(x.id)).length;return <button key={c} className={styles.catCard} onClick={()=>nav(c)}>
     <b>{c}</b><span>{l.length} topics · {l.filter(x=>!x.locked).length} free</span>
     <div className={styles.bar}><i style={{width:`${d/l.length*100}%`}}/></div><small>{d}/{l.length} done</small></button>;})}</div>

@@ -15,10 +15,12 @@ export const getHomeAllowance=unstable_cache(async()=>{
  const p=await freePolicy();return {writing:Number(p.free_writing),speaking:Number(p.free_speaking)};
 },['home-free-allowance-v1'],{revalidate:60});
 export function escapeHtml(value:string){return value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));}
+// Books a learner can open without a plan (Cambridge 1–21 is free as well).
+const freeSeries=new Set(['official-guide']);
 export function shelfMarkup(data:HomeShelfData){
- const spines=data.series.slice(0,12).map((book,i)=>`<a role="listitem" class="jtn-bk jtn-sn jtn-book-${i}" href="/other-books/${encodeURIComponent(book.slug)}"><b>${escapeHtml(book.name)}</b></a>`).join('');
+ const spines=data.series.slice(0,12).map((book,i)=>`<a role="listitem" class="jtn-bk jtn-sn jtn-book-${i}" href="/other-books/${encodeURIComponent(book.slug)}">${freeSeries.has(book.slug)?'<u class="jtn-free">Free</u>':''}<b>${escapeHtml(book.name)}</b></a>`).join('');
  const range=escapeHtml(data.range);
- return `<div class="jtn-shelf" id="jtn-shelf" role="list" aria-label="Book library" data-total="${data.total}">${range?`<a role="listitem" class="jtn-bk jtn-cv" aria-label="Cambridge IELTS ${range}, featured" href="/cambridge"><i>Featured</i><div><b>Cambridge</b><strong>${range}</strong></div><em>Academic IELTS</em></a>`:''}${spines}<a role="listitem" class="jtn-bk jtn-ml" href="/other-books"><i>Library</i><strong id="jtn-mn">+</strong><em>More books</em></a></div>`;
+ return `<div class="jtn-shelf" id="jtn-shelf" role="list" aria-label="Book library" data-total="${data.total}">${range?`<a role="listitem" class="jtn-bk jtn-cv" aria-label="Cambridge IELTS ${range}, featured" href="/cambridge"><u class="jtn-free">Free</u><i>Featured</i><div><b>Cambridge</b><strong>${range}</strong></div><em>Academic IELTS</em></a>`:''}${spines}<a role="listitem" class="jtn-bk jtn-ml" href="/other-books"><i>Library</i><strong id="jtn-mn">+</strong><em>More books</em></a></div>`;
 }
 export function allowanceMarkup(count:number|null){
  if(count===null)return '<span>Temporarily unavailable</span>';
