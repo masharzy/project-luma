@@ -127,21 +127,6 @@
 .admin-app .membership-assign{gap:12px}
 .admin-app .membership-notice{padding:10px 12px;font-size:12px}
 .admin-app .membership-section-heading{gap:12px;flex-wrap:wrap}
-.admin-app .ai-lab{--lab-ink:var(--adm-text);--lab-muted:var(--adm-muted);--lab-line:var(--adm-line);padding:0;gap:14px;max-width:none}
-.admin-app .lab-header{padding:0;margin:0;gap:12px;align-items:center}
-.admin-app .lab-header h1{font-size:22px;margin:0 0 4px}
-.admin-app .lab-header h1 span,.admin-app .lab-eyebrow,.admin-app .lab-badge{display:none}
-.admin-app .lab-header p{font-size:12px}
-.admin-app .lab-metrics{gap:10px}
-.admin-app .lab-metrics>div{padding:10px;border-radius:4px}
-.admin-app .lab-workbench{gap:12px}
-.admin-app .ai-lab fieldset{padding:14px;gap:12px;border-radius:5px;background:var(--adm-surface)}
-.admin-app .ai-lab legend{font-size:13px}
-.admin-app .ai-lab label{gap:5px}
-.admin-app .ai-lab :is(input,select,textarea,button){border-radius:4px}
-.admin-app .ai-lab button{padding:7px 10px;min-height:34px}
-.admin-app .ai-lab details{padding:10px;border-radius:4px}
-.admin-app .ai-lab th,.admin-app .ai-lab td{padding:8px 10px}
 .admin-app .speaking-editor{gap:12px}
 .admin-app .speaking-editor fieldset{border-color:var(--adm-line);padding:12px}
 .adm-quick-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
