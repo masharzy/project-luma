@@ -5,6 +5,7 @@ import { hasAdminRole } from '@/lib/auth/policy';
 import { requireSameOrigin,readBody,json,AuthHttpError,limit } from '@/lib/auth/http';
 import { db } from '@/lib/auth/db';
 import { getKey } from '@/lib/ai-lab/secrets';
+import { speakingModel } from '@/lib/products/speaking-model';
 import { assessSpeakingDirect,type SpeakingInput } from '@/lib/products/speaking-provider';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -26,7 +27,7 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
  const model=String(d.model||'');if(!/^[a-zA-Z0-9._:/-]{3,150}$/.test(model))throw new AuthHttpError(400,'Invalid model');
  const catalog=await fetch('https://openrouter.ai/api/v1/models',{signal:AbortSignal.timeout(15000)}).then(r=>r.json());
  const entry=(catalog.data||[]).find((m:{id:string})=>m.id===model);
- if(!entry||!entry.architecture?.input_modalities?.includes('audio')||Number(entry.pricing?.prompt)*1e6>cap.prompt||Number(entry.pricing?.completion)*1e6>cap.completion)throw new AuthHttpError(400,'Model must accept audio and cost at most $1.5 in / $4 out per 1M tokens');
+ if(model!==speakingModel&&(!entry||!entry.architecture?.input_modalities?.includes('audio')||Number(entry.pricing?.prompt)*1e6>cap.prompt||Number(entry.pricing?.completion)*1e6>cap.completion))throw new AuthHttpError(400,'Model must accept audio and cost at most $1.5 in / $4 out per 1M tokens');
  await limit('speaking-bench:'+u.id,60,3600);
  const rows=await db().query('SELECT input,result FROM public.speaking_evaluations WHERE id=$1::uuid',[SOURCE]);if(!rows[0])throw new AuthHttpError(404,'Saved recording missing');
  const input=rows[0].input as SpeakingInput,refText=new Map<number,string>((rows[0].result.transcripts as {step:number;verbatim:string}[]).map(t=>[t.step,t.verbatim]));
@@ -34,7 +35,7 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
  const base={model,sourceSeconds:Math.round(input.clips.reduce((n,c)=>n+c.seconds,0)),clips:input.clips.length};
  let out:Record<string,unknown>;
  try{
-  const {result,usage}=await assessSpeakingDirect(input,{providerKey:key,model,providerOnly:null});
+  const {result,usage}=await assessSpeakingDirect(input,{providerKey:key,model,providerOnly:null,reasoning:d.reasoning==='low'||d.reasoning==='medium'?d.reasoning:undefined,simpleSchema:d.simpleSchema===true});
   const tr=new Map(result.transcripts.map(t=>[t.step,t.verbatim]));
   const perStep=input.clips.map(c=>({step:c.step,sec:c.seconds,wer:wer(norm(refText.get(c.step)||''),norm(tr.get(c.step)||'')),chars:(tr.get(c.step)||'').length}));
   const refAll=input.clips.flatMap(c=>norm(refText.get(c.step)||'')),hypAll=input.clips.flatMap(c=>norm(tr.get(c.step)||''));
