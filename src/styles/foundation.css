@@ -530,3 +530,8 @@ a:hover {
 .upgraded-header .header-actions > .nav-signin {
   display: inline-flex;
 }
+
+/* Nested book links inside the IELTS dropdown */
+.learn-dropdown > a.sub { padding: 8px 0 8px 16px; }
+.learn-dropdown > a.sub b { font-size: 12px; font-weight: 600; color: #5a4650; }
+.learn-dropdown { max-height: min(76vh, 640px); overflow-y: auto; }
