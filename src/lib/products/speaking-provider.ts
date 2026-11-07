@@ -112,6 +112,9 @@ type AssessmentOptions = {
  pack?:boolean;
  // Admin benchmark only: drop array-size/length constraints (Gemini rejects large nested constrained schemas). Coverage is still validated in code.
  loose?:boolean;
+ // Admin benchmark only: for models without structured-output or reasoning params. Schema goes in the prompt; no response_format, no require_parameters.
+ relaxed?:boolean;
+ ignoreProviders?:string[];
 };
 const isSpeech=(status:string)=>status==='speech'||status==='partial_speech';
 const criterionKeys=['fluency_coherence','lexical_resource','grammar','pronunciation'] as const;
@@ -178,9 +181,9 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
    headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Speaking Evaluation'},
    body:JSON.stringify({
     model:options.model??speakingModel,stream:true,stream_options:{include_usage:true},max_tokens:16000,
-    reasoning:{effort:options.reasoning??'low',exclude:true},provider:{...(options.providerOnly===null?{}:{only:[options.providerOnly??speakingProvider]}),allow_fallbacks:false,require_parameters:true},
-    response_format:options.simpleSchema||options.noStepEnum||options.loose!==false?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'||(options.loose!==false&&['minItems','maxItems','maxLength','minLength'].includes(k))||((options.noStepEnum||options.loose!==false)&&k==='enum'&&Array.isArray(v)&&v.every(x=>typeof x==='number'))?undefined:v)):modelJsonFormat(steps),
-    messages:[{role:'system',content:systemPrompt},{role:'user',content}],
+    ...(options.relaxed?{}:{reasoning:{effort:options.reasoning??'low',exclude:true}}),provider:{...(options.providerOnly===null||options.relaxed?{}:{only:[options.providerOnly??speakingProvider]}),...(options.ignoreProviders?.length?{ignore:options.ignoreProviders}:{}),allow_fallbacks:!!options.relaxed,require_parameters:!options.relaxed},
+    ...(options.relaxed?{}:{response_format:options.simpleSchema||options.noStepEnum||options.loose!==false?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'||(options.loose!==false&&['minItems','maxItems','maxLength','minLength'].includes(k))||((options.noStepEnum||options.loose!==false)&&k==='enum'&&Array.isArray(v)&&v.every(x=>typeof x==='number'))?undefined:v)):modelJsonFormat(steps)}),
+    messages:[{role:'system',content:options.relaxed?systemPrompt+'\nReturn ONLY one JSON object (no markdown fences, no prose) matching this JSON Schema exactly:\n'+JSON.stringify((modelJsonFormat(steps).json_schema.schema as Record<string,unknown>))+'\nUse answers in this exact step order: '+steps.join(', ')+'.':systemPrompt},{role:'user',content}],
    }),
   });
   report.httpStatus=response.status;
@@ -211,7 +214,7 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
   else if(envelope.choices?.[0]?.finish_reason!=='stop')report.issues.push('incomplete_model_output');
   else{
    let raw:unknown;
-   try{raw=JSON.parse(envelope.choices[0].message?.content??'');}
+   try{raw=JSON.parse((envelope.choices[0].message?.content??'').trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,''));}
    catch{report.issues.push('invalid_model_json');}
    if(!report.issues.length){
     const parsed=modelOutput.safeParse(raw);
