@@ -14,7 +14,7 @@ async function call(cfg: Cfg, path: string, init: { method: string; body?: unkno
   if (init.idempotencyKey) headers['Idempotency-Key'] = init.idempotencyKey;
   const res = await fetch(new URL(path, cfg.api), { method: init.method, headers, body: init.body === undefined ? undefined : JSON.stringify(init.body), signal: AbortSignal.timeout(15000), redirect: 'error' });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error('Briofold ' + res.status);
+  if (!res.ok) { const e = (data as { error?: { code?: unknown; message?: unknown } }).error; throw new Error('Briofold ' + res.status + ' ' + String(e?.code ?? '').slice(0, 60) + ' ' + String(e?.message ?? '').slice(0, 160)); }
   return data as Record<string, unknown>;
 }
 export const gatewayIntentTtlMinutes = 60;
