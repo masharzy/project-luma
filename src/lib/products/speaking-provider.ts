@@ -30,7 +30,7 @@ const correction=z.object({
  reason:z.string(),confidence:z.enum(['high','medium']),
 });
 const answer=z.object({
- step:z.number().int(),verbatim:z.string().max(9000),
+ step:z.number().int(),verbatim:z.string(),
  speech_status:z.enum(['speech','partial_speech','no_speech','unintelligible_audio','technical_failure']),
  corrections:z.array(correction),
  pronunciation:z.array(z.object({word:z.string(),observation:z.string(),confidence:z.enum(['high','medium']),timestamp_seconds:z.number().nonnegative().nullable()})),
@@ -42,13 +42,13 @@ const answer=z.object({
  fluency_feedback:z.string(),
  pronunciation_feedback:z.string(),
 });
-const criterion=z.object({band,reason:z.string(),evidence:z.array(z.object({step:z.number().int(),quote:z.string(),reason:z.string().trim().min(1),timestamp_seconds:z.number().nonnegative().nullable()})).max(5)});
+const criterion=z.object({band,reason:z.string(),evidence:z.array(z.object({step:z.number().int(),quote:z.string(),reason:z.string().trim().min(1),timestamp_seconds:z.number().nonnegative().nullable()}))});
 const modelOutput=z.object({
  audio_access:z.enum(['heard','unavailable']),
  criteria:z.object({fluency_coherence:criterion,lexical_resource:criterion,grammar:criterion,pronunciation:criterion}),
  summary:z.string(),
- next_steps:z.array(z.string()).max(4),
- limitations:z.array(z.string()).max(8),
+ next_steps:z.array(z.string()),
+ limitations:z.array(z.string()),
  confidence:z.enum(['high','medium','low']),
  answers:z.array(answer),
 });
@@ -217,7 +217,10 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
     const parsed=modelOutput.safeParse(raw);
     if(!parsed.success)report.issues.push(...parsed.error.issues.map(issue=>'schema:'+issue.path.join('.')+': '+issue.message));
     else{
-     const repaired=repairSpeakingPart(parsed.data,clips);
+     // Size limits are applied here instead of failing the whole part when a model is slightly verbose.
+     const bounded={...parsed.data,next_steps:parsed.data.next_steps.slice(0,4),limitations:parsed.data.limitations.slice(0,8),
+      criteria:Object.fromEntries(Object.entries(parsed.data.criteria).map(([k,c])=>[k,{...c,evidence:c.evidence.slice(0,5)}])) as PartModel['criteria']};
+     const repaired=repairSpeakingPart(bounded,clips);
      if(Object.keys(repaired.dropped).length)report.repaired=repaired.dropped;
      report.issues.push(...validatePart(repaired.model,clips));
      if(!report.issues.length)model=repaired.model;
