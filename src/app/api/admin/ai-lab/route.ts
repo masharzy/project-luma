@@ -6,6 +6,7 @@ import { json,requireSameOrigin,readBody,AuthHttpError,limit,audit } from '@/lib
 import { db } from '@/lib/auth/db';
 import { getKey,keyStatus,saveKey,vaultReady } from '@/lib/ai-lab/secrets';
 import { inputSchema,runBenchmark,googleReasoning } from '@/lib/ai-lab/benchmark';
+import { cheapModels,runWritingBench,writingBenchInput } from '@/lib/ai-lab/writing-bench';
 export const maxDuration=300;
 async function admin(){const s=await readSession();if(!s||!hasAdminRole(s.user))throw new AuthHttpError(403,'Forbidden');return s.user;}
 function failure(e:unknown){return e instanceof AuthHttpError?json({error:e.message},e.status):json({error:'AI Lab unavailable. Check migration and server configuration.'},503);}
@@ -15,6 +16,15 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
   if(!['google','openrouter','zai'].includes(String(d.provider))||typeof d.key!=='string'||d.key.trim().length<15||d.key.length>1024)throw new AuthHttpError(400,'Invalid provider key');
   if(!vaultReady())throw new AuthHttpError(503,'Set AI_LAB_MASTER_KEY on the server before saving keys.');
   await saveKey(d.provider as 'google'|'openrouter'|'zai',d.key.trim());await audit(u.id,'ai_lab_key_updated:'+d.provider);return json({ok:true});
+ }
+ if(d.action==='writing-models')return json({models:await cheapModels()});
+ if(d.action==='writing-bench'){
+  const wb=writingBenchInput.safeParse(d);if(!wb.success)throw new AuthHttpError(400,wb.error.issues.map(i=>i.message).join('; '));
+  await limit('ai-lab-w:'+u.id,300,3600);
+  const id=randomUUID(),result=await runWritingBench(wb.data);
+  const {raw,...slim}=result as {raw?:string}&Record<string,unknown>;
+  await db().query('INSERT INTO public.ai_lab_runs(id,admin_id,result) VALUES($1,$2,$3::jsonb)',[id,u.id,JSON.stringify({provider:'openrouter',skill:'writing',profile:'production-bench',sampleId:String(d.sampleId||'').slice(0,120),...slim,raw})]);
+  return json({id,...slim});
  }
  if(d.action==='models'){
   const provider=d.provider;if(provider!=='google'&&provider!=='openrouter'&&provider!=='zai')throw new AuthHttpError(400,'Invalid provider');
