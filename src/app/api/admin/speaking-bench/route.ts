@@ -58,7 +58,9 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
   const details=result.assessmentDetails as {answers:{step:number;pronunciation:unknown[]}[]};
   const pronSteps=details.answers.filter(a=>a.pronunciation.length).map(a=>a.step);
   const cost=(usage as {cost:number|null}).cost;
-  out={...base,ok:true,ms:Math.round(performance.now()-started),costUsd:cost,
+  const tok={prompt:0,completion:0,reasoning:0,audio:0};
+  for(const p of (usage as {parts:{rawResponse?:unknown}[]}).parts){const u=(p.rawResponse as {usage?:Record<string,any>}|undefined)?.usage;if(!u)continue;tok.prompt+=u.prompt_tokens||0;tok.completion+=u.completion_tokens||0;tok.reasoning+=u.completion_tokens_details?.reasoning_tokens||0;tok.audio+=u.prompt_tokens_details?.audio_tokens||0;}
+  out={...base,ok:true,ms:Math.round(performance.now()-started),costUsd:cost,tokens:tok,
    bands:{fluency:result.fluency.band,lexical:result.lexicalResource.band,grammar:result.grammar.band,pronunciation:result.pronunciation.band},estBand:result.estimatedBand,
    pronEvidence:{items:result.pronunciation.evidence.length,stepsWithWordNotes:pronSteps,partsWithWordNotes:[...new Set(pronSteps.map(s=>input.clips.find(c=>c.step===s)?.part))]},
    fluencyEvidenceSteps:[...new Set(result.fluency.evidence.map(e=>e.slice(0,10)))].length,
