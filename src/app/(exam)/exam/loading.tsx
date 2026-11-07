@@ -1,2 +1,2 @@
 import '@/styles/exam-session.css';
-export default function Loading(){return <section className="exam-session-shell"><div className="exam-session-sheet" role="status"><span className="session-eyebrow">YOUR PRACTICE SPACE</span><h1>Preparing your test…</h1><p>Getting your modules ready.</p></div></section>;}
+export default function Loading(){return <section className="exam-session-shell launcher-shell"><div className="exam-session-sheet launcher-sheet" role="status" aria-live="polite"><p className="launcher-head" style={{margin:0}}>Opening your test…</p></div></section>;}

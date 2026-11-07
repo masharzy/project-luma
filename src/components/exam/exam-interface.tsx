@@ -3241,13 +3241,13 @@ export default function ExamInterface({
           >
             <ChevronRight className="w-5 h-5" />
           </button>
-          <button
+          {(reviewMode || currentPartIndex === parts.length - 1) && <button
             onClick={() => reviewMode ? onFinish() : setShowSubmitConfirm(true)}
             disabled={submittingModule}
             className="ielts-submit-btn"
           >
             {submittingModule ? "Submitting..." : reviewMode ? "Close" : "Submit"}
-          </button>
+          </button>}
         </div>
       </footer>
 
@@ -3262,7 +3262,7 @@ export default function ExamInterface({
           </div>
           {optionsView === "main" && (
             <div className="ielts-options-list">
-              <button type="button" className="danger" onClick={() => reviewMode ? onFinish() : setShowSubmitConfirm(true)}>Go to submission page</button>
+              {reviewMode && <button type="button" className="danger" onClick={() => onFinish()}>Close review</button>}
               <button type="button" onClick={() => setOptionsView("contrast")}>Contrast <ChevronRight className="w-5 h-5" /></button>
               <button type="button" onClick={() => setOptionsView("text-size")}>Text size <ChevronRight className="w-5 h-5" /></button>
             </div>
@@ -3336,7 +3336,7 @@ export default function ExamInterface({
             <AlertDialogDescription>You cannot change these answers after submitting. Check your work before you continue.</AlertDialogDescription>
           </AlertDialogHeader>
           <div className="luma-submit-time"><span>Time remaining</span><strong>{formatTime(timeLeft)}</strong></div>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="luma-submit-footer">
             <AlertDialogCancel disabled={submittingModule}>Keep working</AlertDialogCancel>
             <AlertDialogAction disabled={submittingModule} onClick={e=>{e.preventDefault();void handleConfirmSubmit();}}>{submittingModule?'Submitting…':'Submit module ↗'}</AlertDialogAction>
           </AlertDialogFooter>
