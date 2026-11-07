@@ -7,6 +7,8 @@ import { db } from '@/lib/auth/db';
 import { getKey } from '@/lib/ai-lab/secrets';
 import { speakingModel } from '@/lib/products/speaking-model';
 import { assessSpeakingDirect,type SpeakingInput } from '@/lib/products/speaking-provider';
+import { getPrivate } from '@/lib/products/storage';
+import { speakingMetrics } from '@/lib/products/speaking-metrics';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 export const maxDuration=300;
@@ -23,6 +25,20 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
   const models=((await r.json()).data||[]).filter((m:{architecture?:{input_modalities?:string[]};pricing?:{prompt?:string;completion?:string}})=>m.architecture?.input_modalities?.includes('audio')&&Number(m.pricing?.prompt)*1e6<=cap.prompt&&Number(m.pricing?.completion)*1e6<=cap.completion&&Number(m.pricing?.prompt)>0)
    .map((m:{id:string;pricing:{prompt:string;completion:string;audio?:string};context_length:number})=>({id:m.id,prompt:Number(m.pricing.prompt)*1e6,completion:Number(m.pricing.completion)*1e6,audio:m.pricing.audio?Number(m.pricing.audio)*1e6:null,ctx:m.context_length}));
   return json({models});
+ }
+ if(d.action==='metrics'){
+  await limit('speaking-bench:'+u.id,60,3600);
+  const rows=await db().query('SELECT input,result FROM public.speaking_evaluations WHERE id=$1::uuid',[SOURCE]);if(!rows[0])throw new AuthHttpError(404,'Saved recording missing');
+  const input=rows[0].input as SpeakingInput,refText=new Map<number,string>((rows[0].result.transcripts as {step:number;verbatim:string}[]).map(t=>[t.step,t.verbatim]));
+  const started=performance.now(),clips=[];
+  for(const c of input.clips){const m=speakingMetrics(await getPrivate(c.key));const words=(refText.get(c.step)||'').split(/\s+/).filter(Boolean).length;
+   clips.push({step:c.step,part:c.part,words,wpm:m.speechSeconds>0?Math.round(words/m.speechSeconds*60):null,...m,segments:undefined});}
+  const sum=(f:(c:typeof clips[number])=>number)=>clips.reduce((n,c)=>n+f(c),0),speech=sum(c=>c.speechSeconds),total=sum(c=>c.seconds);
+  const out={kind:'metrics',ms:Math.round(performance.now()-started),clips:clips.length,totalSeconds:Math.round(total),speechSeconds:Math.round(speech),speechRatio:Math.round(speech/total*100)/100,
+   words:sum(c=>c.words),wpmOverall:speech>0?Math.round(sum(c=>c.words)/speech*60):null,pauses05:sum(c=>c.pauses.ge05),pauses1:sum(c=>c.pauses.ge1),pauses2:sum(c=>c.pauses.ge2),perClip:clips};
+  const id=randomUUID();
+  await db().query('INSERT INTO public.ai_lab_runs(id,admin_id,result) VALUES($1,$2,$3::jsonb)',[id,u.id,JSON.stringify({provider:'local',skill:'speaking',profile:'speaking-metrics-v1',sampleId:'saved-14clip-228s',...out})]);
+  return json({id,...out});
  }
  const model=String(d.model||'');if(!/^[a-zA-Z0-9._:/-]{3,150}$/.test(model))throw new AuthHttpError(400,'Invalid model');
  const catalog=await fetch('https://openrouter.ai/api/v1/models',{signal:AbortSignal.timeout(15000)}).then(r=>r.json());
