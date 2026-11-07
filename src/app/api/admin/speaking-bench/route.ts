@@ -47,8 +47,8 @@ export async function POST(req:NextRequest){try{const u=await admin();requireSam
    fluencyEvidenceSteps:[...new Set(result.fluency.evidence.map(e=>e.slice(0,10)))].length,
    transcriptWer:wer(refAll,hypAll),perStep,validationIssues:(result.validationIssues||[]).length,summary:result.summary.slice(0,300)};
  }catch(e){
-  const rep=(e as {providerReport?:{failureCode:string;parts:{part:number;issues:string[];httpStatus?:number}[]}}).providerReport;
-  out={...base,ok:false,ms:Math.round(performance.now()-started),failureCode:rep?.failureCode||'ERROR',parts:rep?.parts?.map(p=>({part:p.part,http:p.httpStatus,issues:p.issues.slice(0,4)}))||null,error:rep?null:(e instanceof Error?e.message.slice(0,200):'failed')};
+  const rep=(e as {providerReport?:{failureCode:string;parts:{part:number;issues:string[];httpStatus?:number;rawResponse?:unknown}[]}}).providerReport;
+  out={...base,ok:false,ms:Math.round(performance.now()-started),failureCode:rep?.failureCode||'ERROR',parts:rep?.parts?.map(p=>({part:p.part,http:p.httpStatus,issues:p.issues.slice(0,4),msg:p.httpStatus&&p.httpStatus>=400?JSON.stringify((p.rawResponse as {error?:unknown})?.error??p.rawResponse??'').slice(0,300):undefined}))||null,error:rep?null:(e instanceof Error?e.message.slice(0,200):'failed')};
  }
  const id=randomUUID();
  await db().query('INSERT INTO public.ai_lab_runs(id,admin_id,result) VALUES($1,$2,$3::jsonb)',[id,u.id,JSON.stringify({provider:'openrouter',skill:'speaking',profile:'speaking-bench-v1',sampleId:'saved-14clip-228s',...out})]);
