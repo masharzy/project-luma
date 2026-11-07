@@ -33,7 +33,7 @@ function Reader({book,ci,store,update,go,exit}:{book:Book;ci:number;store:Store;
  const blocks=useMemo(()=>ch.body?parseBody(ch.body):[],[ch.body]);
  const myHl=st.hl.filter(h=>h.ch===ci);
  const cols=geo.w>=900?2:1;
- const measure=useCallback(()=>{const w=wrap.current?.clientWidth||0,f=flow.current;if(!w||!f)return;const c=w>=900?2:1,gap=c===2?64:0;setGeo({w,gap});
+ const measure=useCallback(()=>{const w=wrap.current?.clientWidth||0,f=flow.current;if(!w||!f)return;const c=w>=900?2:1,gap=c===2?64:48;setGeo({w,gap});
   const n=Math.max(1,Math.round((f.scrollWidth+gap)/(w+gap)));setPages(n);setPage(p=>landLast.current?(landLast.current=false,n-1):Math.min(p,n-1));},[]);
  useEffect(()=>{set(b=>({...b,last:ci}));setPage(0);setSel(null);/* eslint-disable-next-line */},[ci,book.slug]);
  useEffect(()=>{const id=requestAnimationFrame(measure);return()=>cancelAnimationFrame(id);},[measure,blocks,store.size,store.serif,panel,showSet,ch.locked]);
