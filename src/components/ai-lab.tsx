@@ -30,10 +30,11 @@ export function AiLab(){
  <header className="lab-head"><h1>AI lab</h1><p>Run one sample through a model, repeat it, and compare speed and score. Results are saved.</p></header>
  <fieldset disabled={busy} className="lab-card">
  <div className="lab-row lab-row-model">
- <label>Provider<select value={provider} onChange={e=>{setProvider(e.target.value);setModel('');setModels([]);setReasoning('none');}}><option value="google">Google Gemini</option><option value="openrouter">OpenRouter (free models)</option></select></label>
+ <label>Provider<select value={provider} onChange={e=>{setProvider(e.target.value);setModel('');setModels([]);setReasoning('none');}}><option value="google">Google Gemini</option><option value="openrouter">OpenRouter (free models)</option><option value="zai">Z.ai GLM (free, text only)</option></select></label>
  <label>Model<select value={model} onChange={e=>chooseModel(e.target.value)}><option value="">{models.length?'Choose a model':'Load models first'}</option>{models.map(m=><option key={m.id} value={m.id}>{m.id} · {m.note}</option>)}</select></label>
  <button type="button" onClick={()=>action(async()=>{const d=await request({action:'models',provider});setModels(d.models);chooseModel(d.models[0]?.id||'',d.models);})}>Load models</button>
  </div>
+ {provider==='zai'&&<p className="adm-note">GLM 4.7 Flash reads text only, so use it for Writing. Task 1 needs the chart described in the question.</p>}
  <details className="lab-key"><summary><span className={status[provider]?'lab-dot is-ok':'lab-dot'}/>{!Object.keys(status).length?'Checking key…':<>{status[provider]?'API key saved':'No API key'}{!status.vaultReady&&' · storage unavailable'}</>}</summary>
  <div className="lab-row lab-row-key"><label>API key<input type="password" autoComplete="new-password" value={key} onChange={e=>setKey(e.target.value)}/></label><button type="button" disabled={key.trim().length<15} onClick={()=>action(async()=>{await request({action:'save-key',provider,key});setKey('');await refresh();setMessage('Key saved securely.');})}>Save key</button></div></details>
  <div className="lab-sep"/>

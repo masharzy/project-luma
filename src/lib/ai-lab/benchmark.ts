@@ -3,12 +3,12 @@ import { z } from 'zod';
 import { getKey } from './secrets';
 const score=z.number().min(0).max(9).multipleOf(0.5).nullable();
 export const inputSchema=z.object({
- provider:z.enum(['google','openrouter']), model:z.string().min(2).max(150).regex(/^[a-zA-Z0-9._:/-]+$/),
+ provider:z.enum(['google','openrouter','zai']), model:z.string().min(2).max(150).regex(/^[a-zA-Z0-9._:/-]+$/),
  skill:z.enum(['writing','speaking']),level:z.enum(['normal','deep','maximum']),
  reasoning:z.enum(['none','effort','budget']), maxThinking:z.number().int().min(1024).max(32768),
  question:z.string().min(5).max(16000),answer:z.string().max(40000),sampleId:z.string().min(1).max(120),
  referenceBand:score, audio:z.object({data:z.string().max(4000000).regex(/^[A-Za-z0-9+/]*={0,2}$/),mime:z.enum(['audio/wav','audio/mpeg','audio/mp3','audio/webm','audio/ogg','audio/mp4','audio/flac'])}).optional()
-}).superRefine((d,c)=>{if(d.skill==='speaking'&&!d.audio)c.addIssue({code:'custom',message:'Speaking requires an original audio recording'});if(d.skill==='writing'&&!d.answer.trim())c.addIssue({code:'custom',message:'Writing answer is required'});if(d.provider==='google'&&d.reasoning==='effort'&&/^gemini-2/.test(d.model))c.addIssue({code:'custom',message:'Use budget or none for Gemini 2.x'});if(d.provider==='openrouter'&&d.reasoning==='budget')c.addIssue({code:'custom',message:'Use effort or none for OpenRouter'});});
+}).superRefine((d,c)=>{if(d.skill==='speaking'&&!d.audio)c.addIssue({code:'custom',message:'Speaking requires an original audio recording'});if(d.skill==='writing'&&!d.answer.trim())c.addIssue({code:'custom',message:'Writing answer is required'});if(d.provider==='google'&&d.reasoning==='effort'&&/^gemini-2/.test(d.model))c.addIssue({code:'custom',message:'Use budget or none for Gemini 2.x'});if(d.provider==='openrouter'&&d.reasoning==='budget')c.addIssue({code:'custom',message:'Use effort or none for OpenRouter'});if(d.provider==='zai'&&d.reasoning!=='none')c.addIssue({code:'custom',message:'Z.ai runs with thinking off'});});
 export type LabInput=z.infer<typeof inputSchema>;
 export const assessmentSchema=z.object({scorable:z.boolean(),limitation:z.string(),criteria:z.array(z.object({name:z.string(),band:score,evidence:z.array(z.object({quote:z.string(),timestampSeconds:z.number().min(0).nullable(),reason:z.string()})).max(5),feedback:z.string()})).length(4),nextSteps:z.array(z.string()).max(5)});
 export function validateAssessment(raw:string,input:LabInput){
@@ -40,6 +40,8 @@ export async function providerFailure(response:Response,key:string){
  const seconds=retry?(Number.isFinite(Number(retry))?Number(retry):Math.max(0,Math.ceil((Date.parse(retry)-Date.now())/1000))):null;
  return {httpStatus:response.status,category,hint:hints[category],retryAfterSeconds:seconds!==null&&Number.isFinite(seconds)?Math.max(0,seconds):null};
 }
+export const zaiModel='glm-4.7-flash';
+export const zaiUrl='https://api.z.ai/api/paas/v4/chat/completions';
 export async function runBenchmark(input:LabInput){
  if(input.provider==='google'&&input.reasoning!=='none'&&input.reasoning!==googleReasoning(input.model))throw Error('Unsupported reasoning mode for this Gemini model');
  if(input.provider==='google'&&input.reasoning==='budget'&&input.maxThinking>(input.model.includes('pro')?32768:24576))throw Error('Thinking budget exceeds this model limit');
@@ -53,6 +55,12 @@ export async function runBenchmark(input:LabInput){
   headers['x-goog-api-key']=key;
   url=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(input.model)}:streamGenerateContent?alt=sse`;
   body={systemInstruction:{parts:[{text:instructions}]},contents:[{role:'user',parts:[{text:payload},...(input.audio?[{inlineData:{mimeType:input.audio.mime,data:input.audio.data}}]:[])]}],generationConfig:{responseMimeType:'application/json',maxOutputTokens:input.reasoning==='budget'?input.maxThinking+4096:12288,...(thinking?{thinkingConfig:thinking}:{})}};
+ }else if(input.provider==='zai'){
+  // Direct Z.ai route. Only the free text model is enabled; it cannot hear audio.
+  if(input.model!==zaiModel)throw Error('Only glm-4.7-flash is enabled for Z.ai');
+  if(input.audio||input.skill==='speaking')throw Error('GLM 4.7 Flash is text-only. Use it for Writing.');
+  headers.Authorization=`Bearer ${key}`;url=zaiUrl;
+  body={model:input.model,stream:true,stream_options:{include_usage:true},max_tokens:8192,temperature:0,thinking:{type:'disabled'},response_format:{type:'json_object'},messages:[{role:'system',content:instructions},{role:'user',content:payload}]};
  }else{
   // Never route to a paid model or fall back to another model.
   if(!input.model.endsWith(':free'))throw Error('Only pinned :free models are enabled');

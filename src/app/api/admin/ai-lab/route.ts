@@ -12,12 +12,13 @@ function failure(e:unknown){return e instanceof AuthHttpError?json({error:e.mess
 export async function GET(){try{await admin();const status=await keyStatus();const runs=await db().query('SELECT id,created_at,result FROM public.ai_lab_runs ORDER BY created_at DESC LIMIT 100');return json({status,runs});}catch(e){return failure(e);}}
 export async function POST(req:NextRequest){try{const u=await admin();requireSameOrigin(req);const d=await readBody(req,4500000);
  if(d.action==='save-key'){
-  if(!['google','openrouter'].includes(String(d.provider))||typeof d.key!=='string'||d.key.trim().length<15||d.key.length>1024)throw new AuthHttpError(400,'Invalid provider key');
+  if(!['google','openrouter','zai'].includes(String(d.provider))||typeof d.key!=='string'||d.key.trim().length<15||d.key.length>1024)throw new AuthHttpError(400,'Invalid provider key');
   if(!vaultReady())throw new AuthHttpError(503,'Set AI_LAB_MASTER_KEY on the server before saving keys.');
-  await saveKey(d.provider as 'google'|'openrouter',d.key.trim());await audit(u.id,'ai_lab_key_updated:'+d.provider);return json({ok:true});
+  await saveKey(d.provider as 'google'|'openrouter'|'zai',d.key.trim());await audit(u.id,'ai_lab_key_updated:'+d.provider);return json({ok:true});
  }
  if(d.action==='models'){
-  const provider=d.provider;if(provider!=='google'&&provider!=='openrouter')throw new AuthHttpError(400,'Invalid provider');
+  const provider=d.provider;if(provider!=='google'&&provider!=='openrouter'&&provider!=='zai')throw new AuthHttpError(400,'Invalid provider');
+  if(provider==='zai')return json({models:[{id:'glm-4.7-flash',note:'text only · free per Z.ai docs',reasoning:'none'}]});
   const response=await fetch(provider==='google'?'https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000':'https://openrouter.ai/api/v1/models',{headers:provider==='google'?{'x-goog-api-key':await getKey(provider)}:{},signal:AbortSignal.timeout(15000)});
   if(!response.ok)throw new AuthHttpError(502,'Unable to load models');const catalog=await response.json();
   const models=provider==='google'?(catalog.models||[]).filter((m:{supportedGenerationMethods?:string[]})=>m.supportedGenerationMethods?.includes('generateContent')).filter((m:{name:string})=>/^models\/gemini-/.test(m.name)&&!/(image|tts|transcribe|robotics|computer|omni|nano-banana|customtools)/.test(m.name)).map((m:{name:string})=>({id:m.name.replace('models/',''),reasoning:googleReasoning(m.name.replace('models/','')),note:m.name.includes('2.5')?'Legacy access may be restricted':'Verify free quota in Google AI Studio'})).sort((a:{id:string},b:{id:string})=>Number(/^gemini-\d.*flash/.test(b.id)&&!b.id.includes('2.5'))-Number(/^gemini-\d.*flash/.test(a.id)&&!a.id.includes('2.5'))||b.id.localeCompare(a.id,undefined,{numeric:true})):(catalog.data||[]).filter((m:{id:string;pricing?:{prompt:string;completion:string}})=>m.id.endsWith(':free')&&Number(m.pricing?.prompt)===0&&Number(m.pricing?.completion)===0).map((m:{id:string;architecture?:{input_modalities?:string[]};supported_parameters?:string[]})=>({id:m.id,note:(m.architecture?.input_modalities||[]).join(', '),reasoning:m.supported_parameters?.includes('reasoning')?'effort':'none'}));return json({models});

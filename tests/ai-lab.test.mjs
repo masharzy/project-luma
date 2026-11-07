@@ -72,3 +72,18 @@ test('OpenRouter pins a zero-price model and passes documented reasoning and rou
   assert.equal(r.diagnostic.retryAfterSeconds,20);assert.equal(r.firstTextMs,null);
  }finally{globalThis.fetch=old;}
 });
+test('Z.ai route: documented endpoint and body, free text model only, no audio, no secret leakage',async()=>{
+ const old=globalThis.fetch;let seen;
+ try{
+  const zai={...input,provider:'zai',model:'glm-4.7-flash'};
+  globalThis.fetch=async(url,init)=>{seen={url,headers:init.headers,body:JSON.parse(init.body)};return new Response(new ReadableStream({start(c){
+   c.enqueue(new TextEncoder().encode('data: '+JSON.stringify({choices:[{delta:{content:JSON.stringify(result)},finish_reason:'stop'}],model:'glm-4.7-flash',usage:{prompt_tokens:10,completion_tokens:20}})+'\n\ndata: [DONE]\n\n'));c.close();}}));};
+  const r=await runBenchmark(zai);
+  assert.equal(r.ok,true);assert.equal(seen.url,'https://api.z.ai/api/paas/v4/chat/completions');assert.equal(seen.headers.Authorization,'Bearer private-test-key');
+  assert.equal(seen.body.model,'glm-4.7-flash');assert.equal(seen.body.thinking.type,'disabled');assert.equal(seen.body.stream,true);assert.equal(JSON.stringify(r).includes('private-test-key'),false);assert.equal(r.servedModel,'glm-4.7-flash');
+  await assert.rejects(()=>runBenchmark({...zai,model:'glm-4.7'}),/Only glm-4.7-flash/);
+  assert.equal(inputSchema.safeParse({...zai,reasoning:'effort'}).success,false);
+  assert.equal(inputSchema.safeParse({...zai,skill:'speaking',audio:{data:'AAAA',mime:'audio/wav'}}).success,true);
+  await assert.rejects(()=>runBenchmark({...zai,skill:'speaking',audio:{data:'AAAA',mime:'audio/wav'}}),/text-only/);
+ }finally{globalThis.fetch=old;}
+});
