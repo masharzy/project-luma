@@ -1,0 +1,35 @@
+{
+ "among": [
+  "pos"
+ ],
+ "city": [
+  "example_word:writing"
+ ],
+ "conflict": [
+  "test_answer"
+ ],
+ "cry": [
+  "example_word:speaking"
+ ],
+ "element": [
+  "use"
+ ],
+ "evidence": [
+  "use"
+ ],
+ "hang": [
+  "example_word:writing",
+  "example_word:speaking"
+ ],
+ "leaf": [
+  "example_word:writing",
+  "example_word:speaking",
+  "test_answer"
+ ],
+ "na\u00efve": [
+  "word"
+ ],
+ "note": [
+  "example_word:writing"
+ ]
+}
