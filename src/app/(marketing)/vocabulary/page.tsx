@@ -50,7 +50,7 @@ export default async function Page({searchParams}:{searchParams:Promise<Record<s
    <div className={styles.faq}>
     <details><summary>Listen button-এ কীভাবে উচ্চারণ শোনায়?</summary><p>তোমার browser-এর নিজের English voice ব্যবহার হয়। আলাদা audio file ডাউনলোড হয় না, তাই data কম লাগে। Voice ফোন বা browser অনুযায়ী একটু আলাদা হতে পারে।</p></details>
     <details><summary>আমার progress কোথায় থাকে?</summary><p>Log in না করলে এই browser-এ। Log in করলে account-এ জমা হয়, তাই ফোন আর কম্পিউটারে একই progress দেখা যায়।</p></details>
-    <details><summary>“Mastered” কখন হয়?</summary><p>Flashcard-এ একটা word কয়েকবার ঠিক মনে রাখলে সেটা mastered হয়। না মনে থাকলে আবার শেখার তালিকায় ফেরে। তুমি নিজেও ✓ চেপে চিহ্নিত করতে পারো।</p></details>
+    <details><summary>“Mastered” কখন হয়?</summary><p>Flashcard-এ একটা word কয়েকবার ঠিক মনে রাখলে সেটা mastered হয়। না মনে থাকলে আবার শেখার তালিকায় ফেরে। তুমি নিজেও  চেপে চিহ্নিত করতে পারো।</p></details>
    </div>
   </section>
  </div>;

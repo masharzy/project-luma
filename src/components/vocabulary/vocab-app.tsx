@@ -7,11 +7,11 @@ import {statusOf,useProgress} from './use-progress';
 import {Flashcards} from './flashcards';
 import {Quiz} from './quiz';
 import {speak} from './speak';
+import {CheckIcon,LockIcon,SearchIcon,SpeakerIcon} from './icons';
 import styles from './vocabulary.module.css';
 type Mode='explore'|'cards'|'quiz';
 type StatusFilter='all'|'new'|'learning'|'mastered'|'locked';
 type Initial={topic?:string;band?:number;use?:string;q?:string;mode?:Mode};
-const TOPIC_ICON:Record<string,string>={Education:'🎓',Environment:'🌿',Technology:'💻',Health:'🩺','Work & Economy':'💼','Society & Family':'👪','Government & Law':'⚖️','Media & Communication':'📰','Travel & Transport':'✈️','Arts & Culture':'🎨','Science & Research':'🔬','Crime & Safety':'🛡️','Behaviour & Character':'🧠','General Academic':'📘'};
 const bandLabel=(b:number)=>`Band ${b}${b===8?'+':''}`;
 function Ring({value,size=96,label,sub}:{value:number;size?:number;label:string;sub:string}){
  const r=size/2-8,c=2*Math.PI*r;
@@ -90,7 +90,7 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
      <div className={styles.dashTop}>
       <Ring value={unlocked.length?mastered/unlocked.length:0} label={String(mastered)} sub="mastered"/>
       <div className={styles.dashStats}>
-       <div><b>{ready?streak:0}</b><span>day streak 🔥</span></div>
+       <div><b>{ready?streak:0}</b><span>day streak</span></div>
        <div><b>{learning}</b><span>in progress</span></div>
        <div><b>{dueCount}</b><span>due to review</span></div>
       </div>
@@ -103,12 +103,12 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
   </section>
 
   {wotd&&<section className={styles.wotd}><div><span className={styles.eyebrowDark}>WORD OF THE DAY</span><h2>{wotd.w}</h2><p>{wotd.m}</p><p lang="bn" className={styles.bnLine}>{wotd.n}</p></div>
-   <div className={styles.wotdBtns}><button className={styles.ghost} onClick={()=>speak(wotd.w)}>🔊 Listen</button><button className={styles.primary} onClick={()=>{setQ(wotd.w);setExpanded(wotd.id);void details([wotd.id]);setMode('explore');studyRef.current?.scrollIntoView({behavior:'smooth'});}}>See examples</button></div></section>}
+   <div className={styles.wotdBtns}><button className={styles.ghost} onClick={()=>speak(wotd.w)}><SpeakerIcon/> Listen</button><button className={styles.primary} onClick={()=>{setQ(wotd.w);setExpanded(wotd.id);void details([wotd.id]);setMode('explore');studyRef.current?.scrollIntoView({behavior:'smooth'});}}>See examples</button></div></section>}
 
   {/* TOPICS */}
   <section className={styles.section}>
    <div className={styles.sectionHead}><h2>Topic ধরে শেখো</h2><p>IELTS-এ যে topic-গুলো সবচেয়ে বেশি আসে, সেগুলো আলাদা করে সাজানো।</p></div>
-   <div className={styles.topicGrid}>{TOPICS.map(t=><button key={t} className={`${styles.topic} ${topic===t?styles.topicOn:''}`} onClick={()=>{setTopic(topic===t?'':t);setMode('explore');studyRef.current?.scrollIntoView({behavior:'smooth'});}}><span className={styles.topicIcon}>{TOPIC_ICON[t]}</span><b>{t}</b><small>{counts[t]||0} words</small></button>)}</div>
+   <div className={styles.topicGrid}>{TOPICS.map(t=><button key={t} className={`${styles.topic} ${topic===t?styles.topicOn:''}`} onClick={()=>{setTopic(topic===t?'':t);setMode('explore');studyRef.current?.scrollIntoView({behavior:'smooth'});}}><b>{t}</b><small>{counts[t]||0} words</small></button>)}</div>
   </section>
 
   {/* STUDY AREA */}
@@ -117,12 +117,13 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
     {([['explore','Explore','Browse every word'],['cards','Flashcards','Learn with spaced review'],['quiz','Quiz','Test yourself']] as const).map(([m,l,s])=><button key={m} role="tab" aria-selected={mode===m} className={`${styles.tab} ${mode===m?styles.tabOn:''}`} onClick={()=>{setForced(null);setMode(m);if(m==='quiz')setQuizSeed(x=>x+1);}}><b>{l}</b><small>{s}</small></button>)}
    </div>
    <div className={styles.filters}>
-    <div className={styles.search}><span aria-hidden="true">🔍</span><input value={q} onChange={e=>{setQ(e.target.value);setForced(null);}} placeholder="Search a word or meaning (English or বাংলা)" aria-label="Search words"/>{q&&<button onClick={()=>setQ('')} aria-label="Clear search">×</button>}</div>
-    <div className={styles.chipRow} aria-label="Band">{[0,6,7,8].map(b=><button key={b} className={`${styles.pill} ${band===b?styles.pillOn:''}`} onClick={()=>{setBand(b);setForced(null);}}>{b?bandLabel(b):'All bands'}</button>)}</div>
-    <div className={styles.chipRow} aria-label="Use">{['',...USES].map(u=><button key={u||'all'} className={`${styles.pill} ${use===u?styles.pillOn:''}`} onClick={()=>{setUse(u);setForced(null);}}>{u||'All uses'}</button>)}</div>
-    <div className={styles.chipRow} aria-label="Topic">{['',...TOPICS].map(t=><button key={t||'all'} className={`${styles.pill} ${styles.pillSoft} ${topic===t?styles.pillOn:''}`} onClick={()=>{setTopic(t);setForced(null);}}>{t||'All topics'}</button>)}</div>
-    {mode==='explore'&&<div className={styles.chipRow} aria-label="Status">{([['all','All'],['new','New'],['learning','Learning'],['mastered','Mastered'],['locked','Locked']] as const).map(([s,l])=><button key={s} className={`${styles.pill} ${styles.pillSoft} ${status===s?styles.pillOn:''}`} onClick={()=>setStatus(s)}>{l}</button>)}</div>}
-    <div className={styles.resultLine}><span><b>{filtered.length.toLocaleString()}</b> words · {filterLabel}</span>{(topic||band||use||q||status!=='all')&&<button onClick={reset}>Clear filters</button>}</div>
+    <div className={styles.filterBar}>
+     <div className={styles.search}><SearchIcon/><input value={q} onChange={e=>{setQ(e.target.value);setForced(null);}} placeholder="Search a word or meaning" aria-label="Search words"/>{q&&<button onClick={()=>setQ('')} aria-label="Clear search">×</button>}</div>
+     <select className={styles.select} value={topic} onChange={e=>{setTopic(e.target.value);setForced(null);}} aria-label="Topic"><option value="">All topics</option>{TOPICS.map(t=><option key={t} value={t}>{t}</option>)}</select>
+     <select className={styles.select} value={band} onChange={e=>{setBand(Number(e.target.value));setForced(null);}} aria-label="Band"><option value={0}>All bands</option><option value={6}>Band 6</option><option value={7}>Band 7</option><option value={8}>Band 8+</option></select>
+     <select className={styles.select} value={use} onChange={e=>{setUse(e.target.value);setForced(null);}} aria-label="Best used in"><option value="">Any use</option>{USES.map(u=><option key={u} value={u}>{u}</option>)}</select>
+    </div>
+    <div className={styles.resultLine}><span><b>{filtered.length.toLocaleString()}</b> words{filterLabel!=='All words'?` · ${filterLabel}`:''}</span>{(topic||band||use||q||status!=='all')&&<button onClick={reset}>Clear filters</button>}</div>
    </div>
 
    {mode==='cards'&&<Flashcards ids={studyIds} recs={recs} review={review} details={details} onQuiz={ids=>go('quiz',ids)} label={forced?'Selected words':filterLabel}/>}
@@ -131,15 +132,15 @@ export function VocabApp({items,open,authed,initial}:{items:VocabIndexItem[];ope
     {!filtered.length&&<div className={styles.empty}><h3>কোনো word পাওয়া যায়নি</h3><p>Filter বদলে দেখো।</p><button className={styles.ghost} onClick={reset}>Clear filters</button></div>}
     <div className={styles.grid}>{filtered.slice(0,limit).map(w=>{
      if(!w.m)return <article key={w.id} className={`${styles.card} ${styles.cardLocked}`}>
-      <div className={styles.cardHead}><div><h3>{w.w}</h3><span className={styles.pos}>{w.pos.join(' / ')}</span></div><span className={styles.lockIcon} aria-hidden="true">🔒</span></div>
+      <div className={styles.cardHead}><div><h3>{w.w}</h3><span className={styles.pos}>{w.pos.join(' / ')}</span></div><span className={styles.lockIcon}><LockIcon/></span></div>
       <div className={styles.blur} aria-hidden="true"><i/><i/></div>
       <div className={styles.tags}><span className={styles.band}>{bandLabel(w.b)}</span>{w.t.slice(0,2).map(t=><span key={t}>{t}</span>)}</div>
       <Link href="/pricing" className={styles.unlock}>Unlock with a plan ↗</Link></article>;
      const st=statusOf(recs[w.id]);const d=cache.current.get(w.id);const isOpen=expanded===w.id;
      return <article key={w.id} className={`${styles.card} ${st==='mastered'?styles.cardDone:''}`}>
       <div className={styles.cardHead}><div><h3>{w.w}</h3><span className={styles.pos}>{w.pos.join(' / ')}</span></div>
-       <div className={styles.cardBtns}><button className={styles.icon} onClick={()=>speak(w.w)} aria-label={`Listen to ${w.w}`}>🔊</button>
-       <button className={`${styles.icon} ${st==='mastered'?styles.iconOn:''}`} onClick={()=>setKnown(w.id,st!=='mastered')} aria-pressed={st==='mastered'} aria-label={st==='mastered'?'Mark as not known':'Mark as known'}>{st==='mastered'?'✓':'○'}</button></div></div>
+       <div className={styles.cardBtns}><button className={styles.icon} onClick={()=>speak(w.w)} aria-label={`Listen to ${w.w}`}><SpeakerIcon/></button>
+       <button className={`${styles.icon} ${st==='mastered'?styles.iconOn:''}`} onClick={()=>setKnown(w.id,st!=='mastered')} aria-pressed={st==='mastered'} aria-label={st==='mastered'?'Mark as not known':'Mark as known'}>{st==='mastered'?<CheckIcon/>:null}</button></div></div>
       <p className={styles.en}>{w.m}</p><p className={styles.bn} lang="bn">{w.n}</p>
       <div className={styles.tags}><span className={styles.band}>{bandLabel(w.b)}</span>{w.t.slice(0,2).map(t=><span key={t}>{t}</span>)}{w.u.slice(0,2).map(t=><span key={t} className={styles.use}>{t}</span>)}{st==='learning'&&<span className={styles.learning}>Learning</span>}</div>
       <button className={styles.more} aria-expanded={isOpen} onClick={()=>{setExpanded(isOpen?null:w.id);if(!isOpen)void details([w.id]);}}>{isOpen?'Hide details':'Examples & collocations'}</button>

@@ -194,3 +194,12 @@
 
 .big{font-size:38px;font-weight:800;letter-spacing:-.02em}
 .plan a{display:inline-flex;text-decoration:none}
+
+.filterBar{display:grid;grid-template-columns:minmax(200px,1.6fr) repeat(3,minmax(120px,1fr));gap:10px}
+.select{padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;background:#fff;font:inherit;font-size:14px;color:var(--ink);cursor:pointer;min-width:0}
+.select:focus{outline:0;border-color:var(--ink)}
+.search svg{color:var(--body);flex:none}
+.listen,.wotdBtns .ghost,.ghostLight{display:inline-flex;align-items:center;gap:6px}
+.lockIcon{color:var(--body);display:inline-flex}
+.icon{color:var(--ink)}
+@media (max-width:860px){.filterBar{grid-template-columns:1fr 1fr}.filterBar .search{grid-column:1/-1}}

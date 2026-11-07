@@ -2,6 +2,7 @@
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import type {VocabWord} from '@/lib/vocabulary';
 import {speak} from './speak';
+import {SpeakerIcon} from './icons';
 import styles from './vocabulary.module.css';
 import type {Rec} from './use-progress';
 type Props={ids:number[];recs:Record<string,Rec>;review:(id:number,good:boolean)=>void;details:(ids:number[])=>Promise<Record<number,VocabWord>>;onQuiz:(ids:number[])=>void;label:string};
@@ -48,7 +49,7 @@ export function Flashcards({ids,recs,review,details,onQuiz,label}:Props){
    <div className={styles.fcInner}>
     <div className={styles.fcFront}>
      {w?<><span className={styles.fcPos}>{w.pos.join(' / ')} · Band {w.band}{w.band===8?'+':''}</span><div className={styles.fcWord}>{w.word}</div>
-      <button type="button" className={styles.listen} onClick={e=>{e.stopPropagation();speak(w.word);}}>🔊 Listen</button><span className={styles.hint}>Tap or press Space to flip</span></>:<span className={styles.hint}>Loading…</span>}
+      <button type="button" className={styles.listen} onClick={e=>{e.stopPropagation();speak(w.word);}}><SpeakerIcon/> Listen</button><span className={styles.hint}>Tap or press Space to flip</span></>:<span className={styles.hint}>Loading…</span>}
     </div>
     <div className={styles.fcBack}>
      {w&&<><div className={styles.fcMean}>{w.meaningEn}</div><div className={styles.fcBn} lang="bn">{w.meaningBn}</div>

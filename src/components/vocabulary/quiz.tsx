@@ -2,6 +2,7 @@
 import {useEffect,useState} from 'react';
 import type {QuizQuestion} from '@/lib/vocabulary';
 import {speak} from './speak';
+import {SpeakerIcon} from './icons';
 import styles from './vocabulary.module.css';
 type Props={ids:number[];review:(id:number,good:boolean)=>void;onStudy:(ids:number[])=>void;seed:number};
 export function Quiz({ids,review,onStudy,seed}:Props){
@@ -33,7 +34,7 @@ export function Quiz({ids,review,onStudy,seed}:Props){
    const cls=picked===null?'':o===q.answer?styles.right:o===picked?styles.wrong:styles.dim;
    return <button key={o} disabled={picked!==null} className={`${styles.option} ${cls}`} onClick={()=>{setPicked(o);const ok=o===q.answer;setRes(r=>[...r,{id:q.id,ok,word:q.word}]);review(q.id,ok);}}>{o}</button>;
   })}</div>
-  {picked!==null&&<div className={styles.explain}><div><b>{q.word}</b> — {q.meaning}<br/><span lang="bn">{q.meaningBn}</span></div><button className={styles.listen} onClick={()=>speak(q.word)}>🔊</button>
+  {picked!==null&&<div className={styles.explain}><div><b>{q.word}</b> — {q.meaning}<br/><span lang="bn">{q.meaningBn}</span></div><button className={styles.listen} onClick={()=>speak(q.word)}><SpeakerIcon/></button>
    <button className={styles.primary} onClick={()=>{setI(i+1);setPicked(null);}}>{i+1===qs.length?'See result':'Next'}</button></div>}
  </div>;
 }
