@@ -27,16 +27,3 @@
 .student-app .student-identity .button{clip-path:none;transform:none;background:#fff;color:var(--s-ink);border:1px solid var(--s-line);box-shadow:none;letter-spacing:0;min-width:0;white-space:nowrap}.student-app .student-identity .button:before,.student-app .student-identity .button:after{display:none}.student-app .student-identity .button span{position:static;transform:none;color:inherit}.student-topbar>span{white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}.student-identity{gap:7px}
 .study-tabs{scrollbar-width:none}.study-tabs::-webkit-scrollbar{display:none}
 .study-retake-options{position:relative;font-size:11px;color:var(--s-red)}.study-retake-options>summary{display:flex;align-items:center;gap:6px;list-style:none;border:1px solid var(--s-line);padding:8px 12px;border-radius:3px;cursor:pointer}.study-retake-options>summary::-webkit-details-marker{display:none}.study-retake-options>div{position:absolute;right:0;top:calc(100% + 7px);z-index:2;display:grid;min-width:190px;padding:7px;background:#fff;border:1px solid var(--s-line);border-radius:4px;box-shadow:0 8px 20px #29252c10}.study-retake-options a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;font-size:10px;text-transform:capitalize}.study-retake-options a:hover{background:var(--study-soft)}
-
-/* Speaking: collection, book and test on one screen */
-.speaking-studio.sp-one{display:grid;gap:18px}
-.sp-one .sp-pick{display:grid;gap:10px}
-.sp-one .sp-row{display:flex;flex-wrap:wrap;gap:8px}
-.sp-one .sp-chip{display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:0 14px;border:1px solid var(--lib-line,#e4d8c8);border-radius:2px;background:var(--lib-card,#fff);color:inherit;font:600 .86rem 'Instrument Sans',system-ui,sans-serif;cursor:pointer}
-.sp-one .sp-chip b{font-weight:600;font-size:.74rem;padding:1px 6px;background:var(--lib-sand,#f1e8da);border-radius:2px}
-.sp-one .sp-chip[aria-pressed=true]{background:var(--lib-ink,#1f1a17);border-color:var(--lib-ink,#1f1a17);color:#fff}
-.sp-one .sp-chip[aria-pressed=true] b{background:rgba(255,255,255,.2)}
-.sp-one .sp-chip:disabled{opacity:.45;cursor:not-allowed}
-.sp-one .sp-chip:focus-visible{outline:2px solid var(--lib-red,#c8102e);outline-offset:3px}
-.sp-one .sp-empty{padding:18px;border:1px dashed var(--lib-line-strong,#cdbfa9);margin:0}
-@media(max-width:860px){.sp-one .study-speaking-brief{position:static}}
