@@ -221,3 +221,5 @@
 .dvRowHead{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px}
 .dvRowHead b{color:var(--ink)}
 @media (max-width:760px){.dvGrid{grid-template-columns:1fr}}
+
+.goalSet select{min-width:150px}
