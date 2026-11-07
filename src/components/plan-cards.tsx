@@ -1,21 +1,25 @@
-import { creditText, creditPercent, type DisplayPlan } from '@/lib/plan-presentation';
+import { creditText, type DisplayPlan } from '@/lib/plan-presentation';
 
+// Short and scannable: price, what you get each month, then a tick or a dash for every feature.
 export function PlanCards({ plans }: { plans: DisplayPlan[] }) {
-  const writing = plans.map(p => p.writingCredits), speaking = plans.map(p => p.speakingCredits);
-  return <div className="p-plans" data-n={plans.length > 6 ? 'more' : plans.length}>
+  return <div className="pc-grid" data-n={plans.length}>
     {!plans.length && <p className="p-empty">Paid plans are being prepared. Published plans will appear here.</p>}
-    {plans.map(plan => <article className={'p-plan' + (plan.recommended ? ' p-f' : '')} key={plan.id}>
-      <div className="p-ph"><h3>{plan.name}</h3>{plan.recommended && <span className="p-most">Most chosen</span>}</div>
-      {plan.tagline && <p className="p-tg">{plan.tagline}</p>}
-      <p className="p-pr"><b><span className="p-cur">৳</span>{plan.price.toLocaleString('en-US')}</b><span>/ {plan.period}</span></p>
-      <div className="p-am">{([
-        ['Writing', plan.writingCredits, writing], ['Speaking', plan.speakingCredits, speaking],
-      ] as const).map(([label, count, values]) => <div key={label}>
-        <strong className={count === null ? "p-unlimited" : undefined}>{creditText(count)}</strong><span>{label} / month</span>
-        <i aria-hidden="true"><u><svg viewBox="0 0 100 3" preserveAspectRatio="none" focusable="false"><rect width={creditPercent(count, [...values])} height="3" /></svg></u></i>
-      </div>)}</div>
-      {plan.features.length > 0 && <ul className="p-ft">{plan.features.map((feature, i) => <li key={i}>{feature}</li>)}</ul>}
-      <a className="p-btn" href={'/checkout/' + encodeURIComponent(plan.id)}>Choose {plan.name}</a>
+    {plans.map(plan => <article className={'pc-card' + (plan.recommended ? ' pc-best' : '')} key={plan.id}>
+      <header>
+        <h3>{plan.name}</h3>
+        {plan.recommended && <span className="pc-badge">Most chosen</span>}
+      </header>
+      {plan.tagline && <p className="pc-tag">{plan.tagline}</p>}
+      <p className="pc-price"><b><i>৳</i>{plan.price.toLocaleString('en-US')}</b><span>for {plan.duration}</span></p>
+      <ul className="pc-list">
+        <li className="pc-on"><span aria-hidden="true">✓</span><em>Writing evaluations</em><b>{creditText(plan.writingCredits)}<small> / month</small></b></li>
+        <li className="pc-on"><span aria-hidden="true">✓</span><em>Speaking evaluations</em><b>{creditText(plan.speakingCredits)}<small> / month</small></b></li>
+        {plan.lines.map(l => <li key={l.label} className={l.on ? 'pc-on' : 'pc-off'}>
+          <span aria-hidden="true">{l.on ? '✓' : '–'}</span><em>{l.label}</em>{l.on && l.value && <b>{l.value}</b>}
+          {!l.on && <u className="pc-sr">Not included</u>}
+        </li>)}
+      </ul>
+      <a className="pc-btn" href={'/checkout/' + encodeURIComponent(plan.id)}>Choose {plan.name}</a>
     </article>)}
   </div>;
 }

@@ -10,11 +10,13 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
   await requireAdmin();
   const search = String((await searchParams).search ?? '').trim().slice(0, 254);
   const sql = db();
-  const [plans, free, requests, totals] = await Promise.all([
+  const [plans, free, requests, totals, books, volumes] = await Promise.all([
     sql.query(`SELECT p.*,(SELECT count(*)::int FROM public.evaluation_subscriptions s WHERE s.plan_id=p.id AND s.status='active' AND s.expires_at>now()) AS members FROM public.evaluation_plans p ORDER BY p.published DESC,p.price_bdt,p.name`),
     sql.query('SELECT free_writing,free_speaking FROM public.evaluation_policy WHERE id=true').then(r => r[0]),
     sql.query(`SELECT s.id,s.user_id,s.plan_name,s.price_bdt,s.status,s.created_at,s.starts_at,s.expires_at,u.name,u.email FROM public.evaluation_subscriptions s JOIN app_auth.users u ON u.id=s.user_id WHERE ($1='' OR strpos(lower(u.email),lower($1))>0 OR strpos(lower(u.name),lower($1))>0) ORDER BY (s.status='pending') DESC,s.created_at DESC LIMIT 60`, [search]),
     sql.query(`SELECT count(*) FILTER(WHERE status='pending')::int pending,count(*) FILTER(WHERE status='active' AND expires_at>now())::int active,coalesce(sum(price_bdt) FILTER(WHERE starts_at>=date_trunc('month',now() AT TIME ZONE 'Asia/Dhaka') AT TIME ZONE 'Asia/Dhaka'),0)::int month_value FROM public.evaluation_subscriptions`).then(r => r[0]),
+    sql.query("SELECT book_number::text AS value,'Cambridge '||book_number AS label FROM public.cambridge_books WHERE status='published' ORDER BY book_number").catch(() => []),
+    sql.query("SELECT slug AS value,title||coalesce(' '||volume,'') AS label FROM public.book_volumes ORDER BY series_slug,slug").catch(() => []),
   ]);
   const th = 'px-4 py-3 text-left text-[12px] font-medium text-muted';
   return (
@@ -25,7 +27,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
         <Stat label="Pending requests" value={totals.pending} />
         <Stat label="Activated this month" value={taka(totals.month_value)} sub="At listed plan prices" />
       </div>
-      <PlansBoard plans={plans as any} free={free as any} />
+      <PlansBoard plans={plans as any} free={free as any} cambridge={books as any} moreBooks={volumes as any} />
       <Card className="mt-6 !p-0 overflow-hidden">
         <div className="flex flex-wrap items-center justify-between gap-3 p-6 pb-4">
           <CardTitle title="Requests and members" hint="Pending requests come first. To give a plan directly, open the person's profile." />

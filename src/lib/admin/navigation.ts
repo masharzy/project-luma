@@ -13,6 +13,7 @@ export const adminNavigation: { label: string; links: AdminLink[] }[] = [
   { label: 'People & access', links: [
     { href: '/admin/users', label: 'Users', icon: 'users', keywords: 'accounts roles verify block access' },
     { href: '/admin/subscriptions', label: 'Plans', icon: 'chart', keywords: 'pricing credits membership free allowances subscriptions requests payments export' },
+    { href: '/admin/coupons', label: 'Coupon codes', icon: 'file', keywords: 'discount promo offer code percent' },
   ] },
   { label: 'Operations', links: [
     { href: '/admin/results', label: 'Results & publishing', icon: 'chart', keywords: 'review releases mocks' },

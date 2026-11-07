@@ -1,6 +1,6 @@
 import 'server-only';
 import { db } from '@/lib/auth/db';
-export async function publicPlans(){return db().query('SELECT id,name,description,price_bdt,writing_limit,speaking_limit FROM public.evaluation_plans WHERE published=true ORDER BY price_bdt,name');}
+export async function publicPlans(){return db().query('SELECT id,name,description,price_bdt,writing_limit,speaking_limit,duration_days,recommended,access FROM public.evaluation_plans WHERE published=true ORDER BY price_bdt,name');}
 export async function freePolicy(){return (await db().query('SELECT free_writing,free_speaking FROM public.evaluation_policy WHERE id=true'))[0];}
 export async function membership(userId:string){
  const [allowances,subscriptions]=await Promise.all([

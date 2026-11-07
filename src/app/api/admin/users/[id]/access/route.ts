@@ -28,8 +28,8 @@ export async function POST(req:NextRequest,context:Context){
    const days=Number(d.days);if(!Number.isInteger(days)||days<1||days>3660)throw new AuthHttpError(400,'Choose 1 to 3660 days.');
    const rows=await sql.query(`WITH target AS (SELECT u.id user_id,p.* FROM app_auth.users u CROSS JOIN public.evaluation_plans p WHERE u.id=$1::uuid AND u.banned=false AND p.id=$2),
     closed AS (UPDATE public.evaluation_subscriptions SET status='cancelled',updated_at=now(),updated_by=$4 WHERE status IN('active','pending') AND user_id IN(SELECT user_id FROM target) RETURNING id)
-    INSERT INTO public.evaluation_subscriptions(id,user_id,plan_id,plan_name,price_bdt,writing_limit,speaking_limit,status,starts_at,expires_at,updated_by)
-    SELECT $3,user_id,id,name,price_bdt,writing_limit,speaking_limit,'active',now(),now()+($5::integer*interval '1 day'),$4 FROM target WHERE (SELECT count(*) FROM closed)>=0 RETURNING id`,[id,d.planId,randomUUID(),admin,days]);
+    INSERT INTO public.evaluation_subscriptions(id,user_id,plan_id,plan_name,price_bdt,writing_limit,speaking_limit,status,starts_at,expires_at,updated_by,duration_days,access)
+    SELECT $3,user_id,id,name,price_bdt,writing_limit,speaking_limit,'active',now(),now()+($5::integer*interval '1 day'),$4,$5::integer,access FROM target WHERE (SELECT count(*) FROM closed)>=0 RETURNING id`,[id,d.planId,randomUUID(),admin,days]);
    if(!rows.length)throw new AuthHttpError(404,'Plan not found, or the account is blocked.');
    await audit(admin,'user_access:plan:'+id+':'+rows[0].id);
   }else if(action==='end_subscription'){

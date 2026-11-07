@@ -4,13 +4,15 @@ import { WorkspaceHeading } from "@/components/page-parts";
 import { db } from "@/lib/auth/db";
 import { keyStatus } from "@/lib/ai-lab/secrets";
 import {storageConfigured} from "@/lib/products/storage";
+import {DeviceDefaultForm} from "@/components/admin/device-default-form";
 export const dynamic="force-dynamic";
 export const metadata = { title: "Platform settings" };
 export default async function Page(){
  const user=await requireAdmin();
- const [dbHealth,keys]=await Promise.all([
+ const [dbHealth,keys,devicePolicy]=await Promise.all([
   db().query("SELECT (SELECT count(*)::int FROM public.mock_events) AS mocks,(SELECT count(*)::int FROM public.writing_evaluations WHERE status IN ('pending','running')) AS writing_pending,(SELECT count(*)::int FROM public.speaking_evaluations WHERE status IN ('pending','running')) AS speaking_pending"),
-  keyStatus().catch(()=>null)
+  keyStatus().catch(()=>null),
+  db().query("SELECT default_device_limit FROM public.evaluation_policy WHERE id=true").then(r=>r[0]?.default_device_limit??null).catch(()=>null)
  ]);
  const state=dbHealth[0]||{};
  const rows=[
@@ -27,6 +29,7 @@ export default async function Page(){
  return <div className="admin-refactor"><WorkspaceHeading eyebrow="PLATFORM / SETTINGS" title="Settings" />
   <div className="settings-grid">
    <section className="workspace-panel settings-panel"><h2>Account & security</h2><dl className="settings-list"><div><dt>Signed in</dt><dd>{user.email}</dd></div><div><dt>Role</dt><dd>Administrator</dd></div><div><dt>Public admin signup</dt><dd>Disabled</dd></div></dl><Link href="/admin/users">Manage users ↗</Link></section>
+   <section className="workspace-panel settings-panel"><h2>Devices</h2><DeviceDefaultForm initial={devicePolicy===null?null:Number(devicePolicy)}/></section>
    <section className="workspace-panel settings-panel"><h2>Platform services</h2><dl className="settings-list">{rows.map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><Link href="/admin/ai-lab">Manage AI credentials ↗</Link> · <Link href="/admin/media">R2 media library ↗</Link></section>
   </div></div>;
 }

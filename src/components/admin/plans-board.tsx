@@ -3,11 +3,16 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Badge, Card, CardTitle, taka } from './ui';
+import { AccessEditor, type Option } from './access-editor';
+import { accessLines, durationLabel, everything, normalizeAccess, type PlanAccess } from '@/lib/plan-access';
 import { field, ghostButton, labelText, primaryButton, smallGhost } from './form-classes';
 
-export type PlanRow = { id: string; name: string; description: string; price_bdt: number; writing_limit: number | null; speaking_limit: number | null; published: boolean; members: number };
-type Draft = { id?: string; name: string; description: string; priceBdt: number; writingLimit: number | null; speakingLimit: number | null; published: boolean };
-const blank = (): Draft => ({ name: '', description: '', priceBdt: 999, writingLimit: 30, speakingLimit: 8, published: false });
+export type PlanRow = { id: string; name: string; description: string; price_bdt: number; writing_limit: number | null; speaking_limit: number | null; published: boolean; members: number; duration_days: number; recommended: boolean; access: unknown };
+type Draft = { id?: string; name: string; description: string; priceBdt: number; writingLimit: number | null; speakingLimit: number | null; published: boolean; durationDays: number; recommended: boolean; access: PlanAccess };
+const blank = (): Draft => ({ name: '', description: '', priceBdt: 999, writingLimit: 30, speakingLimit: 8, published: false, durationDays: 30, recommended: false, access: everything });
+const presets = [30, 60, 90, 180, 365];
+const toDraft = (p: PlanRow): Draft => ({ id: p.id, name: p.name, description: p.description, priceBdt: p.price_bdt, writingLimit: p.writing_limit, speakingLimit: p.speaking_limit, published: p.published, durationDays: p.duration_days, recommended: p.recommended, access: normalizeAccess(p.access) });
+const toBody = (d: Draft) => ({ ...d });
 const quota = (n: number | null) => (n === null ? 'Unlimited' : n.toLocaleString('en-US'));
 
 async function save(body: Record<string, unknown>) {
@@ -28,7 +33,7 @@ function LimitField({ label, value, onChange }: { label: string; value: number |
   );
 }
 
-export function PlansBoard({ plans, free }: { plans: PlanRow[]; free: { free_writing: number; free_speaking: number } }) {
+export function PlansBoard({ plans, free, cambridge, moreBooks }: { plans: PlanRow[]; free: { free_writing: number; free_speaking: number }; cambridge: Option[]; moreBooks: Option[] }) {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const [draft, setDraft] = useState<Draft>(blank());
@@ -56,16 +61,17 @@ export function PlansBoard({ plans, free }: { plans: PlanRow[]; free: { free_wri
               <h3 className="m-0 text-[16px] font-semibold text-ink">{p.name}</h3>
               <Badge tone={p.published ? 'good' : 'neutral'}>{p.published ? 'Published' : 'Hidden'}</Badge>
             </div>
-            <p className="m-0 mt-3 text-ink"><span className="text-[32px] font-semibold tracking-tight tabular-nums">{taka(p.price_bdt)}</span><span className="ml-1 text-[13px] text-muted">/ 30 days</span></p>
+            <p className="m-0 mt-3 text-ink"><span className="text-[32px] font-semibold tracking-tight tabular-nums">{taka(p.price_bdt)}</span><span className="ml-1 text-[13px] text-muted">for {durationLabel(p.duration_days)}</span></p>
             <p className="m-0 mt-2 min-h-[40px] text-[13px] text-muted">{p.description || 'No description.'}</p>
             <dl className="m-0 mt-4 grid gap-2 border-t border-line pt-4 text-[13px]">
               <div className="flex justify-between"><dt className="text-muted">Writing evaluations</dt><dd className="m-0 font-medium tabular-nums text-ink">{quota(p.writing_limit)}</dd></div>
               <div className="flex justify-between"><dt className="text-muted">Speaking evaluations</dt><dd className="m-0 font-medium tabular-nums text-ink">{quota(p.speaking_limit)}</dd></div>
+              {accessLines(p.access).map(l => <div key={l.label} className="flex justify-between"><dt className="text-muted">{l.label}</dt><dd className={'m-0 tabular-nums ' + (l.on ? 'font-medium text-ink' : 'text-muted')}>{l.on ? (l.value || 'Included') : 'Not included'}</dd></div>)}
               <div className="flex justify-between"><dt className="text-muted">Active members</dt><dd className="m-0 font-medium tabular-nums text-ink">{p.members}</dd></div>
             </dl>
             <div className="mt-5 flex gap-2">
-              <button type="button" className={smallGhost} onClick={() => open({ id: p.id, name: p.name, description: p.description, priceBdt: p.price_bdt, writingLimit: p.writing_limit, speakingLimit: p.speaking_limit, published: p.published })}>Edit</button>
-              <button type="button" className={smallGhost} disabled={busy} onClick={() => run(() => save({ action: 'plan', plan: { id: p.id, name: p.name, description: p.description, priceBdt: p.price_bdt, writingLimit: p.writing_limit, speakingLimit: p.speaking_limit, published: !p.published } }), p.published ? 'Plan hidden from the pricing page.' : 'Plan published.')}>{p.published ? 'Hide' : 'Publish'}</button>
+              <button type="button" className={smallGhost} onClick={() => open(toDraft(p))}>Edit</button>
+              <button type="button" className={smallGhost} disabled={busy} onClick={() => run(() => save({ action: 'plan', plan: toBody({ ...toDraft(p), published: !p.published }) }), p.published ? 'Plan hidden from the pricing page.' : 'Plan published.')}>{p.published ? 'Hide' : 'Publish'}</button>
             </div>
           </Card>
         ))}
@@ -81,14 +87,24 @@ export function PlansBoard({ plans, free }: { plans: PlanRow[]; free: { free_wri
         </form>
       </Card>
 
-      <dialog ref={dialog} aria-labelledby="plan-dialog-title" className="m-auto w-[min(520px,calc(100vw-32px))] rounded-card border border-line bg-surface p-0 text-ink shadow-pop backdrop:bg-black/50">
-        <form className="grid gap-4 p-6" onSubmit={async e => { e.preventDefault(); if (await run(() => save({ action: 'plan', plan: draft }), draft.id ? 'Plan saved. Current members keep the price and limits they signed up with.' : 'Plan created.')) dialog.current?.close(); }}>
+      <dialog ref={dialog} aria-labelledby="plan-dialog-title" className="m-auto max-h-[92vh] w-[min(560px,calc(100vw-32px))] overflow-y-auto rounded-card border border-line bg-surface p-0 text-ink shadow-pop backdrop:bg-black/50">
+        <form className="grid gap-4 p-6" onSubmit={async e => { e.preventDefault(); if (await run(() => save({ action: 'plan', plan: toBody(draft) }), draft.id ? 'Plan saved. Current members keep the price and limits they signed up with.' : 'Plan created.')) dialog.current?.close(); }}>
           <h2 id="plan-dialog-title" className="m-0 text-[18px] font-semibold tracking-tight">{draft.id ? 'Edit plan' : 'New plan'}</h2>
           <label><span className={labelText}>Name</span><input className={field} required minLength={2} maxLength={80} value={draft.name} onChange={e => setDraft({ ...draft, name: e.target.value })} /></label>
           <label><span className={labelText}>Short description</span><textarea className={field + ' !h-20 py-2'} maxLength={400} value={draft.description} onChange={e => setDraft({ ...draft, description: e.target.value })} /></label>
-          <label><span className={labelText}>Price in BDT for 30 days</span><input className={field} type="number" min={0} max={100000} required value={draft.priceBdt} onChange={e => setDraft({ ...draft, priceBdt: Number(e.target.value) })} /></label>
+          <div className="grid grid-cols-2 gap-3">
+            <label><span className={labelText}>Price in BDT</span><input className={field} type="number" min={0} max={100000} required value={draft.priceBdt} onChange={e => setDraft({ ...draft, priceBdt: Number(e.target.value) })} /></label>
+            <label><span className={labelText}>Lasts</span>
+              <select className={field} value={presets.includes(draft.durationDays) ? String(draft.durationDays) : 'custom'} onChange={e => setDraft({ ...draft, durationDays: e.target.value === 'custom' ? 45 : Number(e.target.value) })}>
+                {presets.map(d => <option key={d} value={d}>{durationLabel(d)}</option>)}<option value="custom">Custom days…</option>
+              </select>
+            </label>
+          </div>
+          {!presets.includes(draft.durationDays) && <label><span className={labelText}>Days (the price covers all of them)</span><input className={field} type="number" min={1} max={3660} required value={draft.durationDays} onChange={e => setDraft({ ...draft, durationDays: Math.max(1, Number(e.target.value) || 1) })} /></label>}
           <LimitField label="Writing" value={draft.writingLimit} onChange={v => setDraft({ ...draft, writingLimit: v })} />
           <LimitField label="Speaking" value={draft.speakingLimit} onChange={v => setDraft({ ...draft, speakingLimit: v })} />
+          <AccessEditor value={draft.access} onChange={access => setDraft({ ...draft, access })} cambridge={cambridge} moreBooks={moreBooks} />
+          <label className="flex items-center gap-2 text-[13px]"><input type="checkbox" checked={draft.recommended} onChange={e => setDraft({ ...draft, recommended: e.target.checked })} />Mark as "Most chosen"</label>
           <label className="flex items-center gap-2 text-[13px]"><input type="checkbox" checked={draft.published} onChange={e => setDraft({ ...draft, published: e.target.checked })} />Show on the pricing page</label>
           {error && <p role="alert" className="m-0 rounded-xl bg-warn-soft px-3 py-2 text-[12px] text-warn">{error}</p>}
           <div className="flex justify-end gap-2"><button type="button" className={ghostButton} onClick={() => dialog.current?.close()}>Cancel</button><button className={primaryButton} disabled={busy}>{busy ? 'Saving…' : 'Save plan'}</button></div>

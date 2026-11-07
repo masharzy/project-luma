@@ -2,6 +2,8 @@ import 'server-only';
 import {cache} from 'react';
 import {db} from '@/lib/auth/db';
 import {grantCovers,type ContentGrant,type TestPlace} from './content-grants';
+import {planCoversTest} from '@/lib/plan-access';
+import {memberPlan,attemptedRecent} from './member-access';
 
 // Use the same active subscription window as Premium mock registration.
 export const hasPremiumTests=cache(async(userId:string|null)=>{
@@ -18,12 +20,13 @@ export const activeGrants=cache(async(userId:string|null):Promise<ContentGrant[]
 export async function canOpenTest(access:string,userId:string|null,test?:Pick<TestPlace,'kind'|'id'>){
  if(access==='free')return true;
  if(access!=='premium'||!userId)return false;
- if(await hasPremiumTests(userId))return true;
- if(!test)return false;
- const grants=await activeGrants(userId);
- if(!grants.length)return false;
+ if(!test)return await hasPremiumTests(userId);
  const rows=test.kind==='cambridge'
   ?await db().query('SELECT book_number::text AS book FROM public.cambridge_tests WHERE id=$1::bigint',[test.id])
   :await db().query("SELECT book_slug AS book FROM public.admin_content WHERE id=$1::bigint AND kind='practice'",[test.id]);
- return grantCovers(grants,{...test,book:(rows[0]?.book as string|null)??null});
+ const place={...test,book:(rows[0]?.book as string|null)??null};
+ const plan=await memberPlan(userId);
+ if(plan&&planCoversTest(plan.access,place,await attemptedRecent(userId,plan.startsAt)))return true;
+ const grants=await activeGrants(userId);
+ return grants.length>0&&grantCovers(grants,place);
 }

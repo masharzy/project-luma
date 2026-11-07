@@ -3,12 +3,15 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
-function load(path) {
+import {createRequire} from 'node:module';
+const nodeRequire=createRequire(import.meta.url);
+function load(path,deps={}) {
  const module={exports:{}};
- vm.runInNewContext(ts.transpileModule(fs.readFileSync(path,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{module,exports:module.exports});
+ vm.runInNewContext(ts.transpileModule(fs.readFileSync(path,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{module,exports:module.exports,require:m=>deps[m]??nodeRequire(m)});
  return module.exports;
 }
-const {presentPlans,creditPercent,creditText}=load('src/lib/plan-presentation.ts');
+const planAccess=load('src/lib/plan-access.ts');
+const {presentPlans,creditPercent,creditText}=load('src/lib/plan-presentation.ts',{'@/lib/plan-access':planAccess});
 const record=(id,extra={})=>({id,name:'Plan '+id,description:'Real admin description',price_bdt:1199,writing_limit:20,speaking_limit:8,published:true,...extra});
 test('admin data stays authoritative: inactive/free removed, ordering and one recommendation enforced',()=>{
  const {paid,free}=presentPlans([record('hidden',{published:false}),record('later',{sort_order:9,recommended:true}),record('first',{sort_order:1,recommended:true}),record('free',{name:'Free',price_bdt:0,is_free:true,writing_limit:7,speaking_limit:3})],{free_writing:5,free_speaking:2});

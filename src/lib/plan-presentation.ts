@@ -1,8 +1,9 @@
+import { accessLines, durationLabel, type AccessLine } from '@/lib/plan-access';
 // The current admin stores free allowances separately from paid evaluation plans.
 // Keep the presentation adapter independent of database access for count/edge-case QA.
 export type DisplayPlan = {
   id: string; slug: string; name: string; tagline?: string; price: number;
-  period: 'month' | '30 days'; writingCredits: number | null; speakingCredits: number | null;
+  durationDays: number; duration: string; lines: AccessLine[]; writingCredits: number | null; speakingCredits: number | null;
   features: string[]; recommended: boolean; isFree: boolean; isActive: boolean; sortOrder: number;
 };
 export type PlanRecord = Record<string, unknown>;
@@ -21,7 +22,7 @@ export function presentPlans(records: PlanRecord[], policy: PlanRecord) {
     ];
     return { id: String(p.id), slug: String(p.slug || p.id), name: String(p.name),
       tagline: String(p.tagline ?? description) || undefined, price: Math.max(0, Number(p.price_bdt) || 0),
-      period: p.period === 'month' ? 'month' as const : '30 days' as const,
+      durationDays: Math.max(1, Number(p.duration_days) || 30), duration: durationLabel(Math.max(1, Number(p.duration_days) || 30)), lines: accessLines(p.access),
       writingCredits: writing, speakingCredits: speaking, features,
       recommended: p.recommended === true, isFree: p.is_free === true || p.name === 'Free' && Number(p.price_bdt) === 0,
       isActive: p.published === true && p.is_active !== false, sortOrder: Number(p.sort_order ?? i),
