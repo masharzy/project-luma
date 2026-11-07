@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
-import { ResourcesHub, type Tile } from '@/components/resources-hub';
+import { ResourcesHub, type HubData } from '@/components/resources-hub';
 import { resourcesStructuredData } from '@/lib/resources-reference';
 import cue from '@/data/cue-cards.json';
 import t1 from '@/data/writing-task1.json';
@@ -23,21 +23,27 @@ export const metadata: Metadata = {
   openGraph: { type: 'website', siteName: 'JumpToNine', title: 'IELTS learning resources | JumpToNine', description, url: 'https://jumptonine.com/resources', images: [{url:'/images/og-jumptonine.png',width:1200,height:630,alt:'JumpToNine — IELTS practice'}] },
   twitter: { card: 'summary', title, description },
 };
+const first = (t: string) => (t.split(/(?<=[.!?])\s/)[0] || t).trim();
 export default async function ResourcesPage() {
   const nonce = (await headers()).get('x-nonce') ?? undefined;
   const cats = new Set((cue as {category:string}[]).map(c => c.category)).size;
-  const chapters = [b1, b2, b3, b4, b5, b6].reduce((t, b) => t + b.chapters.length, 0);
+  const books = [b1, b2, b3, b4, b5, b6] as {title:string;skill:string;chapters:unknown[]}[];
   const qn = (grammar as {tests:{questions:unknown[]}[]}[]).reduce((t, c) => t + c.tests.reduce((u, x) => u + x.questions.length, 0), 0);
-  const tiles: Tile[] = [
-    { href: '/resources/cue-cards', title: 'Speaking Cue Cards', icon: 'mic', blurb: 'Pick a topic and read a step-by-step sample answer, with Part 3 model answers and useful phrases.', stats: [`${cue.length} topics`, `${cats} categories`, 'Part 3 included'], access: 'First 3 topics per category free', cta: 'Open cue cards' },
-    { href: '/resources/writing', title: 'Writing Samples', icon: 'pen', blurb: 'Task 1 charts and Task 2 essays with Band 7 and Band 8-9 answers side by side, plus examiner comments.', stats: [`${t1.length} Task 1`, `${t2.length} Task 2`, 'Band 7 and 8-9'], access: 'First 4 per task free', cta: 'Read samples' },
-    { href: '/vocabulary', title: 'Vocabulary', icon: 'words', blurb: 'IELTS words by topic and band, with Bangla meanings, example sentences, flashcards and a quiz.', stats: [`${(vocab as unknown[]).length.toLocaleString('en-US')} words`, 'Flashcards', 'Daily goal'], access: 'First 100 words free', cta: 'Learn words' },
-    { href: '/grammar', title: 'Grammar', icon: 'check', blurb: 'Short rules, common mistakes and three levels of tests for each topic, with an explanation for every answer.', stats: [`${grammar.length} topics`, `${qn} questions`, '3 levels'], access: 'Foundation test of each topic free', cta: 'Start a test' },
-    { href: '/resources/ebooks', title: 'Ebook Shelf', icon: 'book', blurb: 'Our own IELTS books, read in the browser like a real book: turn pages, highlight, add notes and bookmark.', stats: [`${6} ebooks`, `${chapters} chapters`, 'Resume anywhere'], access: 'First 2 chapters of each book free', cta: 'Browse books' },
-    { href: '/blog', title: 'Study Journal', icon: 'note', blurb: 'Practical articles on study habits, strategy for each skill, and what to do in the last days before the test.', stats: [`${journal.length} articles`, '3-4 min each'], access: 'Free for everyone', cta: 'Read journal' },
-  ];
+  const c0 = (cue as {title:string;prompts:string[];steps:{label:string}[]}[])[0];
+  const w0 = (t2 as {band7:{essay:string};band8:{essay:string}}[])[0];
+  const g0 = (grammar as {title:string;mistakes:{wrong:string;right:string}[]}[])[0];
+  const j0 = (journal as {title:string;category:string;excerpt:string}[])[0];
+  const d: HubData = {
+    counts: { cue: cue.length, cats, t1: t1.length, t2: t2.length, words: (vocab as unknown[]).length, grammarTopics: grammar.length, questions: qn, books: books.length, chapters: books.reduce((t, b) => t + b.chapters.length, 0), articles: journal.length },
+    cue: { title: c0.title, prompts: c0.prompts, steps: c0.steps.map(s => s.label) },
+    writing: { b7: first(w0.band7.essay), b8: first(w0.band8.essay), prompt: '' },
+    words: (vocab as {word:string;pos:string[];meaning_en:string;band:number}[]).slice(0, 3).map(w => ({ word: w.word, pos: w.pos[0] || '', meaning: w.meaning_en, band: w.band })),
+    fix: { wrong: g0.mistakes[0].wrong, right: g0.mistakes[0].right, topic: g0.title },
+    books: books.map(b => ({ title: b.title, skill: b.skill })),
+    article: { title: j0.title, category: j0.category, excerpt: j0.excerpt },
+  };
   return <>
     <script nonce={nonce} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(resourcesStructuredData).replace(/</g, '\\u003c') }} />
-    <ResourcesHub tiles={tiles} />
+    <ResourcesHub d={d} />
   </>;
 }

@@ -1,45 +1,67 @@
-'use client';
 import Link from 'next/link';
-import {useEffect,useState} from 'react';
 import styles from '@/components/cue-cards/cue-cards.module.css';
 import hs from '@/components/resources.module.css';
-export type Tile={href:string;title:string;blurb:string;stats:string[];access:string;icon:'mic'|'pen'|'words'|'check'|'book'|'note';cta:string};
-const ICON:Record<Tile['icon'],React.ReactNode>={
- mic:<path d="M12 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zM6 11a6 6 0 0012 0M12 17v4M9 21h6" />,
- pen:<path d="M4 20l1-4L16 5l3 3L8 19l-4 1zM14 7l3 3" />,
- words:<path d="M4 6h10M4 12h16M4 18h12" />,
- check:<path d="M5 12.5l4.5 4.5L19 7M4 4h16v16H4z" />,
- book:<path d="M5 4h8a4 4 0 014 4v12a3 3 0 00-3-3H5V4zM17 8h2v12h-2" />,
- note:<path d="M6 3h9l4 4v14H6V3zM14 3v5h5M9 13h7M9 17h5" />,
+import {ResumeStrip} from '@/components/resume-strip';
+export type HubData={
+ counts:{cue:number;cats:number;t1:number;t2:number;words:number;grammarTopics:number;questions:number;books:number;chapters:number;articles:number};
+ cue:{title:string;prompts:string[];steps:string[]};
+ writing:{b7:string;b8:string;prompt:string};
+ words:{word:string;pos:string;meaning:string;band:number}[];
+ fix:{wrong:string;right:string;topic:string};
+ books:{title:string;skill:string}[];
+ article:{title:string;category:string;excerpt:string};
 };
-function Icon({k}:{k:Tile['icon']}){return <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{ICON[k]}</svg>;}
-type Resume={href:string;label:string;sub:string};
-function readResume():Resume[]{
- const out:Resume[]=[];const get=(k:string)=>{try{return JSON.parse(localStorage.getItem(k)||'null');}catch{return null;}};
- const eb=get('jtn.ebook.v1');
- if(eb?.books){const e=Object.entries(eb.books as Record<string,{last:number;done:number[]}>).filter(([,v])=>v&&v.last>=0).sort((a,b)=>b[1].done.length-a[1].done.length)[0];if(e)out.push({href:`/resources/ebooks#${e[0]}/${e[1].last}`,label:'Continue your ebook',sub:`Chapter ${e[1].last+1}, ${e[1].done.length} chapters done`});}
- const g=get('jtn.grammar.v1');if(g&&Object.keys(g).length)out.push({href:'/grammar',label:'Grammar practice',sub:`${Object.keys(g).length} tests tried`});
- const c=get('jtn.cue.done');if(Array.isArray(c)&&c.length)out.push({href:'/resources/cue-cards',label:'Cue cards',sub:`${c.length} topics done`});
- const w=get('jtn.writing.done');if(Array.isArray(w)&&w.length)out.push({href:'/resources/writing',label:'Writing samples',sub:`${w.length} samples read`});
- return out.slice(0,3);
+const COVERS=['#c60936','#2f4b7c','#2f7d6d','#7a5ea8','#b5651d','#211e25'];
+function Card({href,title,blurb,chips,access,cta,span,children,wide}:{href:string;title:string;blurb:string;chips:string[];access:string;cta:string;span:string;children:React.ReactNode;wide?:boolean}){
+ return <Link href={href} className={`${hs.bento} ${hs[span]} ${wide?hs.bentoWide:''}`}>
+  <div className={hs.vis} aria-hidden>{children}</div>
+  <div className={hs.bentoBody}><h3>{title}</h3><p>{blurb}</p><ul>{chips.map(c=><li key={c}>{c}</li>)}</ul><span className={hs.hubFoot}><small>{access}</small><b>{cta} →</b></span></div>
+ </Link>;
 }
-export function ResourcesHub({tiles}:{tiles:Tile[]}){
- const [resume,setResume]=useState<Resume[]>([]);
- useEffect(()=>setResume(readResume()),[]);
+export function ResourcesHub({d}:{d:HubData}){
+ const c=d.counts;
  return <div className={styles.page}>
   <nav className={styles.crumbs}><Link href="/" style={{color:'#c60936',fontWeight:600}}>Home</Link><span>/</span><b>Resources</b></nav>
-  <section className={styles.hero} style={{marginTop:0}}>
-   <span className={styles.eyebrow}>LEARNING RESOURCES</span>
-   <h1>Your IELTS <em>learning toolkit</em></h1>
-   <p>Speaking cue card থেকে Writing sample, Vocabulary, Grammar, ebook আর study journal। সবকিছু আমাদের নিজের লেখা, প্রতিটার একটা অংশ সবার জন্য free।</p>
+  <section className={`${styles.hero} ${hs.hubHero}`} style={{marginTop:0}}>
+   <div>
+    <span className={styles.eyebrow}>LEARNING RESOURCES</span>
+    <h1>Everything you need to <em>practise between tests</em></h1>
+    <p>Speaking cue card থেকে Writing sample, Vocabulary, Grammar, ebook আর study journal। সবকিছু আমাদের নিজের লেখা, আর প্রতিটার একটা অংশ সবার জন্য free।</p>
+    <div className={styles.row} style={{marginTop:18}}><Link href="/resources/cue-cards" className={styles.primary}>Start with cue cards</Link><Link href="/resources/ebooks" className={styles.ghost}>Browse ebooks</Link></div>
+    <ul className={styles.stats}><li><b>{c.cue}</b>cue cards</li><li><b>{c.t1+c.t2}</b>writing samples</li><li><b>{c.words.toLocaleString('en-US')}</b>words</li><li><b>{c.questions}</b>grammar questions</li><li><b>{c.books}</b>ebooks</li></ul>
+   </div>
+   <div className={hs.heroDeck} aria-hidden>
+    <div className={`${hs.deckCard} ${hs.dc3}`}/><div className={`${hs.deckCard} ${hs.dc2}`}/>
+    <div className={`${hs.deckCard} ${hs.dc1}`}><span className={styles.eyebrow}>SPEAKING CUE CARD</span><h4>{d.cue.title}</h4><ul>{d.cue.prompts.slice(0,3).map(p=><li key={p}>{p}</li>)}</ul></div>
+   </div>
   </section>
-  {resume.length>0&&<><div className={styles.sectionHead}><h2>Pick up where you left off</h2></div><div className={hs.feat}>{resume.map(r=><Link key={r.label} href={r.href} className={hs.resumeLink}><b>{r.label}</b><span>{r.sub}</span></Link>)}</div></>}
-  <div className={styles.sectionHead}><h2>Choose a resource</h2></div>
-  <div className={hs.hubGrid}>{tiles.map(t=><Link key={t.href} href={t.href} className={hs.hubCard}>
-   <span className={hs.hubIcon}><Icon k={t.icon}/></span>
-   <h3>{t.title}</h3><p>{t.blurb}</p>
-   <ul>{t.stats.map(s=><li key={s}>{s}</li>)}</ul>
-   <span className={hs.hubFoot}><small>{t.access}</small><b>{t.cta} →</b></span></Link>)}</div>
+  <ResumeStrip/>
+  <div className={styles.sectionHead}><h2>Choose a resource</h2><p>নিজের দুর্বল জায়গা অনুযায়ী বেছে নাও।</p></div>
+  <div className={hs.bentoGrid}>
+   <Card href="/resources/cue-cards" span="s3" title="Speaking Cue Cards" blurb="Pick a topic and follow a step-by-step sample answer, with Part 3 model answers and useful phrases." chips={[`${c.cue} topics`,`${c.cats} categories`,'Part 3 included']} access="First 3 topics per category free" cta="Open cue cards">
+    <div className={hs.miniCue}><span>Cue card</span><b>{d.cue.title}</b></div>
+    <div className={hs.stepRow}>{d.cue.steps.map((s,i)=><span key={s}><i>{i+1}</i>{s}</span>)}</div>
+   </Card>
+   <Card href="/resources/writing" span="s3" title="Writing Samples" blurb="Task 1 charts and Task 2 essays with Band 7 and Band 8-9 answers side by side, plus examiner comments." chips={[`${c.t1} Task 1`,`${c.t2} Task 2`,'Band 7 and 8-9']} access="First 4 per task free" cta="Read samples">
+    <div className={hs.bands}><div><small>Band 7</small><p>{d.writing.b7}</p></div><div className={hs.band8}><small>Band 8-9</small><p>{d.writing.b8}</p></div></div>
+   </Card>
+   <Card href="/vocabulary" span="s2" title="Vocabulary" blurb="IELTS words by topic and band, with Bangla meanings, flashcards and a quiz." chips={[`${c.words.toLocaleString('en-US')} words`,'Flashcards','Daily goal']} access="First 100 words free" cta="Learn words">
+    <div className={hs.words}>{d.words.map((w,i)=><div key={w.word} style={{['--r' as string]:`${(i-1)*3}deg`}}><b>{w.word}</b><small>{w.pos} · Band {w.band}</small><span>{w.meaning}</span></div>)}</div>
+   </Card>
+   <Card href="/grammar" span="s2" title="Grammar" blurb="Short rules, common mistakes and three levels of tests with an explanation for every answer." chips={[`${c.grammarTopics} topics`,`${c.questions} questions`,'3 levels']} access="Foundation test of each topic free" cta="Start a test">
+    <div className={hs.fix}><small>{d.fix.topic}</small><p className={hs.bad}>{d.fix.wrong}</p><p className={hs.good}>{d.fix.right}</p></div>
+   </Card>
+   <Card href="/resources/ebooks" span="s2" title="Ebook Shelf" blurb="Our own IELTS books, read like a real book: turn pages, highlight, add notes and bookmark." chips={[`${c.books} ebooks`,`${c.chapters} chapters`,'Resume anywhere']} access="First 2 chapters of each book free" cta="Browse books">
+    <div className={hs.spines}>{d.books.map((b,i)=><div key={b.title} style={{background:COVERS[i%COVERS.length],height:`${112+((i*23)%38)}px`}}><span>{b.skill}</span></div>)}</div>
+   </Card>
+   <Card href="/blog" span="s6" wide title="Study Journal" blurb="Practical articles on study habits, strategy for each skill, and what to do in the last days before the test." chips={[`${c.articles} articles`,'3-4 min each']} access="Free for everyone" cta="Read journal">
+    <div className={hs.article}><span className={styles.tag}>{d.article.category}</span><b>{d.article.title}</b><p>{d.article.excerpt}</p></div>
+   </Card>
+  </div>
+  <section className={hs.compare}>
+   <div><h3>Free for everyone</h3><ul><li>3 cue-card topics in every category</li><li>4 Writing samples per task</li><li>100 vocabulary words</li><li>1 grammar test per topic</li><li>2 chapters of every ebook</li><li>The whole study journal</li></ul></div>
+   <div><h3>With a plan</h3><ul><li>All {c.cue} cue cards with Part 3 answers</li><li>All {c.t1+c.t2} Writing samples</li><li>Every vocabulary word</li><li>All {c.questions} grammar questions</li><li>Full ebooks, with notes and bookmarks</li></ul><Link href="/pricing" className={styles.primary} style={{marginTop:10}}>See plans</Link></div>
+  </section>
   <section className={styles.how}>
    <div className={styles.step}><span>1</span><h3>Learn the pattern</h3><p>Cue card, Writing sample বা ebook chapter পড়ে কাঠামোটা বুঝে নাও।</p></div>
    <div className={styles.step}><span>2</span><h3>Fix the gaps</h3><p>Grammar test আর Vocabulary flashcard দিয়ে নিজের দুর্বল জায়গা ঠিক করো।</p></div>
