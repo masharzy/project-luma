@@ -105,6 +105,7 @@ type AssessmentOptions = {
  // Admin benchmark only: reasoning-mandatory models need an effort instead of enabled:false; some providers reject multipleOf.
  reasoning?:'low'|'medium';
  simpleSchema?:boolean;
+ noStepEnum?:boolean;
 };
 const isSpeech=(status:string)=>status==='speech'||status==='partial_speech';
 const criterionKeys=['fluency_coherence','lexical_resource','grammar','pronunciation'] as const;
@@ -163,7 +164,7 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
    body:JSON.stringify({
     model:options.model??speakingModel,stream:true,stream_options:{include_usage:true},max_tokens:16000,
     reasoning:options.reasoning?{effort:options.reasoning,exclude:true}:{enabled:false,exclude:true},provider:{...(options.providerOnly===null?{}:{only:[options.providerOnly??speakingProvider]}),allow_fallbacks:false,require_parameters:true},
-    response_format:options.simpleSchema?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'?undefined:v)):modelJsonFormat(steps),
+    response_format:options.simpleSchema||options.noStepEnum?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'||(options.noStepEnum&&k==='enum'&&Array.isArray(v)&&v.every(x=>typeof x==='number'))?undefined:v)):modelJsonFormat(steps),
     messages:[{role:'system',content:systemPrompt},{role:'user',content}],
    }),
   });
