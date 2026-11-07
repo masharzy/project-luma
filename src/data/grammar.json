@@ -1,0 +1,5882 @@
+[
+ {
+  "slug": "verb-tenses",
+  "title": "Verb Tenses",
+  "summary": "Covers present, past, perfect, continuous and future forms, and how to choose the one that fits time words and context. IELTS Writing and Speaking both reward accurate, varied tense control, especially in describing trends, experiences and hypothetical situations.",
+  "rules": [
+   {
+    "rule": "Use the present simple for facts, routines and general truths.",
+    "example": "Bangladesh has a monsoon climate, and heavy rain falls between June and September."
+   },
+   {
+    "rule": "Use the present perfect for past actions linked to now, with for, since, already, yet or no stated finished time.",
+    "example": "The number of online learners has risen steadily since 2020."
+   },
+   {
+    "rule": "Use the past simple for finished actions with a stated or clear past time.",
+    "example": "I took the IELTS test in Dhaka last March."
+   },
+   {
+    "rule": "Use the past perfect for an action completed before another past action or time.",
+    "example": "When the examiner arrived, the candidates had already sat down."
+   },
+   {
+    "rule": "Use will, going to, the present continuous or the future perfect according to meaning: prediction, plan, arrangement, or completion by a future time.",
+    "example": "By 2035, the government will have built three new bridges over the Padma."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "I am living in Dhaka since 2015.",
+    "right": "I have lived in Dhaka since 2015.",
+    "why": "Since with a period up to now needs the present perfect, not the present continuous."
+   },
+   {
+    "wrong": "I have seen the examiner yesterday.",
+    "right": "I saw the examiner yesterday.",
+    "why": "A finished time word such as yesterday requires the past simple."
+   },
+   {
+    "wrong": "If the government will build more schools, literacy will improve.",
+    "right": "If the government builds more schools, literacy will improve.",
+    "why": "After if in a real conditional, use the present simple, not will."
+   }
+  ],
+  "tip": "In Writing Task 1, match tense to the time on the chart: past simple for past years, present perfect for periods running to now, and future forms only for forecasts. In Speaking, show range by mixing past, present perfect and future forms naturally.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "Bangladesh ____ a monsoon climate.",
+      "options": [
+       "is having",
+       "have",
+       "has",
+       "was having"
+      ],
+      "answer": 2,
+      "why": "General facts use the present simple. Is having is wrong because have as a state verb is not normally used in the continuous, and have does not agree with Bangladesh."
+     },
+     {
+      "q": "She ____ to school by rickshaw every day.",
+      "options": [
+       "is going",
+       "goes",
+       "went",
+       "has gone"
+      ],
+      "answer": 1,
+      "why": "Every day shows a routine, so the present simple is used. Is going describes an action happening now."
+     },
+     {
+      "q": "I ____ my IELTS speaking test yesterday.",
+      "options": [
+       "take",
+       "took",
+       "have taken",
+       "am taking"
+      ],
+      "answer": 1,
+      "why": "Yesterday is a finished past time, so the past simple is needed. Have taken is tempting but cannot be used with yesterday."
+     },
+     {
+      "q": "Look! The students ____ the listening test now.",
+      "options": [
+       "take",
+       "are taking",
+       "took",
+       "have taken"
+      ],
+      "answer": 1,
+      "why": "Look and now signal an action in progress, so the present continuous is correct. Take would describe a habit."
+     },
+     {
+      "q": "We ____ in Dhaka since 2015.",
+      "options": [
+       "live",
+       "are living",
+       "have lived",
+       "lived"
+      ],
+      "answer": 2,
+      "why": "Since links a past starting point to now, requiring the present perfect. Lived is tempting but treats the period as finished."
+     },
+     {
+      "q": "By the time the examiner arrived, I ____ waiting for twenty minutes.",
+      "options": [
+       "have been",
+       "had been",
+       "will be",
+       "am"
+      ],
+      "answer": 1,
+      "why": "The waiting happened before a past moment, so the past perfect is required. Have been links to now, which does not fit arrived."
+     },
+     {
+      "q": "Water ____ at 100 degrees Celsius.",
+      "options": [
+       "is boiling",
+       "boiled",
+       "has boiled",
+       "boils"
+      ],
+      "answer": 3,
+      "why": "A scientific fact uses the present simple. Is boiling describes one event in progress."
+     },
+     {
+      "q": "Next month, I ____ my IELTS exam in Chattogram; the date is already booked.",
+      "options": [
+       "am taking",
+       "took",
+       "have taken",
+       "was taking"
+      ],
+      "answer": 0,
+      "why": "A fixed arrangement for the future can use the present continuous. The other forms refer to the past."
+     },
+     {
+      "q": "If it rains tomorrow, the match ____ cancelled.",
+      "options": [
+       "is",
+       "would be",
+       "will be",
+       "was"
+      ],
+      "answer": 2,
+      "why": "A real future condition has present simple in the if-clause and will in the main clause. Would be belongs to unreal conditions."
+     },
+     {
+      "q": "He ____ his homework when the power went out.",
+      "options": [
+       "was doing",
+       "did",
+       "has done",
+       "does"
+      ],
+      "answer": 0,
+      "why": "A longer past action interrupted by a shorter one uses the past continuous. Did would present the homework as completed."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "I ____ this book three times, so I know the plot well.",
+      "options": [
+       "read",
+       "have read",
+       "am reading",
+       "had read"
+      ],
+      "answer": 1,
+      "why": "An experience up to now with no finished time uses the present perfect. Read would need a past time reference."
+     },
+     {
+      "q": "When I called her at nine, she ____ dinner, so she could not talk.",
+      "options": [
+       "cooked",
+       "was cooking",
+       "has cooked",
+       "cooks"
+      ],
+      "answer": 1,
+      "why": "The call interrupted an action in progress, so the past continuous fits. Cooked suggests a completed action before the call."
+     },
+     {
+      "q": "The company ____ 200 workers since last January.",
+      "options": [
+       "has hired",
+       "hired",
+       "hires",
+       "is hiring"
+      ],
+      "answer": 0,
+      "why": "Since last January points to a period continuing to now, so the present perfect is used. Hired cannot take since."
+     },
+     {
+      "q": "By next December, she ____ her degree.",
+      "options": [
+       "will have completed",
+       "will complete",
+       "completes",
+       "has completed"
+      ],
+      "answer": 0,
+      "why": "By plus a future time signals an action finished before that point, which needs the future perfect. Will complete does not show completion by then."
+     },
+     {
+      "q": "I ____ him since I was a child.",
+      "options": [
+       "have known",
+       "know",
+       "knew",
+       "am knowing"
+      ],
+      "answer": 0,
+      "why": "A state continuing from childhood to now needs the present perfect. Know is tempting but does not link the past starting point to now, and am knowing is wrong for a state verb."
+     },
+     {
+      "q": "When we reached the station, the train ____ already.",
+      "options": [
+       "left",
+       "has left",
+       "leaves",
+       "had left"
+      ],
+      "answer": 3,
+      "why": "Already with when we reached shows the train's departure came first, requiring the past perfect. Has left links to the present, not to that past moment."
+     },
+     {
+      "q": "I ____ you completely; your explanation is very clear.",
+      "options": [
+       "understand",
+       "am understanding",
+       "have been understanding",
+       "was understanding"
+      ],
+      "answer": 0,
+      "why": "Understand is a state verb and is normally used in the simple form. The continuous forms are not standard here."
+     },
+     {
+      "q": "Ever since the factory opened, the river ____ polluted.",
+      "options": [
+       "is",
+       "was",
+       "has been",
+       "had been"
+      ],
+      "answer": 2,
+      "why": "Ever since an opening in the past up to now needs the present perfect. Was would suggest the pollution has ended."
+     },
+     {
+      "q": "I will call you as soon as I ____ the results.",
+      "options": [
+       "will get",
+       "get",
+       "am getting",
+       "would get"
+      ],
+      "answer": 1,
+      "why": "After time conjunctions such as as soon as, the present simple expresses future meaning. Will is not used in the time clause."
+     },
+     {
+      "q": "She said she ____ the report the previous day.",
+      "options": [
+       "has finished",
+       "finishes",
+       "will finish",
+       "had finished"
+      ],
+      "answer": 3,
+      "why": "In reported speech, a past reporting verb moves the earlier action back to the past perfect. Has finished does not fit the previous day."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "Over the past decade, the number of online learners in Bangladesh ____ dramatically.",
+      "options": [
+       "has increased",
+       "increased",
+       "had increased",
+       "will increase"
+      ],
+      "answer": 0,
+      "why": "Over the past decade runs up to the present, so the present perfect is expected. Increased is tempting but implies a period that is closed."
+     },
+     {
+      "q": "By the time the new metro line opens in 2030, planners ____ on the project for more than fifteen years.",
+      "options": [
+       "will have been working",
+       "will work",
+       "have worked",
+       "are working"
+      ],
+      "answer": 0,
+      "why": "A duration up to a future point needs the future perfect continuous. Will work and are working do not express the accumulated period."
+     },
+     {
+      "q": "The study, which ____ in 2019, found that sleep-deprived students performed worse.",
+      "options": [
+       "has been published",
+       "is published",
+       "was published",
+       "had published"
+      ],
+      "answer": 2,
+      "why": "A specific past year requires the past simple, here in the passive. Has been published cannot be used with a stated finished time."
+     },
+     {
+      "q": "Hardly ____ the new policy when schools began reporting problems.",
+      "options": [
+       "the government had introduced",
+       "has the government introduced",
+       "had the government introduced",
+       "did the government introduce"
+      ],
+      "answer": 2,
+      "why": "Hardly takes inversion with the past perfect, followed by when. The non-inverted form is wrong after Hardly, and did the government introduce misses the sequence of events."
+     },
+     {
+      "q": "Researchers ____ the effects of screen time for years, yet no consensus has emerged.",
+      "options": [
+       "are investigating",
+       "investigated",
+       "had investigated",
+       "have been investigating"
+      ],
+      "answer": 3,
+      "why": "For years with a present result (has emerged) needs the present perfect continuous. Investigated treats the work as finished and unrelated to now."
+     },
+     {
+      "q": "Many experts predict that by 2050 rising temperatures ____ large parts of the delta uninhabitable.",
+      "options": [
+       "made",
+       "have made",
+       "are making",
+       "will have made"
+      ],
+      "answer": 3,
+      "why": "By 2050 plus a prediction calls for the future perfect to show the change complete by that date. Made and have made are not future forms."
+     },
+     {
+      "q": "If the government had invested more in flood defences, thousands of families ____ their homes.",
+      "options": [
+       "will not lose",
+       "did not lose",
+       "would not lose",
+       "would not have lost"
+      ],
+      "answer": 3,
+      "why": "A third conditional (had invested) pairs with would have plus a past participle. Would not lose refers to a present or future result, which clashes with the past condition."
+     },
+     {
+      "q": "I wish I ____ more time to revise before the exam last week.",
+      "options": [
+       "had",
+       "have",
+       "had had",
+       "would have"
+      ],
+      "answer": 2,
+      "why": "A wish about the past requires the past perfect. Had is tempting but expresses a wish about the present."
+     },
+     {
+      "q": "The lecturer suggested that every student ____ the reading list before the seminar.",
+      "options": [
+       "reviews",
+       "reviewed",
+       "will review",
+       "review"
+      ],
+      "answer": 3,
+      "why": "After suggest, the mandative subjunctive uses the base form for all subjects. Reviews is a common error, and will review is not used in this structure."
+     },
+     {
+      "q": "No sooner ____ his thesis than he began applying for jobs.",
+      "options": [
+       "he had submitted",
+       "had he submitted",
+       "did he submit",
+       "has he submitted"
+      ],
+      "answer": 1,
+      "why": "No sooner requires inversion with the past perfect, followed by than. Did he submit uses the wrong tense, and he had submitted lacks inversion."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "articles",
+  "title": "Articles",
+  "summary": "Covers the use of a, an, the and no article with countable, uncountable, singular, plural and unique nouns. Article errors are among the most frequent in Bangladeshi learners' writing, and fixing them raises grammatical accuracy scores in IELTS Writing and Speaking.",
+  "rules": [
+   {
+    "rule": "Use a before a consonant sound and an before a vowel sound, whatever the spelling.",
+    "example": "She is an honest teacher at a university in Khulna."
+   },
+   {
+    "rule": "Use a or an for a singular countable noun mentioned for the first time or when classifying it.",
+    "example": "I saw an accident on the way to the test centre."
+   },
+   {
+    "rule": "Use the when the noun is already known, unique, or made specific.",
+    "example": "The sun is the largest object in the solar system."
+   },
+   {
+    "rule": "Use no article for plural or uncountable nouns in a general sense, and for most names of countries, cities and languages.",
+    "example": "Water is essential for life, and Bangladesh has plenty of rivers."
+   },
+   {
+    "rule": "Use the with rivers, mountain ranges, oceans, organisations with plural forms, superlatives, and adjectives used as nouns for groups.",
+    "example": "The Himalayas are the highest mountains in the world, and the poor suffer most during floods."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "She is engineer in a big company.",
+    "right": "She is an engineer in a big company.",
+    "why": "A singular countable job noun needs an article."
+   },
+   {
+    "wrong": "The education is important for the development of a country.",
+    "right": "Education is important for the development of a country.",
+    "why": "Education used in a general sense takes no article."
+   },
+   {
+    "wrong": "I have an information about the course.",
+    "right": "I have some information about the course.",
+    "why": "Information is uncountable, so it cannot take a or an."
+   }
+  ],
+  "tip": "In Task 2, check every singular countable noun for a determiner, and drop the when you make a general statement about a plural or uncountable noun (for example, technology, students, pollution). In Speaking, mention a thing with a first, then switch to the.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "She is ____ engineer.",
+      "options": [
+       "a",
+       "an",
+       "the",
+       "no article"
+      ],
+      "answer": 1,
+      "why": "Engineer begins with a vowel sound, so an is used. A is wrong before a vowel sound."
+     },
+     {
+      "q": "____ sun rises in the east.",
+      "options": [
+       "A",
+       "The",
+       "An",
+       "no article"
+      ],
+      "answer": 1,
+      "why": "There is only one sun, so it is unique and takes the. A would suggest one of many suns."
+     },
+     {
+      "q": "I usually have ____ breakfast at 7 a.m.",
+      "options": [
+       "a",
+       "an",
+       "no article",
+       "the"
+      ],
+      "answer": 2,
+      "why": "Names of meals are normally used without an article when speaking in general. The would point to one specific meal."
+     },
+     {
+      "q": "Dhaka is ____ capital of Bangladesh.",
+      "options": [
+       "a",
+       "an",
+       "the",
+       "no article"
+      ],
+      "answer": 2,
+      "why": "Capital here is a unique role, so the is required. A would wrongly suggest several capitals."
+     },
+     {
+      "q": "He bought ____ umbrella because it was raining.",
+      "options": [
+       "a",
+       "the",
+       "no article",
+       "an"
+      ],
+      "answer": 3,
+      "why": "Umbrella starts with a vowel sound, so an is correct. The is wrong because the umbrella was not previously mentioned."
+     },
+     {
+      "q": "My sister plays ____ violin.",
+      "options": [
+       "a",
+       "the",
+       "an",
+       "no article"
+      ],
+      "answer": 1,
+      "why": "Musical instruments after play take the. A or no article sounds wrong in this fixed pattern."
+     },
+     {
+      "q": "It was ____ honour to meet the examiner.",
+      "options": [
+       "a",
+       "the",
+       "no article",
+       "an"
+      ],
+      "answer": 3,
+      "why": "Honour begins with a silent h, giving a vowel sound, so an is used. A is tempting because of the written h."
+     },
+     {
+      "q": "We visited ____ Cox's Bazar last summer.",
+      "options": [
+       "the",
+       "a",
+       "an",
+       "no article"
+      ],
+      "answer": 3,
+      "why": "Names of towns and cities take no article. The is wrong because the place is not a plural or a geographical feature requiring it."
+     },
+     {
+      "q": "Can you close ____ window, please?",
+      "options": [
+       "a",
+       "an",
+       "no article",
+       "the"
+      ],
+      "answer": 3,
+      "why": "The speaker and listener both know which window, so the is used. A would mean any window."
+     },
+     {
+      "q": "____ water is essential for life.",
+      "options": [
+       "no article",
+       "The",
+       "A",
+       "An"
+      ],
+      "answer": 0,
+      "why": "Water is uncountable and used in a general sense, so no article is needed. The would limit the statement to a specific water."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "____ Himalayas are to the north of Bangladesh.",
+      "options": [
+       "A",
+       "The",
+       "An",
+       "no article"
+      ],
+      "answer": 1,
+      "why": "Mountain ranges in the plural take the. No article is wrong for this type of name."
+     },
+     {
+      "q": "He is ____ MBA graduate.",
+      "options": [
+       "a",
+       "the",
+       "an",
+       "no article"
+      ],
+      "answer": 2,
+      "why": "MBA is pronounced with a vowel sound (em-bee-ay), so an is used. A follows the spelling, not the sound."
+     },
+     {
+      "q": "He was sent to ____ prison for five years.",
+      "options": [
+       "the",
+       "a",
+       "no article",
+       "an"
+      ],
+      "answer": 2,
+      "why": "When prison is used for its purpose (serving a sentence), it takes no article. The prison would refer to the building."
+     },
+     {
+      "q": "Ahmed is ____ only student who scored band 9.",
+      "options": [
+       "a",
+       "the",
+       "an",
+       "no article"
+      ],
+      "answer": 1,
+      "why": "Only makes the noun unique, so the is required. A is wrong because it implies there are others."
+     },
+     {
+      "q": "I need ____ advice about my essay.",
+      "options": [
+       "an",
+       "a",
+       "the",
+       "no article"
+      ],
+      "answer": 3,
+      "why": "Advice is uncountable, so a and an are impossible. The would need a specific piece of advice already mentioned."
+     },
+     {
+      "q": "What ____ beautiful day!",
+      "options": [
+       "a",
+       "an",
+       "the",
+       "no article"
+      ],
+      "answer": 0,
+      "why": "In exclamations with a singular countable noun, what takes a. An is wrong because beautiful begins with a consonant sound."
+     },
+     {
+      "q": "She plays ____ football every evening.",
+      "options": [
+       "the",
+       "no article",
+       "a",
+       "an"
+      ],
+      "answer": 1,
+      "why": "Sports are used without an article. The is a common but incorrect addition."
+     },
+     {
+      "q": "Mount Everest is ____ highest mountain in the world.",
+      "options": [
+       "a",
+       "an",
+       "no article",
+       "the"
+      ],
+      "answer": 3,
+      "why": "Superlatives take the. A would suggest it is one of several equally high mountains."
+     },
+     {
+      "q": "I saw an accident on my way home. ____ accident was very serious.",
+      "options": [
+       "The",
+       "An",
+       "A",
+       "no article"
+      ],
+      "answer": 0,
+      "why": "The accident has already been mentioned, so the is used for second mention. An would introduce a new accident."
+     },
+     {
+      "q": "She has ____ strong interest in environmental science.",
+      "options": [
+       "an",
+       "a",
+       "the",
+       "no article"
+      ],
+      "answer": 1,
+      "why": "Interest is singular and countable here, and the article agrees with the next word, strong, which begins with a consonant sound, so a is used. An would only be right before a vowel sound."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "____ climate change poses a serious threat to coastal communities.",
+      "options": [
+       "The",
+       "A",
+       "no article",
+       "An"
+      ],
+      "answer": 2,
+      "why": "Climate change is a general, uncountable concept, so no article is used. The is a frequent error in Task 2 essays."
+     },
+     {
+      "q": "In ____ 21st century, technology has transformed education.",
+      "options": [
+       "the",
+       "a",
+       "an",
+       "no article"
+      ],
+      "answer": 0,
+      "why": "Centuries take the in this phrase. A is wrong because the period is specific and unique."
+     },
+     {
+      "q": "____ unemployed often struggle to access healthcare.",
+      "options": [
+       "An",
+       "A",
+       "The",
+       "no article"
+      ],
+      "answer": 2,
+      "why": "The plus an adjective names a whole group of people. No article would make unemployed an adjective without a noun."
+     },
+     {
+      "q": "Governments should invest in ____ renewable energy, as it reduces emissions.",
+      "options": [
+       "no article",
+       "the",
+       "a",
+       "an"
+      ],
+      "answer": 0,
+      "why": "Renewable energy is uncountable and general, so no article is used. The would refer to a specific, known energy supply."
+     },
+     {
+      "q": "There is ____ growing body of evidence linking diet to concentration.",
+      "options": [
+       "an",
+       "a",
+       "the",
+       "no article"
+      ],
+      "answer": 1,
+      "why": "A growing body of evidence is a fixed phrase, and growing starts with a consonant sound. The would imply a known body of evidence."
+     },
+     {
+      "q": "She is one of ____ most respected economists in the country.",
+      "options": [
+       "a",
+       "an",
+       "the",
+       "no article"
+      ],
+      "answer": 2,
+      "why": "Superlatives require the. A cannot combine with most in this superlative pattern."
+     },
+     {
+      "q": "The survey was carried out over ____ period of six months.",
+      "options": [
+       "a",
+       "an",
+       "the",
+       "no article"
+      ],
+      "answer": 0,
+      "why": "Over a period of is a standard phrase using a. An is wrong because period starts with a consonant sound."
+     },
+     {
+      "q": "____ number of students taking online courses has risen sharply.",
+      "options": [
+       "The",
+       "A",
+       "An",
+       "no article"
+      ],
+      "answer": 0,
+      "why": "The number of takes a singular verb (has risen) and refers to the total. A number of means several and takes a plural verb."
+     },
+     {
+      "q": "The minister spoke at ____ United Nations about water scarcity.",
+      "options": [
+       "the",
+       "a",
+       "an",
+       "no article"
+      ],
+      "answer": 0,
+      "why": "Organisations with plural or institutional names, such as the United Nations, take the. No article is wrong here."
+     },
+     {
+      "q": "By ____ time the policy was revised, many rural schools had already closed.",
+      "options": [
+       "a",
+       "an",
+       "no article",
+       "the"
+      ],
+      "answer": 3,
+      "why": "By the time is a fixed expression. A time would change the meaning and sound unnatural."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "prepositions",
+  "title": "Prepositions",
+  "summary": "Covers prepositions of time, place and movement, plus the fixed prepositions that follow common verbs, adjectives and nouns. Wrong prepositions lower accuracy marks in IELTS Writing and Speaking, and many collocations must be learnt as units.",
+  "rules": [
+   {
+    "rule": "Use at for exact times and points, on for days and dates, and in for months, years, seasons and longer periods.",
+    "example": "The test starts at 9 a.m. on Friday in March."
+   },
+   {
+    "rule": "Use at for a point or address-level location, in for enclosed areas and cities, and on for surfaces.",
+    "example": "I arrived at the station, put my bag on the seat and read in the waiting room."
+   },
+   {
+    "rule": "Use for with a duration and since with a starting point.",
+    "example": "She has studied English for three years, since 2023."
+   },
+   {
+    "rule": "Learn fixed pairs: depend on, interested in, good at, afraid of, responsible for, different from, increase in.",
+    "example": "The outcome depends on the quality of the data."
+   },
+   {
+    "rule": "After a preposition, use a noun or an -ing form, not the base verb.",
+    "example": "He succeeded in passing the exam despite working full time."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "I am interested on learning French.",
+    "right": "I am interested in learning French.",
+    "why": "Interested takes in, followed by a noun or an -ing form."
+   },
+   {
+    "wrong": "There was a rise of the price of rice.",
+    "right": "There was a rise in the price of rice.",
+    "why": "Rise, increase and fall take in before the thing that changes."
+   },
+   {
+    "wrong": "She is good in mathematics.",
+    "right": "She is good at mathematics.",
+    "why": "Good takes at when talking about a skill."
+   }
+  ],
+  "tip": "In Task 1, use precise prepositions for trends: an increase in, a rise from X to Y, an increase of 5 per cent, by 10 per cent. In Speaking, learn adjective plus preposition chunks such as keen on, passionate about and responsible for.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "The test starts ____ 9 a.m.",
+      "options": [
+       "on",
+       "in",
+       "by",
+       "at"
+      ],
+      "answer": 3,
+      "why": "Exact clock times take at. On is for days, and in is for longer periods."
+     },
+     {
+      "q": "I was born ____ 2001.",
+      "options": [
+       "in",
+       "on",
+       "at",
+       "from"
+      ],
+      "answer": 0,
+      "why": "Years take in. On is used with dates, and at with exact times."
+     },
+     {
+      "q": "She is good ____ mathematics.",
+      "options": [
+       "in",
+       "at",
+       "on",
+       "for"
+      ],
+      "answer": 1,
+      "why": "Good is followed by at to show skill. In is a common learner error."
+     },
+     {
+      "q": "We live ____ Sylhet.",
+      "options": [
+       "at",
+       "on",
+       "to",
+       "in"
+      ],
+      "answer": 3,
+      "why": "Cities take in as an enclosed area. At is used for a specific point such as a station."
+     },
+     {
+      "q": "The book is ____ the table.",
+      "options": [
+       "on",
+       "in",
+       "at",
+       "by"
+      ],
+      "answer": 0,
+      "why": "On shows contact with a surface. In would suggest inside the table."
+     },
+     {
+      "q": "He is afraid ____ dogs.",
+      "options": [
+       "of",
+       "from",
+       "to",
+       "at"
+      ],
+      "answer": 0,
+      "why": "Afraid is followed by of. From is a typical translation error."
+     },
+     {
+      "q": "I will see you ____ Friday.",
+      "options": [
+       "in",
+       "on",
+       "at",
+       "by"
+      ],
+      "answer": 1,
+      "why": "Days of the week take on. In is used for months and years."
+     },
+     {
+      "q": "She is interested ____ environmental science.",
+      "options": [
+       "on",
+       "in",
+       "at",
+       "for"
+      ],
+      "answer": 1,
+      "why": "Interested takes in. On is a common learner mistake."
+     },
+     {
+      "q": "He travelled to Rajshahi ____ bus.",
+      "options": [
+       "by",
+       "on",
+       "with",
+       "in"
+      ],
+      "answer": 0,
+      "why": "By is used with means of transport when no article follows. On would require the bus, and with is wrong for transport."
+     },
+     {
+      "q": "I have been waiting ____ two hours.",
+      "options": [
+       "since",
+       "for",
+       "during",
+       "from"
+      ],
+      "answer": 1,
+      "why": "For is used with a length of time. Since needs a starting point, such as since noon."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "She apologised ____ being late.",
+      "options": [
+       "for",
+       "of",
+       "about",
+       "at"
+      ],
+      "answer": 0,
+      "why": "Apologise for is the fixed collocation. Of and about do not follow apologise."
+     },
+     {
+      "q": "The report depends ____ reliable data.",
+      "options": [
+       "of",
+       "on",
+       "from",
+       "to"
+      ],
+      "answer": 1,
+      "why": "Depend always takes on. Of and from are common errors."
+     },
+     {
+      "q": "He has lived here ____ 2018.",
+      "options": [
+       "for",
+       "from",
+       "since",
+       "in"
+      ],
+      "answer": 2,
+      "why": "Since marks a starting point in the past. For needs a duration, such as for six years."
+     },
+     {
+      "q": "I prefer tea ____ coffee.",
+      "options": [
+       "to",
+       "than",
+       "from",
+       "over"
+      ],
+      "answer": 0,
+      "why": "Prefer one thing to another uses to. Than is used with would rather."
+     },
+     {
+      "q": "Please do not use phones ____ the exam.",
+      "options": [
+       "while",
+       "for",
+       "since",
+       "during"
+      ],
+      "answer": 3,
+      "why": "During is followed by a noun. While needs a clause, so it does not fit here."
+     },
+     {
+      "q": "She is responsible ____ organising the event.",
+      "options": [
+       "of",
+       "to",
+       "about",
+       "for"
+      ],
+      "answer": 3,
+      "why": "Responsible is followed by for. Of and about are common errors."
+     },
+     {
+      "q": "We arrived ____ the airport at noon.",
+      "options": [
+       "to",
+       "in",
+       "on",
+       "at"
+      ],
+      "answer": 3,
+      "why": "Arrive at is used for a place such as an airport or station. Arrive to is a typical error."
+     },
+     {
+      "q": "The result is different ____ what we expected.",
+      "options": [
+       "with",
+       "from",
+       "by",
+       "of"
+      ],
+      "answer": 1,
+      "why": "Different is followed by from. With and by do not collocate with different."
+     },
+     {
+      "q": "He succeeded ____ passing the exam.",
+      "options": [
+       "at",
+       "on",
+       "in",
+       "for"
+      ],
+      "answer": 2,
+      "why": "Succeed in plus an -ing form is the normal pattern. At is a typical error."
+     },
+     {
+      "q": "The pharmacy is ____ the bank and the post office.",
+      "options": [
+       "among",
+       "beside",
+       "between",
+       "across"
+      ],
+      "answer": 2,
+      "why": "Between is used for two points. Among needs three or more, and beside means next to only one."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "The rise in obesity is closely related ____ sedentary lifestyles.",
+      "options": [
+       "with",
+       "by",
+       "at",
+       "to"
+      ],
+      "answer": 3,
+      "why": "Related takes to. With is a common error and by or at do not collocate with related."
+     },
+     {
+      "q": "There has been a significant increase ____ the number of remote workers.",
+      "options": [
+       "of",
+       "on",
+       "in",
+       "at"
+      ],
+      "answer": 2,
+      "why": "Increase in shows what has changed. Of is used with the amount, as in an increase of 5 per cent."
+     },
+     {
+      "q": "Many farmers are vulnerable ____ the effects of flooding.",
+      "options": [
+       "for",
+       "against",
+       "to",
+       "of"
+      ],
+      "answer": 2,
+      "why": "Vulnerable takes to. For and against are tempting but not standard."
+     },
+     {
+      "q": "Students often struggle to cope ____ the pressure of exams.",
+      "options": [
+       "to",
+       "against",
+       "on",
+       "with"
+      ],
+      "answer": 3,
+      "why": "Cope takes with. To and on do not follow cope."
+     },
+     {
+      "q": "The government's policy resulted ____ a sharp fall in unemployment.",
+      "options": [
+       "from",
+       "in",
+       "to",
+       "with"
+      ],
+      "answer": 1,
+      "why": "Result in introduces the effect. Result from introduces the cause, so it reverses the meaning."
+     },
+     {
+      "q": "Experts attribute the decline ____ poor planning.",
+      "options": [
+       "on",
+       "to",
+       "for",
+       "with"
+      ],
+      "answer": 1,
+      "why": "Attribute something to a cause is the fixed pattern. On is a typical error."
+     },
+     {
+      "q": "The new curriculum is aimed ____ improving critical thinking.",
+      "options": [
+       "at",
+       "for",
+       "on",
+       "to"
+      ],
+      "answer": 0,
+      "why": "Aimed takes at, followed by an -ing form. For can follow designed, but not aimed."
+     },
+     {
+      "q": "The student was accused ____ plagiarism.",
+      "options": [
+       "for",
+       "with",
+       "of",
+       "about"
+      ],
+      "answer": 2,
+      "why": "Accuse someone of an offence is the correct pattern. For is a typical error."
+     },
+     {
+      "q": "Online platforms provide students ____ access to resources.",
+      "options": [
+       "with",
+       "to",
+       "for",
+       "of"
+      ],
+      "answer": 0,
+      "why": "Provide someone with something is the structure here. To is used in provide access to students, which uses a different order."
+     },
+     {
+      "q": "Despite the high cost, the project will proceed ____ schedule.",
+      "options": [
+       "in",
+       "at",
+       "on",
+       "by"
+      ],
+      "answer": 2,
+      "why": "On schedule is the fixed phrase meaning at the planned time. In and at do not collocate with schedule here."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "conditionals",
+  "title": "Conditionals",
+  "summary": "Conditionals express real and imaginary situations using if-clauses and result clauses. IELTS Writing and Speaking reward accurate use of first, second, third and mixed conditionals to discuss causes, predictions and hypothetical outcomes.",
+  "rules": [
+   {
+    "rule": "Zero conditional: if + present simple, present simple, for general truths.",
+    "example": "If people do not drink enough water, they become dehydrated."
+   },
+   {
+    "rule": "First conditional: if + present simple, will + base verb, for real future possibilities.",
+    "example": "If the government invests in schools, literacy will improve."
+   },
+   {
+    "rule": "Second conditional: if + past simple, would + base verb, for unreal or unlikely present and future situations.",
+    "example": "If I lived abroad, I would improve my English faster."
+   },
+   {
+    "rule": "Third conditional: if + past perfect, would have + past participle, for unreal past situations.",
+    "example": "If she had revised more, she would have achieved a higher band."
+   },
+   {
+    "rule": "Mixed conditionals combine a past condition with a present result; formal inversion can replace 'if' (Had..., Were..., Should...).",
+    "example": "Had the river been cleaned, the villagers would be healthier today."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "If I will have time, I will visit you.",
+    "right": "If I have time, I will visit you.",
+    "why": "Do not use 'will' in the if-clause."
+   },
+   {
+    "wrong": "If I would be the minister, I would build more schools.",
+    "right": "If I were the minister, I would build more schools.",
+    "why": "'Would' is not used in the if-clause; use past simple 'were'."
+   },
+   {
+    "wrong": "If he would have studied, he would have passed.",
+    "right": "If he had studied, he would have passed.",
+    "why": "The third-conditional if-clause needs past perfect, not 'would have'."
+   }
+  ],
+  "tip": "In Speaking Part 3 and Writing Task 2, use second and mixed conditionals to discuss hypothetical solutions ('If governments were to ban plastic, pollution would fall'). Accurate conditionals show range and control for Grammatical Range and Accuracy.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "If it ____ tomorrow, we will cancel the picnic in Dhaka.",
+      "options": [
+       "will rain",
+       "rains",
+       "would rain",
+       "rained"
+      ],
+      "answer": 1,
+      "why": "A first conditional uses the present simple in the if-clause. 'Will rain' is tempting but 'will' never goes in the if-clause."
+     },
+     {
+      "q": "If you heat ice, it ____.",
+      "options": [
+       "would melt",
+       "is melted",
+       "melted",
+       "melts"
+      ],
+      "answer": 3,
+      "why": "This is a general truth, so the zero conditional (present simple + present simple) is used. 'Would melt' is for imaginary situations."
+     },
+     {
+      "q": "If I ____ you, I would study harder for IELTS.",
+      "options": [
+       "were",
+       "am",
+       "will be",
+       "have been"
+      ],
+      "answer": 0,
+      "why": "In the second conditional we use 'were' for an imaginary present situation. 'Am' describes a real situation, not advice from an imagined position."
+     },
+     {
+      "q": "If she had left earlier, she ____ the train.",
+      "options": [
+       "would catch",
+       "will catch",
+       "would have caught",
+       "had caught"
+      ],
+      "answer": 2,
+      "why": "The if-clause is past perfect, so the result clause needs 'would have + past participle'. 'Would catch' refers to the present or future."
+     },
+     {
+      "q": "Unless you ____ hard, you will not get Band 7.",
+      "options": [
+       "will work",
+       "worked",
+       "work",
+       "would work"
+      ],
+      "answer": 2,
+      "why": "'Unless' already carries a negative meaning and takes a present simple verb in a first conditional. 'Will work' cannot follow 'unless'."
+     },
+     {
+      "q": "If I had more time, I ____ a language course.",
+      "options": [
+       "would take",
+       "will take",
+       "had taken",
+       "would have taken"
+      ],
+      "answer": 0,
+      "why": "'Had' (past) in the if-clause signals an unreal present, so we use 'would + base verb'. 'Would have taken' belongs to the third conditional."
+     },
+     {
+      "q": "We will go to Cox's Bazar if the weather ____ good.",
+      "options": [
+       "will be",
+       "would be",
+       "were being",
+       "is"
+      ],
+      "answer": 3,
+      "why": "After 'if' in a real future possibility we use the present simple, not 'will'."
+     },
+     {
+      "q": "If they ____ the instructions, they would not have made so many mistakes.",
+      "options": [
+       "read",
+       "had read",
+       "would read",
+       "have read"
+      ],
+      "answer": 1,
+      "why": "The result clause 'would not have made' needs 'had + past participle' in the if-clause for an unreal past."
+     },
+     {
+      "q": "Tell me if you ____ any problem with the Speaking test booking.",
+      "options": [
+       "will have",
+       "would have",
+       "have",
+       "had had"
+      ],
+      "answer": 2,
+      "why": "In a real condition we use the present simple in the if-clause. 'Will have' is a common error after 'if'."
+     },
+     {
+      "q": "If he ____ harder, he would pass the exam.",
+      "options": [
+       "studied",
+       "studies",
+       "had studied",
+       "will study"
+      ],
+      "answer": 0,
+      "why": "'Would pass' is the second-conditional result, so the if-clause takes the past simple. 'Had studied' would require 'would have passed'."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "If I had taken the earlier bus, I ____ late now.",
+      "options": [
+       "would not have been",
+       "will not be",
+       "had not been",
+       "would not be"
+      ],
+      "answer": 3,
+      "why": "This is a mixed conditional: a past condition with a present result, shown by 'now'. 'Would not have been' would describe a past result."
+     },
+     {
+      "q": "____ the rent not been so high, they would have stayed in Dhaka.",
+      "options": [
+       "Had",
+       "If",
+       "Were",
+       "Should"
+      ],
+      "answer": 0,
+      "why": "Inversion with 'had' replaces 'if' in a formal third conditional. 'Were' and 'should' belong to other conditional types."
+     },
+     {
+      "q": "I will lend you the book provided that you ____ it by Friday.",
+      "options": [
+       "will return",
+       "would return",
+       "return",
+       "returned"
+      ],
+      "answer": 2,
+      "why": "'Provided that' works like 'if' and needs a present simple verb for a real future condition."
+     },
+     {
+      "q": "____ you experience any difficulty, please contact the helpdesk.",
+      "options": [
+       "Would",
+       "Should",
+       "Were",
+       "Had"
+      ],
+      "answer": 1,
+      "why": "'Should + subject + verb' is the formal inversion for a possible future situation. 'Had' would need a past participle."
+     },
+     {
+      "q": "If he ____ a scholarship last year, he would be studying in Canada now.",
+      "options": [
+       "won",
+       "had won",
+       "would win",
+       "has won"
+      ],
+      "answer": 1,
+      "why": "A past unreal condition with a present result is a mixed conditional, using past perfect in the if-clause. Simple past 'won' would not match 'last year' unreal meaning."
+     },
+     {
+      "q": "What would you do if you ____ the lottery?",
+      "options": [
+       "win",
+       "would win",
+       "had won",
+       "won"
+      ],
+      "answer": 3,
+      "why": "The question uses 'would', so the if-clause takes the past simple for an imaginary present or future. 'Would' never goes in the if-clause."
+     },
+     {
+      "q": "Were the government ____ fuel prices again, many families would struggle.",
+      "options": [
+       "to raise",
+       "raising",
+       "raised",
+       "to raising"
+      ],
+      "answer": 0,
+      "why": "The inverted form 'Were + subject + to + base verb' expresses a hypothetical future event. Other forms are not grammatical here."
+     },
+     {
+      "q": "She would not have passed ____ her tutor's help.",
+      "options": [
+       "if not",
+       "unless",
+       "without",
+       "but"
+      ],
+      "answer": 2,
+      "why": "'Without' acts as 'if she had not had' in a third conditional. 'Unless' cannot be used with 'would have' in this way."
+     },
+     {
+      "q": "Unless the students ____ the rules, they will be penalised.",
+      "options": [
+       "do not follow",
+       "would follow",
+       "followed",
+       "follow"
+      ],
+      "answer": 3,
+      "why": "'Unless' means 'if ... not', so adding 'not' creates a double negative. A present simple positive verb is correct."
+     },
+     {
+      "q": "If you ____ me earlier, I could have helped you.",
+      "options": [
+       "told",
+       "had told",
+       "would tell",
+       "have told"
+      ],
+      "answer": 1,
+      "why": "'Could have helped' is a third-conditional result, so the if-clause needs past perfect. Simple past 'told' fits only unreal present."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "If governments had invested earlier in flood defences, coastal communities in Bangladesh ____ less damage today.",
+      "options": [
+       "would be suffering",
+       "will suffer",
+       "had suffered",
+       "would have suffered"
+      ],
+      "answer": 0,
+      "why": "The past condition has a present result ('today'), so a mixed conditional with 'would + base/continuous' is needed. 'Would have suffered' places the result in the past."
+     },
+     {
+      "q": "If current deforestation rates ____, the region could lose most of its mangroves by 2050.",
+      "options": [
+       "would continue",
+       "had continued",
+       "were to continue",
+       "continuing"
+      ],
+      "answer": 2,
+      "why": "'Were to + base verb' expresses a hypothetical future condition, matching 'could lose'. 'Would' is not used in the if-clause."
+     },
+     {
+      "q": "Employers would not need to retrain staff so often if schools ____ practical skills more effectively.",
+      "options": [
+       "teach",
+       "taught",
+       "had taught",
+       "would teach"
+      ],
+      "answer": 1,
+      "why": "The main clause uses 'would', so the if-clause is past simple. 'Had taught' would require 'would have' in the result."
+     },
+     {
+      "q": "The patient would have recovered fully if she ____ treatment sooner.",
+      "options": [
+       "sought",
+       "has sought",
+       "would seek",
+       "had sought"
+      ],
+      "answer": 3,
+      "why": "'Would have recovered' signals an unreal past, so past perfect is required in the if-clause."
+     },
+     {
+      "q": "Remote work will remain popular as long as companies ____ its productivity benefits.",
+      "options": [
+       "will recognise",
+       "would recognise",
+       "recognised",
+       "recognise"
+      ],
+      "answer": 3,
+      "why": "'As long as' functions as 'if' in a real future condition and is followed by the present simple, not 'will'."
+     },
+     {
+      "q": "If the dataset ____ larger, the researchers would have drawn firmer conclusions.",
+      "options": [
+       "were",
+       "had been",
+       "would be",
+       "was being"
+      ],
+      "answer": 1,
+      "why": "The result clause 'would have drawn' is third conditional, so past perfect is needed. 'Were' is for an unreal present."
+     },
+     {
+      "q": "Antibiotics will lose their effectiveness unless patients ____ the full course.",
+      "options": [
+       "do not complete",
+       "will complete",
+       "complete",
+       "would complete"
+      ],
+      "answer": 2,
+      "why": "'Unless' already means 'if not', so the verb stays positive in the present simple."
+     },
+     {
+      "q": "Were it not for online learning, millions of rural students ____ access to quality education.",
+      "options": [
+       "would lack",
+       "had lacked",
+       "are lacking",
+       "lacked"
+      ],
+      "answer": 0,
+      "why": "'Were it not for' is a second conditional inversion, so the result uses 'would + base verb'."
+     },
+     {
+      "q": "If carbon emissions are not reduced, sea levels ____ significantly by 2100.",
+      "options": [
+       "would rise",
+       "will rise",
+       "would have risen",
+       "rose"
+      ],
+      "answer": 1,
+      "why": "A present simple if-clause for a real future possibility takes 'will' in the result clause. 'Would rise' suggests an unlikely situation."
+     },
+     {
+      "q": "Had the government not introduced free primary education, literacy rates ____ so rapidly.",
+      "options": [
+       "would not rise",
+       "did not rise",
+       "would not have risen",
+       "will not have risen"
+      ],
+      "answer": 2,
+      "why": "'Had ... not' is an inverted third conditional, so the result needs 'would not have + past participle'."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "passive-voice",
+  "title": "Passive voice",
+  "summary": "The passive voice focuses on the action or the receiver rather than the doer, using be + past participle. It is essential for IELTS Writing Task 1 process descriptions and formal Academic style in Task 2.",
+  "rules": [
+   {
+    "rule": "Form the passive with the verb 'be' in the correct tense + past participle.",
+    "example": "The survey was conducted in 2022."
+   },
+   {
+    "rule": "Use the passive when the doer is unknown, obvious or unimportant.",
+    "example": "Thousands of trees have been planted along the highway."
+   },
+   {
+    "rule": "Add 'by + agent' only when the doer is important or surprising.",
+    "example": "The Padma Bridge was designed by a team of Bangladeshi and foreign engineers."
+   },
+   {
+    "rule": "Only transitive verbs can be passive; intransitive verbs such as happen, occur and arrive cannot.",
+    "example": "The accident occurred at midnight."
+   },
+   {
+    "rule": "Use modal and reporting passives for formal, objective writing.",
+    "example": "It is widely believed that online learning will expand."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "The festival was happened last month.",
+    "right": "The festival happened last month.",
+    "why": "'Happen' is intransitive and cannot be passive."
+   },
+   {
+    "wrong": "The data is analysed yesterday.",
+    "right": "The data was analysed yesterday.",
+    "why": "Use past simple passive with a past time marker."
+   },
+   {
+    "wrong": "The new road has built by the government.",
+    "right": "The new road has been built by the government.",
+    "why": "Present perfect passive needs 'has/have been + past participle'."
+   }
+  ],
+  "tip": "In Writing Task 1 process diagrams, use the present simple passive for each stage and link steps with 'then', 'after that' and 'finally'. In Task 2, balance passive with active verbs so your writing does not sound repetitive.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "Rice ____ in many parts of Bangladesh.",
+      "options": [
+       "grows",
+       "has grow",
+       "is grow",
+       "is grown"
+      ],
+      "answer": 3,
+      "why": "The subject (rice) receives the action, so we need 'be + past participle'. 'Grows' is active and would mean rice grows itself."
+     },
+     {
+      "q": "The exam papers ____ yesterday.",
+      "options": [
+       "were marked",
+       "marked",
+       "are marked",
+       "have marked"
+      ],
+      "answer": 0,
+      "why": "'Yesterday' needs the past simple passive: 'were + past participle'. 'Are marked' is present."
+     },
+     {
+      "q": "English ____ in many countries.",
+      "options": [
+       "speaks",
+       "is speak",
+       "is spoken",
+       "spoke"
+      ],
+      "answer": 2,
+      "why": "The passive is formed with 'is/are + past participle'. 'Speaks' needs a person as subject."
+     },
+     {
+      "q": "The bridge ____ next year.",
+      "options": [
+       "will complete",
+       "will be completed",
+       "will be completing",
+       "has completed"
+      ],
+      "answer": 1,
+      "why": "The bridge cannot complete itself; the future passive is 'will be + past participle'."
+     },
+     {
+      "q": "My phone ____ last week.",
+      "options": [
+       "stole",
+       "was stolen",
+       "was stole",
+       "has stolen"
+      ],
+      "answer": 1,
+      "why": "We use 'was + past participle' ('stolen'). 'Was stole' uses the wrong verb form."
+     },
+     {
+      "q": "The results have already ____.",
+      "options": [
+       "announced",
+       "being announced",
+       "be announced",
+       "been announced"
+      ],
+      "answer": 3,
+      "why": "Present perfect passive is 'have/has been + past participle'. 'Be announced' cannot follow 'have'."
+     },
+     {
+      "q": "The rules ____ to all students.",
+      "options": [
+       "must be explained",
+       "must explain",
+       "must explained",
+       "must be explaining"
+      ],
+      "answer": 0,
+      "why": "After a modal verb, the passive uses 'be + past participle'."
+     },
+     {
+      "q": "Letters ____ by the postman every morning.",
+      "options": [
+       "delivers",
+       "are delivering",
+       "are delivered",
+       "delivered"
+      ],
+      "answer": 2,
+      "why": "Plural subject 'letters' with a habitual action needs 'are + past participle'. 'Delivers' does not agree and is active."
+     },
+     {
+      "q": "A new hospital ____ in our town at the moment.",
+      "options": [
+       "is building",
+       "is built",
+       "builds",
+       "is being built"
+      ],
+      "answer": 3,
+      "why": "An action in progress in the passive uses 'is/are being + past participle'. 'Is built' does not show it is in progress."
+     },
+     {
+      "q": "The window ____ by the boy.",
+      "options": [
+       "broke",
+       "was broken",
+       "was break",
+       "had broken"
+      ],
+      "answer": 1,
+      "why": "'By the boy' shows the agent of a passive sentence, so 'was + past participle' is needed. 'Broke' is active."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "The report ____ by the time the manager arrived.",
+      "options": [
+       "had been finished",
+       "has been finished",
+       "was finishing",
+       "had finished"
+      ],
+      "answer": 0,
+      "why": "An action completed before another past event uses the past perfect passive. 'Had finished' is active and a report cannot finish itself."
+     },
+     {
+      "q": "Nobody ____ about the change in schedule.",
+      "options": [
+       "told",
+       "was telling",
+       "was told",
+       "had told"
+      ],
+      "answer": 2,
+      "why": "'Nobody' is the person who receives the information, so we need the passive 'was told'."
+     },
+     {
+      "q": "She ____ to give a presentation next week.",
+      "options": [
+       "has asked",
+       "has been asked",
+       "is asking",
+       "asked"
+      ],
+      "answer": 1,
+      "why": "She is the person asked by someone else, so the present perfect passive is correct. 'Has asked' changes the meaning."
+     },
+     {
+      "q": "The accident ____ on Mirpur Road last night.",
+      "options": [
+       "was happened",
+       "was happening",
+       "has been happened",
+       "happened"
+      ],
+      "answer": 3,
+      "why": "'Happen' is intransitive and has no passive form. The simple past is correct."
+     },
+     {
+      "q": "Students ____ to bring dictionaries into the exam room.",
+      "options": [
+       "do not allow",
+       "are not allowing",
+       "not allowed",
+       "are not allowed"
+      ],
+      "answer": 3,
+      "why": "Students receive the permission, so 'are not allowed' (passive) is needed. 'Not allowed' lacks the verb 'be'."
+     },
+     {
+      "q": "I ____ my hair cut every month.",
+      "options": [
+       "am",
+       "have",
+       "do",
+       "make"
+      ],
+      "answer": 1,
+      "why": "'Have something done' describes a service done by someone else. The other options cannot form this structure."
+     },
+     {
+      "q": "The suspect is believed ____ the country.",
+      "options": [
+       "to be left",
+       "leaving",
+       "to have left",
+       "that left"
+      ],
+      "answer": 2,
+      "why": "A reporting passive about a past event uses 'to have + past participle'. 'To be left' changes the meaning."
+     },
+     {
+      "q": "The lecture ____ when the fire alarm rang.",
+      "options": [
+       "was being given",
+       "was giving",
+       "gave",
+       "had given"
+      ],
+      "answer": 0,
+      "why": "An interrupted action in the past passive uses 'was/were being + past participle'. 'Was giving' is active."
+     },
+     {
+      "q": "Many species ____ by habitat loss.",
+      "options": [
+       "threaten",
+       "are threatened",
+       "are threatening",
+       "have threatened"
+      ],
+      "answer": 1,
+      "why": "The species receive the action, and 'by habitat loss' is the agent, so we need the passive 'are threatened'."
+     },
+     {
+      "q": "The documents ____ before you submit the application.",
+      "options": [
+       "should sign",
+       "should be signing",
+       "should be signed",
+       "should have sign"
+      ],
+      "answer": 2,
+      "why": "A modal passive is 'modal + be + past participle'. 'Should sign' would need a person as the subject."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "In the first stage of the process, raw cotton ____ and cleaned before it is spun into yarn.",
+      "options": [
+       "harvests",
+       "is harvested",
+       "is harvesting",
+       "has harvested"
+      ],
+      "answer": 1,
+      "why": "Process descriptions in Writing Task 1 use the present simple passive because the doer is unimportant."
+     },
+     {
+      "q": "It ____ that renewable energy will create millions of jobs by 2040.",
+      "options": [
+       "predicts",
+       "is predicting",
+       "has predicted",
+       "is predicted"
+      ],
+      "answer": 3,
+      "why": "'It is predicted that' is a standard impersonal passive for reporting forecasts in Academic writing."
+     },
+     {
+      "q": "Several flood-control measures ____ since the 1990s.",
+      "options": [
+       "have been introduced",
+       "are introduced",
+       "were introduced",
+       "have introduced"
+      ],
+      "answer": 0,
+      "why": "'Since' needs the present perfect, and measures are introduced by people, so it is passive. 'Were introduced' cannot be used with 'since'."
+     },
+     {
+      "q": "The new curriculum is expected ____ by all public schools next year.",
+      "options": [
+       "to adopt",
+       "adopting",
+       "to be adopted",
+       "to be adopting"
+      ],
+      "answer": 2,
+      "why": "The curriculum is adopted by schools, so the infinitive must be passive: 'to be + past participle'."
+     },
+     {
+      "q": "Pupils who ____ extra tutoring tend to perform better.",
+      "options": [
+       "give",
+       "are giving",
+       "are given",
+       "have given"
+      ],
+      "answer": 2,
+      "why": "Pupils receive the tutoring, so the relative clause needs the passive. 'Give' makes pupils the providers."
+     },
+     {
+      "q": "The survey data ____ carefully before any conclusions were drawn.",
+      "options": [
+       "were analysed",
+       "analysed",
+       "had analysed",
+       "were analysing"
+      ],
+      "answer": 0,
+      "why": "Data is the object of analysis, so a past passive is needed. 'Analysed' is active and lacks an auxiliary."
+     },
+     {
+      "q": "Only a small proportion of plastic waste ____ worldwide.",
+      "options": [
+       "recycles",
+       "is recycle",
+       "has recycled",
+       "is recycled"
+      ],
+      "answer": 3,
+      "why": "Plastic waste does not recycle itself, so 'is + past participle' is needed."
+     },
+     {
+      "q": "Patients ____ regularly throughout the trial to ensure their safety.",
+      "options": [
+       "monitored",
+       "were monitored",
+       "were monitoring",
+       "had monitored"
+      ],
+      "answer": 1,
+      "why": "Patients are observed by researchers, so the past passive is correct."
+     },
+     {
+      "q": "Not enough attention ____ to mental health in many secondary schools.",
+      "options": [
+       "pays",
+       "is paying",
+       "is paid",
+       "has paid"
+      ],
+      "answer": 2,
+      "why": "'Attention is paid to' is the fixed passive collocation; the active would need a person as the subject."
+     },
+     {
+      "q": "Large amounts of data ____ by AI tools to personalise learning.",
+      "options": [
+       "are processed",
+       "process",
+       "are processing",
+       "has processed"
+      ],
+      "answer": 0,
+      "why": "Data is acted on by the tools, so the passive is needed, and 'data' takes a plural verb here with 'amounts'."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "relative-clauses",
+  "title": "Relative clauses",
+  "summary": "Relative clauses add information about a noun using who, which, that, whose, where and when. They let IELTS candidates build complex sentences, which is key for a higher Grammatical Range score.",
+  "rules": [
+   {
+    "rule": "Use who or that for people, which or that for things, and whose for possession.",
+    "example": "The student whose essay won the prize studies in Chattogram."
+   },
+   {
+    "rule": "Use where for places and when for times.",
+    "example": "Dhaka is the city where most universities are based."
+   },
+   {
+    "rule": "Defining clauses give essential information and have no commas; non-defining clauses add extra information and need commas.",
+    "example": "My brother, who works in Dubai, visits twice a year."
+   },
+   {
+    "rule": "Do not use 'that' in non-defining clauses or after a preposition; use which or whom.",
+    "example": "The method by which data was collected was reliable."
+   },
+   {
+    "rule": "Which can refer to a whole clause, and relative clauses can be reduced using -ing or -ed forms.",
+    "example": "Many students study online, which saves time and money."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "The book what I read was useful.",
+    "right": "The book that I read was useful.",
+    "why": "'What' cannot be a relative pronoun after a noun."
+   },
+   {
+    "wrong": "The man who his car was stolen called the police.",
+    "right": "The man whose car was stolen called the police.",
+    "why": "Possession needs 'whose'."
+   },
+   {
+    "wrong": "My teacher, that is from Khulna, is strict.",
+    "right": "My teacher, who is from Khulna, is strict.",
+    "why": "'That' is not used in non-defining clauses."
+   }
+  ],
+  "tip": "In Writing Task 2, use one or two non-defining 'which' clauses to add comment ('...which can reduce stress') and keep commas accurate. In Speaking, a relative clause such as 'a place where I feel relaxed' helps you extend answers naturally.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "The teacher ____ taught us IELTS is very kind.",
+      "options": [
+       "who",
+       "which",
+       "whose",
+       "where"
+      ],
+      "answer": 0,
+      "why": "'Who' refers to people as the subject of the clause. 'Which' is used for things."
+     },
+     {
+      "q": "This is the book ____ I bought yesterday.",
+      "options": [
+       "who",
+       "whose",
+       "which",
+       "where"
+      ],
+      "answer": 2,
+      "why": "The book is a thing, so we use 'which' (or 'that'). 'Who' is for people."
+     },
+     {
+      "q": "Rina, ____ brother lives in London, is my classmate.",
+      "options": [
+       "who",
+       "whose",
+       "which",
+       "that"
+      ],
+      "answer": 1,
+      "why": "'Whose' shows possession (her brother). 'Who' cannot be followed directly by a noun in this way."
+     },
+     {
+      "q": "Dhaka is the city ____ I was born.",
+      "options": [
+       "who",
+       "which",
+       "whose",
+       "where"
+      ],
+      "answer": 3,
+      "why": "'Where' replaces a place. 'Which I was born' is incomplete without a preposition."
+     },
+     {
+      "q": "The man ____ car was stolen called the police.",
+      "options": [
+       "who",
+       "which",
+       "that",
+       "whose"
+      ],
+      "answer": 3,
+      "why": "'Whose' shows possession (his car). The other options do not mark ownership."
+     },
+     {
+      "q": "I remember the day ____ we first met.",
+      "options": [
+       "where",
+       "when",
+       "who",
+       "whose"
+      ],
+      "answer": 1,
+      "why": "'When' refers to a time such as a day or year."
+     },
+     {
+      "q": "The students ____ passed the test were happy.",
+      "options": [
+       "whose",
+       "where",
+       "who",
+       "whom"
+      ],
+      "answer": 2,
+      "why": "'Who' is the subject of 'passed'. 'Whom' is used only for objects."
+     },
+     {
+      "q": "She lives in a house ____ is near the river.",
+      "options": [
+       "which",
+       "who",
+       "where",
+       "whose"
+      ],
+      "answer": 0,
+      "why": "The house is a thing and subject of 'is', so we use 'which'."
+     },
+     {
+      "q": "That is the girl ____ I met at the library.",
+      "options": [
+       "whose",
+       "whom",
+       "which",
+       "where"
+      ],
+      "answer": 1,
+      "why": "The girl is the object of 'met' and a person, so 'whom' fits. 'Which' is for things."
+     },
+     {
+      "q": "The laptop, ____ I bought last month, has stopped working.",
+      "options": [
+       "that",
+       "who",
+       "which",
+       "whose"
+      ],
+      "answer": 2,
+      "why": "Non-defining clauses between commas cannot use 'that'; 'which' is required for things."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "The girl to ____ I spoke was the examiner.",
+      "options": [
+       "who",
+       "whom",
+       "that",
+       "which"
+      ],
+      "answer": 1,
+      "why": "After a preposition we use 'whom' for people. 'That' cannot follow a preposition."
+     },
+     {
+      "q": "My uncle, ____ lives in Sylhet, is a doctor.",
+      "options": [
+       "that",
+       "whom",
+       "which",
+       "who"
+      ],
+      "answer": 3,
+      "why": "A non-defining clause about a person as subject needs 'who'. 'That' is not used with commas."
+     },
+     {
+      "q": "Everything ____ he said was true.",
+      "options": [
+       "that",
+       "which",
+       "what",
+       "who"
+      ],
+      "answer": 0,
+      "why": "After 'everything', 'that' is the normal relative pronoun. 'What' already contains its own antecedent."
+     },
+     {
+      "q": "The reason ____ she left is unknown.",
+      "options": [
+       "which",
+       "where",
+       "why",
+       "what"
+      ],
+      "answer": 2,
+      "why": "'Why' follows the noun 'reason' as a relative adverb. 'Where' refers to places."
+     },
+     {
+      "q": "He passed the exam, ____ surprised everyone.",
+      "options": [
+       "that",
+       "what",
+       "which",
+       "who"
+      ],
+      "answer": 2,
+      "why": "'Which' can refer to the whole previous clause after a comma. 'That' cannot follow a comma."
+     },
+     {
+      "q": "The woman ____ I think is the manager is waiting outside.",
+      "options": [
+       "who",
+       "whom",
+       "whose",
+       "which"
+      ],
+      "answer": 0,
+      "why": "'Who' is the subject of 'is the manager', even with 'I think' inserted. 'Whom' is a common over-correction."
+     },
+     {
+      "q": "Students ____ in the library must stay quiet.",
+      "options": [
+       "studied",
+       "are studying",
+       "who studies",
+       "studying"
+      ],
+      "answer": 3,
+      "why": "A reduced relative clause uses the -ing form for active meanings. 'Who studies' does not agree with 'students'."
+     },
+     {
+      "q": "The building, ____ roof was damaged in the cyclone, has been repaired.",
+      "options": [
+       "which",
+       "whose",
+       "that",
+       "who"
+      ],
+      "answer": 1,
+      "why": "'Whose' shows possession (the building's roof). 'Which roof' would be ungrammatical."
+     },
+     {
+      "q": "There are several reasons, ____ are explained below.",
+      "options": [
+       "all of them",
+       "all of that",
+       "all of which",
+       "which of"
+      ],
+      "answer": 2,
+      "why": "Quantity + 'of which' joins two clauses correctly. 'All of them' would create a comma splice."
+     },
+     {
+      "q": "Which sentence is grammatically correct?",
+      "options": [
+       "The book I bought was expensive.",
+       "The book which I bought it was expensive.",
+       "The book what I bought was expensive.",
+       "The book who I bought was expensive."
+      ],
+      "answer": 0,
+      "why": "The object relative pronoun can be omitted in a defining clause, but we must not repeat the object ('it'). 'What' and 'who' are wrong here."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "Climate change, ____ effects are already visible in coastal Bangladesh, demands urgent action.",
+      "options": [
+       "which",
+       "that",
+       "where",
+       "whose"
+      ],
+      "answer": 3,
+      "why": "'Whose' links the possession (its effects). 'Which effects' is ungrammatical."
+     },
+     {
+      "q": "The study involved 200 students, most of ____ were from rural areas.",
+      "options": [
+       "whom",
+       "who",
+       "them",
+       "which"
+      ],
+      "answer": 0,
+      "why": "Quantifier + 'of whom' is used for people. 'Them' would create a comma splice."
+     },
+     {
+      "q": "Online platforms have transformed education, ____ allows learners to study at their own pace.",
+      "options": [
+       "that",
+       "what",
+       "which",
+       "where"
+      ],
+      "answer": 2,
+      "why": "'Which' after a comma refers to the whole idea. 'That' cannot follow a comma."
+     },
+     {
+      "q": "The period ____ the factory expanded rapidly saw a rise in migration.",
+      "options": [
+       "during when",
+       "during which",
+       "in where",
+       "which during"
+      ],
+      "answer": 1,
+      "why": "A preposition plus 'which' is the correct formal structure for time. 'During when' is not grammatical."
+     },
+     {
+      "q": "A policy ____ aims to reduce class sizes may improve outcomes.",
+      "options": [
+       "whom",
+       "that",
+       "whose",
+       "where"
+      ],
+      "answer": 1,
+      "why": "'That' is the subject relative pronoun for a thing in a defining clause. 'Whom' is for people."
+     },
+     {
+      "q": "Students ____ from low-income families often need financial support.",
+      "options": [
+       "come",
+       "came",
+       "who coming",
+       "coming"
+      ],
+      "answer": 3,
+      "why": "A reduced relative clause uses the -ing form. 'Come' or 'came' would add a second main verb."
+     },
+     {
+      "q": "The problem, ____ many experts believe is worsening, requires global cooperation.",
+      "options": [
+       "which",
+       "what",
+       "whom",
+       "whose"
+      ],
+      "answer": 0,
+      "why": "'Which' is the subject of 'is worsening', with 'many experts believe' inserted. 'What' cannot follow a noun."
+     },
+     {
+      "q": "The laboratory in ____ the experiment was conducted had been recently renovated.",
+      "options": [
+       "that",
+       "where",
+       "which",
+       "what"
+      ],
+      "answer": 2,
+      "why": "A preposition must be followed by 'which', not 'that'. 'Where' would repeat the preposition."
+     },
+     {
+      "q": "The only candidate ____ achieved Band 9 was interviewed by the press.",
+      "options": [
+       "which",
+       "whom",
+       "whose",
+       "that"
+      ],
+      "answer": 3,
+      "why": "After 'the only', 'that' is the standard choice. 'Which' cannot refer to people."
+     },
+     {
+      "q": "She has two brothers, neither of ____ speaks English fluently.",
+      "options": [
+       "who",
+       "whom",
+       "them",
+       "which"
+      ],
+      "answer": 1,
+      "why": "After 'neither of', the pronoun must be 'whom'. 'Them' would produce a comma splice."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "modal-verbs",
+  "title": "Modal verbs",
+  "summary": "Modal verbs express ability, permission, obligation, advice and possibility. IELTS Writing and Speaking need them to sound cautious, polite and precise.",
+  "rules": [
+   {
+    "rule": "Modals are followed by the bare infinitive, with no -s and no 'to'.",
+    "example": "She can swim very well."
+   },
+   {
+    "rule": "Use must or have to for obligation, and must not for prohibition.",
+    "example": "You must not use a dictionary in the exam."
+   },
+   {
+    "rule": "Use should or ought to for advice and recommendations.",
+    "example": "Governments should invest more in public transport."
+   },
+   {
+    "rule": "Use may, might or could for possibility; must and can't for logical deduction.",
+    "example": "The delay might be caused by heavy rain."
+   },
+   {
+    "rule": "Use modal + have + past participle for the past: should have, could have, must have.",
+    "example": "He must have missed the bus."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "She can to swim.",
+    "right": "She can swim.",
+    "why": "Modals take the bare infinitive without 'to'."
+   },
+   {
+    "wrong": "He musts leave now.",
+    "right": "He must leave now.",
+    "why": "Modals never add -s in the third person."
+   },
+   {
+    "wrong": "You mustn't bring a pen; one is provided.",
+    "right": "You don't have to bring a pen; one is provided.",
+    "why": "Mustn't means forbidden; don't have to means not necessary."
+   }
+  ],
+  "tip": "In Task 2, soften strong claims with may, might or could (for example 'This could lead to...') to sound academic and balanced. In Speaking Part 3, use would and might to discuss hypothetical situations.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "You ____ wear a seatbelt in Bangladesh; it is the law.",
+      "options": [
+       "must",
+       "might",
+       "could",
+       "would"
+      ],
+      "answer": 0,
+      "why": "Must expresses a legal obligation. Might only shows weak possibility, so it does not fit a rule."
+     },
+     {
+      "q": "She is only five, so she ____ read yet.",
+      "options": [
+       "can",
+       "cannot",
+       "must",
+       "should"
+      ],
+      "answer": 1,
+      "why": "Cannot expresses lack of ability. Can is positive and contradicts 'only five ... yet'."
+     },
+     {
+      "q": "____ I open the window? It is very hot in this room.",
+      "options": [
+       "Must",
+       "Ought",
+       "May",
+       "Will"
+      ],
+      "answer": 2,
+      "why": "May I is a polite request for permission. 'Will I' cannot ask permission, and 'Must I' means 'is it necessary for me'."
+     },
+     {
+      "q": "Students ____ bring a calculator to the exam; one will be provided.",
+      "options": [
+       "mustn't",
+       "can't",
+       "wouldn't",
+       "don't have to"
+      ],
+      "answer": 3,
+      "why": "Don't have to means no obligation. Mustn't would mean it is forbidden, which the second clause does not suggest."
+     },
+     {
+      "q": "When I was a child, I ____ swim across the pond.",
+      "options": [
+       "can",
+       "could",
+       "must",
+       "will"
+      ],
+      "answer": 1,
+      "why": "Could is the past form of ability. Can refers to the present, so it clashes with 'When I was a child'."
+     },
+     {
+      "q": "You look very tired. You ____ get some rest.",
+      "options": [
+       "mustn't",
+       "might not",
+       "should",
+       "needn't"
+      ],
+      "answer": 2,
+      "why": "Should gives friendly advice. Mustn't and needn't would discourage resting, which makes no sense here."
+     },
+     {
+      "q": "He ____ speak three languages, including Bangla.",
+      "options": [
+       "cans",
+       "can to",
+       "is can",
+       "can"
+      ],
+      "answer": 3,
+      "why": "Can is followed by the bare infinitive and takes no -s or 'to'."
+     },
+     {
+      "q": "We ____ be late, or we will miss the train.",
+      "options": [
+       "mustn't",
+       "needn't",
+       "may",
+       "can"
+      ],
+      "answer": 0,
+      "why": "Mustn't means it is essential not to be late. Needn't would say lateness is unnecessary, which is illogical."
+     },
+     {
+      "q": "The sky is dark. It ____ rain this afternoon.",
+      "options": [
+       "might to",
+       "must to",
+       "might",
+       "would to"
+      ],
+      "answer": 2,
+      "why": "Might shows possibility and is followed directly by the bare verb, without 'to'."
+     },
+     {
+      "q": "____ you help me with this form, please?",
+      "options": [
+       "Must",
+       "Could",
+       "Need",
+       "Ought"
+      ],
+      "answer": 1,
+      "why": "Could you is a polite request. Must, need and ought do not form requests in this way."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "The lights are off, so they ____ be at home.",
+      "options": [
+       "mustn't",
+       "needn't",
+       "hasn't",
+       "can't"
+      ],
+      "answer": 3,
+      "why": "Can't expresses a strong negative deduction. Mustn't is used for prohibition, not for logical conclusions."
+     },
+     {
+      "q": "She failed the test. She ____ have studied harder.",
+      "options": [
+       "should",
+       "must",
+       "can't",
+       "needn't"
+      ],
+      "answer": 0,
+      "why": "Should have + past participle shows a past action that did not happen but would have been better."
+     },
+     {
+      "q": "I brought an umbrella but it never rained, so I ____ have brought it.",
+      "options": [
+       "mustn't",
+       "needn't",
+       "can't",
+       "might"
+      ],
+      "answer": 1,
+      "why": "Needn't have + past participle means the action was done but was unnecessary."
+     },
+     {
+      "q": "Candidates ____ use mobile phones during the IELTS test.",
+      "options": [
+       "don't have to",
+       "might not",
+       "must not",
+       "would not"
+      ],
+      "answer": 2,
+      "why": "Must not shows a prohibition. Don't have to would mean phones are optional, which is wrong for an exam rule."
+     },
+     {
+      "q": "The ground is wet and I am sure it ____ rained during the night.",
+      "options": [
+       "must have",
+       "can have",
+       "could have",
+       "ought to have"
+      ],
+      "answer": 0,
+      "why": "Must have + past participle expresses strong certainty about the past; 'I am sure' signals certainty, unlike could have."
+     },
+     {
+      "q": "If I ____ choose any career, I would become a doctor.",
+      "options": [
+       "must",
+       "shall",
+       "ought",
+       "could"
+      ],
+      "answer": 3,
+      "why": "Could expresses the freedom of choice in an unreal condition. Must, shall and ought do not fit an if-clause like this."
+     },
+     {
+      "q": "You ought ____ see a doctor if the pain continues.",
+      "options": [
+       "of",
+       "for",
+       "to",
+       "that"
+      ],
+      "answer": 2,
+      "why": "Ought is followed by to + infinitive, unlike should or must."
+     },
+     {
+      "q": "____ you mind if I sit here?",
+      "options": [
+       "Will",
+       "Would",
+       "Might",
+       "Must"
+      ],
+      "answer": 1,
+      "why": "Would you mind if is the standard polite pattern for asking permission."
+     },
+     {
+      "q": "We ____ finish the project by Friday, otherwise the client will cancel.",
+      "options": [
+       "have to",
+       "might to",
+       "could to",
+       "ought"
+      ],
+      "answer": 0,
+      "why": "Have to expresses external necessity. Ought needs 'to' after it, and the others are ungrammatical here."
+     },
+     {
+      "q": "His bag is still on the desk, so Rahim ____ be in the library.",
+      "options": [
+       "must",
+       "shall",
+       "needn't",
+       "might"
+      ],
+      "answer": 0,
+      "why": "'must' expresses a strong logical deduction when there is clear evidence (his bag). 'might' would suggest only a weak possibility."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "Governments ____ invest more in renewable energy if they wish to meet emissions targets.",
+      "options": [
+       "can't",
+       "would have",
+       "should",
+       "might not"
+      ],
+      "answer": 2,
+      "why": "Should expresses strong recommendation in academic argument. Can't would claim impossibility."
+     },
+     {
+      "q": "Had the authorities acted sooner, the flooding ____ been avoided.",
+      "options": [
+       "can have",
+       "could",
+       "must have",
+       "could have"
+      ],
+      "answer": 3,
+      "why": "In a third conditional the result clause needs modal + have + past participle. Must have expresses deduction, not a hypothetical result."
+     },
+     {
+      "q": "Critics argue that standardised testing ____ not accurately reflect a student's potential.",
+      "options": [
+       "may",
+       "ought",
+       "had better",
+       "dare to"
+      ],
+      "answer": 0,
+      "why": "May expresses cautious possibility, typical of academic writing. Ought and had better do not fit this structure."
+     },
+     {
+      "q": "Researchers say the vaccine ____ be available next year, although this is not certain.",
+      "options": [
+       "must",
+       "could",
+       "will",
+       "has to"
+      ],
+      "answer": 1,
+      "why": "Could shows possibility. Will and must express certainty, which clashes with 'not certain'."
+     },
+     {
+      "q": "Employees ____ work overtime unless they volunteer; the contract does not require it.",
+      "options": [
+       "must not",
+       "cannot",
+       "should not",
+       "do not have to"
+      ],
+      "answer": 3,
+      "why": "Do not have to indicates no obligation. Must not would mean overtime is forbidden."
+     },
+     {
+      "q": "The data are inconclusive, so researchers ____ draw firm conclusions yet.",
+      "options": [
+       "will",
+       "cannot",
+       "ought",
+       "might"
+      ],
+      "answer": 1,
+      "why": "Cannot expresses that it is not possible to conclude from weak evidence."
+     },
+     {
+      "q": "In the 1990s, few rural households in Bangladesh ____ afford a refrigerator.",
+      "options": [
+       "could",
+       "can",
+       "may",
+       "must"
+      ],
+      "answer": 0,
+      "why": "Could is the past form of ability, matching the past time marker. Can is a present form."
+     },
+     {
+      "q": "The study ____ have underestimated the effect of air pollution, since its sample was small.",
+      "options": [
+       "shall",
+       "need",
+       "may",
+       "ought"
+      ],
+      "answer": 2,
+      "why": "May have + past participle expresses a possible past error. Shall, need and ought do not work here."
+     },
+     {
+      "q": "Applicants ____ submit their forms by the deadline; late applications will not be considered.",
+      "options": [
+       "may",
+       "must",
+       "might",
+       "could"
+      ],
+      "answer": 1,
+      "why": "Must indicates a firm requirement. May, might and could express only possibility."
+     },
+     {
+      "q": "By 2050, sea levels ____ risen by up to a metre, according to some projections.",
+      "options": [
+       "must have",
+       "can have",
+       "will have",
+       "would had"
+      ],
+      "answer": 2,
+      "why": "Will have + past participle forms the future perfect. Must have refers to past deduction and does not fit a future date."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "comparatives-superlatives",
+  "title": "Comparatives and superlatives",
+  "summary": "This category covers forms for comparing two or more things. IELTS Task 1 and Task 2 rely on them to describe data, trends and opinions accurately.",
+  "rules": [
+   {
+    "rule": "Add -er/-est to short adjectives, and use more/most with long adjectives.",
+    "example": "Rail travel is faster than road travel."
+   },
+   {
+    "rule": "Irregular forms: good, better, best; bad, worse, worst; far, farther/further, farthest/furthest.",
+    "example": "This year's results are better than last year's."
+   },
+   {
+    "rule": "Use the before superlatives and than after comparatives.",
+    "example": "Dhaka is the largest city in Bangladesh."
+   },
+   {
+    "rule": "Use as + adjective + as for equality, and not as ... as for inequality.",
+    "example": "Online lessons are not as interactive as classroom lessons."
+   },
+   {
+    "rule": "Use the + comparative, the + comparative to show that two changes happen together.",
+    "example": "The more you read, the larger your vocabulary becomes."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "She is more taller than me.",
+    "right": "She is taller than me.",
+    "why": "Never combine more with an -er form."
+   },
+   {
+    "wrong": "This is the more interesting book I have read.",
+    "right": "This is the most interesting book I have read.",
+    "why": "Three or more items need the superlative."
+   },
+   {
+    "wrong": "My phone is cheaper that yours.",
+    "right": "My phone is cheaper than yours.",
+    "why": "Comparatives are followed by than."
+   }
+  ],
+  "tip": "In Task 1, combine comparatives with modifiers such as slightly, considerably and far to describe differences precisely, for example 'considerably higher than'.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "Dhaka is ____ than Chattogram.",
+      "options": [
+       "more big",
+       "bigger",
+       "biggest",
+       "more bigger"
+      ],
+      "answer": 1,
+      "why": "One-syllable adjectives add -er in comparisons. The double comparative 'more bigger' is wrong."
+     },
+     {
+      "q": "This is the ____ book I have ever read.",
+      "options": [
+       "better",
+       "good",
+       "best",
+       "most good"
+      ],
+      "answer": 2,
+      "why": "The superlative of good is best. Better is the comparative and cannot follow 'the ... ever'."
+     },
+     {
+      "q": "My sister is ____ me.",
+      "options": [
+       "more tall than",
+       "tallest than",
+       "tall as",
+       "taller than"
+      ],
+      "answer": 3,
+      "why": "Tall takes -er and is followed by than."
+     },
+     {
+      "q": "She is the ____ student in my class.",
+      "options": [
+       "most intelligent",
+       "more intelligent",
+       "intelligentest",
+       "most intelligenter"
+      ],
+      "answer": 0,
+      "why": "Long adjectives form the superlative with most, not -est."
+     },
+     {
+      "q": "Today is ____ yesterday; I need a jacket.",
+      "options": [
+       "more cold than",
+       "coldest than",
+       "colder than",
+       "cold as"
+      ],
+      "answer": 2,
+      "why": "Cold is one syllable, so it takes -er. Than introduces the second item compared."
+     },
+     {
+      "q": "Maths is ____ than English for me.",
+      "options": [
+       "difficulter",
+       "most difficult",
+       "more difficulter",
+       "more difficult"
+      ],
+      "answer": 3,
+      "why": "Difficult has three syllables, so it uses more. 'Most difficult' is a superlative and cannot be followed by than."
+     },
+     {
+      "q": "He runs ____ than his brother.",
+      "options": [
+       "faster",
+       "more fast",
+       "fastest",
+       "most fast"
+      ],
+      "answer": 0,
+      "why": "Fast takes -er. Fastest is a superlative and does not fit with than."
+     },
+     {
+      "q": "This phone is not as ____ as that one.",
+      "options": [
+       "more expensive",
+       "expensive",
+       "expensively",
+       "most expensive"
+      ],
+      "answer": 1,
+      "why": "The pattern as + adjective + as uses the base adjective, not a comparative."
+     },
+     {
+      "q": "A rickshaw is ____ than a taxi.",
+      "options": [
+       "more cheap",
+       "cheapest",
+       "cheaply",
+       "cheaper"
+      ],
+      "answer": 3,
+      "why": "Cheap is short and takes -er. Cheaply is an adverb and cannot describe a noun."
+     },
+     {
+      "q": "Of the three roads, this one is the ____.",
+      "options": [
+       "shorter",
+       "more short",
+       "shortest",
+       "most shorter"
+      ],
+      "answer": 2,
+      "why": "With three or more items and 'the', use the superlative: shortest."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "The ____ you practise, the better your speaking becomes.",
+      "options": [
+       "more",
+       "most",
+       "much",
+       "many"
+      ],
+      "answer": 0,
+      "why": "The more ..., the better ... is a double comparative structure that needs more."
+     },
+     {
+      "q": "This year's exam was ____ easier than last year's.",
+      "options": [
+       "very",
+       "much",
+       "most",
+       "too"
+      ],
+      "answer": 1,
+      "why": "Much intensifies a comparative. Very cannot modify a comparative adjective."
+     },
+     {
+      "q": "Of the two sisters, Nila is the ____.",
+      "options": [
+       "tallest",
+       "more tall",
+       "taller",
+       "most tall"
+      ],
+      "answer": 2,
+      "why": "For two people the comparative is used, even with 'the'. Tallest is for three or more."
+     },
+     {
+      "q": "Prices are getting ____ every year.",
+      "options": [
+       "more high",
+       "the highest",
+       "as high",
+       "higher and higher"
+      ],
+      "answer": 3,
+      "why": "Repeating the comparative shows continuous increase."
+     },
+     {
+      "q": "My laptop is not as fast ____ yours.",
+      "options": [
+       "than",
+       "as",
+       "like",
+       "so than"
+      ],
+      "answer": 1,
+      "why": "As ... as is the fixed equal-comparison pattern; than belongs with comparatives."
+     },
+     {
+      "q": "The weather in Sylhet is wetter than ____ in Khulna.",
+      "options": [
+       "that",
+       "those",
+       "this",
+       "it"
+      ],
+      "answer": 0,
+      "why": "That replaces the singular noun 'weather' to avoid repetition. Those would need a plural noun."
+     },
+     {
+      "q": "This is by far ____ restaurant in town.",
+      "options": [
+       "best",
+       "better",
+       "the better",
+       "the best"
+      ],
+      "answer": 3,
+      "why": "'By far' emphasises a superlative, which needs the: the best."
+     },
+     {
+      "q": "She speaks English ____ than she did last year.",
+      "options": [
+       "more fluent",
+       "fluentlier",
+       "more fluently",
+       "most fluently"
+      ],
+      "answer": 2,
+      "why": "Speaks needs an adverb, and adverbs ending in -ly form the comparative with more."
+     },
+     {
+      "q": "Of all the candidates, he performed ____.",
+      "options": [
+       "worse",
+       "worst",
+       "more bad",
+       "the worse"
+      ],
+      "answer": 1,
+      "why": "Among many people, use the superlative worst. Worse compares only two."
+     },
+     {
+      "q": "Rice is ____ staple food in Bangladesh.",
+      "options": [
+       "the most important",
+       "most important",
+       "more important",
+       "the importantest"
+      ],
+      "answer": 0,
+      "why": "Superlatives of long adjectives need the + most. Without 'the' the sentence is incomplete."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "Urban residents tend to have ____ access to healthcare than their rural counterparts.",
+      "options": [
+       "best",
+       "more good",
+       "the best",
+       "better"
+      ],
+      "answer": 3,
+      "why": "Better is the comparative of good and fits than. The best is a superlative."
+     },
+     {
+      "q": "The more advanced the technology becomes, ____ it is for ordinary users to understand it.",
+      "options": [
+       "the harder",
+       "harder",
+       "the hardest",
+       "more hard"
+      ],
+      "answer": 0,
+      "why": "The + comparative ..., the + comparative ... needs the in both parts."
+     },
+     {
+      "q": "Online learning is not necessarily ____ effective as classroom teaching, though it is far more flexible.",
+      "options": [
+       "than",
+       "as",
+       "more",
+       "most"
+      ],
+      "answer": 1,
+      "why": "The structure is not as + adjective + as. Than is used with comparatives only."
+     },
+     {
+      "q": "Solar power has become considerably ____ over the past decade.",
+      "options": [
+       "cheapest",
+       "the cheaper",
+       "cheaper",
+       "more cheap"
+      ],
+      "answer": 2,
+      "why": "'Over the past decade' shows change over time, so the comparative is needed, and cheap takes -er."
+     },
+     {
+      "q": "Of the three proposals, the second is ____ likely to reduce traffic congestion.",
+      "options": [
+       "the most",
+       "more",
+       "the more",
+       "much"
+      ],
+      "answer": 0,
+      "why": "Three options need the superlative: the most likely."
+     },
+     {
+      "q": "Women in the study reported ____ stress levels than men, although the difference was slight.",
+      "options": [
+       "slightly lowest",
+       "slight lower",
+       "slightly lower",
+       "least"
+      ],
+      "answer": 2,
+      "why": "Slightly modifies the comparative lower; slight is an adjective and cannot modify it."
+     },
+     {
+      "q": "The cost of tuition is ____ in this region than in any other.",
+      "options": [
+       "highest",
+       "higher",
+       "the highest",
+       "more high"
+      ],
+      "answer": 1,
+      "why": "The comparison with 'any other' uses the comparative with than, not a superlative."
+     },
+     {
+      "q": "Compared with previous generations, young people today are ____ to change careers.",
+      "options": [
+       "most likely",
+       "much likely",
+       "so likely",
+       "more likely"
+      ],
+      "answer": 3,
+      "why": "Compared with introduces a comparison of two groups, so more likely is correct."
+     },
+     {
+      "q": "Air pollution in Dhaka is among ____ in the world.",
+      "options": [
+       "worst",
+       "worse",
+       "the worst",
+       "the worse"
+      ],
+      "answer": 2,
+      "why": "Among + the + superlative is the standard pattern, and the superlative of bad is worst."
+     },
+     {
+      "q": "The new curriculum is ____ demanding than the old one, requiring twice as much homework.",
+      "options": [
+       "most",
+       "very",
+       "the more",
+       "more"
+      ],
+      "answer": 3,
+      "why": "More + adjective + than is the comparison pattern. Most and very do not work with than."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "countable-uncountable",
+  "title": "Countable and uncountable nouns with quantifiers",
+  "summary": "This category covers how nouns and quantifiers such as much, many, few, little, fewer and less work together. Quantifier errors are very common in IELTS writing and cost marks for grammatical accuracy.",
+  "rules": [
+   {
+    "rule": "Use many, few and fewer with countable plural nouns.",
+    "example": "Fewer students attended the lecture."
+   },
+   {
+    "rule": "Use much, little and less with uncountable nouns.",
+    "example": "There is little evidence for this theory."
+   },
+   {
+    "rule": "A few and a little are positive; few and little suggest almost none.",
+    "example": "I have a little time, so I can help."
+   },
+   {
+    "rule": "Uncountable nouns such as advice, information, furniture, research and equipment have no plural form and take no a/an.",
+    "example": "She gave me some useful advice."
+   },
+   {
+    "rule": "Use a lot of, some and any with both types; number of goes with countables and amount of with uncountables.",
+    "example": "A large number of students study abroad."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "She gave me many advices.",
+    "right": "She gave me a lot of advice.",
+    "why": "Advice is uncountable and has no plural."
+   },
+   {
+    "wrong": "There are less cars on the road now.",
+    "right": "There are fewer cars on the road now.",
+    "why": "Cars is countable, so fewer is needed."
+   },
+   {
+    "wrong": "How many money do you have?",
+    "right": "How much money do you have?",
+    "why": "Money is uncountable, so it takes much."
+   }
+  ],
+  "tip": "Learn the common IELTS uncountables (information, research, equipment, advice, evidence, traffic, knowledge). Using them correctly with much, little and amount of shows grammatical range and accuracy.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "There isn't ____ water in the bottle.",
+      "options": [
+       "many",
+       "a few",
+       "much",
+       "several"
+      ],
+      "answer": 2,
+      "why": "Water is uncountable, and much is used in negatives and questions with uncountables."
+     },
+     {
+      "q": "How ____ students are in your class?",
+      "options": [
+       "much",
+       "a little",
+       "little",
+       "many"
+      ],
+      "answer": 3,
+      "why": "Students is countable plural, so many is used."
+     },
+     {
+      "q": "I have ____ friends in Dhaka.",
+      "options": [
+       "a few",
+       "a little",
+       "much",
+       "an"
+      ],
+      "answer": 0,
+      "why": "Friends is countable, so a few fits. A little is for uncountable nouns."
+     },
+     {
+      "q": "She gave me ____ useful advice.",
+      "options": [
+       "an",
+       "some",
+       "a",
+       "many"
+      ],
+      "answer": 1,
+      "why": "Advice is uncountable, so it cannot take a/an or many."
+     },
+     {
+      "q": "We need ____ rice for dinner.",
+      "options": [
+       "a few",
+       "many",
+       "several",
+       "a little"
+      ],
+      "answer": 3,
+      "why": "Rice is uncountable, so a little is used. A few and several are for countable nouns."
+     },
+     {
+      "q": "There are ____ chairs in the room.",
+      "options": [
+       "too many",
+       "too much",
+       "a little",
+       "much"
+      ],
+      "answer": 0,
+      "why": "Chairs are countable plural, so too many is used. Too much is for uncountables."
+     },
+     {
+      "q": "Do you have ____ homework today?",
+      "options": [
+       "many",
+       "any",
+       "a",
+       "several"
+      ],
+      "answer": 1,
+      "why": "Homework is uncountable. Any is used in questions; a and several need countables."
+     },
+     {
+      "q": "I don't have ____ money.",
+      "options": [
+       "many",
+       "few",
+       "much",
+       "several"
+      ],
+      "answer": 2,
+      "why": "Money is uncountable, and much is used in negatives."
+     },
+     {
+      "q": "He drinks ____ tea every day.",
+      "options": [
+       "a lot of",
+       "many",
+       "a few",
+       "several"
+      ],
+      "answer": 0,
+      "why": "A lot of can be used with uncountable nouns like tea. Many and several need countables."
+     },
+     {
+      "q": "____ of the students passed the exam.",
+      "options": [
+       "Much",
+       "A little",
+       "Every",
+       "Most"
+      ],
+      "answer": 3,
+      "why": "Most of the + plural countable noun is correct. Much is for uncountables."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "There are too ____ rickshaws on this road.",
+      "options": [
+       "much",
+       "many",
+       "little",
+       "a little"
+      ],
+      "answer": 1,
+      "why": "Rickshaws is countable plural, so too many is correct."
+     },
+     {
+      "q": "He has ____ time to spare, so he cannot help us.",
+      "options": [
+       "a little",
+       "few",
+       "little",
+       "a few"
+      ],
+      "answer": 2,
+      "why": "Little means almost none and suits the negative result; a little would be positive."
+     },
+     {
+      "q": "I have ____ friends here, so I feel lonely.",
+      "options": [
+       "a few",
+       "a little",
+       "little",
+       "few"
+      ],
+      "answer": 3,
+      "why": "Few means almost none (negative) with countables; a few would be positive."
+     },
+     {
+      "q": "There were ____ accidents this year than last year.",
+      "options": [
+       "fewer",
+       "less",
+       "little",
+       "much"
+      ],
+      "answer": 0,
+      "why": "Accidents is countable, so fewer is used; less is for uncountables."
+     },
+     {
+      "q": "We received ____ information, so we can begin the application.",
+      "options": [
+       "a few",
+       "many",
+       "a little",
+       "several"
+      ],
+      "answer": 2,
+      "why": "Information is uncountable. A little gives a positive sense; a few needs countables."
+     },
+     {
+      "q": "I need to buy ____ furniture for my new flat.",
+      "options": [
+       "a",
+       "some",
+       "many",
+       "several"
+      ],
+      "answer": 1,
+      "why": "Furniture is uncountable. Some works, but a, many and several need countables."
+     },
+     {
+      "q": "There is hardly ____ bread left.",
+      "options": [
+       "any",
+       "many",
+       "a few",
+       "several"
+      ],
+      "answer": 0,
+      "why": "Hardly is followed by any with uncountables such as bread."
+     },
+     {
+      "q": "Please bring ____ pens; I forgot mine.",
+      "options": [
+       "a little",
+       "much",
+       "any",
+       "a few"
+      ],
+      "answer": 3,
+      "why": "Pens are countable plural, so a few is correct."
+     },
+     {
+      "q": "____ the money was stolen from the shop.",
+      "options": [
+       "Many of",
+       "Several of",
+       "Most of",
+       "A few of"
+      ],
+      "answer": 2,
+      "why": "Money is uncountable, so Most of works. Many, several and a few need countables."
+     },
+     {
+      "q": "How ____ luggage do you have?",
+      "options": [
+       "many",
+       "much",
+       "few",
+       "a number of"
+      ],
+      "answer": 1,
+      "why": "Luggage is uncountable, so it takes much."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "The report found that ____ evidence existed to support the claim.",
+      "options": [
+       "little",
+       "few",
+       "a few",
+       "many"
+      ],
+      "answer": 0,
+      "why": "Evidence is uncountable, and little signals almost none, which fits a critical finding."
+     },
+     {
+      "q": "A growing number of graduates ____ unable to find jobs.",
+      "options": [
+       "is",
+       "are",
+       "has",
+       "was"
+      ],
+      "answer": 1,
+      "why": "'A growing number of' takes a plural verb because graduates is plural."
+     },
+     {
+      "q": "The number of cars in Dhaka ____ risen sharply.",
+      "options": [
+       "have",
+       "are",
+       "has",
+       "were"
+      ],
+      "answer": 2,
+      "why": "'The number of' is singular, so the verb is has."
+     },
+     {
+      "q": "Technology has reduced ____ paperwork in many offices.",
+      "options": [
+       "the number of",
+       "a number of",
+       "several",
+       "the amount of"
+      ],
+      "answer": 3,
+      "why": "Paperwork is uncountable, so amount of is used, not number of."
+     },
+     {
+      "q": "Students need to read ____ articles to build their vocabulary.",
+      "options": [
+       "a great deal of",
+       "a great many",
+       "a large amount of",
+       "much"
+      ],
+      "answer": 1,
+      "why": "Articles are countable, so a great many fits."
+     },
+     {
+      "q": "A considerable ____ of research has examined the link between sleep and memory.",
+      "options": [
+       "number",
+       "many",
+       "few",
+       "amount"
+      ],
+      "answer": 3,
+      "why": "Research is uncountable, so amount fits; number is for countables."
+     },
+     {
+      "q": "Only a small ____ of the participants completed the survey.",
+      "options": [
+       "amount",
+       "little",
+       "number",
+       "much"
+      ],
+      "answer": 2,
+      "why": "Participants are countable, so a small number is correct."
+     },
+     {
+      "q": "There has been ____ debate about the ethics of artificial intelligence.",
+      "options": [
+       "considerable",
+       "many",
+       "several",
+       "few"
+      ],
+      "answer": 0,
+      "why": "Debate in this sense is uncountable, so considerable fits; many, several and few need countables."
+     },
+     {
+      "q": "Neither of the proposals ____ adequate funding.",
+      "options": [
+       "have",
+       "having",
+       "are",
+       "has"
+      ],
+      "answer": 3,
+      "why": "Neither of is treated as singular in formal writing."
+     },
+     {
+      "q": "Cities with ____ green space often report higher stress levels.",
+      "options": [
+       "less",
+       "fewer",
+       "few",
+       "a few"
+      ],
+      "answer": 0,
+      "why": "Green space is uncountable, so less is correct. Fewer needs countables."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "gerunds-infinitives",
+  "title": "Gerunds and Infinitives",
+  "summary": "Covers which verbs, adjectives and prepositions take a gerund (-ing) or a to-infinitive, and verbs whose meaning changes with each form. IELTS examiners reward accurate, varied verb patterns, and errors such as 'suggest to go' lower the Grammatical Range and Accuracy score.",
+  "rules": [
+   {
+    "rule": "Use a gerund after verbs such as enjoy, avoid, suggest, finish, consider and postpone.",
+    "example": "She suggested joining the debate club to meet new people."
+   },
+   {
+    "rule": "Use a to-infinitive after verbs such as decide, hope, promise, manage, refuse and afford.",
+    "example": "He decided to retake the test in January."
+   },
+   {
+    "rule": "Always use a gerund after a preposition, including the 'to' in look forward to, be used to and be committed to.",
+    "example": "She is looking forward to studying in Melbourne."
+   },
+   {
+    "rule": "Remember, stop, try and forget change meaning: remember to do is a duty, remember doing is a memory.",
+    "example": "Remember to bring your passport, and I remember taking the IELTS test last year."
+   },
+   {
+    "rule": "Use object + to-infinitive after want, advise, allow, require and enable, but a bare infinitive after make and let.",
+    "example": "The tutor allowed us to use dictionaries, but she made us write the essay again."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "I look forward to meet you.",
+    "right": "I look forward to meeting you.",
+    "why": "'To' is a preposition in this phrase, so it needs a gerund."
+   },
+   {
+    "wrong": "She suggested to go by train.",
+    "right": "She suggested going by train.",
+    "why": "Suggest is followed by a gerund, not a to-infinitive."
+   },
+   {
+    "wrong": "He is used to wake up early.",
+    "right": "He is used to waking up early.",
+    "why": "Be used to means 'be accustomed to' and takes a gerund; 'used to wake' is only for past habits."
+   }
+  ],
+  "tip": "In Writing Task 2, mix patterns such as 'Governments should consider introducing...' and 'It is essential to...' to show range. In Speaking, say 'I'm looking forward to...' and 'I'd like to...' instead of repeating 'I want to'.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "She enjoys ____ English novels in her free time.",
+      "options": [
+       "reading",
+       "to read",
+       "read",
+       "to reading"
+      ],
+      "answer": 0,
+      "why": "Enjoy is followed by a gerund. 'To read' is the common mistake because many learners expect an infinitive after every verb."
+     },
+     {
+      "q": "We decided ____ the IELTS exam in December.",
+      "options": [
+       "to take",
+       "taking",
+       "take",
+       "took"
+      ],
+      "answer": 0,
+      "why": "Decide is followed by a to-infinitive. A gerund after decide is not used in standard English."
+     },
+     {
+      "q": "He avoided ____ the question during the speaking test.",
+      "options": [
+       "to answer",
+       "answering",
+       "answer",
+       "to answering"
+      ],
+      "answer": 1,
+      "why": "Avoid takes a gerund. 'To answer' is wrong because avoid never takes an infinitive."
+     },
+     {
+      "q": "My parents want me ____ medicine at Dhaka University.",
+      "options": [
+       "studying",
+       "study",
+       "studied",
+       "to study"
+      ],
+      "answer": 3,
+      "why": "Want + object takes a to-infinitive. A bare infinitive such as 'study' is only used after verbs like make and let."
+     },
+     {
+      "q": "She is very good at ____ graphs in Writing Task 1.",
+      "options": [
+       "to describe",
+       "describing",
+       "describe",
+       "described"
+      ],
+      "answer": 1,
+      "why": "After a preposition (at) we use a gerund. 'To describe' is tempting but 'to' here would need to be part of the infinitive, which cannot follow a preposition."
+     },
+     {
+      "q": "They finished ____ the survey data before noon.",
+      "options": [
+       "to collect",
+       "collecting",
+       "collect",
+       "to collecting"
+      ],
+      "answer": 1,
+      "why": "Finish is followed by a gerund. An infinitive after finish is incorrect."
+     },
+     {
+      "q": "It is important ____ the instructions carefully before you start.",
+      "options": [
+       "reading",
+       "read",
+       "to read",
+       "for reading"
+      ],
+      "answer": 2,
+      "why": "After 'It is important' we normally use a to-infinitive. 'Reading' would need to be the subject, as in 'Reading the instructions is important'."
+     },
+     {
+      "q": "I look forward to ____ you in Dhaka next month.",
+      "options": [
+       "see",
+       "to see",
+       "saw",
+       "seeing"
+      ],
+      "answer": 3,
+      "why": "In 'look forward to', the word 'to' is a preposition, so a gerund follows. 'To see' is the classic error because it treats 'to' as part of an infinitive."
+     },
+     {
+      "q": "She promised ____ the report by Friday.",
+      "options": [
+       "finishing",
+       "finish",
+       "to finish",
+       "finished"
+      ],
+      "answer": 2,
+      "why": "Promise is followed by a to-infinitive. A gerund after promise is not idiomatic."
+     },
+     {
+      "q": "He suggested ____ a study group before the exam.",
+      "options": [
+       "to form",
+       "forming",
+       "form",
+       "formed"
+      ],
+      "answer": 1,
+      "why": "Suggest is followed by a gerund. 'Suggested to form' is a very common mistake, but it is not accepted in standard English."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "I clearly remember ____ the window before I left, so someone else must have opened it.",
+      "options": [
+       "to close",
+       "close",
+       "closing",
+       "to have to close"
+      ],
+      "answer": 2,
+      "why": "Remember + gerund refers to a memory of a past action. 'To close' would mean I remembered a duty, which does not fit the logic of the sentence."
+     },
+     {
+      "q": "Please remember ____ your ID card to the exam centre tomorrow.",
+      "options": [
+       "bringing",
+       "bring",
+       "having brought",
+       "to bring"
+      ],
+      "answer": 3,
+      "why": "Remember + to-infinitive refers to a task that must be done. A gerund would refer to a memory of the past, which cannot apply to tomorrow."
+     },
+     {
+      "q": "The company regrets ____ you that the vacancy has been filled.",
+      "options": [
+       "informing",
+       "inform",
+       "to inform",
+       "having informed"
+      ],
+      "answer": 2,
+      "why": "Regret + to-infinitive is used when announcing bad news. 'Informing' would mean the company is sorry about an earlier action, which changes the meaning."
+     },
+     {
+      "q": "She tried ____ the window to let fresh air in, but it was stuck.",
+      "options": [
+       "to open",
+       "opening",
+       "open",
+       "having opened"
+      ],
+      "answer": 0,
+      "why": "Try + to-infinitive means to make an attempt that may fail. Try + gerund means to experiment, which does not fit because the window did not open."
+     },
+     {
+      "q": "If your head hurts, try ____ less caffeine and see whether it helps.",
+      "options": [
+       "to drink",
+       "drinking",
+       "drink",
+       "to drinking"
+      ],
+      "answer": 1,
+      "why": "Try + gerund means to test something as an experiment. 'To drink' would mean to make an effort to drink, which does not fit the advice."
+     },
+     {
+      "q": "Mr Rahman is used to ____ up early because of his long commute.",
+      "options": [
+       "get",
+       "to get",
+       "got",
+       "getting"
+      ],
+      "answer": 3,
+      "why": "Be used to is followed by a gerund because 'to' is a preposition. 'Used to get' expresses a past habit and cannot follow 'is'."
+     },
+     {
+      "q": "The teacher made the students ____ the whole essay again.",
+      "options": [
+       "to rewrite",
+       "rewriting",
+       "rewrite",
+       "rewrote"
+      ],
+      "answer": 2,
+      "why": "Make + object takes a bare infinitive in the active voice. 'To rewrite' is wrong; it appears only in the passive, as in 'were made to rewrite'."
+     },
+     {
+      "q": "She can't help ____ nervous before speaking tests.",
+      "options": [
+       "to feel",
+       "feel",
+       "felt",
+       "feeling"
+      ],
+      "answer": 3,
+      "why": "Can't help is followed by a gerund and means she cannot stop herself. An infinitive after 'help' would change the meaning to 'assist'."
+     },
+     {
+      "q": "There is no point in ____ more money on a course you do not need.",
+      "options": [
+       "to spend",
+       "spending",
+       "spend",
+       "spent"
+      ],
+      "answer": 1,
+      "why": "In is a preposition, so the gerund follows. 'There is no point to spend' is not a natural pattern."
+     },
+     {
+      "q": "He was too tired ____ the long lecture.",
+      "options": [
+       "following",
+       "follow",
+       "for following",
+       "to follow"
+      ],
+      "answer": 3,
+      "why": "Too + adjective is followed by a to-infinitive. 'For following' is not used in this structure."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "Many universities now require applicants ____ evidence of English proficiency.",
+      "options": [
+       "to provide",
+       "providing",
+       "provide",
+       "provided"
+      ],
+      "answer": 0,
+      "why": "Require + object takes a to-infinitive. A gerund cannot follow an object after require."
+     },
+     {
+      "q": "Governments should consider ____ taxes on single-use plastics to reduce waste.",
+      "options": [
+       "to introduce",
+       "introducing",
+       "introduce",
+       "to introducing"
+      ],
+      "answer": 1,
+      "why": "Consider is followed by a gerund when it means think about doing. 'To introduce' is a common error in Writing Task 2."
+     },
+     {
+      "q": "Remote working enables employees ____ commuting time and spend it with their families.",
+      "options": [
+       "reducing",
+       "reduce",
+       "for reducing",
+       "to reduce"
+      ],
+      "answer": 3,
+      "why": "Enable + object takes a to-infinitive. A gerund after an object is not possible with enable."
+     },
+     {
+      "q": "Several scientists have been accused of ____ data to support their hypotheses.",
+      "options": [
+       "manipulating",
+       "to manipulate",
+       "manipulate",
+       "be manipulating"
+      ],
+      "answer": 0,
+      "why": "Accused of includes the preposition 'of', which must be followed by a gerund. The infinitive is therefore wrong."
+     },
+     {
+      "q": "Students who are accustomed to ____ independently tend to adapt faster to university life.",
+      "options": [
+       "study",
+       "to study",
+       "studying",
+       "studied"
+      ],
+      "answer": 2,
+      "why": "Be accustomed to uses 'to' as a preposition, so a gerund follows. 'To study' wrongly treats 'to' as an infinitive marker."
+     },
+     {
+      "q": "The city council has postponed ____ the new flyover until funding is secured.",
+      "options": [
+       "to build",
+       "building",
+       "build",
+       "having build"
+      ],
+      "answer": 1,
+      "why": "Postpone is followed by a gerund. 'To build' is a typical error because learners expect an infinitive for future plans."
+     },
+     {
+      "q": "Doctors advise patients ____ sugary drinks to lower the risk of diabetes.",
+      "options": [
+       "to avoid",
+       "avoiding",
+       "avoid",
+       "avoided"
+      ],
+      "answer": 0,
+      "why": "Advise + object takes a to-infinitive. A gerund can follow advise only without an object, as in 'doctors advise avoiding sugary drinks'."
+     },
+     {
+      "q": "Online platforms make it possible for learners in remote areas ____ high-quality teaching.",
+      "options": [
+       "to access",
+       "accessing",
+       "access",
+       "for accessing"
+      ],
+      "answer": 0,
+      "why": "The pattern 'make it possible for someone to do' requires a to-infinitive. A gerund does not fit after 'for + person'."
+     },
+     {
+      "q": "People who sleep fewer than six hours a night are more likely ____ obesity.",
+      "options": [
+       "developing",
+       "develop",
+       "to develop",
+       "for developing"
+      ],
+      "answer": 2,
+      "why": "Likely is followed by a to-infinitive. A gerund after 'likely' is not grammatical."
+     },
+     {
+      "q": "Employers are increasingly reluctant ____ graduates who have no work experience.",
+      "options": [
+       "to hire",
+       "hiring",
+       "hire",
+       "for hiring"
+      ],
+      "answer": 0,
+      "why": "Reluctant is followed by a to-infinitive. A gerund can follow 'reluctant about' but not reluctant directly."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "reported-speech",
+  "title": "Reported Speech",
+  "summary": "Covers backshift of tenses, changes to pronouns and time expressions, reported questions and commands, and accurate reporting verbs. IELTS Speaking Part 3 and Writing Task 2 often require you to report other people's views, and precise structures raise Grammatical Range and Accuracy.",
+  "rules": [
+   {
+    "rule": "When the reporting verb is in the past, move the tense back one step: am/is to was, will to would, present perfect to past perfect.",
+    "example": "She said that she had finished the report and that she would send it the next day."
+   },
+   {
+    "rule": "Change pronouns and time or place words to fit the new situation: now becomes then, tomorrow becomes the next day, here becomes there.",
+    "example": "He said he was leaving for Chattogram the following morning."
+   },
+   {
+    "rule": "Reported questions use statement word order with no do/did and no question mark; use if or whether for yes/no questions.",
+    "example": "The examiner asked me whether I had ever visited another country."
+   },
+   {
+    "rule": "Report commands, requests and advice with tell, ask, advise or order + object + (not) to-infinitive.",
+    "example": "The invigilator told us not to turn over the paper."
+   },
+   {
+    "rule": "Choose a precise reporting verb such as suggest, admit, deny, promise or warn, and check its pattern; no backshift is needed for general truths or when the reporting verb is present.",
+    "example": "The report claims that air pollution is a major health risk."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "She asked me where did I live.",
+    "right": "She asked me where I lived.",
+    "why": "Reported questions use statement word order, not question order."
+   },
+   {
+    "wrong": "He told that he was tired.",
+    "right": "He said that he was tired. / He told me that he was tired.",
+    "why": "Tell needs a person object, while say does not."
+   },
+   {
+    "wrong": "The teacher said me to sit down.",
+    "right": "The teacher told me to sit down.",
+    "why": "Say is not followed by a person; tell is used with an object and a to-infinitive."
+   }
+  ],
+  "tip": "In Writing Task 2, report views with present-tense verbs such as 'Critics argue that...' or 'The report claims that...' to avoid backshift errors. In Speaking Part 3, 'My parents always told me that...' is a good way to show tense control.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "Last week Rina told me, 'I am very busy.' Reported: Last week Rina told me that she ____ very busy.",
+      "options": [
+       "was",
+       "is",
+       "were",
+       "has been"
+      ],
+      "answer": 0,
+      "why": "The reporting verb is in the past, so 'am' backshifts to 'was'. 'Were' does not agree with 'she'."
+     },
+     {
+      "q": "Last month my manager said, 'I will call you tomorrow.' Reported: He said he ____ call me the next day.",
+      "options": [
+       "would",
+       "will",
+       "can",
+       "shall"
+      ],
+      "answer": 0,
+      "why": "Will backshifts to would after a past reporting verb. Keeping 'will' is a common error."
+     },
+     {
+      "q": "He asked, 'What is your name?' Reported: He asked me what ____.",
+      "options": [
+       "was my name",
+       "is my name was",
+       "my name was",
+       "my name be"
+      ],
+      "answer": 2,
+      "why": "Reported questions use statement word order, so the subject comes before the verb. 'Was my name' keeps the question order, which is incorrect."
+     },
+     {
+      "q": "'Don't touch the wires,' the teacher said. Reported: The teacher told us ____ the wires.",
+      "options": [
+       "not to touch",
+       "don't touch",
+       "to not touching",
+       "not touching"
+      ],
+      "answer": 0,
+      "why": "Negative commands in reported speech use 'not to + verb'. Keeping the direct form 'don't touch' is a mistake."
+     },
+     {
+      "q": "Yesterday Sadia said, 'I have finished.' Reported: Sadia said she ____ finished.",
+      "options": [
+       "has",
+       "have",
+       "had",
+       "would"
+      ],
+      "answer": 2,
+      "why": "Present perfect backshifts to past perfect, so 'have finished' becomes 'had finished'. 'Has' would stay in the present."
+     },
+     {
+      "q": "Last year my manager said, 'I will leave tomorrow.' Reported: He said he would leave ____.",
+      "options": [
+       "tomorrow",
+       "the next day",
+       "yesterday",
+       "the day before"
+      ],
+      "answer": 1,
+      "why": "Tomorrow changes to 'the next day' when the report is made at a later time. 'The day before' points backwards and changes the meaning."
+     },
+     {
+      "q": "'Can you help me?' she asked. Reported: She asked ____ help her.",
+      "options": [
+       "if could I",
+       "that I could",
+       "if I could",
+       "whether could I"
+      ],
+      "answer": 2,
+      "why": "Yes/no questions are reported with if or whether followed by normal word order. 'That' is used for statements, not questions."
+     },
+     {
+      "q": "She said to me, 'I like your idea.' Reported: She ____ me that she liked my idea.",
+      "options": [
+       "said",
+       "told",
+       "asked",
+       "spoke"
+      ],
+      "answer": 1,
+      "why": "Tell is followed directly by a person, while say is not. 'Said me' is a very common learner error."
+     },
+     {
+      "q": "'I saw him yesterday,' Tom said last week. Reported: Tom said he ____ him the day before.",
+      "options": [
+       "had seen",
+       "has seen",
+       "would see",
+       "sees"
+      ],
+      "answer": 0,
+      "why": "Simple past backshifts to past perfect in reported speech. 'Has seen' and 'sees' stay in the present and do not match the past reporting verb."
+     },
+     {
+      "q": "The doctor said, 'Drink more water.' Reported: The doctor advised me ____ more water.",
+      "options": [
+       "drink",
+       "drinking",
+       "to drink",
+       "I drank"
+      ],
+      "answer": 2,
+      "why": "Advise + object takes a to-infinitive in reported commands. 'Advised me drink' is missing 'to'."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "The teacher said, 'The earth goes round the sun.' Reported: The teacher said that the earth ____ round the sun.",
+      "options": [
+       "would go",
+       "had gone",
+       "was going",
+       "goes"
+      ],
+      "answer": 3,
+      "why": "A scientific fact that is still true is normally left in the present tense. 'would go', 'had gone' and 'was going' all change the meaning or sound unnatural here."
+     },
+     {
+      "q": "She asked, 'Have you ever taken IELTS?' Reported: She asked me whether I ____ IELTS before.",
+      "options": [
+       "had taken",
+       "did take",
+       "would take",
+       "was taking"
+      ],
+      "answer": 0,
+      "why": "Present perfect questions backshift to past perfect. 'Would take' and 'was taking' change the time reference."
+     },
+     {
+      "q": "'You didn't submit the assignment,' the teacher said to Rafi. Reported: The teacher ____ Rafi of not submitting the assignment.",
+      "options": [
+       "suggested",
+       "promised",
+       "refused",
+       "accused"
+      ],
+      "answer": 3,
+      "why": "Accuse someone of doing something matches the meaning of blaming. The other verbs do not take 'of + gerund' with this meaning."
+     },
+     {
+      "q": "'I'll definitely help you,' Mina said. Reported: Mina ____ to help me.",
+      "options": [
+       "suggested",
+       "promised",
+       "denied",
+       "admitted"
+      ],
+      "answer": 1,
+      "why": "Promise + to-infinitive reports a commitment about the future. Suggest, deny and admit take a gerund or a that-clause."
+     },
+     {
+      "q": "'Why don't we form a study group?' Sara said. Reported: Sara ____ forming a study group.",
+      "options": [
+       "ordered",
+       "suggested",
+       "refused",
+       "warned"
+      ],
+      "answer": 1,
+      "why": "Suggest + gerund reports a proposal. Ordered, refused and warned cannot be followed directly by a gerund."
+     },
+     {
+      "q": "'Sorry I'm late,' said Nabil. Reported: Nabil ____ for being late.",
+      "options": [
+       "apologised",
+       "refused",
+       "denied",
+       "suggested"
+      ],
+      "answer": 0,
+      "why": "Apologise for + gerund matches the speaker's intention. The other verbs do not take 'for + gerund'."
+     },
+     {
+      "q": "'I didn't copy the answers,' he said. Reported: He denied ____ the answers.",
+      "options": [
+       "to copy",
+       "copy",
+       "to copying",
+       "copying"
+      ],
+      "answer": 3,
+      "why": "Deny is followed by a gerund. An infinitive after deny is incorrect."
+     },
+     {
+      "q": "She asked, 'Do you know where the library is?' Reported: She asked whether I knew where the library ____.",
+      "options": [
+       "was it",
+       "was",
+       "is it",
+       "did it be"
+      ],
+      "answer": 1,
+      "why": "Reported questions use statement order, so there is no inversion. 'Was it' keeps the question form."
+     },
+     {
+      "q": "'I have been waiting for an hour,' he said. Reported: He said that he ____ for an hour.",
+      "options": [
+       "has been waiting",
+       "would be waiting",
+       "was waited",
+       "had been waiting"
+      ],
+      "answer": 3,
+      "why": "Present perfect continuous backshifts to past perfect continuous. 'Has been waiting' does not shift, and 'was waited' is a passive form that makes no sense here."
+     },
+     {
+      "q": "'Don't forget to bring your passport,' my uncle said. Reported: My uncle reminded me ____ my passport.",
+      "options": [
+       "bringing",
+       "that bring",
+       "of bring",
+       "to bring"
+      ],
+      "answer": 3,
+      "why": "Remind + object takes a to-infinitive. A gerund or bare verb is not grammatical here."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "The minister announced, 'We will invest in rural schools next year.' Reported: The minister announced that the government ____ in rural schools the following year.",
+      "options": [
+       "would invest",
+       "will invest",
+       "invested",
+       "had invested"
+      ],
+      "answer": 0,
+      "why": "Will backshifts to would, and 'next year' changes to 'the following year'. 'Had invested' would refer to the past."
+     },
+     {
+      "q": "The journalist asked the mayor, 'Have you considered the environmental impact?' Reported: The journalist asked the mayor ____ the environmental impact.",
+      "options": [
+       "whether he had considered",
+       "had he considered",
+       "that he considered",
+       "if did he consider"
+      ],
+      "answer": 0,
+      "why": "A yes/no question is reported with whether or if, statement order, and a backshift to past perfect. 'Had he considered' keeps the question inversion."
+     },
+     {
+      "q": "The report states, 'Air pollution is a major cause of respiratory disease.' Reported: The report claims that air pollution ____ a major cause of respiratory disease.",
+      "options": [
+       "was",
+       "is",
+       "had been",
+       "would be"
+      ],
+      "answer": 1,
+      "why": "When the reporting verb is in the present tense, no backshift is needed. 'Was' would wrongly treat the report as already past."
+     },
+     {
+      "q": "The professor said last year, 'Online learning has transformed education.' Reported: The professor said last year that online learning ____ education.",
+      "options": [
+       "would transform",
+       "had transformed",
+       "transforms",
+       "was transformed"
+      ],
+      "answer": 1,
+      "why": "Present perfect backshifts to past perfect after a past reporting verb. 'Was transformed' is passive and changes the meaning."
+     },
+     {
+      "q": "'You should have registered earlier,' the officer told the applicant. Reported: The officer told the applicant that he ____ earlier.",
+      "options": [
+       "should register",
+       "should had registered",
+       "should have registered",
+       "must register"
+      ],
+      "answer": 2,
+      "why": "Should have + past participle does not change in reported speech. 'Should register' loses the past reference and 'should had' is ungrammatical."
+     },
+     {
+      "q": "Dr Hasan said, 'The students who participated were given a questionnaire.' Reported: Dr Hasan said that the students who participated ____ a questionnaire.",
+      "options": [
+       "had given",
+       "was given",
+       "would give",
+       "had been given"
+      ],
+      "answer": 3,
+      "why": "Past simple passive backshifts to past perfect passive. 'Had given' is active and changes who performs the action."
+     },
+     {
+      "q": "'Please don't use mobile phones during the lecture,' the lecturer said. Reported: The lecturer asked the students ____ mobile phones during the lecture.",
+      "options": [
+       "not use",
+       "not to use",
+       "to no use",
+       "do not to use"
+      ],
+      "answer": 1,
+      "why": "Negative requests use 'not to + verb' after ask. The other options are ungrammatical."
+     },
+     {
+      "q": "The spokesperson said last month, 'The factory has closed.' Reported: The spokesperson said last month that the factory ____.",
+      "options": [
+       "has closed",
+       "would close",
+       "had closed",
+       "was closing"
+      ],
+      "answer": 2,
+      "why": "Present perfect backshifts to past perfect. 'Would close' turns a completed event into a future one."
+     },
+     {
+      "q": "Critics argued at the time, 'The policy will widen inequality.' Reported: Critics argued at the time that the policy ____ inequality.",
+      "options": [
+       "will widen",
+       "widened",
+       "had widened",
+       "would widen"
+      ],
+      "answer": 3,
+      "why": "Will backshifts to would after the past reporting verb 'argued'. 'Widened' and 'had widened' misplace the time of the prediction."
+     },
+     {
+      "q": "Several parents ____ that the new curriculum was too demanding for younger pupils.",
+      "options": [
+       "apologised",
+       "refused",
+       "complained",
+       "offered"
+      ],
+      "answer": 2,
+      "why": "Complain can be followed by a that-clause. Apologise, refuse and offer do not take a that-clause with this meaning."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "subject-verb-agreement",
+  "title": "Subject-Verb Agreement",
+  "summary": "Covers making the verb agree with its real subject, including long noun phrases, either/or and neither/nor, collective and uncountable nouns, and expressions such as 'the number of'. Agreement errors are frequent in IELTS Writing and quickly lower the Grammatical Range and Accuracy band.",
+  "rules": [
+   {
+    "rule": "The verb agrees with the head noun of the subject, not the nearest noun.",
+    "example": "The cost of textbooks has risen sharply."
+   },
+   {
+    "rule": "Phrases such as along with, as well as and together with do not change the subject.",
+    "example": "The teacher, along with the students, is attending the seminar."
+   },
+   {
+    "rule": "Each, every, either, neither, everyone and nobody take a singular verb; 'a number of' is plural but 'the number of' is singular.",
+    "example": "Each of the candidates has a number, and the number of candidates is rising."
+   },
+   {
+    "rule": "With either...or, neither...nor and not only...but also, the verb agrees with the nearer subject.",
+    "example": "Neither the manager nor the employees were informed."
+   },
+   {
+    "rule": "Uncountable nouns and -ics subjects (information, equipment, news, economics) are singular, while police, people and scissors are plural.",
+    "example": "The information is useful, but the police are still investigating."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "The number of students have increased.",
+    "right": "The number of students has increased.",
+    "why": "'The number of' is singular, so it takes 'has'."
+   },
+   {
+    "wrong": "Each of the students have a laptop.",
+    "right": "Each of the students has a laptop.",
+    "why": "Each is singular even though 'students' is plural."
+   },
+   {
+    "wrong": "The information are very useful.",
+    "right": "The information is very useful.",
+    "why": "Information is uncountable and takes a singular verb."
+   }
+  ],
+  "tip": "In Writing Task 1, check the verb after phrases like 'the proportion of' and 'the number of', and in Task 2, re-check long subjects before the verb. In Speaking, slow down slightly in sentences with 'each of', 'a number of' and 'there is/are'.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "The students in my class ____ very hardworking.",
+      "options": [
+       "is",
+       "am",
+       "are",
+       "be"
+      ],
+      "answer": 2,
+      "why": "The subject 'students' is plural, so it needs 'are'. 'Is' agrees with the nearer singular noun 'class', which is a mistake."
+     },
+     {
+      "q": "Each of the candidates ____ a separate booth for the speaking test.",
+      "options": [
+       "have",
+       "has",
+       "are having",
+       "having"
+      ],
+      "answer": 1,
+      "why": "Each is singular, so it takes 'has'. 'Candidates' is plural but it is not the subject."
+     },
+     {
+      "q": "My brother and my sister ____ both studying abroad.",
+      "options": [
+       "are",
+       "is",
+       "was",
+       "has"
+      ],
+      "answer": 0,
+      "why": "Two subjects joined by 'and' take a plural verb. 'Is' and 'has' are singular."
+     },
+     {
+      "q": "The news from the ministry ____ encouraging.",
+      "options": [
+       "are",
+       "were",
+       "have been",
+       "is"
+      ],
+      "answer": 3,
+      "why": "News is uncountable and singular despite the final 's'. 'Are' is a common mistake."
+     },
+     {
+      "q": "Mathematics ____ my favourite subject at school.",
+      "options": [
+       "are",
+       "were",
+       "is",
+       "have been"
+      ],
+      "answer": 2,
+      "why": "Subjects ending in -ics, such as mathematics, take a singular verb. 'Are' treats the word as plural."
+     },
+     {
+      "q": "There ____ many tea gardens in Sylhet.",
+      "options": [
+       "is",
+       "was",
+       "are",
+       "has"
+      ],
+      "answer": 2,
+      "why": "After 'There', the verb agrees with the noun that follows. 'Tea gardens' is plural, so 'is' and 'was' are wrong."
+     },
+     {
+      "q": "Everyone in the room ____ listening carefully.",
+      "options": [
+       "is",
+       "are",
+       "am",
+       "have been"
+      ],
+      "answer": 0,
+      "why": "Everyone is singular and takes 'is'. 'Are' is wrongly influenced by the idea of many people."
+     },
+     {
+      "q": "A number of students ____ absent today.",
+      "options": [
+       "is",
+       "was",
+       "has",
+       "are"
+      ],
+      "answer": 3,
+      "why": "'A number of' means 'several' and takes a plural verb. 'The number of' would take a singular one."
+     },
+     {
+      "q": "The price of vegetables ____ risen sharply this month.",
+      "options": [
+       "have",
+       "has",
+       "are",
+       "were"
+      ],
+      "answer": 1,
+      "why": "The subject is 'price', which is singular, not 'vegetables'. 'Have' agrees with the wrong noun."
+     },
+     {
+      "q": "My father, along with his colleagues, ____ going to Chattogram.",
+      "options": [
+       "are",
+       "were",
+       "is",
+       "have been"
+      ],
+      "answer": 2,
+      "why": "'Along with' does not change the subject, which is the singular 'father'. 'Are' wrongly treats colleagues as part of the subject."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "Neither the manager nor the employees ____ aware of the change.",
+      "options": [
+       "was",
+       "is",
+       "has been",
+       "were"
+      ],
+      "answer": 3,
+      "why": "With neither...nor, the verb agrees with the nearer subject, 'employees', which is plural. 'Was' agrees with the farther subject."
+     },
+     {
+      "q": "The number of international students ____ increased since 2015.",
+      "options": [
+       "has",
+       "have",
+       "are",
+       "were"
+      ],
+      "answer": 0,
+      "why": "'The number of' is singular and takes 'has'. 'Have' follows the plural noun 'students'."
+     },
+     {
+      "q": "Either my cousins or my sister ____ coming to the airport.",
+      "options": [
+       "are",
+       "is",
+       "were",
+       "am"
+      ],
+      "answer": 1,
+      "why": "With either...or, the verb agrees with the nearer subject, 'sister', which is singular. 'Are' agrees with the farther noun."
+     },
+     {
+      "q": "Two-thirds of the farmers in this village ____ rice.",
+      "options": [
+       "grows",
+       "is growing",
+       "grow",
+       "has grown"
+      ],
+      "answer": 2,
+      "why": "Fractions take the number of the noun after 'of'. 'Farmers' is plural, so the verb is plural."
+     },
+     {
+      "q": "Fifty thousand taka ____ a lot of money for a student.",
+      "options": [
+       "is",
+       "are",
+       "were",
+       "have been"
+      ],
+      "answer": 0,
+      "why": "A sum of money is treated as a single amount and takes a singular verb. 'Are' treats each taka separately."
+     },
+     {
+      "q": "The police ____ investigating the theft at the university.",
+      "options": [
+       "are",
+       "is",
+       "was",
+       "has been"
+      ],
+      "answer": 0,
+      "why": "'Police' is always plural, so it takes 'are'. 'Is' and 'has been' are singular."
+     },
+     {
+      "q": "Economics, as well as statistics, ____ taught in the first year.",
+      "options": [
+       "are",
+       "is",
+       "were",
+       "have been"
+      ],
+      "answer": 1,
+      "why": "'As well as' does not change the subject, which is the singular noun 'economics'. 'Are' is influenced by the second subject."
+     },
+     {
+      "q": "The scissors on the desk ____ mine.",
+      "options": [
+       "is",
+       "was",
+       "has been",
+       "are"
+      ],
+      "answer": 3,
+      "why": "'Scissors' is a plural noun that has no singular form, so it takes 'are'. 'Is' is only used with 'a pair of scissors'."
+     },
+     {
+      "q": "Not only the lecturer but also the students ____ pleased with the result.",
+      "options": [
+       "was",
+       "were",
+       "is",
+       "has been"
+      ],
+      "answer": 1,
+      "why": "With not only...but also, the verb agrees with the nearer subject, 'students'. 'Was' agrees with the singular 'lecturer'."
+     },
+     {
+      "q": "Everything that the speakers said ____ interesting.",
+      "options": [
+       "was",
+       "were",
+       "have",
+       "are"
+      ],
+      "answer": 0,
+      "why": "Everything is singular and the context is past, so 'was' is correct. 'Were' and 'are' are plural forms."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "The rapid growth of low-cost airlines, together with rising incomes, ____ led to a surge in international tourism.",
+      "options": [
+       "have",
+       "has",
+       "are",
+       "were"
+      ],
+      "answer": 1,
+      "why": "'Together with' does not change the subject. The head noun 'growth' is singular, so 'has' is correct."
+     },
+     {
+      "q": "A large proportion of the graduates in this field ____ unemployed for more than a year.",
+      "options": [
+       "remains",
+       "remain",
+       "is remained",
+       "has remained"
+      ],
+      "answer": 1,
+      "why": "With proportions, the verb agrees with the noun after 'of'. 'Graduates' is plural, so 'remain' is correct."
+     },
+     {
+      "q": "The findings of the survey, which was conducted among 2,000 teenagers, ____ that social media use affects concentration.",
+      "options": [
+       "suggests",
+       "is suggesting",
+       "has suggested",
+       "suggest"
+      ],
+      "answer": 3,
+      "why": "The subject is 'findings', which is plural. The singular 'survey' inside the relative clause misleads some learners into choosing 'suggests'."
+     },
+     {
+      "q": "Neither the government's proposals nor the opposition's amendments ____ likely to resolve the shortage of teachers.",
+      "options": [
+       "seem",
+       "seems",
+       "is seeming",
+       "has seemed"
+      ],
+      "answer": 0,
+      "why": "With neither...nor, the verb agrees with the nearer noun, 'amendments', which is plural. 'Seems' follows the singular pattern."
+     },
+     {
+      "q": "The rise in the number of electric vehicles ____ expected to reduce urban air pollution.",
+      "options": [
+       "are",
+       "have been",
+       "were",
+       "is"
+      ],
+      "answer": 3,
+      "why": "The head noun is 'rise', which is singular. 'Vehicles' and 'number' are inside prepositional phrases and do not control the verb."
+     },
+     {
+      "q": "Each of the proposed solutions to the energy crisis ____ its own drawbacks.",
+      "options": [
+       "have",
+       "has",
+       "are having",
+       "having"
+      ],
+      "answer": 1,
+      "why": "Each is singular and takes 'has'. 'Have' is attracted by the plural 'solutions'."
+     },
+     {
+      "q": "The equipment used in the laboratory ____ regularly updated.",
+      "options": [
+       "is",
+       "are",
+       "have",
+       "were"
+      ],
+      "answer": 0,
+      "why": "Equipment is uncountable, so it takes a singular verb. 'Are' and 'were' wrongly treat it as plural."
+     },
+     {
+      "q": "Science and technology ____ played a vital role in improving healthcare.",
+      "options": [
+       "has",
+       "is",
+       "have",
+       "was"
+      ],
+      "answer": 2,
+      "why": "Two subjects joined by 'and' take a plural verb. 'Has' would only be used if both formed one single idea."
+     },
+     {
+      "q": "One of the main reasons why students drop out of university ____ financial pressure.",
+      "options": [
+       "are",
+       "were being",
+       "have been",
+       "is"
+      ],
+      "answer": 3,
+      "why": "The subject is 'One', which is singular. 'Reasons' is part of a phrase after 'of' and does not control the verb."
+     },
+     {
+      "q": "The team of researchers, led by two professors from Dhaka University, ____ published its findings in an international journal.",
+      "options": [
+       "have",
+       "were",
+       "has",
+       "are"
+      ],
+      "answer": 2,
+      "why": "The singular noun 'team' is the subject, and the pronoun 'its' confirms that it is treated as a unit. 'Have' is mismatched with 'its'."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "linking-words",
+  "title": "Linking words and cohesion",
+  "summary": "Covers conjunctions and linking phrases used to show addition, contrast, cause, result, purpose and condition. In IELTS Writing and Speaking, accurate linking is central to Coherence and Cohesion and to sentence control in Grammar.",
+  "rules": [
+   {
+    "rule": "Use 'although', 'even though' and 'while' with a full clause; use 'despite' and 'in spite of' with a noun or -ing form.",
+    "example": "Although the fees were high, many families paid them. Despite the high fees, many families paid them."
+   },
+   {
+    "rule": "Sentence adverbs such as 'however', 'therefore' and 'moreover' start a new sentence (or follow a semicolon) and are followed by a comma.",
+    "example": "The scheme is popular; however, it is expensive."
+   },
+   {
+    "rule": "Match the linker to the logic: addition (moreover), contrast (whereas), cause (because), result (consequently), purpose (so that), condition (unless).",
+    "example": "Unless governments act now, air quality will worsen."
+   },
+   {
+    "rule": "Do not join two main clauses with only a comma; add a conjunction (and, but, so) or use a semicolon or full stop.",
+    "example": "The roads flooded, so schools closed for a week."
+   },
+   {
+    "rule": "Vary your linkers and do not overuse them; clear reference words (this, such, these) also create cohesion.",
+    "example": "Many students lack internet access. This problem is serious in rural areas."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "Despite of the rain, the match continued.",
+    "right": "Despite the rain, the match continued.",
+    "why": "'Despite' is never followed by 'of'; use 'in spite of' if you want 'of'."
+   },
+   {
+    "wrong": "Although the exam was hard, but I passed.",
+    "right": "Although the exam was hard, I passed.",
+    "why": "'Although' and 'but' both show contrast; use only one."
+   },
+   {
+    "wrong": "Many people use cars. However they cause pollution.",
+    "right": "Many people use cars. However, they cause pollution.",
+    "why": "A sentence-initial linker needs a comma after it."
+   }
+  ],
+  "tip": "In Writing Task 2, plan one clear linker per paragraph connection (for example, concession in the counter-argument) instead of starting every sentence with 'Moreover' or 'However'. In Speaking, use simple linkers such as 'because', 'although' and 'on the other hand' accurately rather than rare ones.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "Dhaka is crowded; ____, many people still move there for jobs.",
+      "options": [
+       "However",
+       "Because",
+       "Therefore",
+       "For example"
+      ],
+      "answer": 0,
+      "why": "The second clause contrasts with crowding, so a contrast linker is needed. 'Therefore' would wrongly show a result."
+     },
+     {
+      "q": "She studied hard ____ she wanted a high band score.",
+      "options": [
+       "but",
+       "because",
+       "although",
+       "unless"
+      ],
+      "answer": 1,
+      "why": "The second clause gives the reason for studying hard. 'Although' and 'but' show contrast, which does not fit."
+     },
+     {
+      "q": "____ it was raining, the students walked to the exam centre.",
+      "options": [
+       "Because",
+       "So",
+       "Although",
+       "Therefore"
+      ],
+      "answer": 2,
+      "why": "The walking happened in spite of the rain, so a concession word is needed. 'Because' gives a reason that makes no sense here."
+     },
+     {
+      "q": "The bus was late. ____, I missed the first part of the lecture.",
+      "options": [
+       "In contrast",
+       "For instance",
+       "Despite",
+       "As a result"
+      ],
+      "answer": 3,
+      "why": "Missing the lecture is the consequence of the late bus. 'In contrast' would introduce an opposite idea, and 'Despite' cannot start a new sentence like this."
+     },
+     {
+      "q": "He speaks Bangla ____ English fluently.",
+      "options": [
+       "and",
+       "but",
+       "because",
+       "unless"
+      ],
+      "answer": 0,
+      "why": "Both languages are added together, so 'and' is correct. 'But' would suggest a contrast that is not there."
+     },
+     {
+      "q": "You will not pass ____ you practise regularly.",
+      "options": [
+       "if",
+       "unless",
+       "because",
+       "although"
+      ],
+      "answer": 1,
+      "why": "'Unless' means 'if not'. With 'if' the sentence would say the opposite of what is intended."
+     },
+     {
+      "q": "First, boil the water. ____, add the rice.",
+      "options": [
+       "However",
+       "In contrast",
+       "Then",
+       "Although"
+      ],
+      "answer": 2,
+      "why": "'Then' shows the next step in a sequence. 'However' signals a contrast, which is not logical in instructions."
+     },
+     {
+      "q": "____ the heavy traffic, we arrived on time.",
+      "options": [
+       "Although",
+       "Because",
+       "However",
+       "Despite"
+      ],
+      "answer": 3,
+      "why": "'Despite' is followed by a noun phrase ('the heavy traffic'). 'Although' needs a full clause, so it is wrong here."
+     },
+     {
+      "q": "Online learning is flexible. ____, students can study at midnight if they wish.",
+      "options": [
+       "For example",
+       "However",
+       "Although",
+       "Despite"
+      ],
+      "answer": 0,
+      "why": "The second sentence gives a specific example of flexibility. The other options express contrast."
+     },
+     {
+      "q": "He was tired, ____ he continued working.",
+      "options": [
+       "because",
+       "but",
+       "so",
+       "or"
+      ],
+      "answer": 1,
+      "why": "Continuing despite tiredness is a contrast, so 'but' fits. 'So' would suggest tiredness caused him to work, which is illogical."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "Sales fell sharply; ____, the firm closed two branches.",
+      "options": [
+       "nevertheless",
+       "whereas",
+       "consequently",
+       "meanwhile"
+      ],
+      "answer": 2,
+      "why": "Closing branches is the result of falling sales. 'Nevertheless' would signal an unexpected contrast."
+     },
+     {
+      "q": "Urban areas have good hospitals, ____ rural areas often lack them.",
+      "options": [
+       "because",
+       "so that",
+       "unless",
+       "whereas"
+      ],
+      "answer": 3,
+      "why": "'Whereas' compares two contrasting situations in one sentence. 'Because' wrongly makes one the cause of the other."
+     },
+     {
+      "q": "She took notes ____ she would remember the lecture.",
+      "options": [
+       "so that",
+       "even if",
+       "as long as",
+       "such that"
+      ],
+      "answer": 0,
+      "why": "'So that' expresses purpose. 'As long as' states a condition, and 'such that' is not used this way."
+     },
+     {
+      "q": "____ the new policy was popular, it was soon cancelled.",
+      "options": [
+       "Because",
+       "Even though",
+       "Provided that",
+       "As a result"
+      ],
+      "answer": 1,
+      "why": "Cancellation is surprising given the popularity, so a concession clause is needed. 'Because' would imply popularity caused the cancellation."
+     },
+     {
+      "q": "Students may use phones in class ____ they switch them to silent.",
+      "options": [
+       "although",
+       "whereas",
+       "provided that",
+       "so that"
+      ],
+      "answer": 2,
+      "why": "'Provided that' introduces a condition. 'Although' would make the permission contrast with the silent setting, which is illogical."
+     },
+     {
+      "q": "The course is cheap. ____, it is flexible.",
+      "options": [
+       "Nevertheless",
+       "Otherwise",
+       "Whereas",
+       "Furthermore"
+      ],
+      "answer": 3,
+      "why": "The second sentence adds another advantage. 'Nevertheless' would wrongly treat flexibility as a contrast."
+     },
+     {
+      "q": "Revise daily; ____, you may forget key vocabulary.",
+      "options": [
+       "otherwise",
+       "moreover",
+       "whereas",
+       "therefore"
+      ],
+      "answer": 0,
+      "why": "'Otherwise' means 'if you do not', showing a negative consequence. 'Therefore' would give a result of revising, which is the opposite."
+     },
+     {
+      "q": "Rice prices rose. ____, farmers' incomes did not improve.",
+      "options": [
+       "Therefore",
+       "Even so",
+       "For instance",
+       "Similarly"
+      ],
+      "answer": 1,
+      "why": "Incomes not improving is unexpected after higher prices, so a concession link is needed. 'Therefore' would show cause and result."
+     },
+     {
+      "q": "____ the cost, many families chose private tutoring.",
+      "options": [
+       "In spite",
+       "Despite of",
+       "In spite of",
+       "Although"
+      ],
+      "answer": 2,
+      "why": "The fixed phrase is 'in spite of' or 'despite' with no 'of'. 'Although' cannot be followed by a noun phrase."
+     },
+     {
+      "q": "He did not blame the teacher; ____, he blamed himself.",
+      "options": [
+       "moreover",
+       "consequently",
+       "likewise",
+       "instead"
+      ],
+      "answer": 3,
+      "why": "'Instead' replaces the first idea with the second. 'Moreover' only adds, and does not show replacement."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "Some argue that remote work boosts productivity; ____, others claim it isolates employees.",
+      "options": [
+       "accordingly",
+       "conversely",
+       "likewise",
+       "namely"
+      ],
+      "answer": 1,
+      "why": "The two views are opposed, so 'conversely' is right. 'Likewise' would signal agreement."
+     },
+     {
+      "q": "Carbon taxes may cut emissions. ____, they risk burdening low-income households.",
+      "options": [
+       "Hence",
+       "Likewise",
+       "That said",
+       "Thus"
+      ],
+      "answer": 2,
+      "why": "The second sentence adds a drawback, so a concession phrase fits. 'Hence' and 'Thus' show result."
+     },
+     {
+      "q": "Literacy rates have risen sharply, ____ access to quality schooling remains uneven.",
+      "options": [
+       "hence",
+       "for",
+       "so",
+       "yet"
+      ],
+      "answer": 3,
+      "why": "'Yet' joins two contrasting facts. 'For' means 'because' and would give a false reason."
+     },
+     {
+      "q": "The policy was introduced to reduce congestion; ____, travel times have barely changed.",
+      "options": [
+       "nevertheless",
+       "accordingly",
+       "thereby",
+       "in particular"
+      ],
+      "answer": 0,
+      "why": "The outcome contradicts the aim, so 'nevertheless' is correct. 'Accordingly' would suggest the result matched the plan."
+     },
+     {
+      "q": "Antibiotics are often overprescribed. ____, drug-resistant bacteria are spreading.",
+      "options": [
+       "Admittedly",
+       "Consequently",
+       "Conversely",
+       "By contrast"
+      ],
+      "answer": 1,
+      "why": "Spread of resistance is the effect of overprescription. 'Admittedly' and 'conversely' signal concession and contrast."
+     },
+     {
+      "q": "____ renewable energy is costly to install, it is cheaper over time.",
+      "options": [
+       "Unless",
+       "Because",
+       "While",
+       "Hence"
+      ],
+      "answer": 2,
+      "why": "'While' here means 'although', joining a drawback with a benefit. 'Because' would make the high cost the reason for lower long-term cost."
+     },
+     {
+      "q": "Universities should invest in mental health services, ____ student dropout rates are rising.",
+      "options": [
+       "in contrast to",
+       "provided",
+       "whereas",
+       "particularly since"
+      ],
+      "answer": 3,
+      "why": "Rising dropout is an additional reason supporting the claim. 'Whereas' would wrongly contrast the two ideas."
+     },
+     {
+      "q": "Automation will not eliminate jobs entirely; ____, it will transform the skills demanded.",
+      "options": [
+       "rather",
+       "hence",
+       "likewise",
+       "admittedly"
+      ],
+      "answer": 0,
+      "why": "'Rather' corrects the first idea with a better statement. 'Hence' would claim the transformation results from jobs not being eliminated."
+     },
+     {
+      "q": "Not only did the trial reduce costs, ____ it improved patient satisfaction.",
+      "options": [
+       "as well",
+       "but also",
+       "whereas",
+       "thereby"
+      ],
+      "answer": 1,
+      "why": "'Not only ... but also' is the correct paired structure. 'As well' cannot complete it, and 'whereas' is a contrast word."
+     },
+     {
+      "q": "____ the evidence is limited, the findings suggest a link between sleep and memory.",
+      "options": [
+       "Unless",
+       "Hence",
+       "Although",
+       "Besides"
+      ],
+      "answer": 2,
+      "why": "The findings are offered despite weak evidence, so a concession word fits. 'Unless' would create an illogical condition."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "word-formation",
+  "title": "Word formation",
+  "summary": "Covers how to build nouns, verbs, adjectives and adverbs using prefixes and suffixes, and how to choose the right word class for a sentence. IELTS rewards a wide, accurate range of vocabulary, and wrong forms are a common cause of lost marks in Writing and Speaking.",
+  "rules": [
+   {
+    "rule": "Identify the word class the gap needs: nouns follow articles and adjectives, adjectives follow 'be' and linking verbs, adverbs modify verbs and adjectives.",
+    "example": "The government made a significant decision, and it acted quickly."
+   },
+   {
+    "rule": "Common noun suffixes: -tion, -ment, -ness, -ity, -ence/-ance, -er/-or (person). Check if a person, a thing or an idea is meant.",
+    "example": "Her determination and the tutor's guidance led to improvement."
+   },
+   {
+    "rule": "Common adjective suffixes: -ful, -less, -ous, -able/-ible, -al, -ive, -ic. Use -ed for a feeling and -ing for what causes it.",
+    "example": "The students were bored because the lesson was boring."
+   },
+   {
+    "rule": "Negative prefixes change meaning: un-, in-, im-, il-, ir-, dis-, mis-. Choose the one that matches the base word.",
+    "example": "It is impossible to finish; the plan is inadequate and unrealistic."
+   },
+   {
+    "rule": "Do not just add a suffix to every word; some words have irregular forms and verbs come from adjectives with -en or -ise.",
+    "example": "Education can widen opportunities and strengthen communities."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "She is very interest in science.",
+    "right": "She is very interested in science.",
+    "why": "A feeling needs the -ed adjective, not the base verb."
+   },
+   {
+    "wrong": "Pollute is a major problem in cities.",
+    "right": "Pollution is a major problem in cities.",
+    "why": "The subject must be a noun, so use 'pollution'."
+   },
+   {
+    "wrong": "He works very hardly.",
+    "right": "He works very hard.",
+    "why": "'Hard' is both adjective and adverb; 'hardly' means 'almost not'."
+   }
+  ],
+  "tip": "Before writing a key word in Task 2, ask yourself which word class the gap needs, then build it from one root (for example, employ, employment, unemployed). Using accurate word forms shows Lexical Resource and avoids Grammar errors.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "Her ____ in English improved after the course.",
+      "options": [
+       "fluency",
+       "fluent",
+       "fluently",
+       "fluentness"
+      ],
+      "answer": 0,
+      "why": "After 'her' we need a noun. 'Fluency' is the noun form of 'fluent'."
+     },
+     {
+      "q": "He answered the question ____.",
+      "options": [
+       "correct",
+       "correctly",
+       "correction",
+       "correctness"
+      ],
+      "answer": 1,
+      "why": "An adverb is needed to modify the verb 'answered'. 'Correct' is an adjective."
+     },
+     {
+      "q": "Education is ____ for every child.",
+      "options": [
+       "essence",
+       "essentially",
+       "essential",
+       "essentials"
+      ],
+      "answer": 2,
+      "why": "After 'is' we need an adjective. 'Essentially' is an adverb and 'essentials' is a plural noun."
+     },
+     {
+      "q": "Smoking is ____ to health.",
+      "options": [
+       "danger",
+       "endanger",
+       "dangerously",
+       "dangerous"
+      ],
+      "answer": 3,
+      "why": "After 'is' we need an adjective. 'Danger' is a noun and would need 'a danger to health'."
+     },
+     {
+      "q": "The ____ who planned the event were thanked.",
+      "options": [
+       "organisers",
+       "organise",
+       "organised",
+       "organisation"
+      ],
+      "answer": 0,
+      "why": "'Who' refers to people, so a person noun is needed. 'Organisation' is a thing or body, not the people planning."
+     },
+     {
+      "q": "Unlike his brother, he is very ____ and never takes risks.",
+      "options": [
+       "care",
+       "careful",
+       "carefully",
+       "carefulness"
+      ],
+      "answer": 1,
+      "why": "After 'is very' we need an adjective. 'Carefully' is an adverb and cannot follow 'is' here."
+     },
+     {
+      "q": "She was ____ with her exam results.",
+      "options": [
+       "disappoint",
+       "disappointing",
+       "disappointed",
+       "disappointment"
+      ],
+      "answer": 2,
+      "why": "A person's feeling uses the -ed adjective. 'Disappointing' describes the thing that causes the feeling."
+     },
+     {
+      "q": "The ____ between the two cities is 200 km.",
+      "options": [
+       "distant",
+       "distantly",
+       "distances",
+       "distance"
+      ],
+      "answer": 3,
+      "why": "After 'The' we need a singular noun matching 'is'. 'Distant' is an adjective and 'distances' does not agree with 'is'."
+     },
+     {
+      "q": "It is ____ to cross the road without looking.",
+      "options": [
+       "unwise",
+       "wise",
+       "wisdom",
+       "unwisely"
+      ],
+      "answer": 0,
+      "why": "The meaning is negative, so the prefix 'un-' is needed. 'Wise' would mean the opposite."
+     },
+     {
+      "q": "The teacher gave clear ____ before the test.",
+      "options": [
+       "instruct",
+       "instructions",
+       "instructive",
+       "instructively"
+      ],
+      "answer": 1,
+      "why": "After the adjective 'clear' we need a noun. 'Instructions' is the noun for the directions given."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "Mobile banking has ____ access to financial services.",
+      "options": [
+       "wide",
+       "width",
+       "widened",
+       "widely"
+      ],
+      "answer": 2,
+      "why": "'Has' needs a past participle, so the verb 'widened' is required. 'Wide' and 'widely' are adjective and adverb."
+     },
+     {
+      "q": "His ____ to the company was rewarded with a promotion.",
+      "options": [
+       "loyal",
+       "loyally",
+       "loyalties",
+       "loyalty"
+      ],
+      "answer": 3,
+      "why": "After 'His' and before 'was' we need a singular noun. 'Loyalties' is plural and does not agree with 'was'."
+     },
+     {
+      "q": "The medicine is only ____ if taken regularly.",
+      "options": [
+       "effective",
+       "effect",
+       "effectively",
+       "effectiveness"
+      ],
+      "answer": 0,
+      "why": "After 'is only' we need an adjective. 'Effectiveness' is a noun and cannot describe the medicine."
+     },
+     {
+      "q": "A detailed ____ of the data took three weeks.",
+      "options": [
+       "analyse",
+       "analysis",
+       "analytic",
+       "analyst"
+      ],
+      "answer": 1,
+      "why": "After 'detailed' and before 'of' we need a noun for the process. 'Analyst' is a person, which does not fit."
+     },
+     {
+      "q": "Rapid ____ has increased pressure on housing.",
+      "options": [
+       "urban",
+       "urbanise",
+       "urbanisation",
+       "urbanised"
+      ],
+      "answer": 2,
+      "why": "The subject after the adjective 'Rapid' must be a noun. 'Urbanisation' names the process."
+     },
+     {
+      "q": "Many graduates remain ____ despite their qualifications.",
+      "options": [
+       "employ",
+       "employment",
+       "unemployment",
+       "unemployed"
+      ],
+      "answer": 3,
+      "why": "'Remain' is followed by an adjective here. 'Unemployment' is a noun and would mean the graduates are a condition."
+     },
+     {
+      "q": "She spoke so ____ that nobody could hear her.",
+      "options": [
+       "quietly",
+       "quiet",
+       "quietness",
+       "quieten"
+      ],
+      "answer": 0,
+      "why": "An adverb is needed to modify the verb 'spoke'. 'Quiet' is an adjective."
+     },
+     {
+      "q": "The new law aims to ____ women in the workplace.",
+      "options": [
+       "power",
+       "empower",
+       "powerful",
+       "empowerment"
+      ],
+      "answer": 1,
+      "why": "After 'to' we need a base verb. 'Empowerment' is a noun and 'powerful' is an adjective."
+     },
+     {
+      "q": "Their ____ on foreign aid is a concern.",
+      "options": [
+       "depend",
+       "dependent",
+       "dependence",
+       "dependently"
+      ],
+      "answer": 2,
+      "why": "After 'Their' we need a noun, followed by 'on'. 'Dependent' is an adjective and cannot be the subject."
+     },
+     {
+      "q": "The documentary was ____ and changed my views.",
+      "options": [
+       "enlighten",
+       "enlightened",
+       "enlightenment",
+       "enlightening"
+      ],
+      "answer": 3,
+      "why": "A thing that causes the effect takes the -ing adjective. 'Enlightened' would describe a person."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "Researchers have emphasised the ____ of early intervention.",
+      "options": [
+       "important",
+       "importance",
+       "importantly",
+       "imports"
+      ],
+      "answer": 1,
+      "why": "After 'the' we need a noun. 'Importance' is the noun form; 'imports' has a different meaning."
+     },
+     {
+      "q": "The ____ of renewable energy has reduced reliance on fossil fuels.",
+      "options": [
+       "adopt",
+       "adoptive",
+       "adoption",
+       "adopted"
+      ],
+      "answer": 2,
+      "why": "After 'The' and before 'of' we need a noun. 'Adopted' is a verb or adjective form and cannot follow this pattern."
+     },
+     {
+      "q": "Critics regard the scheme as ____ because it ignores rural needs.",
+      "options": [
+       "adequate",
+       "adequately",
+       "inadequacy",
+       "inadequate"
+      ],
+      "answer": 3,
+      "why": "The reason given is negative, so the negative adjective is needed. 'Adequate' would contradict the reason."
+     },
+     {
+      "q": "Increased ____ among teenagers is partly attributed to social media.",
+      "options": [
+       "anxiety",
+       "anxious",
+       "anxiously",
+       "anxieties"
+      ],
+      "answer": 0,
+      "why": "After 'Increased' we need an uncountable noun matching 'is'. 'Anxieties' is plural and does not agree with 'is'."
+     },
+     {
+      "q": "The findings are ____ with earlier research.",
+      "options": [
+       "consist",
+       "consistent",
+       "consistency",
+       "consistently"
+      ],
+      "answer": 1,
+      "why": "After 'are' we need an adjective followed by 'with'. 'Consistently' is an adverb and would not fit this pattern."
+     },
+     {
+      "q": "Governments must ensure that vaccines are ____ to all citizens.",
+      "options": [
+       "access",
+       "accessibly",
+       "accessible",
+       "accessibility"
+      ],
+      "answer": 2,
+      "why": "After 'are' we need an adjective. 'Accessibility' is a noun and cannot describe the vaccines."
+     },
+     {
+      "q": "Many employees feel ____ when tasks are repetitive.",
+      "options": [
+       "motivate",
+       "motivation",
+       "motivating",
+       "unmotivated"
+      ],
+      "answer": 3,
+      "why": "After 'feel' we need an adjective describing the person's state, with a negative meaning. 'Motivating' describes the task, not the employee."
+     },
+     {
+      "q": "The ____ of antibiotics has led to resistant strains.",
+      "options": [
+       "overuse",
+       "overused",
+       "overusing",
+       "overusable"
+      ],
+      "answer": 0,
+      "why": "After 'The' and before 'of' a noun is needed. 'Overusing' and 'overused' are verb forms that do not fit."
+     },
+     {
+      "q": "Teachers need to be ____ to the diverse needs of learners.",
+      "options": [
+       "sense",
+       "sensitive",
+       "sensible",
+       "sensibly"
+      ],
+      "answer": 1,
+      "why": "The collocation is 'sensitive to'. 'Sensible' means practical and is not followed by 'to' in this meaning."
+     },
+     {
+      "q": "The ____ of this approach is questionable, as no trials have confirmed it.",
+      "options": [
+       "valid",
+       "validate",
+       "validity",
+       "invalid"
+      ],
+      "answer": 2,
+      "why": "After 'The' and before 'of' we need a noun. 'Valid' and 'invalid' are adjectives."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "sentence-structure",
+  "title": "Sentence structure and punctuation: fragments, run-ons, complex sentences",
+  "summary": "Covers how to build complete sentences, avoid fragments, run-ons and comma splices, and combine clauses using relative pronouns and subordinators. IELTS Grammatical Range and Accuracy rewards a mix of simple and complex sentences that are error-free.",
+  "rules": [
+   {
+    "rule": "A complete sentence needs a subject and a finite verb and must express a complete idea; a clause starting with 'because', 'although' or 'which' alone is a fragment.",
+    "example": "Because the bridge collapsed, traffic stopped for hours."
+   },
+   {
+    "rule": "Do not join two main clauses with a comma alone; use a conjunction, a semicolon or a full stop.",
+    "example": "The river flooded; the villagers moved to higher ground."
+   },
+   {
+    "rule": "Use relative pronouns correctly: who for people, which for things, that for defining clauses, whose for possession.",
+    "example": "The teacher whose class I joined has won an award."
+   },
+   {
+    "rule": "Non-defining relative clauses are set off by commas; defining clauses are not.",
+    "example": "Bangladesh, which has a large population, faces housing pressure."
+   },
+   {
+    "rule": "Keep lists and paired structures parallel, and put a modifier next to the word it describes.",
+    "example": "She plans to study, work and travel."
+   }
+  ],
+  "mistakes": [
+   {
+    "wrong": "Because he was late.",
+    "right": "Because he was late, he missed the bus.",
+    "why": "A 'because' clause alone is a fragment and needs a main clause."
+   },
+   {
+    "wrong": "Online learning is popular, it is cheap.",
+    "right": "Online learning is popular, and it is cheap.",
+    "why": "Two main clauses joined only by a comma form a comma splice."
+   },
+   {
+    "wrong": "Walking home, the rain started.",
+    "right": "Walking home, I felt the rain start.",
+    "why": "The opening phrase must describe the subject that follows; rain cannot walk."
+   }
+  ],
+  "tip": "In Writing Task 2, aim for a mix: one or two simple sentences for clarity and several complex sentences with relative or concession clauses. Before submitting, check each long sentence for a main clause and for any comma splice. In Speaking, extend answers with 'because', 'which' and 'although' while keeping sentences complete.",
+  "tests": [
+   {
+    "name": "Foundation",
+    "questions": [
+     {
+      "q": "Which of these is a complete sentence?",
+      "options": [
+       "The students arrived early.",
+       "Because the exam was difficult.",
+       "Walking to the library every day.",
+       "Which was very expensive."
+      ],
+      "answer": 0,
+      "why": "Only this option has a subject and a finite verb and expresses a complete idea. The others are fragments that depend on missing clauses."
+     },
+     {
+      "q": "Which sentence is punctuated correctly?",
+      "options": [
+       "I was tired I went to bed early.",
+       "I was tired, so I went to bed early.",
+       "I was tired, I went to bed early.",
+       "I was tired so, I went to bed early."
+      ],
+      "answer": 1,
+      "why": "Two main clauses need a conjunction after a comma. Without it the sentence is a run-on or comma splice."
+     },
+     {
+      "q": "She wanted to study abroad, ____ her family could not afford it.",
+      "options": [
+       "so",
+       "or",
+       "but",
+       "nor"
+      ],
+      "answer": 2,
+      "why": "The second clause is a contrast with her wish. 'So' would mean the cost was the result of wanting to study abroad."
+     },
+     {
+      "q": "____ the road was closed, we reached the village by boat.",
+      "options": [
+       "Because",
+       "Unless",
+       "Despite",
+       "Although"
+      ],
+      "answer": 3,
+      "why": "We reached the village in spite of the closed road. 'Despite' cannot be followed by a full clause."
+     },
+     {
+      "q": "My brother ____ lives in Sylhet works as a doctor.",
+      "options": [
+       "who",
+       "which",
+       "whom",
+       "whose"
+      ],
+      "answer": 0,
+      "why": "'Who' refers to a person and acts as the subject of 'lives'. 'Whom' is for objects and 'which' is for things."
+     },
+     {
+      "q": "Which sentence is punctuated correctly?",
+      "options": [
+       "I bought rice lentils and fish.",
+       "I bought rice, lentils and fish.",
+       "I bought, rice, lentils and fish.",
+       "I bought rice; lentils; and fish."
+      ],
+      "answer": 1,
+      "why": "Items in a list are separated by commas, with 'and' before the last one. The other versions misplace or omit punctuation."
+     },
+     {
+      "q": "She is tired ____ she worked all night.",
+      "options": [
+       "so",
+       "but",
+       "because",
+       "if"
+      ],
+      "answer": 2,
+      "why": "The second clause explains the reason for tiredness. 'So' would reverse cause and effect."
+     },
+     {
+      "q": "Which sentence is punctuated correctly?",
+      "options": [
+       "The test was long, however most students finished.",
+       "The test was long however; most students finished.",
+       "The test was long however, most students finished.",
+       "The test was long; however, most students finished."
+      ],
+      "answer": 3,
+      "why": "A semicolon before 'however' and a comma after it correctly joins two main clauses. The others create comma splices or misplace punctuation."
+     },
+     {
+      "q": "Which group of words is a fragment?",
+      "options": [
+       "Because the lecturer was ill.",
+       "The lecture started late.",
+       "Students took notes.",
+       "We left."
+      ],
+      "answer": 0,
+      "why": "It has a subject and verb but begins with 'Because', so it cannot stand alone. The other options are complete sentences."
+     },
+     {
+      "q": "He is the student ____ essay won the prize.",
+      "options": [
+       "who",
+       "whose",
+       "which",
+       "whom"
+      ],
+      "answer": 1,
+      "why": "'Whose' shows possession: the student's essay. 'Who' cannot be followed directly by 'essay' here."
+     }
+    ]
+   },
+   {
+    "name": "Intermediate",
+    "questions": [
+     {
+      "q": "The book ____ I borrowed from the library was very useful.",
+      "options": [
+       "who",
+       "whose",
+       "that",
+       "what"
+      ],
+      "answer": 2,
+      "why": "A defining clause about a thing uses 'that'. 'Who' is for people, and 'whose' shows possession."
+     },
+     {
+      "q": "Which sentence is a run-on?",
+      "options": [
+       "The road flooded, so we stayed home.",
+       "We stayed home because the road flooded.",
+       "The road flooded; we stayed home.",
+       "The road flooded we stayed home."
+      ],
+      "answer": 3,
+      "why": "Two main clauses are joined with no punctuation or conjunction. The other three are correctly joined."
+     },
+     {
+      "q": "Which sentence uses a semicolon correctly?",
+      "options": [
+       "Rain fell all night; the roads flooded.",
+       "Although tired; she kept studying.",
+       "I like tea; and she likes coffee.",
+       "The reason is; that he was ill."
+      ],
+      "answer": 0,
+      "why": "A semicolon links two complete main clauses. The other options use it after a dependent clause or in the middle of a clause."
+     },
+     {
+      "q": "Not only ____ the course teach grammar, but it also builds vocabulary.",
+      "options": [
+       "do",
+       "does",
+       "did",
+       "is"
+      ],
+      "answer": 1,
+      "why": "After 'Not only' at the start we use inversion with the auxiliary. 'Course' is singular and the verb is present, so 'does'."
+     },
+     {
+      "q": "Neither the teacher nor the students ____ aware of the change.",
+      "options": [
+       "was",
+       "has been",
+       "were",
+       "is"
+      ],
+      "answer": 2,
+      "why": "With 'neither ... nor', the verb agrees with the nearer subject, 'students', which is plural."
+     },
+     {
+      "q": "She enjoys reading, writing and ____.",
+      "options": [
+       "to swim",
+       "swim",
+       "she swims",
+       "swimming"
+      ],
+      "answer": 3,
+      "why": "Items in a list must have the same grammatical form, here -ing forms."
+     },
+     {
+      "q": "The man ____ I met yesterday is my new tutor.",
+      "options": [
+       "whom",
+       "whose",
+       "which",
+       "whoever"
+      ],
+      "answer": 0,
+      "why": "'Whom' is the object of 'met' and refers to a person. 'Whose' would show possession."
+     },
+     {
+      "q": "Which sentence is complex?",
+      "options": [
+       "The exam was hard, and I was nervous.",
+       "Because it was late, we went home.",
+       "We went home.",
+       "We studied, but we failed; we tried again."
+      ],
+      "answer": 1,
+      "why": "A complex sentence has a main clause and a dependent clause, here introduced by 'Because'. The other options are simple or compound."
+     },
+     {
+      "q": "If I ____ more time, I would revise again.",
+      "options": [
+       "have",
+       "would have",
+       "had",
+       "has"
+      ],
+      "answer": 2,
+      "why": "The second conditional uses past simple in the 'if' clause and 'would' in the result clause."
+     },
+     {
+      "q": "Which uses the colon correctly?",
+      "options": [
+       "She packed: a passport, a ticket and a bag.",
+       "She packed three: things a passport, a ticket and a bag.",
+       "She packed three things, : a passport, a ticket and a bag.",
+       "She packed three things: a passport, a ticket and a bag."
+      ],
+      "answer": 3,
+      "why": "A colon follows a complete clause and introduces the list. The first alternative interrupts the verb and its object."
+     }
+    ]
+   },
+   {
+    "name": "IELTS Band 7",
+    "questions": [
+     {
+      "q": "The policy, ____ was introduced in 2019, has reduced plastic waste.",
+      "options": [
+       "that",
+       "which",
+       "who",
+       "what"
+      ],
+      "answer": 1,
+      "why": "A non-defining clause set off by commas uses 'which'. 'That' is not used after a comma in this way."
+     },
+     {
+      "q": "Walking through the village, ____.",
+      "options": [
+       "an old mosque caught my eye",
+       "the heat was unbearable",
+       "I noticed an old mosque",
+       "my bag felt heavy"
+      ],
+      "answer": 2,
+      "why": "The opening phrase must refer to the subject that is walking. Only 'I' did the walking; the others leave a dangling modifier."
+     },
+     {
+      "q": "Rarely ____ such rapid technological change been observed.",
+      "options": [
+       "have",
+       "did",
+       "is",
+       "has"
+      ],
+      "answer": 3,
+      "why": "After a negative adverb at the start, we invert the auxiliary. The subject 'change' is singular, so 'has'."
+     },
+     {
+      "q": "Students ____ attendance is low are unlikely to improve.",
+      "options": [
+       "whose",
+       "who",
+       "which",
+       "whom"
+      ],
+      "answer": 0,
+      "why": "'Whose' shows possession (their attendance). 'Who' cannot be followed by a noun phrase like this."
+     },
+     {
+      "q": "The programme aims to reduce costs, improve quality and ____ access.",
+      "options": [
+       "widening",
+       "widen",
+       "widened",
+       "to widened"
+      ],
+      "answer": 1,
+      "why": "The list follows 'to', so the verbs must be parallel base forms: reduce, improve, widen."
+     },
+     {
+      "q": "Which sentence is punctuated correctly?",
+      "options": [
+       "The study, which involved 2,000 adults found that sleep improves memory.",
+       "The study which involved 2,000 adults, found that sleep improves memory.",
+       "The study, which involved 2,000 adults, found that sleep improves memory.",
+       "The study, which involved 2,000 adults found, that sleep improves memory."
+      ],
+      "answer": 2,
+      "why": "A non-defining clause needs commas on both sides. The other versions omit or misplace one."
+     },
+     {
+      "q": "Had the government acted earlier, the damage ____ avoided.",
+      "options": [
+       "could be",
+       "can be",
+       "would being",
+       "could have been"
+      ],
+      "answer": 3,
+      "why": "This is an inverted third conditional about a past situation, so the result uses 'could have been'."
+     },
+     {
+      "q": "The number of students who study abroad ____ increasing.",
+      "options": [
+       "is",
+       "are",
+       "have",
+       "be"
+      ],
+      "answer": 0,
+      "why": "The subject is 'the number' (singular), not 'students'. 'Is' agrees with it."
+     },
+     {
+      "q": "Which sentence avoids a comma splice?",
+      "options": [
+       "Online courses are flexible, they are also cheaper.",
+       "Online courses are flexible; they are also cheaper.",
+       "Online courses are flexible they are also cheaper.",
+       "Online courses are flexible, however they are cheaper."
+      ],
+      "answer": 1,
+      "why": "A semicolon correctly joins two independent clauses. The others use only a comma or no punctuation."
+     },
+     {
+      "q": "It is essential that every student ____ a copy of the form.",
+      "options": [
+       "submits",
+       "submitted",
+       "submit",
+       "submitting"
+      ],
+      "answer": 2,
+      "why": "After 'essential that', the subjunctive uses the base form of the verb regardless of subject."
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -1,6 +1,5 @@
-import Link from "next/link";
-import {PageIntro,PageWrap} from "@/components/page-parts";
-import {PublicResourceList} from "@/components/public-resource-list";
+import {ebooksFor} from "@/lib/ebooks";
+import {EbookApp} from "@/components/ebooks/ebook-app";
 export const dynamic="force-dynamic";
-export const metadata={title:"Good pages. Within reach."};
-export default function Page(){return <PageWrap tone="resources-page"><PageIntro eyebrow="THE EBOOK SHELF" title="Good pages. Within reach." description="IELTS প্রস্তুতির বই ও workbook।"><Link href="/resources" className="text-link">All resources ↗</Link></PageIntro><PublicResourceList category="ebook"/></PageWrap>;}
+export const metadata={title:"IELTS Ebook Shelf: Read Online with Notes and Bookmarks",description:"Original IELTS ebooks for Writing, Speaking, Reading, Listening and study planning. Read in your browser with highlights, notes, bookmarks, search and reading themes."};
+export default async function Page(){return <EbookApp books={await ebooksFor()}/>;}

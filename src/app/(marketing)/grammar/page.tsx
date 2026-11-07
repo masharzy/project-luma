@@ -1,6 +1,5 @@
-import Link from "next/link";
-import {PageIntro,PageWrap} from "@/components/page-parts";
-import {PublicResourceList} from "@/components/public-resource-list";
+import {grammarFor} from "@/lib/grammar";
+import {GrammarApp} from "@/components/grammar/grammar-app";
 export const dynamic="force-dynamic";
-export const metadata={title:"Grammar Practice"};
-export default function Page(){return <PageWrap tone="resources-page"><PageIntro eyebrow="GRAMMAR PRACTICE" title="Grammar Practice" description="সাধারণ ভুল ও সঠিক বাক্যের গঠন।"><Link href="/resources" className="text-link">All resources ↗</Link></PageIntro><PublicResourceList category="grammar"/></PageWrap>;}
+export const metadata={title:"IELTS Grammar Practice: Tests with Explanations",description:"IELTS grammar practice by topic: tenses, articles, prepositions, conditionals, passive voice and more. Three levels per topic with instant explanations."};
+export default async function Page(){return <GrammarApp cats={await grammarFor()}/>;}
