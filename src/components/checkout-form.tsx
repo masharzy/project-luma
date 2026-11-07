@@ -12,7 +12,7 @@ async function call(body: Record<string, unknown>) {
 }
 
 // Right-hand side of checkout: price, coupon, payment and the final button.
-export function CheckoutForm({ planId, planName, duration, listPrice, methods, replacing }: { planId: string; planName: string; duration: string; listPrice: number; methods: PaymentMethod[]; replacing?: string }) {
+export function CheckoutForm({ planId, planName, duration, listPrice, methods, replacing, gateway }: { planId: string; planName: string; duration: string; listPrice: number; methods: PaymentMethod[]; replacing?: string; gateway?: boolean }) {
   const [quote, setQuote] = useState<Quote>({ listPrice, discount: 0, total: listPrice, coupon: null });
   const [code, setCode] = useState('');
   const [couponMsg, setCouponMsg] = useState('');
@@ -38,6 +38,14 @@ export function CheckoutForm({ planId, planName, duration, listPrice, methods, r
     } catch (e) { setError(e instanceof Error ? e.message : 'Could not place your request.'); setBusy(''); }
   }
 
+  async function payOnline() {
+    setBusy('order'); setError('');
+    try {
+      const r = await call({ action: 'pay', planId, coupon: quote.coupon?.code });
+      window.location.assign(r.checkoutUrl);
+    } catch (e) { setError(e instanceof Error ? e.message : 'Could not start payment.'); setBusy(''); }
+  }
+
   return (
     <div className="ck-pay">
       <dl className="ck-rows">
@@ -57,7 +65,15 @@ export function CheckoutForm({ planId, planName, duration, listPrice, methods, r
       <div className="ck-total"><span>Total</span><strong>{taka(quote.total)}</strong></div>
 
       <h3 className="ck-h">Payment</h3>
-      {methods.length ? (
+      {gateway && quote.total > 0 ? (
+        <>
+          <p className="ck-soft">Pay with bKash, Nagad or Rocket on a secure page. Your plan starts automatically once payment is confirmed.</p>
+          {replacing && <p className="ck-soft">You are on {replacing} now. This plan replaces it when payment is confirmed.</p>}
+          <button type="button" className="ck-go" onClick={payOnline} disabled={busy !== ''}>{busy === 'order' ? 'Opening payment…' : 'Pay ' + taka(quote.total)}</button>
+          {error && <p role="alert" className="ck-err">{error}</p>}
+          <p className="ck-fine">Secured by Briofold. No automatic renewal.</p>
+        </>
+      ) : methods.length ? (
         <>
           <div className="ck-methods" role="radiogroup" aria-label="Payment method">
             {methods.map(m => <label key={m.name} className={m.name === method ? 'on' : ''}><input type="radio" name="method" checked={m.name === method} onChange={() => setMethod(m.name)} />{m.name}</label>)}
@@ -74,10 +90,10 @@ export function CheckoutForm({ planId, planName, duration, listPrice, methods, r
       ) : (
         <p className="ck-soft">Payment details are shared right after you place the request. Your plan starts once payment is confirmed.</p>
       )}
-      {replacing && <p className="ck-soft">You are on {replacing} now. This plan replaces it when approved.</p>}
-      <button type="button" className="ck-go" onClick={place} disabled={busy !== '' || (methods.length > 0 && !ref.trim())}>{busy === 'order' ? 'Placing request…' : quote.total === 0 ? 'Request ' + planName : 'Request ' + planName + ' · ' + taka(quote.total)}</button>
-      {error && <p role="alert" className="ck-err">{error}</p>}
-      <p className="ck-fine">No automatic renewal. You can cancel a pending request any time.</p>
+      {!(gateway && quote.total > 0) && replacing && <p className="ck-soft">You are on {replacing} now. This plan replaces it when approved.</p>}
+      {!(gateway && quote.total > 0) && <button type="button" className="ck-go" onClick={place} disabled={busy !== '' || (methods.length > 0 && !ref.trim())}>{busy === 'order' ? 'Placing request…' : quote.total === 0 ? 'Request ' + planName : 'Request ' + planName + ' · ' + taka(quote.total)}</button>}
+      {!(gateway && quote.total > 0) && error && <p role="alert" className="ck-err">{error}</p>}
+      {!(gateway && quote.total > 0) && <p className="ck-fine">No automatic renewal. You can cancel a pending request any time.</p>}
     </div>
   );
 }
