@@ -5,7 +5,7 @@ import { computedSpeakingBand } from './speaking-qa-validation';
 import { speakingModel, speakingProvider } from './speaking-model';
 import { getPrivate } from './storage';
 import { readSpeakingStream, type SpeakingEnvelope } from './speaking-stream';
-import { speakingCoverageIssues, speakingEvidenceIssues } from './speaking-coverage';
+import { speakingCoverageIssues, speakingEvidenceIssues, repairSpeakingPart } from './speaking-coverage';
 import { speakingMp3,encodeSpeakingPcm } from './speaking-audio';
 import { packSpeakingAudio } from './speaking-audio-pack';
 
@@ -95,6 +95,7 @@ type Clip = SpeakingInput['clips'][number];
 type PartReport = {
  part:number; issues:string[]; providerRequestId?:string; httpStatus?:number;
  rawResponse?:SpeakingEnvelope | string;
+ repaired?:Record<string,number>; attempts?:number;
 };
 type AssessmentOptions = {
  onProgress?:(report:PartReport)=>Promise<void>;
@@ -177,8 +178,8 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
    headers:{Authorization:'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':'https://jumptonine.com','X-Title':'JumpToNine Speaking Evaluation'},
    body:JSON.stringify({
     model:options.model??speakingModel,stream:true,stream_options:{include_usage:true},max_tokens:16000,
-    reasoning:options.reasoning?{effort:options.reasoning,exclude:true}:{enabled:false,exclude:true},provider:{...(options.providerOnly===null?{}:{only:[options.providerOnly??speakingProvider]}),allow_fallbacks:false,require_parameters:true},
-    response_format:options.simpleSchema||options.noStepEnum||options.loose?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'||(options.loose&&['minItems','maxItems','maxLength','minLength'].includes(k))||((options.noStepEnum||options.loose)&&k==='enum'&&Array.isArray(v)&&v.every(x=>typeof x==='number'))?undefined:v)):modelJsonFormat(steps),
+    reasoning:{effort:options.reasoning??'low',exclude:true},provider:{...(options.providerOnly===null?{}:{only:[options.providerOnly??speakingProvider]}),allow_fallbacks:false,require_parameters:true},
+    response_format:options.simpleSchema||options.noStepEnum||options.loose!==false?JSON.parse(JSON.stringify(modelJsonFormat(steps),(k,v)=>k==='multipleOf'||(options.loose!==false&&['minItems','maxItems','maxLength','minLength'].includes(k))||((options.noStepEnum||options.loose!==false)&&k==='enum'&&Array.isArray(v)&&v.every(x=>typeof x==='number'))?undefined:v)):modelJsonFormat(steps),
     messages:[{role:'system',content:systemPrompt},{role:'user',content}],
    }),
   });
@@ -216,8 +217,10 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
     const parsed=modelOutput.safeParse(raw);
     if(!parsed.success)report.issues.push(...parsed.error.issues.map(issue=>'schema:'+issue.path.join('.')+': '+issue.message));
     else{
-     report.issues.push(...validatePart(parsed.data,clips));
-     if(!report.issues.length)model=parsed.data;
+     const repaired=repairSpeakingPart(parsed.data,clips);
+     if(Object.keys(repaired.dropped).length)report.repaired=repaired.dropped;
+     report.issues.push(...validatePart(repaired.model,clips));
+     if(!report.issues.length)model=repaired.model;
     }
    }
   }
@@ -230,6 +233,14 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
  return {report,model};
 }
 
+// One automatic retry per part (model output is non-deterministic); a provider 4xx is a request problem and is not retried.
+async function assessPartWithRetry(part:number,clips:Clip[],cueCard:unknown,key:string,options:AssessmentOptions){
+ const first=await assessPart(part,clips,cueCard,key,options);
+ if(first.model||(first.report.httpStatus!==undefined&&first.report.httpStatus>=400&&first.report.httpStatus<500))return {...first,report:{...first.report,attempts:1}};
+ const second=await assessPart(part,clips,cueCard,key,options);
+ return {...second,report:{...second.report,attempts:2}};
+}
+
 export async function assessSpeakingDirect(input:SpeakingInput,options:AssessmentOptions={}){
  const byPart=new Map<number,Clip[]>();
  for(const clip of input.clips){
@@ -238,7 +249,7 @@ export async function assessSpeakingDirect(input:SpeakingInput,options:Assessmen
   byPart.set(clip.part,clips);
  }
  const key=options.providerKey??await getKey('openrouter');
- const parts=await Promise.all([...byPart].sort(([a],[b])=>a-b).map(([part,clips])=>assessPart(part,clips,input.cueCard,key,options)));
+ const parts=await Promise.all([...byPart].sort(([a],[b])=>a-b).map(([part,clips])=>assessPartWithRetry(part,clips,input.cueCard,key,options)));
  const reports=parts.map(p=>p.report);
  if(!parts.length||parts.some(p=>!p.model)){
   const failureCode=reports.some(p=>p.issues.some(i=>i.startsWith('missing_step:')||i.startsWith('empty_speech:')))

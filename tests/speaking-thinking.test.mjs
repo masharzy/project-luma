@@ -28,7 +28,7 @@ const timeline=body=>{
  const [header,...clips]=body.messages[1].content;
  return {...JSON.parse(header.text),recordings:clips.filter(c=>c.type==='text').map(c=>JSON.parse(c.text))};
 };
-test('three Gemini production requests run concurrently with separately labeled clips in each request and thinking disabled',async()=>{
+test('three Gemini production requests run concurrently with separately labeled clips in each request and low reasoning with a loose schema',async()=>{
  const old=globalThis.fetch;
  const sent=[],release=[];
  globalThis.fetch=async(url,opts)=>{
@@ -50,11 +50,12 @@ test('three Gemini production requests run concurrently with separately labeled 
    assert.equal(body.messages[1].content.length,steps.length*2+1);
    assert(body.messages[1].content.filter(c=>c.type==='input_audio').every(c=>c.input_audio.format==='mp3'));
    assert.equal(body.response_format.type,'json_schema');
-   assert.deepEqual(body.response_format.json_schema.schema.properties.answers.items.properties.step.enum,steps);
+   assert.equal(body.response_format.json_schema.schema.properties.answers.items.properties.step.enum,undefined);
+   assert.equal(body.response_format.json_schema.schema.properties.answers.minItems,undefined);
    assert(!JSON.stringify(body.messages).includes('private-'));
    assert.equal(body.model,'google/gemini-3.8-flash');
    assert.deepEqual(body.provider.only,['Google']);
-   assert.equal(body.reasoning.enabled,false);
+   assert.equal(body.reasoning.effort,'low');
   }
   assert.equal(r.usage.cost,.003);
   assert.equal(r.result.estimatedBand,6);
@@ -80,7 +81,7 @@ test('keeps raw responses for all parts when a transcript is missing, audio was 
   });
  }finally{globalThis.fetch=old;}
 });
-test('optional ellipsized strengths can pass but invented grammar corrections hold the result',async()=>{
+test('optional ellipsized strengths can pass but invented grammar corrections are dropped and reported',async()=>{
  const old=globalThis.fetch;
  let wrongCorrection=false;
  globalThis.fetch=async(url,opts)=>{
@@ -93,7 +94,9 @@ test('optional ellipsized strengths can pass but invented grammar corrections ho
   const r=await provider.assessSpeakingDirect(input);
   assert.equal(r.result.assessmentDetails.answers[0].strengths[0].quote,'I ... there.');
   wrongCorrection=true;
-  await assert.rejects(provider.assessSpeakingDirect(input),e=>e.providerReport.parts[0].issues.includes('correction_not_verbatim:0'));
+  const dropped=await provider.assessSpeakingDirect(input);
+  assert.deepEqual(dropped.result.assessmentDetails.answers[0].corrections,[]);
+  assert.equal(dropped.usage.parts[0].repaired.corrections,1);
  }finally{globalThis.fetch=old;}
 });
 
