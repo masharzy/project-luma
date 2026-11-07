@@ -6,7 +6,8 @@ import { speakingModel, speakingProvider } from './speaking-model';
 import { getPrivate } from './storage';
 import { readSpeakingStream, type SpeakingEnvelope } from './speaking-stream';
 import { speakingCoverageIssues, speakingEvidenceIssues } from './speaking-coverage';
-import { speakingMp3 } from './speaking-audio';
+import { speakingMp3,encodeSpeakingPcm } from './speaking-audio';
+import { packSpeakingAudio } from './speaking-audio-pack';
 
 const promptVersion = 'gemini-3.8-flash-part-rubric-v1';
 const systemPrompt = `Assess one IELTS Speaking part. Each question label is followed by its own audio clip. All evidence timestamps are seconds from the START of that clip.
@@ -106,6 +107,8 @@ type AssessmentOptions = {
  reasoning?:'low'|'medium';
  simpleSchema?:boolean;
  noStepEnum?:boolean;
+ // One joined audio per part (clips separated by 1 s silence, explicit start/end offsets) instead of one audio part per clip.
+ pack?:boolean;
 };
 const isSpeech=(status:string)=>status==='speech'||status==='partial_speech';
 const criterionKeys=['fluency_coherence','lexical_resource','grammar','pronunciation'] as const;
@@ -150,12 +153,21 @@ async function assessPart(part:number, clips:Clip[], cueCard:unknown, key:string
   const steps=clips.map(clip=>clip.step);
   const content:Record<string,unknown>[]=[{type:'text',text:JSON.stringify({part,steps,cueCard:part===2?cueCard:undefined})}];
   // Each part prepares its own audio. Download clips serially within a part.
+  if(options.pack){
+   const loaded:{clip:Omit<Clip,'key'>;bytes:Uint8Array}[]=[];
+   for(const {key:objectKey,...clip} of clips){stage='audio_download';loaded.push({clip,bytes:await loadAudio(objectKey)});}
+   stage='audio_encode';
+   const packed=packSpeakingAudio(loaded);
+   content.push({type:'text',text:'AUDIO PACKAGING: the single audio below joins this part\'s answers in order, separated by 1 second of silence that is never candidate hesitation. Each entry gives start_seconds/end_seconds in the joined audio. Assess each answer only inside its interval. Any timestamp_seconds you report must be relative to the start of that answer (subtract its start_seconds). Return exactly one answer object per step.\n'+JSON.stringify(packed.segments)},
+    {type:'input_audio',input_audio:{format:'mp3',data:encodeSpeakingPcm(Buffer.from(packed.audio).subarray(44)).toString('base64')}});
+  }else{
   for(const {key:objectKey,...clip} of clips){
    stage='audio_download';
    const bytes=await loadAudio(objectKey);
    stage='audio_encode';
    const audio=speakingMp3(bytes);
    content.push({type:'text',text:JSON.stringify(clip)},{type:'input_audio',input_audio:{format:'mp3',data:audio.toString('base64')}});
+  }
   }
   stage='provider_request';
   const response=await fetch('https://openrouter.ai/api/v1/chat/completions',{
