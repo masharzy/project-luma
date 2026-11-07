@@ -6,7 +6,7 @@ import { AuthHttpError } from '@/lib/auth/http';
 import { productAccess } from './access';
 import { writingModel } from '@/lib/evaluation/provider';
 const image=z.string().max(1500000).nullable().refine(v=>v===null||/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v)||(()=>{try{const u=new URL(v);return v.length<=2000&&u.protocol==='https:'&&!u.username&&!u.password}catch{return false}})());
-export const productWritingSchema=z.object({tasks:z.array(z.object({task:z.number().int().min(1).max(2),question:z.string().trim().min(10).max(16000),answer:z.string().max(20000),image})).min(1).max(2)}).refine(v=>new Set(v.tasks.map(t=>t.task)).size===v.tasks.length,'Duplicate task').refine(v=>v.tasks.some(t=>t.answer.trim()),'Write an answer first');
+export const productWritingSchema=z.object({tasks:z.array(z.object({task:z.number().int().min(1).max(2),question:z.string().trim().min(10).max(16000),answer:z.string().max(20000),image})).min(1).max(2)}).refine(v=>new Set(v.tasks.map(t=>t.task)).size===v.tasks.length,'Duplicate task').refine(v=>v.tasks.some(t=>t.answer.trim()),'Write an answer first').refine(v=>v.tasks.every(t=>t.task!==1||t.image!==null),'Task 1 needs its chart or diagram image').refine(v=>v.tasks.every(t=>t.task!==2||t.image===null),'Task 2 does not use an image');
 export async function submitWritingProduct(userId:string,id:string,value:unknown){
  const input=productWritingSchema.parse(value);
  const existing=(await db().query('SELECT id,status,result,model FROM public.writing_evaluations WHERE submission_id=$1::uuid AND user_id=$2',[id,userId]))[0];if(existing)return existing;

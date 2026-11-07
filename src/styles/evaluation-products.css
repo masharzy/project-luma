@@ -26,3 +26,9 @@ dialog.task-picker-dialog>.task-preview-action{position:static;box-shadow:none}
 .evaluation-product .wr-submit.wr-bar>p{flex:1 1 220px;margin:0;font-size:.78rem}
 .evaluation-product .wr-submit.wr-bar .button{justify-self:auto;margin-left:auto}
 @media(max-width:560px){.evaluation-product .wr-submit.wr-bar .button{flex:1 1 100%;margin:0}.evaluation-product .wr-submit.wr-bar>p{display:none}}
+
+.evaluation-product .wr-image-box{border:1px solid var(--lib-line,#e4d8c8);border-radius:2px;margin-top:10px;padding:12px}
+.evaluation-product .wr-img-h{margin:0 0 8px;font-size:1rem}
+.evaluation-product .wr-req{color:#b4132b;font-weight:600;margin-left:6px}
+.evaluation-product .wr-req-note,.evaluation-product .wr-noimg{margin:8px 0 0;color:var(--lib-mute,#6b6259)}
+.evaluation-product .wr-image-box .writing-image-upload{padding:0}
