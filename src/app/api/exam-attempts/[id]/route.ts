@@ -5,6 +5,7 @@ import { createWritingEvaluation } from '@/lib/evaluation/store';
 import { evaluationConfigured } from '@/lib/evaluation/provider';
 import { enqueueWriting } from '@/lib/evaluation/queue';
 import { readAttempt, publicAttempt, advanceAttempt } from '@/lib/exam/attempts';
+import { enqueueMockEvaluation } from '@/lib/exam/mock-evaluation';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 type Context = {
@@ -15,7 +16,11 @@ type Context = {
 function failure(e: unknown) { if (e instanceof AuthHttpError)
     return json({ error: e.message }, e.status); console.error('Attempt request failed', e); return json({ error: 'Unable to load or submit this test. Please retry.' }, 503); }
 export async function GET(_: NextRequest, c: Context) { try {
-    return json(publicAttempt(await readAttempt((await c.params).id)));
+    const attempt = await readAttempt((await c.params).id), view = publicAttempt(attempt);
+    // Safety net: if the Join-time evaluation jobs were lost, any later visit re-queues them (stable keys make this idempotent).
+    if (attempt.kind === 'mock' && !attempt.results_published_at && Number(attempt.current_index) > 0)
+        void enqueueMockEvaluation(String(attempt.id)).catch(() => {});
+    return json(view);
 }
 catch (e) {
     return failure(e);

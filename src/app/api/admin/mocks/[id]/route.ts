@@ -26,9 +26,9 @@ export async function POST(req:NextRequest,c:Context){try{const u=await admin();
  const module=d.module==='speaking'?'speaking':'writing';
  const paper=(await db().query("SELECT snapshot FROM public.exam_attempts WHERE id=$1::uuid AND parent_id=$2 AND kind='mock'",[d.attemptId,id]))[0];
  const index=paper?.snapshot.findIndex((s:any)=>s.module===module)??-1;if(index<0)throw new AuthHttpError(400,'Module is not included in this mock.');
- const rows=await db().query(`WITH event_lock AS (SELECT id FROM public.mock_events WHERE id=$1 AND ends_at<=now() AND results_published_at IS NULL FOR UPDATE) UPDATE public.exam_attempts a SET results=jsonb_set(a.results,'{${index}}',(a.results->${index})||'{"status":"unmarked","aiTries":0}'::jsonb) FROM event_lock e WHERE a.id=$2::uuid AND a.parent_id=e.id AND a.kind='mock' AND a.current_index>=${index+1} AND a.results->${index}->>'status' IN ('unmarked','ai_failed','ai_needs_review') RETURNING a.id`,[id,d.attemptId]);
+ const rows=await db().query(`WITH event_lock AS (SELECT id FROM public.mock_events WHERE id=$1 AND ends_at<=now() AND results_published_at IS NULL FOR UPDATE) UPDATE public.exam_attempts a SET results=jsonb_set(a.results,'{${index}}',(a.results->${index})||'{"status":"unmarked","aiTries":0}'::jsonb) FROM event_lock e WHERE a.id=$2::uuid AND a.parent_id=e.id AND a.kind='mock' AND a.current_index>=${index+1} AND a.results->${index}->>'status' IN ('unmarked','ai_failed','ai_needs_review') OR (a.results->${index}->>'status'='ai_running' AND (a.results->${index}->>'aiLeaseUntil')::timestamptz<now()) RETURNING a.id`,[id,d.attemptId]);
  if(!rows.length)throw new AuthHttpError(409,'This paper cannot be queued for evaluation.');
- await enqueueMockEvaluation(d.attemptId,true);
+ await enqueueMockEvaluation(d.attemptId,true,module);
  }
  else if(d.action==='grade'){if(typeof d.attemptId!=='string'||!/^[a-f0-9-]{36}$/.test(d.attemptId)||typeof d.band!=='number'||typeof d.feedback!=='string')throw new AuthHttpError(400,'Invalid grade');await markMockWriting(id,d.attemptId,d.band,d.feedback,d.module==='speaking'?'speaking':'writing');}
  else throw new AuthHttpError(400,'Invalid action');

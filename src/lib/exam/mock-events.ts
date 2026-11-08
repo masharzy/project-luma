@@ -5,6 +5,7 @@ import { db } from '@/lib/auth/db';
 import { AuthHttpError } from '@/lib/auth/http';
 import { moduleDeadline, type AttemptSnapshot } from './timeline';
 import { settleAttempt } from './attempts';
+import { joinClosesAt } from './timeline';
 const validId=(id:string)=>/^\d{1,16}$/.test(id);
 export async function mockCatalog(userId:string|null,onlyRegistered=false){
  return db().query(`SELECT e.id::text,e.title,e.description,e.access,e.starts_at,e.ends_at,e.results_published_at,
@@ -25,16 +26,20 @@ export async function registerMock(id:string,userId:string){
  if(!rows.length)throw new AuthHttpError(403,'Registration has closed or this mock requires an active Premium subscription.');
 }
 export async function joinMock(id:string,userId:string){
- const e=await event(id);const now=Date.now();if(now<new Date(String(e.starts_at)).getTime())throw new AuthHttpError(409,'The mock has not started yet.');
+ const e=await event(id);const now=Date.now(),startsAt=new Date(String(e.starts_at)).getTime();
+ if(now<startsAt)throw new AuthHttpError(409,'The waiting room has not opened yet.');
  const r=(await db().query('SELECT attempt_id FROM public.mock_registrations WHERE mock_id=$1 AND user_id=$2',[id,userId]))[0];
- if(!r)throw new AuthHttpError(403,'Register before the scheduled start to join this mock.');if(r.attempt_id)return String(r.attempt_id);
- if((now>=new Date(String(e.ends_at)).getTime()&&!(e.snapshot as any[]).some(s=>s.module==='speaking'))||e.results_published_at)throw new AuthHttpError(409,'This mock has ended.');
+ if(!r)throw new AuthHttpError(403,'Register before the scheduled start to join this mock.');
+ // Someone who already joined may always come back (reload, new device) until results are published.
+ if(r.attempt_id)return String(r.attempt_id);
+ if(e.results_published_at||now>=joinClosesAt(startsAt))throw new AuthHttpError(409,'The join window has closed. This mock can no longer be joined.');
  const attempt=randomUUID(),snapshot=e.snapshot as AttemptSnapshot;
  // Registration row lock and one SQL statement make concurrent Join requests idempotent.
+ // The first deadline is the shared end of module 1, never "join time + duration".
  const result=await db().query(`WITH registration AS (SELECT * FROM public.mock_registrations WHERE mock_id=$1 AND user_id=$2::uuid FOR UPDATE),
  made AS (INSERT INTO public.exam_attempts(id,owner_hash,kind,parent_id,title,snapshot,user_id,deadline,scheduled_start,expires_at)
  SELECT $3::uuid,'','mock',$1,$4,$5::jsonb,$2::uuid,$6::timestamptz,$7::timestamptz,$8::timestamptz FROM registration WHERE attempt_id IS NULL RETURNING id)
- UPDATE public.mock_registrations SET attempt_id=(SELECT id FROM made) WHERE mock_id=$1 AND user_id=$2::uuid AND EXISTS(SELECT 1 FROM made) RETURNING attempt_id`,[id,userId,attempt,e.title,JSON.stringify(snapshot),snapshot[0].module==='speaking'?null:new Date(moduleDeadline(snapshot,new Date(String(e.starts_at)).getTime(),0)).toISOString(),e.starts_at,new Date(new Date(String(e.ends_at)).getTime()+365*86400000).toISOString()]);
+ UPDATE public.mock_registrations SET attempt_id=(SELECT id FROM made) WHERE mock_id=$1 AND user_id=$2::uuid AND EXISTS(SELECT 1 FROM made) RETURNING attempt_id`,[id,userId,attempt,e.title,JSON.stringify(snapshot),new Date(moduleDeadline(snapshot,startsAt,0)).toISOString(),e.starts_at,new Date(new Date(String(e.ends_at)).getTime()+365*86400000).toISOString()]);
  if(result.length)return String(result[0].attempt_id);
  return String((await db().query('SELECT attempt_id FROM public.mock_registrations WHERE mock_id=$1 AND user_id=$2',[id,userId]))[0].attempt_id);
 }
