@@ -3,7 +3,8 @@ import { sessionCookieName } from "@/lib/auth/config";
 export default async function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
-  const engine = request.nextUrl.pathname.startsWith("/speaking/") || request.nextUrl.pathname.startsWith("/admin/engine/") || request.nextUrl.pathname.startsWith("/exam/");
+  const mockPage = /^\/(dashboard\/)?mocks\/\d+/.test(request.nextUrl.pathname);
+  const engine = mockPage || request.nextUrl.pathname.startsWith("/speaking/") || request.nextUrl.pathname.startsWith("/admin/engine/") || request.nextUrl.pathname.startsWith("/exam/");
   const productMedia=request.nextUrl.pathname.startsWith("/dashboard/writing")||request.nextUrl.pathname.startsWith("/writing-evaluation")||request.nextUrl.pathname.startsWith("/speaking-evaluation/results/");
   const isDev = process.env.NODE_ENV !== "production";
   const csp = [
@@ -15,11 +16,11 @@ export default async function proxy(request: NextRequest) {
     (engine||productMedia) ? "media-src 'self' https: blob:" : "media-src 'self'",
     "font-src 'self'",
     `connect-src 'self'${isDev ? " ws:" : ""}`,
-    "frame-src 'none'",
+    mockPage ? "frame-src 'self'" : "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    "frame-ancestors 'none'",
+    request.nextUrl.pathname.startsWith("/speaking/") ? "frame-ancestors 'self'" : "frame-ancestors 'none'",
     ...(isDev || request.nextUrl.protocol !== "https:"
       ? []
       : ["upgrade-insecure-requests"]),

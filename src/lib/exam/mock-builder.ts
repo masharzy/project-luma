@@ -5,6 +5,7 @@ import { loadExam } from './store';
 import { mockCopyDocument,mockSources } from './mock-sources';
 import { normalizeSpeakingSet } from '@/lib/speaking/schema';
 import { gradeModule } from './result';
+import { mockEnd } from './timeline';
 export async function mockBuilderData(){const [items,sources,speakingSets]=await Promise.all([
  db().query(`SELECT c.id::text,c.title,c.description,c.access,c.status,c.scheduled_at,c.durations,c.sections,e.starts_at,e.ends_at,e.results_published_at,e.id IS NOT NULL AS frozen,
  (SELECT document->'mockSetup' FROM public.exam_modules WHERE kind='mock' AND parent_id=c.id AND module='writing') AS setup,
@@ -43,8 +44,8 @@ export async function saveMockBuilder(data:Record<string,unknown>,adminId:string
  const setup={modules,mode:manual?'manual':'import',speakingDocument:manual?data.speakingDocument??null:null,sourceKind:source?.kind??null,sourceId:source?.id??null,speakingSetId:bankId};(docs[2].document as any).mockSetup=setup;
  const snapshot:any[]=docs.filter(d=>modules.includes(d.module)).map(d=>({...d,document:{...d.document,mockSetup:undefined}}));
  if(modules.includes('speaking')&&(bank||ownSpeaking)){const set=ownSpeaking||normalizeSpeakingSet(bank!.document);if(set.sourceParts)set.sourceParts=set.sourceParts.map((p,i)=>({...p,title:'Part '+(i+1)}));snapshot.push({module:'speaking',document:{schemaVersion:1,durationMinutes:15,audioUrl:'',parts:[],questions:[],speakingSet:set,speakingSetId:ownSpeaking?undefined:String(bank!.id),untimed:true}});}
- // ends_at marks the timed-paper boundary; a Speaking-only mock has no submission deadline.
- const end=Number.isFinite(start)?new Date(start+Math.max(1000,Object.entries(durations).reduce((n,[m,v])=>n+(modules.includes(m)?v:0),0)*60000)).toISOString():null;
+ // ends_at is the end of the last module on the shared schedule (join window, loading, 1-minute breaks, 15-minute Speaking included).
+ const end=Number.isFinite(start)&&snapshot.length?new Date(mockEnd(snapshot as any,start)).toISOString():Number.isFinite(start)?new Date(start+60000).toISOString():null;
  const rows=await db().query(`WITH created AS(INSERT INTO public.admin_content(kind,title,description,access,status,sections,scheduled_at,durations) SELECT 'mock',$2,$3,$4,$5,$14::jsonb,$6::timestamptz,$7::jsonb WHERE $1::bigint IS NULL RETURNING id),
  changed AS(UPDATE public.admin_content SET title=$2,description=$3,access=$4,status=$5,sections=$14::jsonb,scheduled_at=$6::timestamptz,durations=$7::jsonb,updated_at=now() WHERE id=$1 AND kind='mock' AND NOT EXISTS(SELECT 1 FROM public.mock_events WHERE id=$1) RETURNING id),
  target AS(SELECT id FROM created UNION ALL SELECT id FROM changed),

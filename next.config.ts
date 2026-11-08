@@ -15,7 +15,7 @@ const config: NextConfig = {
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
@@ -23,6 +23,8 @@ const config: NextConfig = {
           { key: "X-DNS-Prefetch-Control", value: "off" },
         ],
       },
+      {source:"/mocks/:path*",headers:[{key:"Permissions-Policy",value:"camera=(), microphone=(self), geolocation=()"}]},
+      {source:"/dashboard/mocks/:path*",headers:[{key:"Permissions-Policy",value:"camera=(), microphone=(self), geolocation=()"}]},
       {source:"/speaking/:path*",headers:[{key:"Permissions-Policy",value:"camera=(), microphone=(self), geolocation=()"}]},
       {
         source: "/auth/:path*",

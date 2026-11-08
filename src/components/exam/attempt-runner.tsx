@@ -1,9 +1,11 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { WritingEvaluation, TaskAssessment } from '../writing-evaluation';
 import { EngineSurface } from './engine-surface';
 import { Toaster } from './feedback';
+import { ExamLock } from './exam-lock';
+import { startMockAudio, type AudioStatus } from '@/lib/exam/mock-audio';
 import type { ExamDocument, Module } from '@/lib/exam/document';
 import '@/styles/exam-engine.css';
 const ExamInterface = dynamic(() => import('./exam-interface'), { ssr: false });
@@ -37,6 +39,8 @@ type State = {
     serverNow: number;
     resultPublished?: boolean;
     moduleSubmitted?: boolean;
+    mock?: { startsAt: number; examStart: number; moduleStart: number | null; moduleEnd: number | null; nextStart: number | null; nextModule: string | null };
+    upcoming?: { module: string; audio: string[] } | null;
     savedAnswers?: Record<string,string>;
     modules: {
         module: Module|'speaking';
@@ -48,11 +52,19 @@ type State = {
     } | null;
     results: Result[];
 };
-export function AttemptRunner({ id, nonce }: {
+export function AttemptRunner(props: { id: string; nonce?: string }) {
+    const [lock, setLock] = useState(false);
+    return <><ExamLock active={lock} /><AttemptRunnerBody {...props} onLock={setLock} /></>;
+}
+function AttemptRunnerBody({ id, nonce, onLock }: {
     id: string;
     nonce?: string;
+    onLock: (active: boolean) => void;
 }) {
     const [state, setState] = useState<State | null>(null), [error, setError] = useState(''), [busy, setBusy] = useState(false), [time, setTime] = useState(0), [answers, setAnswers] = useState<Record<string, string>>({});
+    // Scheduled mock: a shared server clock drives every screen. `clock` is the server time in ms, refreshed 4x a second.
+    const [clock, setClock] = useState(0), [audio, setAudio] = useState<AudioStatus | null>(null);
+    const audioCtl = useRef<ReturnType<typeof startMockAudio> | null>(null), audioKey = useRef('');
     const dirty=useRef(false),saving=useRef(false),flushRef=useRef<()=>Promise<void>>(async()=>{});
     const [saveStatus,setSaveStatus]=useState('');
     const answerRef = useRef<Record<string, string>>({}), lock = useRef(false), offset = useRef(0), stateRef = useRef<State | null>(null);
@@ -72,6 +84,8 @@ export function AttemptRunner({ id, nonce }: {
         setError(e instanceof Error ? e.message : 'Unable to load test');
     } }, [id, apply]);
     useEffect(() => { void load(); }, [load]);
+    // A mock lives on its own page (one full-screen session). The plain attempt URL sends people there.
+    useEffect(() => { if (state?.kind === 'mock' && !state.complete && location.pathname.startsWith('/exam/')) location.replace('/mocks/' + state.parentId); }, [state?.kind, state?.complete, state?.parentId]);
     const change = useCallback((qid: string, value: unknown) => { const next = { ...answerRef.current, [qid]: String(value ?? '') }; answerRef.current = next; dirty.current=true; setAnswers(next); try {
         sessionStorage.setItem('luma-attempt:' + id + ':' + stateRef.current?.index, JSON.stringify(next));
     }
@@ -104,8 +118,27 @@ export function AttemptRunner({ id, nonce }: {
     }, [id, apply]);
     useEffect(()=>{
       const refresh=async()=>{try{const r=await fetch('/api/exam-attempts/'+id,{cache:'no-store'});if(!r.ok)return;const d=await r.json(),before=stateRef.current;offset.current=d.serverNow-Date.now();setError('');if(!before||d.index!==before.index||d.complete!==before.complete||d.moduleSubmitted!==before.moduleSubmitted||d.resultPublished!==before.resultPublished)apply(d);}catch{}};
-      const poll=setInterval(()=>void refresh(),15000);return()=>clearInterval(poll);
-    },[id,apply]);
+      const poll=setInterval(()=>void refresh(),stateRef.current?.kind==='mock'?(()=>{const m=stateRef.current?.mock,t=Date.now()+offset.current,edges=[m?.moduleStart,m?.moduleEnd,m?.nextStart].filter((v):v is number=>typeof v==='number'&&v>t-3000);return edges.length&&Math.min(...edges)-t<25000?1500:6000;})():15000);return()=>clearInterval(poll);
+    },[id,apply,state?.index,state?.moduleSubmitted,state?.mock?.moduleStart]);
+    useEffect(()=>{const t=setInterval(()=>setClock(Date.now()+offset.current),250);return()=>clearInterval(t);},[]);
+    useEffect(()=>{onLock(Boolean(state?.kind==='mock'&&!state.complete));},[state?.kind,state?.complete,onLock]);
+    // Every phase boundary re-reads the server at once (module ends, next module opens) so nobody waits for the next poll.
+    useEffect(()=>{const m=state?.mock;if(!m)return;const edges=[m.moduleStart,m.moduleEnd,m.nextStart].filter((v):v is number=>typeof v==='number');const timers=edges.map(e=>{const d=e-(Date.now()+offset.current)+80;return d>0?window.setTimeout(()=>void load(),d):0;});return()=>timers.forEach(t=>t&&clearTimeout(t));},[state?.mock?.moduleStart,state?.mock?.moduleEnd,state?.mock?.nextStart,state?.index,load]);
+    // Listening audio: preload as soon as the URLs are known, play at the shared start second.
+    useEffect(()=>{
+      const m=state?.mock;if(!m||state?.complete)return;
+      const live=state?.current?.module==='listening'?state.current.document:null;
+      const urls=state?.upcoming?.module==='listening'?state.upcoming.audio:live?(live.audioUrl?[live.audioUrl]:live.parts.map((p:any)=>p.audio_url).filter(Boolean)):[];
+      const key=state.index+'|'+(m.moduleStart??'')+'|'+urls.join(',');
+      if(!urls.length||m.moduleStart===null){if(audioKey.current){audioCtl.current?.stop();audioCtl.current=null;audioKey.current='';setAudio(null);}return;}
+      if(audioKey.current===key)return;
+      audioCtl.current?.stop();audioKey.current=key;
+      audioCtl.current=startMockAudio(urls,m.moduleStart,()=>Date.now()+offset.current,setAudio);
+    },[state]);
+    useEffect(()=>()=>{audioCtl.current?.stop();},[]);
+    // The Speaking room is a separate document; it tells us when the candidate finished.
+    useEffect(()=>{const on=(e:MessageEvent)=>{if(e.origin===location.origin&&e.data?.type==='mock-speaking-done')void load();};window.addEventListener('message',on);return()=>window.removeEventListener('message',on);},[load]);
+
     useEffect(()=>{const timer=setTimeout(()=>void flushRef.current(),600);return()=>clearTimeout(timer);},[answers]);
     useEffect(()=>{
       const flush=async()=>{const current=stateRef.current;if(!dirty.current||saving.current||lock.current||!current||current.complete||current.moduleSubmitted||!current.deadline)return;
@@ -147,20 +180,39 @@ export function AttemptRunner({ id, nonce }: {
     const back = state?.kind==='mock'?'/mocks/'+state.parentId:state?.kind === 'cambridge' ? '/cambridge' : '/recent-tests';
     if (!state)
         return <section className="exam-session-shell"><div className="exam-session-sheet"><h1>{error ? 'Unable to open this attempt' : 'Preparing your test…'}</h1>{error && <><p role="alert">{error}</p><button className="session-primary" onClick={() => void load()}>Try again</button></>}</div></section>;
+    if(state.kind==='mock'&&!state.complete){
+      const m=state.mock,now=clock||Date.now()+offset.current,fmtT=(ms:number)=>{const t=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};
+      const name=(x?:string|null)=>x?x[0].toUpperCase()+x.slice(1):'';
+      const shell=(eyebrow:string,title:string,body:string,timer?:{label:string;ms:number},extra?:ReactNode)=><section className="exam-session-shell launcher-shell"><div className="exam-session-sheet launcher-sheet" role="status"><header className="launcher-head"><span className="launcher-kind">{eyebrow}</span><h1>{title}</h1><p lang="bn">{body}</p></header>{timer&&<div role="timer" style={{textAlign:'center',margin:'12px 0'}}><small style={{display:'block',opacity:.7}}>{timer.label}</small><strong style={{fontSize:48,fontVariantNumeric:'tabular-nums'}}>{fmtT(timer.ms)}</strong></div>}{extra}</div></section>;
+      const audioLine=state.current?.module==='listening'||state.upcoming?.module==='listening'?(audio?(audio.failed?'Audio could not load. Check your connection.':audio.ready?'✓ Audio is loaded and ready':`Loading audio… ${audio.loaded}/${audio.total}`):'Preparing audio…'):'';
+      if(m&&m.moduleStart!==null&&now<m.moduleStart){
+        const first=state.index===0,loading=first&&now>=m.moduleStart-15000;
+        return shell(first?(loading?'Loading':'Waiting room'):'Break',first?(loading?'Loading your test…':'You are in the waiting room'):'Next module starts soon',first?'সবার test একই সময়ে শুরু হবে। Full screen থাকো, কোনো কিছু করার দরকার নেই। Listening-এর audio টাইমার শেষে নিজে থেকেই চালু হবে।':name(state.current?.module||state.upcoming?.module||state.modules[state.index]?.module)+' ঠিক সময়ে শুরু হবে। একটু অপেক্ষা করো।',{label:first?'Test starts in':name(state.modules[state.index]?.module)+' starts in',ms:m.moduleStart-now},audioLine?<p style={{textAlign:'center'}}>{audioLine}</p>:undefined);
+      }
+      if(state.moduleSubmitted||(m&&m.moduleEnd!==null&&now>=m.moduleEnd&&state.current?.module!=='speaking')){
+        const ended=m?.moduleEnd!=null&&now>=m.moduleEnd;
+        if(!ended)return shell('Submitted',name(state.modules[state.index]?.module)+' submitted','তুমি এই module শেষ করেছ, উত্তর আর বদলানো যাবে না। বাকি সবার সময় শেষ না হওয়া পর্যন্ত এই ঘরে অপেক্ষা করো।',m?.moduleEnd?{label:'Everyone finishes in',ms:m.moduleEnd-now}:undefined);
+        return shell(m?.nextStart?'Break':'Finishing',m?.nextStart?'Next module starts soon':'Wrapping up…',m?.nextStart?name(m.nextModule)+' ঠিক সময়ে শুরু হবে। অপেক্ষা করো।':'সব জমা হচ্ছে।',m?.nextStart?{label:name(m.nextModule)+' starts in',ms:m.nextStart-now}:undefined);
+      }
+    }
     if(state.complete&&state.kind==='mock'&&!state.resultPublished)return <section className="exam-session-shell launcher-shell"><div className="exam-session-sheet launcher-sheet"><header className="launcher-head"><span className="launcher-kind">Mock submitted</span><h1>You are done.</h1><p lang="bn">তোমার সব module জমা হয়েছে। Writing ও Speaking evaluation আমাদের server-এ নিজে থেকেই চলছে, তাই এই page বা laptop খোলা রাখতে হবে না।</p></header><ul className="launcher-rules"><li lang="bn">ফল প্রকাশ হলে My tests-এ তোমার score ও feedback দেখতে পাবে।</li></ul><a className="launcher-start" href={back}>Back to mock</a><button type="button" className="launcher-back" style={{justifySelf:'start'}} onClick={()=>void load()}>Check result</button></div></section>;
     if(state.moduleSubmitted)return <section className="exam-session-shell"><div className="exam-session-sheet"><h1>{state.modules[state.index]?.module} submitted</h1><p>এই module-এর উত্তর আর বদলানো যাবে না। পরের module সবার জন্য নির্ধারিত সময়ে খুলবে।</p><p role="timer">{Math.floor(time/60)}:{String(time%60).padStart(2,'0')} remaining until the next scheduled stage</p><button onClick={()=>void load()}>Refresh</button></div></section>;
     if (state.complete) {
         const marked = state.results.filter(r => r.total !== null), correct = marked.reduce((n, r) => n + (r.correct ?? 0), 0), total = marked.reduce((n, r) => n + (r.total ?? 0), 0);
         return <section className="exam-session-shell"><div className="exam-session-sheet results-sheet"><span className="session-eyebrow">TEST COMPLETE</span><h1>Your effort, in focus.</h1><p>{state.title}</p><div className="result-total">{total>0?<strong>{correct}<small> / {total}</small></strong>:<strong className="result-submitted">Submitted</strong>}<span>{total>0?"Correct answers · Listening & Reading":"Your responses have been submitted"}</span></div><div className="result-module-grid">{state.results.map(r => <article key={r.module}><span className="session-eyebrow">{r.module}</span>{r.total === null ? <><h2>{state.kind==='mock'?(r.module==='speaking'?'Speaking band ':'Writing band ')+(r.bandScore?.toFixed(1)??'—'):'AI assessment'}</h2>{r.module==='writing'?<p>{r.wordCount??0} words</p>:<p>Recorded Speaking responses</p>}{'feedback' in r&&<p>{String(r.feedback)}</p>}</> : <><h2>{r.correct}<small> / {r.total}</small></h2><p>{r.scorePercent}% correct{r.bandScore !== null ? ' · Estimated band ' + r.bandScore.toFixed(1) : ''}</p></>}</article>)}</div>{state.kind!=='mock'&&state.results.some(r=>r.module==='writing')&&<WritingEvaluation attemptId={state.id} tasks={state.results.find(r=>r.module==='writing')!.items.map((item,index)=>({task:index+1,answer:item.answer}))}/>}{state.kind==='mock'&&state.results.find(r=>r.module==='writing')?.aiAssessment?.tasks.map(task=><article className="writing-task-feedback" key={task.task}><h3>Writing Task {task.task}</h3><TaskAssessment feedback={task}/></article>)}{state.kind==='mock'&&state.results.find(r=>r.module==='speaking')?.speakingAssessment&&<SpeakingAssessmentView result={state.results.find(r=>r.module==='speaking')!.speakingAssessment!}/>}<p lang="bn">নিচে তোমার উত্তর ও feedback মিলিয়ে দেখো।</p>{state.results.map(r => <details className="result-review" key={r.module}><summary>Review {r.module} answers</summary><div>{r.items.map(item => <article key={item.id}><div><strong>{item.label}</strong><span className={'answer-status ' + (item.correct === true ? 'correct' : item.correct === false ? 'incorrect' : '')}>{item.correct === true ? 'Correct' : item.correct === false ? 'Check answer' : 'Unmarked'}</span></div><p><span>Your answer</span>{item.answer || 'Not answered'}</p>{item.correctAnswer !== null && <p><span>Answer key</span>{item.correctAnswer || 'Not set'}</p>}</article>)}</div></details>)}<a className="session-primary" href={back}>Back to practice ↗</a><p className="session-note">{state.kind==='mock'?'Your published mock result is saved to your account.':'This result is available in this browser for 24 hours.'}</p></div></section>;
     }
+    if(state.kind==='mock'&&state.current?.module==='speaking')return <iframe title="Speaking test" src={'/speaking/evaluation/'+id} allow="microphone; fullscreen" style={{position:'fixed',inset:0,width:'100%',height:'100%',border:0,background:'#fff',zIndex:50}}/>;
     if(state.current?.module==='speaking')return <section className="exam-session-shell"><div className="exam-session-sheet"><h1>Speaking test</h1><p>Part 1 → Part 2 → Part 3। প্রতিটি উত্তর রেকর্ড করে সংরক্ষণ করো। সময় সবার জন্য একই।</p><p>Speaking-এর মোট সময়সীমা নেই। শেষ করে Submit করো।</p><a className="session-primary" href={'/speaking/evaluation/'+id}>Enter Speaking room ↗</a></div></section>;
     const waitingForListeningAudio = !state.deadline && state.current?.module === 'listening' &&
         Boolean(state.current.document.audioUrl || state.current.document.parts.some((p: any) => p.audio_url));
     if (!state.deadline && !waitingForListeningAudio)
         return <section className="exam-session-shell"><div className="exam-session-sheet" role="status"><span className="session-eyebrow">MODULE {state.index + 1} OF {state.modules.length}</span><h1>Opening {state.current?.module}…</h1><p>Your test will start automatically. There is no additional step.</p>{error && <><p role="alert">{error}</p><button className="session-primary" disabled={busy} onClick={() => void action('start').catch(() => { })}>Retry opening module</button></>}<a className="session-back" href={back}>Leave test</a></div></section>;
 
-    return <EngineSurface nonce={nonce}><Toaster /><p role="status">{saveStatus}</p>{error && <div className="attempt-error" role="alert">{error}<button disabled={busy} onClick={() => void action('submit').catch(() => { })}>Retry submission</button></div>}<ExamInterface key={state.index} nonce={nonce} testTitle={state.title + ' · ' + (state.index + 1) + ' / ' + state.modules.length} sectionType={state.current!.module as Module} parts={state.current!.document.parts} questions={state.current!.document.questions} timeLeft={waitingForListeningAudio ? state.current!.document.durationMinutes * 60 : time} answers={answers} onAnswerChange={change} onFinish={() => action('submit')} onExit={() => { if (confirm('Leave this test? The current module timer will keep running.'))
-        window.location.assign(back); }} disablePause sectionAudioUrl={state.current!.document.audioUrl}
+        if (!state.current) return <section className="exam-session-shell"><div className="exam-session-sheet" role="status"><h1>Loading…</h1><p>Your test is opening.</p>{error&&<button className="session-primary" onClick={() => void load()}>Try again</button>}</div></section>;
+    const examDoc = state.kind==='mock'&&state.current!.module==='listening' ? { ...state.current!.document, audioUrl: '', parts: state.current!.document.parts.map((p: any) => ({ ...p, audio_url: '', audio_fallbacks: [] })) } : state.current!.document;
+    const audioBlocked = state.kind==='mock'&&Boolean(audio?.blocked);
+    return <EngineSurface nonce={nonce}><Toaster />{audioBlocked&&<button type="button" className="session-primary" style={{position:'fixed',top:12,left:'50%',transform:'translateX(-50%)',zIndex:2147483000}} onClick={()=>audioCtl.current?.resume()}>Tap to turn on the Listening audio</button>}<p role="status">{saveStatus}</p>{error && <div className="attempt-error" role="alert">{error}<button disabled={busy} onClick={() => void action('submit').catch(() => { })}>Retry submission</button></div>}<ExamInterface key={state.index} nonce={nonce} testTitle={state.title + ' · ' + (state.index + 1) + ' / ' + state.modules.length} sectionType={state.current!.module as Module} parts={examDoc.parts} questions={examDoc.questions} timeLeft={waitingForListeningAudio ? state.current!.document.durationMinutes * 60 : time} answers={answers} onAnswerChange={change} onFinish={() => action('submit')} onExit={() => { if (state.kind==='mock') return; if (confirm('Leave this test? The current module timer will keep running.'))
+        window.location.assign(back); }} disablePause sectionAudioUrl={state.kind==='mock'?'':state.current!.document.audioUrl}
       waitForAudioStart={waitingForListeningAudio}
       onAudioPlaybackStarted={async () => {
         if (stateRef.current?.deadline || lock.current) return;

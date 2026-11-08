@@ -1,35 +1,53 @@
 'use client';
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
-import { useCallback,useEffect,useState } from 'react';
+import { useCallback,useEffect,useRef,useState } from 'react';
 import { Headphones,BookOpenText,PenLine,Mic,CalendarDays,Clock3,Check,ArrowUpRight,Lock } from 'lucide-react';
 import { mockFull,mockTime } from '@/lib/mock-phase';
+import { lobbyStage,joinClosesAt } from '@/lib/exam/mock-schedule';
+import { unlockAudio } from '@/lib/exam/mock-audio';
+import { enterFullscreen } from './exam/exam-lock';
+import { AttemptRunner } from './exam/attempt-runner';
 import { MockPreflight } from './mock-preflight';
-type Event={title:string;description:string;access:string;startsAt:string;endsAt:string;phase:string;serverNow:number;registered:boolean;attemptId:string|null;signedIn:boolean;published:boolean;modules:{module:string;minutes:number}[]};
-export function MockRoom({id}:{id:string}){
- const router=useRouter();
- const [event,setEvent]=useState<Event|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[now,setNow]=useState(Date.now()),[offset,setOffset]=useState(0);
- const load=useCallback(async()=>{try{const r=await fetch('/api/mocks/'+id,{cache:'no-store'}),d=await r.json();if(!r.ok)throw Error(d.error);setEvent(d);setOffset(d.serverNow-Date.now());setError('');}catch(e){setError(e instanceof Error?e.message:'Unable to load mock');}},[id]);
- useEffect(()=>{void load();const poll=setInterval(()=>void load(),15000);return()=>clearInterval(poll);},[load]);
- useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()+offset),1000);return()=>clearInterval(timer);},[offset]);
- async function action(action:string){setBusy(true);setError('');try{const r=await fetch('/api/mocks/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action})}),d=await r.json();if(!r.ok)throw Error(d.error);if(d.attemptId)window.location.assign('/exam/attempt/'+d.attemptId);else {await load();router.refresh();}}catch(e){setError(e instanceof Error?e.message:'Please retry');}finally{setBusy(false);}}
+import '@/styles/exam-session.css';
+type Event={title:string;description:string;access:string;startsAt:string;endsAt:string;serverNow:number;registered:boolean;attemptId:string|null;signedIn:boolean;published:boolean;modules:{module:string;minutes:number}[]};
+const clock=(ms:number)=>{const t=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};
+export function MockRoom({id,nonce}:{id:string;nonce?:string}){
+ const [event,setEvent]=useState<Event|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[now,setNow]=useState(Date.now());
+ const offset=useRef(0),bestRtt=useRef(Infinity);
+ // Server clock: the offset from the fastest round trip so far (smallest uncertainty), refreshed every few seconds.
+ const load=useCallback(async()=>{try{const t0=Date.now(),r=await fetch('/api/mocks/'+id,{cache:'no-store'}),t1=Date.now(),d=await r.json();if(!r.ok)throw Error(d.error);const rtt=t1-t0;if(rtt<=bestRtt.current*1.5+20){bestRtt.current=Math.min(bestRtt.current,rtt);offset.current=d.serverNow-(t0+t1)/2;}setEvent(d);setError('');}catch(e){setError(e instanceof Error?e.message:'Unable to load mock');}},[id]);
+ useEffect(()=>{void load();const poll=setInterval(()=>void load(),8000);return()=>clearInterval(poll);},[load]);
+ useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()+offset.current),250);return()=>clearInterval(timer);},[]);
+ async function action(action:string){
+  // Full screen and audio can only be unlocked inside this click, before any await.
+  if(action==='join'){unlockAudio();void enterFullscreen();}
+  setBusy(true);setError('');
+  try{const r=await fetch('/api/mocks/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action})}),d=await r.json();if(!r.ok)throw Error(d.error);await load();}
+  catch(e){setError(e instanceof Error?e.message:'Please retry');if(action==='join'&&document.fullscreenElement)void document.exitFullscreen().catch(()=>{});}
+  finally{setBusy(false);}
+ }
  if(!event)return <section className="mkr-loading" role="status"><p>{error||'Loading mock…'}</p><button type="button" className="lib-btn" onClick={()=>void load()}>Retry</button></section>;
- const hasSpeaking=event.modules.some(m=>m.module==='speaking');
- const start=new Date(event.startsAt).getTime(),end=new Date(event.endsAt).getTime(),phase=now<start?'waiting':now<end?'live':'ended',left=Math.max(0,Math.ceil((start-now)/1000));
- const d=Math.floor(left/86400),h=Math.floor(left/3600)%24,m=Math.floor(left/60)%60,sec=left%60;
+ const start=new Date(event.startsAt).getTime(),end=new Date(event.endsAt).getTime();
+ // Someone who joined is inside the exam for good: waiting room, loading, papers, breaks, finish, results. One page, one full-screen session.
+ if(event.attemptId&&now>=start-1000)return <AttemptRunner id={event.attemptId} nonce={nonce}/>;
+ const stage=lobbyStage(start,end,now),hasSpeaking=event.modules.some(m=>m.module==='speaking'),closes=joinClosesAt(start);
  const icons={listening:Headphones,reading:BookOpenText,writing:PenLine,speaking:Mic} as const;
- const label=phase==='waiting'?'Waiting room':phase==='live'||(hasSpeaking&&!event.published)?'Mock in progress':'Mock complete';
- const registeredLine=!event.signedIn?'Log in to register':event.registered?'Registered':phase==='waiting'?'Not registered yet':'Registration closed';
- const cta=!event.signedIn?<Link className="lib-btn mkr-cta" href={'/auth/sign-in?next='+encodeURIComponent('/mocks/'+id)}>Log in to register <ArrowUpRight size={17}/></Link>
-  :!event.registered?phase==='waiting'?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('register')}>Register{event.access==='premium'?' · Premium':''} <ArrowUpRight size={17}/></button>:null
-  :phase==='waiting'?<p className="mkr-note" role="status">You are registered. Join opens at the start time.</p>
-  :phase==='live'?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('join')}>{busy?'Opening…':event.attemptId?'Resume test':'Join test'} <ArrowUpRight size={17}/></button>
-  :event.attemptId?<Link className="lib-btn mkr-cta" href={'/exam/attempt/'+event.attemptId}>{event.published?'View result':hasSpeaking?'Continue test / Speaking':'Open test'} <ArrowUpRight size={17}/></Link>
-  :!event.published&&hasSpeaking?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('join')}>Continue to Speaking <ArrowUpRight size={17}/></button>
-  :null;
- return <section className={'mkr mkr-'+phase}>
+ const label=stage==='wait'||stage==='countdown'?'Waiting room':stage==='join'?'Waiting room open':stage==='ended'?'Mock complete':'Mock in progress';
+ const registeredLine=!event.signedIn?'Log in to register':event.registered?'Registered':stage==='wait'||stage==='countdown'||stage==='join'?'Not registered yet':'Registration closed';
+ const login=<Link className="lib-btn mkr-cta" href={'/auth/sign-in?next='+encodeURIComponent('/mocks/'+id)}>Log in to register <ArrowUpRight size={17}/></Link>;
+ const register=<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('register')}>Register{event.access==='premium'?' · Premium':''} <ArrowUpRight size={17}/></button>;
+ // No Join button exists before the timer ends, and none after the join window closes; the server enforces the same window.
+ const panel=stage==='wait'?<div className="mkr-count"><span className="mkr-count-label">{event.registered?'You are registered':'Registration open'}</span><p lang="bn">{event.registered?'এই page-এ অপেক্ষা করো। শুরুর ১০ মিনিট আগে countdown চালু হবে।':'Register করে রাখো। শুরুর ১০ মিনিট আগে এই page-এ countdown চালু হবে।'}</p></div>
+  :stage==='countdown'?<div className="mkr-count" role="timer"><span className="mkr-count-label">Waiting room opens in</span><div><span><b>{clock(start-now)}</b>min : sec</span></div>{event.registered&&<p lang="bn">টাইমার শেষ হলে এখানে Join now বাটন আসবে।</p>}</div>
+  :stage==='join'?<div className="mkr-count" role="timer"><span className="mkr-count-label">{event.registered?'Join within':'Registration closed'}</span>{event.registered&&<><div><span><b>{clock(closes-now)}</b>min : sec</span></div><p lang="bn">এই সময়ের মধ্যে Join করতে হবে। Join করলে full screen হবে এবং পরীক্ষা সবার জন্য একই সময়ে শুরু হবে।</p></>}</div>
+  :stage==='ended'?<div className="mkr-count"><span className="mkr-count-label">Finished</span><p>{event.published?'Results are published.':'Results are not published yet.'}</p></div>
+  :<div className="mkr-count"><span className="mkr-count-label">Join window closed</span><p lang="bn">এই mock এখন চলছে। Join করার সময় শেষ, তাই আর ঢোকা যাবে না।</p></div>;
+ const cta=!event.signedIn?(stage==='wait'||stage==='countdown'||stage==='join'?login:null)
+  :!event.registered?(stage==='wait'||stage==='countdown'?register:null)
+  :stage==='join'?<button type="button" className="lib-btn mkr-cta" disabled={busy} onClick={()=>void action('join')}>{busy?'Joining…':'Join now'} <ArrowUpRight size={17}/></button>:null;
+ return <section className={'mkr mkr-'+(stage==='live'||stage==='loading'?'live':stage==='ended'?'ended':'waiting')}>
   <div className="mkr-main">
-   <span className={'mk-phase mk-phase-'+(phase==='waiting'?'upcoming':phase==='live'?'live':'completed')}>{phase==='live'&&<i aria-hidden/>}{label}</span>
+   <span className={'mk-phase mk-phase-'+(stage==='ended'?'completed':stage==='live'||stage==='loading'?'live':'upcoming')}>{(stage==='live'||stage==='loading')&&<i aria-hidden/>}{label}</span>
    <h1>{event.title}</h1>
    {event.description&&<p className="mkr-desc" lang="bn">{event.description}</p>}
    <dl className="mkr-facts">
@@ -38,13 +56,11 @@ export function MockRoom({id}:{id:string}){
     <div><dt>{event.access==='premium'?<Lock size={14} aria-hidden/>:<Clock3 size={14} aria-hidden/>}Access</dt><dd>{event.access==='premium'?'Premium':'Free'}</dd></div>
    </dl>
    <h2 className="mkr-h2">Modules</h2>
-   <ol className="mkr-modules">{event.modules.map((mod,i)=>{const I=icons[mod.module as keyof typeof icons]??BookOpenText;return <li key={mod.module}><span className="mkr-mod-no">{String(i+1).padStart(2,"0")}</span><I size={18} aria-hidden/><strong>{mod.module[0].toUpperCase()+mod.module.slice(1)}</strong><small>{mod.module==='speaking'?'No total time limit':mod.minutes+' min'}</small></li>})}</ol>
+   <ol className="mkr-modules">{event.modules.map((mod,i)=>{const I=icons[mod.module as keyof typeof icons]??BookOpenText;return <li key={mod.module}><span className="mkr-mod-no">{String(i+1).padStart(2,"0")}</span><I size={18} aria-hidden/><strong>{mod.module[0].toUpperCase()+mod.module.slice(1)}</strong><small>{mod.minutes+' min'}</small></li>})}</ol>
   </div>
   <aside className="mkr-panel" aria-label="Your mock status">
-   {phase==='waiting'&&<div className="mkr-count" role="timer" aria-label={`Starts in ${d} days ${h} hours ${m} minutes ${sec} seconds`}><span className="mkr-count-label">Starts in</span><div>{([[d,'days'],[h,'hrs'],[m,'min'],[sec,'sec']] as const).map(([v,u])=><span key={u}><b>{String(v).padStart(2,'0')}</b>{u}</span>)}</div></div>}
-   {phase==='live'&&<div className="mkr-count"><span className="mkr-count-label">Live now</span><p>Exam window closes at {mockTime(event.endsAt)}</p></div>}
-   {phase==='ended'&&<div className="mkr-count"><span className="mkr-count-label">Finished</span><p>{event.published?'Results are published.':'Results are not published yet.'}</p></div>}
-   {phase==='waiting'&&event.registered&&<MockPreflight hasListening={event.modules.some(m=>m.module==='listening')} hasSpeaking={hasSpeaking} online={!error}/>}
+   {panel}
+   {event.registered&&(stage==='wait'||stage==='countdown'||stage==='join')&&<MockPreflight hasListening={event.modules.some(m=>m.module==='listening')} hasSpeaking={hasSpeaking} online={!error}/>}
    {cta}
    {error&&<p role="alert" className="mkr-error">{error}</p>}
   </aside>
