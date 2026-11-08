@@ -31,6 +31,8 @@ export async function POST(req: NextRequest, c: Context) { try {
     const body = await readBody(req, 512 * 1024);
     const result = await advanceAttempt(id, body);
     if(body.action==='save')return json({saved:true});
+    // A mock that just finished (last module submitted early) queues its AI marking at once.
+    if (result.kind === 'mock' && body.action === 'submit' && result.complete) void enqueueMockEvaluation(id).catch(() => {});
     // Writing feedback is automatic at submission, not triggered by another learner button.
     // It is deliberately best-effort: an AI/queue outage must not undo saved exam answers.
     if (result.kind !== 'mock' && body.action === 'submit' && result.complete && result.results.some((r: { module: string }) => r.module === 'writing')) {
