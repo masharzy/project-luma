@@ -118,6 +118,12 @@ export async function advanceAttempt(id:string,body:Record<string,unknown>){
   if(r.kind==='mock'&&Date.now()<moduleStart(snapshot,new Date(r.scheduled_start).getTime(),index))throw new AuthHttpError(409,'This module has not started yet.');
   if(r.locked_index===index)throw new AuthHttpError(409,'This module has been submitted.');
   let answers:Record<string,string>;try{answers=cleanAnswers(snapshot,index,body.answers);}catch{throw new AuthHttpError(400,'Invalid answers');}
+  // The last module of a scheduled mock has nothing to wait for: Submit finishes the whole mock at once.
+  if(r.kind==='mock'&&body.action==='submit'&&index===snapshot.length-1){
+   const result=gradeModule(snapshot[index].module,snapshot[index].document,answers);
+   const rows=await db().query(`UPDATE public.exam_attempts SET current_index=current_index+1,deadline=NULL,locked_index=NULL,results=results||$3::jsonb,answers=jsonb_set(answers,ARRAY[$2::text],$4::jsonb) WHERE id=$1 AND current_index=$2 AND deadline+($5::integer*interval '1 millisecond')>now() RETURNING id`,[id,index,JSON.stringify([result]),JSON.stringify(answers),SAVE_GRACE_MS]);
+   if(!rows.length)throw new AuthHttpError(409,'The module deadline has passed.');
+  }else
   if(body.action==='save'||r.kind==='mock'){
    const rows=await db().query(`UPDATE public.exam_attempts SET answers=jsonb_set(answers,ARRAY[$2::text],$3::jsonb),locked_index=CASE WHEN $4::boolean THEN current_index ELSE locked_index END WHERE id=$1 AND current_index=$2 AND deadline+($5::integer*interval '1 millisecond')>now() AND locked_index IS DISTINCT FROM current_index RETURNING id`,[id,index,JSON.stringify(answers),body.action==='submit',r.kind==='mock'?SAVE_GRACE_MS:0]);
    if(!rows.length)throw new AuthHttpError(409,'The module deadline has passed.');
