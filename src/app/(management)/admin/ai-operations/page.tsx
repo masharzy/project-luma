@@ -26,6 +26,5 @@ export default async function Page(){
   </section>
   <section className="workspace-panel"><h2>Recent evaluation jobs</h2>
   <div className="table-scroll"><table className="admin-users-table"><thead><tr><th>SKILL</th><th>ACCOUNT</th><th>STATUS</th><th>TRIES</th><th>ERROR CODE</th><th>UPDATED (BD)</th></tr></thead><tbody>{jobs.map(j=><tr key={j.skill+":"+j.id}><td>{j.skill==='Speaking'?<Link href={'/admin/ai-operations/speaking/'+j.id}>{j.skill}</Link>:j.skill}</td><td>{j.email||"Deleted account"}</td><td>{j.status}</td><td>{Number(j.tries||0)}</td><td>{j.error_code||"—"}</td><td>{new Intl.DateTimeFormat("en-GB",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Dhaka"}).format(new Date(j.updated_at))}</td></tr>)}{!jobs.length&&<tr><td colSpan={6}>No evaluation jobs yet.</td></tr>}</tbody></table></div></section>
-  <Link href="/admin/ai-lab">Benchmark & configure providers ↗</Link>
  </div>;
 }

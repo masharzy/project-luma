@@ -1,6 +1,6 @@
 import 'server-only';
 import { z } from 'zod';
-import { getKey } from '@/lib/ai-lab/secrets';
+import { getKey } from '@/lib/provider-keys';
 import { getPrivate } from './storage';
 import { packSpeakingAudio } from './speaking-audio-pack';
 import { encodeSpeakingPcm } from './speaking-audio';

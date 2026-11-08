@@ -1,7 +1,0 @@
-.ai-lab-tabs{max-width:980px;margin:0 auto}
-.ai-lab-tabs .ai-tabs{display:flex;gap:4px;margin:0 0 16px;border-bottom:1px solid var(--adm-line);overflow-x:auto}
-.ai-lab-tabs .ai-tabs button{flex:none;min-height:40px;padding:8px 14px;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;color:var(--adm-muted);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
-.ai-lab-tabs .ai-tabs button:hover{color:var(--adm-text)}
-.ai-lab-tabs .ai-tabs button[aria-selected=true]{color:var(--adm-accent);border-bottom-color:var(--adm-accent)}
-.ai-lab-tabs .ai-tabs button:focus-visible{outline:2px solid var(--adm-accent);outline-offset:-2px}
-.ai-lab-tabs [role=tabpanel][hidden]{display:none}

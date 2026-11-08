@@ -1,6 +1,6 @@
 import {createHash,timingSafeEqual} from 'node:crypto';
 import {db} from '@/lib/auth/db';
-import {getKey} from '@/lib/ai-lab/secrets';
+import {getKey} from '@/lib/provider-keys';
 import {signedAudio} from '@/lib/products/storage';
 export const runtime='nodejs';export const dynamic='force-dynamic';
 export async function POST(req:Request){

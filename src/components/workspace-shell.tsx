@@ -33,7 +33,6 @@ const admin = [
   ["/admin/ai-operations", "AI operations", "chart"],
   ["/admin/users", "Users & access", "users"],
   ["/admin/activity", "Activity log", "clock"],
-  ["/admin/ai-lab", "AI evaluation lab", "chart"],
   ["/admin/settings", "Settings", "settings"],
 ];
 export function WorkspaceShell({

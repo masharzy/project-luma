@@ -1,6 +1,6 @@
 import 'server-only';
 import { z } from 'zod';
-import { getKey, keyStatus } from '@/lib/ai-lab/secrets';
+import { getKey, keyStatus } from '@/lib/provider-keys';
 import { writingSystemPrompt, assessmentPromptVersion } from './prompts';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateText, Output, type UserContent } from 'ai';
@@ -13,7 +13,7 @@ export const writingModel='google/gemini-3.1-flash-lite';
 export const taskModel='qwen/qwen3.7-flash';
 export { speakingModel } from '@/lib/products/speaking-model';
 export async function evaluationConfigured(){
- try {const status=await keyStatus();return status.openrouter&&(Boolean(process.env.OPENROUTER_API_KEY)||status.vaultReady);}catch{return false;}
+ try {return (await keyStatus()).openrouter;}catch{return false;}
 }
 export async function evaluationProvider(){
  const apiKey=await getKey('openrouter');

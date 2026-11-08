@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/guards";
 import { WorkspaceHeading } from "@/components/page-parts";
 import { db } from "@/lib/auth/db";
-import { keyStatus } from "@/lib/ai-lab/secrets";
+import { keyStatus } from "@/lib/provider-keys";
 import {storageConfigured} from "@/lib/products/storage";
 import {DeviceDefaultForm} from "@/components/admin/device-default-form";
 export const dynamic="force-dynamic";
@@ -21,8 +21,8 @@ export default async function Page(){
   ["Mock scheduler",Number(state.mocks||0)+" scheduled events in database"],
   ["Writing queue",Number(state.writing_pending||0)+" active jobs; worker connectivity not confirmed"],
   ["Speaking queue",Number(state.speaking_pending||0)+" active jobs; worker connectivity not confirmed"],
-  ["AI OpenRouter",(keys?.openrouter&&keys?.vaultReady)?"Key stored securely":"Not verified/configured"],
-  ["AI Google",(keys?.google&&keys?.vaultReady)?"Key stored securely":"Not verified/configured"],
+  ["AI OpenRouter",keys?.openrouter?"Key set in Vercel":"Not configured"],
+  
   ["Cloudflare R2",storageConfigured()?"Credentials configured; actual media health not probed":"Credentials not configured"],
   ["Payments","No gateway/transaction records configured"]
  ];

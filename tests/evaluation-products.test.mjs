@@ -10,7 +10,7 @@ function loader(mocks={}){const cache=new Map();return function load(file){if(ca
 const load=loader();
 const {productWritingSchema}=load('lib/products/writing');
 const {validateWav}=load('lib/products/speaking');
-const {finalizeSpeaking}=loader({'@/lib/ai-lab/secrets':{getKey:async p=>{assert.equal(p,'openrouter');return 'vault-test-key';},keyStatus:async()=>({openrouter:true,vaultReady:true})},'./storage':{getPrivate:async()=>wav(2)}})('lib/products/speaking-provider');
+const {finalizeSpeaking}=loader({'@/lib/provider-keys':{getKey:async p=>{assert.equal(p,'openrouter');return 'vault-test-key';},keyStatus:async()=>({openrouter:true})},'./storage':{getPrivate:async()=>wav(2)}})('lib/products/speaking-provider');
 const {chartImage}=load('lib/products/task-generation');
 const {normalizeSpeakingSet}=load('lib/speaking/schema'),{speakingSteps}=load('lib/speaking/flow');
 const set=normalizeSpeakingSet({part1:['What do you study?'],cueCard:{topic:'Describe a useful skill.',points:['What it is','How you learned it'],explain:'Explain why it matters.'},rounding:[],part3:['How do people learn?']});

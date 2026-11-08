@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { NextRequest } from 'next/server';
 import { productUser, productError, productAccess } from '@/lib/products/access';
-import { getKey } from '@/lib/ai-lab/secrets';
+import { getKey } from '@/lib/provider-keys';
 import { speakingAttempt } from '@/lib/products/speaking';
 import { speakingSteps } from '@/lib/speaking/flow';
 import { normalizeSpeakingSet } from '@/lib/speaking/schema';

@@ -22,7 +22,6 @@ export const adminNavigation: { label: string; links: AdminLink[] }[] = [
     { href: '/admin/media', label: 'Media library', icon: 'file', keywords: 'audio image cloudflare storage r2' },
     { href: '/admin/activity', label: 'Activity log', icon: 'clock', keywords: 'audit security history' },
     { href: '/admin/costs', label: 'Cost & usage', icon: 'chart', keywords: 'spend budget bdt tokens audio margin pricing model prices' },
-    { href: '/admin/ai-lab', label: 'AI configuration & lab', icon: 'settings', keywords: 'providers models keys benchmark evaluation' },
     { href: '/admin/flags', label: 'Feature flags', icon: 'settings', keywords: 'toggle rollout switches' },
     { href: '/admin/settings', label: 'Platform settings', icon: 'settings', keywords: 'status services account' },
   ] },
