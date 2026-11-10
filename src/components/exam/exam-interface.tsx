@@ -2986,7 +2986,7 @@ export default function ExamInterface({
 
   return (
     <div
-      className={cn("fixed inset-0 z-[100] ielts-official-root flex flex-col text-gray-900 select-none", officialContrastClass, officialTextSizeClass)}
+      className={cn("fixed inset-0 z-[100] ielts-official-root flex flex-col min-h-0 overflow-hidden text-gray-900 select-none", officialContrastClass, officialTextSizeClass)}
       ref={containerRef}>
       
       {!reviewMode && <header className="ielts-official-header select-none">
@@ -3038,8 +3038,7 @@ export default function ExamInterface({
       </div>
 
       <main
-        className="flex-1 flex overflow-hidden relative select-none"
-        style={{ height: "calc(100vh - 128px)" }}>
+        className="flex-1 min-h-0 min-w-0 flex overflow-hidden relative select-none">
         {sectionType === "listening" && listeningAudioUrl && waitForAudioStart && !reviewMode && !audioStarted && (
           <div className="ielts-audio-start-overlay">
             <div className="ielts-audio-start-card">
