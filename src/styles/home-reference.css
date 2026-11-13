@@ -334,38 +334,34 @@ body:has(.jtn-home){overflow-x:clip}
 .jtn-design .jtn-cv .jtn-free{top:12px;left:auto;right:10px;transform:none}
 
 /* How-it-works staircase (home) */
-.jtn-steps{position:relative;padding:clamp(56px,8vw,104px) 0 clamp(24px,4vw,56px);background:linear-gradient(180deg,var(--paper) 0,var(--paper) 55%,rgba(251,230,234,.55) 100%)}
-.jtn-ladder{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:end;padding-top:34px}
-.jtn-ladder li{position:relative;z-index:1;display:flex;flex-direction:column;gap:.5rem;padding:1.3rem 1.3rem 1.5rem;background:#fff;border:1px solid var(--line);border-top:4px solid var(--c);min-height:calc(250px + var(--i)*48px);overflow:hidden;transition:transform .3s ease,box-shadow .3s ease}
-.jtn-ladder li:nth-child(2){background:#FFF8F2}
-.jtn-ladder li:nth-child(3){background:var(--blush)}
-.jtn-ladder li:nth-child(4){background:linear-gradient(160deg,var(--c),var(--w));color:var(--paper);border-color:var(--w)}
-.jtn-ladder li:hover{transform:translateY(-6px);box-shadow:0 22px 34px -22px rgba(123,18,48,.6)}
-.jtn-ladder li::before{content:"";position:absolute;top:10px;right:14px;width:12px;height:12px;border-radius:50%;background:var(--c);animation:jtn-hop 4.4s ease-in-out infinite;animation-delay:calc(var(--i)*.55s)}
-.jtn-ladder li:nth-child(4)::before{background:var(--paper)}
-.jtn-lad-tag{align-self:flex-start;font:600 .72rem/1 'Instrument Sans',system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--w);border:1px solid var(--line);border-radius:999px;padding:.38rem .6rem;background:rgba(255,255,255,.7)}
-.jtn-ladder li:nth-child(4) .jtn-lad-tag{color:var(--paper);border-color:rgba(253,251,247,.45);background:rgba(253,251,247,.12)}
-.jtn-ladder b{font:800 clamp(3.4rem,7vw,5.6rem)/.9 var(--d);letter-spacing:-.06em;margin:auto 0 .1rem;background:linear-gradient(170deg,var(--c) 20%,var(--w));-webkit-background-clip:text;background-clip:text;color:transparent}
-.jtn-ladder li:nth-child(4) b{background:none;color:var(--paper)}
-.jtn-ladder li:nth-child(4)::after{content:"9";position:absolute;right:-.08em;bottom:-.22em;font:800 9.5rem/1 var(--d);letter-spacing:-.06em;color:rgba(253,251,247,.13);pointer-events:none}
-.jtn-ladder h3{font-size:1.28rem;line-height:1.15}
-.jtn-ladder p{margin:0;font-size:.94rem;color:var(--mute)}
-.jtn-ladder li:nth-child(4) p{color:rgba(253,251,247,.9);position:relative;z-index:1}
-.jtn-ladder .jtn-link{margin-top:.4rem;align-self:flex-start}
-@keyframes jtn-hop{0%,24%,100%{transform:translateY(0) scale(1);box-shadow:0 0 0 0 rgba(200,8,47,0)}6%{transform:translateY(-14px) scale(1)}13%{transform:translateY(0) scale(1.3);box-shadow:0 0 0 7px rgba(200,8,47,.18)}}
-@supports (animation-timeline:view()){
- .jtn-ladder li{animation:jtn-rise linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
- .jtn-ladder li::before{animation:jtn-hop 4.4s ease-in-out infinite;animation-delay:calc(var(--i)*.55s);animation-timeline:auto}
-}
-@keyframes jtn-rise{from{opacity:0;transform:translateY(calc(34px + var(--i)*10px))}to{opacity:1;transform:none}}
+.jtn-steps{padding:clamp(56px,8vw,104px) 0 clamp(32px,5vw,72px)}
+.jtn-climb{position:relative}
+.jtn-climb-art{display:block;width:100%;height:auto;overflow:visible}
+.jtn-cfill{fill:url(#jtn-cg);opacity:.85}
+.jtn-cline{fill:none;stroke:var(--c);stroke-width:4;stroke-linejoin:round}
+.jtn-cdash{fill:none;stroke:var(--w);stroke-width:2;stroke-dasharray:3 9;stroke-linecap:round;opacity:.55}
+.jtn-cn{font-family:var(--d);font-weight:800;letter-spacing:-.05em;fill:var(--c)}
+.jtn-cn4{fill:var(--w)}
+.jtn-cpole{stroke:var(--w);stroke-width:3;stroke-linecap:round}
+.jtn-cflag{fill:var(--c)}
+.jtn-cflagn{font-family:var(--d);font-weight:800;fill:var(--paper)}
+.jtn-cdot{fill:var(--c);stroke:var(--paper);stroke-width:3;filter:drop-shadow(0 4px 6px rgba(123,18,48,.4))}
+.jtn-steps-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.jtn-steps-list li{padding:1.1rem 1.4rem 0 0;display:flex;flex-direction:column;gap:.45rem;align-items:flex-start}
+.jtn-steps-list li+li{padding-left:.2rem}
+.jtn-sn{display:none}
+.jtn-steps-list h3{font-size:1.25rem;line-height:1.15}
+.jtn-steps-list p{margin:0;font-size:.95rem;color:var(--mute);max-width:30ch}
+.jtn-steps-list .jtn-link{margin-top:.3rem}
 @media(max-width:860px){
- .jtn-ladder{grid-template-columns:1fr;gap:12px;align-items:stretch;padding-top:6px}
- .jtn-ladder li{min-height:0;display:grid;grid-template-columns:auto 1fr;column-gap:1rem;row-gap:.25rem;margin-left:calc(var(--i)*12px);border-top:1px solid var(--line);border-left:5px solid var(--c)}
- .jtn-ladder li:nth-child(4){border-color:var(--w)}
- .jtn-lad-tag{grid-column:2;grid-row:1;justify-self:start}
- .jtn-ladder b{grid-row:1/span 4;margin:0;font-size:3.2rem;align-self:start}
- .jtn-ladder h3,.jtn-ladder p,.jtn-ladder .jtn-link{grid-column:2}
- .jtn-ladder li:nth-child(4)::after{font-size:7rem}
+ .jtn-climb-art{display:none}
+ .jtn-steps-list{position:relative;grid-template-columns:1fr;row-gap:1.6rem;padding-left:0}
+ .jtn-steps-list::before{content:"";position:absolute;left:25px;top:26px;bottom:26px;border-left:2px dashed rgba(123,18,48,.4)}
+ .jtn-steps-list::after{content:"";position:absolute;left:19px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 0 5px rgba(200,8,47,.16);animation:jtn-climb-dot 6s ease-in-out infinite}
+ .jtn-steps-list li,.jtn-steps-list li+li{position:relative;padding:0 0 0 72px;min-height:52px}
+ .jtn-sn{display:grid;place-items:center;position:absolute;left:0;top:0;box-sizing:border-box;width:52px;height:52px;min-height:0;padding:0;line-height:1;aspect-ratio:1/1;border-radius:50%;background:var(--paper);border:2px solid var(--c);color:var(--c);font:800 1.5rem var(--d);z-index:1}
+ .jtn-steps-list li:last-child .jtn-sn{background:var(--c);color:var(--paper)}
+ .jtn-steps-list p{max-width:none}
 }
-@media(prefers-reduced-motion:reduce){.jtn-ladder li,.jtn-ladder li::before{animation:none!important;transition:none}.jtn-ladder li:hover{transform:none}}
-
+@keyframes jtn-climb-dot{0%{top:20px}80%,100%{top:calc(100% - 34px)}}
+@media(prefers-reduced-motion:reduce){.jtn-steps-list::after{animation:none;top:calc(100% - 34px)}}
