@@ -37,7 +37,7 @@ export async function createWritingEvaluation(attemptId:string,userId:string){
  RETURNING period
  ) INSERT INTO public.writing_evaluations(id,attempt_id,user_id,product,period,input,model)
  SELECT $3::uuid,$4::uuid,$1::uuid,$2,period,$5::jsonb,$6 FROM reserved RETURNING id,status,result,model,error_code,created_at,updated_at`,[userId,product,randomUUID(),attemptId,JSON.stringify(input),writingModel]);
- if(!rows[0])throw new AuthHttpError(403,'Your monthly AI feedback allowance is used up. You can continue practising without evaluation.','EVALUATION_LIMIT');
+ if(!rows[0])throw new AuthHttpError(403,'Your monthly AI feedback allowance is used up. You can continue practicing without evaluation.','EVALUATION_LIMIT');
  return rows[0];
  }catch(e){if((e as {code?:string}).code==='23505'){const duplicate=await evaluationForAttempt(attemptId,userId);if(duplicate)return duplicate;throw new AuthHttpError(409,'Another evaluation is already in progress. Please wait.');}throw e;}
 }
