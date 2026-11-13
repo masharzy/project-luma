@@ -19,12 +19,14 @@ export function PageIntro({
   eyebrow,
   title,
   description,
+  descriptionLang = "bn",
   children,
   crumbs,
 }: {
   eyebrow: string;
   title: string;
-  description?: string;
+  description?: React.ReactNode;
+  descriptionLang?: "bn" | "en";
   children?: React.ReactNode;
   crumbs?: Crumb[];
 }) {
@@ -33,7 +35,7 @@ export function PageIntro({
       <div>
         <Breadcrumbs items={crumbs ?? [{ label: eyebrow }]} />
         <h1>{title}</h1>
-        {description&&<p lang="bn">{description}</p>}
+        {description&&<p lang={descriptionLang}>{description}</p>}
       </div>
       {children}
     </div>
