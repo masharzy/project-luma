@@ -8,4 +8,4 @@ import '@/styles/memberships.css';
 import '@/styles/evaluation-products.css';
 import '@/styles/exam-session.css';
 export const metadata={title:'Speaking evaluation'};
-export default async function Page(){const u=await requireUser();const h=await evaluationHistory(u.id);return <><StudentHeading title="Speaking studio" description="একটা collection বেছে নাও। নিজের কণ্ঠে শুরু করো।"/><EvaluationAllowance userId={u.id} product="speaking_product"/><SpeakingCatalog userId={u.id} dashboard/><SpeakingHistory items={h.speaking}/></>}
+export default async function Page(){const u=await requireUser();const h=await evaluationHistory(u.id);return <><StudentHeading title="Speaking studio" description="Pick a collection and record your answers."/><EvaluationAllowance userId={u.id} product="speaking_product"/><SpeakingCatalog userId={u.id} dashboard/><SpeakingHistory items={h.speaking}/></>}

@@ -40,9 +40,9 @@ export function ProfileSettings({
   return (
     <div className="settings-grid">
       <section className="workspace-panel settings-panel">
-        <span className="eyebrow">01 / THE BASICS</span>
+        <span className="eyebrow">01 / PROFILE</span>
         <h2>Your profile</h2>
-        <p lang="bn">নিজের account-এর নাম এখান থেকে বদলাতে পারো।</p>
+        <p>Change your account name here.</p>
         <form onSubmit={save} className="auth-form">
           <label htmlFor="profile-name">
             Full name
@@ -84,9 +84,9 @@ export function ProfileSettings({
         </form>
       </section>
       <section className="workspace-panel settings-panel">
-        <span className="eyebrow">02 / KEEP IT YOURS</span>
+        <span className="eyebrow">02 / SECURITY</span>
         <h2>Password & security</h2>
-        {hasPassword?<PasswordSettings/>:<p>এই account Google দিয়ে sign in করে। Password পরিবর্তন করতে Google account-এর Security settings ব্যবহার করো।</p>}
+        {hasPassword?<PasswordSettings/>:<p>This account signs in with Google. To change your password, use your Google account security settings.</p>}
       </section>
     </div>
   );

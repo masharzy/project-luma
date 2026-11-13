@@ -6,27 +6,27 @@ import { authClient } from "@/lib/auth/client";
 type Mode = "sign-in" | "sign-up" | "forgot-password" | "reset-password";
 const copy = {
   "sign-in": {
-    eyebrow: "WELCOME BACK",
-    heading: "Pick up where you left off.",
-    detail: "নিজের প্রস্তুতির জায়গায় ফিরে এসো।",
+    eyebrow: "SIGN IN",
+    heading: "Sign in to JumpToNine",
+    detail: "Continue your practice and see your feedback.",
     button: "Sign in",
   },
   "sign-up": {
-    eyebrow: "A FRESH START",
-    heading: "Your next chapter starts here.",
-    detail: "তোমার IELTS প্রস্তুতির জন্য নিজের একটি জায়গা।",
+    eyebrow: "SIGN UP",
+    heading: "Create your account",
+    detail: "Save your history and get AI feedback.",
     button: "Create account",
   },
   "forgot-password": {
-    eyebrow: "LET’S GET YOU BACK",
+    eyebrow: "RESET PASSWORD",
     heading: "Forgot your password?",
-    detail: "তোমার email দাও। Password বদলানোর link পাঠিয়ে দেব।",
+    detail: "Enter your email and we will send a reset link.",
     button: "Send reset link",
   },
   "reset-password": {
-    eyebrow: "BACK ON TRACK",
-    heading: "Set a new password.",
-    detail: "একটি নতুন password দিয়ে আবার শুরু করো।",
+    eyebrow: "NEW PASSWORD",
+    heading: "Set a new password",
+    detail: "Choose a new password to sign in again.",
     button: "Save new password",
   },
 };

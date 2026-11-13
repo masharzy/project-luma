@@ -124,7 +124,7 @@ export function WritingEvaluation({ attemptId, source = 'attempt', tasks = [] }:
   const result = job?.status === 'completed' ? job.result : null;
   return <section className="writing-evaluation" aria-label="Writing AI evaluation">
     <div className="writing-eval-heading">
-      <div><span className="session-eyebrow">IELTS WRITING / AUTOMATIC FEEDBACK</span><h2>Your writing, explained.</h2><p>Your original Task 1 and Task 2 responses are preserved below.</p></div>
+      <div><span className="session-eyebrow">IELTS WRITING / AUTOMATIC FEEDBACK</span><h2>Your Writing feedback</h2><p>Your original Task 1 and Task 2 responses are preserved below.</p></div>
       <div className="writing-band-badge" aria-live="polite"><span>Estimated band</span><strong>{result?.estimatedBand === null || result?.estimatedBand === undefined ? '—' : result.estimatedBand.toFixed(1)}</strong><small>{result ? 'IELTS practice estimate' : 'Awaiting feedback'}</small></div>
     </div>
     <div className="writing-feedback-legend" aria-label="Annotation legend">

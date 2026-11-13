@@ -6,27 +6,27 @@ export default function Page() {
     <PageWrap>
       <PageIntro
         eyebrow="START FREE"
-        title="Begin with what you have."
-        description="ফ্রি practice আর learning resources দিয়েই শুরু হোক প্রস্তুতি। Account ছাড়াও explore করতে পারবে।"
+        title="Free practice and resources"
+        description="Start with free practice and learning resources. You can explore without an account."
       />
       <div className="free-feature-grid">
         {[
           [
             "01",
             "Cambridge 1–21",
-            "চেনা বইয়ের Listening আর Reading practice।",
+            "Listening and Reading practice from the books you know.",
             "/cambridge",
           ],
           [
             "02",
             "Recent Tests",
-            "নিজের সময় অনুযায়ী তিনটি module থেকে বেছে নাও।",
+            "Choose from three modules and practise at your own pace.",
             "/recent-tests",
           ],
           [
             "03",
             "Learning resources",
-            "নির্বাচিত Writing samples, ebook আর শেখার উপকরণ।",
+            "Selected Writing samples, ebooks and study material.",
             "/resources",
           ],
         ].map(([n, title, desc, href]) => (
@@ -39,13 +39,12 @@ export default function Page() {
         ))}
       </div>
       <FeatureNote>
-        Guest attempt account history-তে save হবে না। Library-তে content publish
-        হলে free practice শুরু করতে পারবে।
+        Guest attempts are not saved to your account history.
       </FeatureNote>
       <div className="inline-signup">
         <div>
-          <h2>A place to keep your progress.</h2>
-          <p lang="bn">প্রস্তুতির নিজের জায়গাটা তৈরি করে রাখতে পারো আজই।</p>
+          <h2>Save your progress</h2>
+          <p>Create a free account to keep your history and feedback.</p>
         </div>
         <Link className="button" href="/auth/sign-up">
           Create a free account <span>↗</span>

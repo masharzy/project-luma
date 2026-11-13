@@ -8,7 +8,7 @@ const configs = {
     eyebrow: "CONTENT / QUESTION BANK",
     title: "Good practice starts here.",
     description:
-      "Module আর question type অনুযায়ী প্রশ্নগুলো গুছিয়ে রাখার জায়গা।",
+      "Organise questions by module and question type.",
     newLabel: "Draft a question",
     newHref: "/admin/questions/new",
     tabs: ["All questions", "Listening", "Reading", "Writing"],
@@ -19,7 +19,7 @@ const configs = {
     eyebrow: "CONTENT / PRACTICE TESTS",
     title: "Build a thoughtful test.",
     description:
-      "Question bank থেকে বেছে নিয়ে on-demand practice collection তৈরির জায়গা।",
+      "Build on-demand practice collections from the question bank.",
     newLabel: "Draft a test",
     newHref: "/admin/tests/new",
     tabs: ["All tests", "Draft", "Published"],
@@ -30,7 +30,7 @@ const configs = {
     eyebrow: "EXAMS / SCHEDULED MOCKS",
     title: "Plan the next exam day.",
     description:
-      "Registration, start time আর synchronized module-এর জন্য mock plan করো।",
+      "Plan mocks with registration, start time and synchronised modules.",
     newLabel: "Draft a mock",
     newHref: "/admin/mocks/new",
     tabs: ["All mocks", "Upcoming", "Completed"],
@@ -41,7 +41,7 @@ const configs = {
     eyebrow: "CONTENT / LEARNING RESOURCES",
     title: "Put something good on the shelf.",
     description:
-      "Writing sample, ebook আর journal article-এর collection গুছিয়ে নাও।",
+      "Organise collections of Writing samples, ebooks and journal articles.",
     newLabel: "Draft a resource",
     newHref: "/admin/resources/new",
     tabs: ["All resources", "Writing", "Ebooks", "Journal"],
@@ -109,7 +109,7 @@ export function AdminList({ kind }: { kind: keyof typeof configs }) {
                 <td colSpan={c.cols.length}>
                   <EmptyState
                     title={search ? "No matching content." : c.empty}
-                    description="এখনো কোনো record publish করা হয়নি। নতুন draft দিয়ে শুরু করতে পারো।"
+                    description="Nothing is published yet. Start with a new draft."
                     action={c.newLabel}
                     href={c.newHref}
                   />

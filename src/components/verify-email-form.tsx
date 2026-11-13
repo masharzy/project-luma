@@ -58,9 +58,9 @@ export function VerifyEmailForm({ token, email, initialVerified = false, initial
     setPending(false);
   }
   return <section className="status-section"><div className="status-sheet">
-    <span className="eyebrow">YOUR EMAIL / YOUR ACCOUNT</span>
+    <span className="eyebrow">EMAIL VERIFICATION</span>
     <h1>{verified ? "Email verified." : pending && token ? "Verifying your email…" : "Check your inbox."}</h1>
-    <p lang="bn">{verified ? "তোমার email verification সম্পন্ন হয়েছে। এবার নিজের প্রস্তুতির জায়গায় ফিরে যাও।" : email ? "তোমার account তৈরি হয়েছে। Email-এ পাঠানো verification link-এ ক্লিক করো। Verify না করা পর্যন্ত dashboard খোলা যাবে না।" : "এই link শুধু email verify করে। Dashboard খুলতে নিজের account-এ sign in থাকতে হবে।"}</p>
+    <p>{verified ? "Your email is verified. You can go back to your dashboard." : email ? "Your account is created. Click the verification link we emailed you. The dashboard stays locked until you verify." : "This link only verifies your email. Sign in to open your dashboard."}</p>
     {!verified && email && <p><strong>{email}</strong></p>}
     {error && <p role="alert" className="form-error">{error}</p>}
     {message && <p role="status" className="success-note">{message}</p>}

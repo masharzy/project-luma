@@ -28,7 +28,7 @@ export async function PracticeCatalog({module,page=1,basePath='/recent-tests'}:{
  const unlocked=await Promise.all(entries.map(([id,t])=>t.access==='premium'?canOpenTest(t.access,userId,{kind:'practice',id}).catch(()=>false):true));
  return <>
   <PracticeTestCards tests={entries.map(([id,t],i)=>({id,...t,access:(unlocked[i]?'free':'premium') as 'free'|'premium'}))} moduleFilter={module} startNumber={offset+1}/>
-  {!entries.length&&<p className="lib-empty">Published tests will appear here when ready.<span lang="bn">Test publish হলে এখানে দেখতে পাবে।</span></p>}
+  {!entries.length&&<p className="lib-empty">No tests here yet. Check back soon.</p>}
   <PaginationNav basePath={basePath} query={{}} page={current} pages={pages} total={total} pageSize={PRACTICE_PAGE_SIZE}/>
  </>;
 }

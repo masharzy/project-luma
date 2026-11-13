@@ -8,7 +8,7 @@ export default async function Page() {
   const row=(await db().query("SELECT password_hash IS NOT NULL AS has_password FROM app_auth.users WHERE id=$1",[user.id]))[0];
   return (
     <>
-      <StudentHeading title="Account" description="Profile ও security settings।" />
+      <StudentHeading title="Account" description="Profile and security settings." />
       <ProfileSettings name={user.name || ""} email={user.email} hasPassword={row?.has_password===true} />
     </>
   );

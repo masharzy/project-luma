@@ -24,7 +24,7 @@ export default async function Page(){
  const a=agg||{mastered:0,learning:0,due:0,free_done:0,prem_done:0,prem_open:0,total:0};
  const streak=stats.streakBase+(stats.todayN>0?1:0);
  return <div className={styles.dvPage}>
-  <header className={styles.dvHead}><div><h1>Vocabulary</h1><p>Daily goal সেট করো, কতটা শিখলে দেখো, আর যেখানে থেমেছিলে সেখান থেকে আবার শুরু করো।</p></div>
+  <header className={styles.dvHead}><div><h1>Vocabulary</h1><p>Set a daily goal, track what you have learnt and pick up where you left off.</p></div>
    <Link href="/vocabulary?mode=cards#study" className={styles.primary}>Continue learning</Link></header>
   <div className={styles.dvGrid}>
    <section className={styles.dvCard}><div className={styles.dvRowHead}><span>Today</span><GoalSetter goal={stats.goal}/></div>

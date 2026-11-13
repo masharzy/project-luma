@@ -7,11 +7,10 @@ export default function Page() {
   return (
     <section className="status-section">
       <div className="status-sheet">
-        <span className="eyebrow">A LITTLE MORE PREPARATION</span>
-        <h1>Good things take practice.</h1>
-        <p lang="bn">
-          Practice test, Cambridge library আর learning resources নিয়ে কাজ হবে
-          পরের ধাপে। আপাতত নিজের account খুলে রাখতে পারো।
+        <span className="eyebrow">COMING SOON</span>
+        <h1>This page is not ready yet.</h1>
+        <p>
+          Practice tests, the Cambridge library and learning resources are coming next. You can create an account now.
         </p>
         <div className="status-actions">
           <Link href="/auth/sign-up" className="button">

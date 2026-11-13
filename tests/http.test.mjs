@@ -3,11 +3,11 @@ import assert from "node:assert/strict";
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
 for (const [path, content] of [
   ["/", "প্রতিদিন"],
-  ["/auth/sign-in", "Pick up where you left off."],
-  ["/auth/sign-up", "Your next chapter starts here."],
+  ["/auth/sign-in", "Sign in to JumpToNine"],
+  ["/auth/sign-up", "Create your account"],
   ["/auth/forgot-password", "Forgot your password?"],
   ["/auth/reset-password", "This reset link is missing, invalid or expired."],
-  ["/coming-soon", "Good things take practice."],
+  ["/coming-soon", "This page is not ready yet."],
 ]) {
   test(`public page ${path}`, async () => {
     const r = await fetch(base + path);

@@ -57,7 +57,7 @@ export function ExamLock({ active, onViolation }: { active: boolean; onViolation
     {active && supported && !full && <div role="alertdialog" aria-modal="true" aria-label="Full screen required" style={{ position: 'fixed', inset: 0, zIndex: 2147483647, background: '#0b0d12', color: '#fff', display: 'grid', placeItems: 'center', textAlign: 'center', padding: 24 }}>
       <div style={{ maxWidth: 420 }}>
         <h1 style={{ fontSize: 22, margin: '0 0 8px' }}>Full screen is required</h1>
-        <p lang="bn" style={{ margin: '0 0 18px', opacity: 0.8 }}>পরীক্ষা চলাকালীন full screen থাকতে হবে। চালিয়ে যেতে নিচের বাটনে ক্লিক করো বা যেকোনো key চাপো। টাইমার থামবে না।</p>
+        <p style={{ margin: '0 0 18px', opacity: 0.8 }}>Stay in full screen during the exam. Click the button or press any key to continue. The timer keeps running.</p>
         <button type="button" onClick={() => void enterFullscreen()} style={{ background: '#fff', color: '#0b0d12', border: 0, borderRadius: 999, padding: '12px 22px', fontWeight: 600, cursor: 'pointer' }}>Return to full screen</button>
       </div>
     </div>}

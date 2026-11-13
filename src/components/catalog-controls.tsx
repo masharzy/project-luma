@@ -40,7 +40,7 @@ export function CambridgeCatalog({ tests, books }: {
   </Link>;
         })}
  </div>
- {entries.length === 0 && <EmptyState title="No Cambridge books available." description="এখনো এই filter-এ কোনো published Cambridge test নেই।"/>}
+ {entries.length === 0 && <EmptyState title="No Cambridge books available." description="No Cambridge tests match this filter."/>}
  </>);
 }
 export function EmptyCatalog({ kind = "practice", }: {
@@ -84,10 +84,10 @@ export function EmptyCatalog({ kind = "practice", }: {
           <span>{filter} / 0 published</span>
         </div>
         <EmptyState title={title} description={search
-            ? "এই search-এর জন্য published content নেই। অন্য keyword বা filter দিয়ে দেখতে পারো।"
+            ? "No results for this search. Try another keyword or filter."
             : kind === "mocks"
-                ? "এখনো কোনো mock publish করা হয়নি। Schedule আর registration খুললে এখানেই দেখা যাবে।"
-                : "এখনো কোনো content publish করা হয়নি। প্রস্তুত হলে এই collection-এ যুক্ত হবে।"} icon={kind === "mocks" ? "clock" : "book"}/>
+                ? "No mocks are scheduled yet. They will appear here when registration opens."
+                : "No tests in this collection yet. Check back soon."} icon={kind === "mocks" ? "clock" : "book"}/>
         {search && (<button type="button" className="clear-filter" onClick={() => setSearch("")}>
             Clear search ×
           </button>)}

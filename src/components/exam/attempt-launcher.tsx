@@ -34,8 +34,8 @@ export function AttemptLauncher({ kind, parentId, selection, title, modules, bac
         <ul className="launcher-rules">
             <li>The timer starts when you begin.</li>
             <li>A submitted module cannot be changed.</li>
-            {selection === 'full' && <li lang="bn">Full Test দিতে verified account-এ login থাকতে হবে। Writing submit করলে AI Writing Evaluation শুরু হবে এবং আপনার Writing allowance থেকে ১টি ব্যবহার হবে। AI ব্যর্থ হলে allowance ফেরত যাবে।</li>}
-            {selection === 'writing' && <li>AI feedback needs a verified account and an active Writing allowance. Sign in before you begin.</li>}
+            {selection === 'full' && <li>Full Test needs a verified account. Submitting Writing uses 1 AI Writing evaluation from your allowance. If the evaluation fails, it is returned.</li>}
+            {selection === 'writing' && <li>AI feedback needs a verified account. Each evaluation uses 1 Writing allowance.</li>}
         </ul>
         {error && <p role="alert" className="launcher-error">{error}</p>}
         <button className="launcher-start" disabled={busy} onClick={start}>{busy ? 'Preparing…' : <><Play size={18} fill="currentColor"/> Begin practice</>}</button>

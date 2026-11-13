@@ -26,7 +26,7 @@ export function ResourcesHub({d}:{d:HubData}){
    <div>
     <span className={styles.eyebrow}>LEARNING RESOURCES</span>
     <h1>Everything you need to <em>practice between tests</em></h1>
-    <p>Speaking cue card থেকে Writing sample, Vocabulary, Grammar, ebook আর study journal। সবকিছু আমাদের নিজের লেখা, আর প্রতিটার একটা অংশ সবার জন্য free।</p>
+    <p>Speaking cue cards, Writing samples, Vocabulary, Grammar, ebooks and a study journal. All written by us, and part of each is free for everyone.</p>
     <div className={styles.row} style={{marginTop:18}}><Link href="/resources/cue-cards" className={styles.primary}>Start with cue cards</Link><Link href="/resources/ebooks" className={styles.ghost}>Browse ebooks</Link></div>
     <ul className={styles.stats}><li><b>{c.cue}</b>cue cards</li><li><b>{c.t1+c.t2}</b>writing samples</li><li><b>{c.words.toLocaleString('en-US')}</b>words</li><li><b>{c.questions}</b>grammar questions</li><li><b>{c.books}</b>ebooks</li></ul>
    </div>
@@ -36,7 +36,7 @@ export function ResourcesHub({d}:{d:HubData}){
    </div>
   </section>
   <ResumeStrip/>
-  <div className={styles.sectionHead}><h2>Choose a resource</h2><p>নিজের দুর্বল জায়গা অনুযায়ী বেছে নাও।</p></div>
+  <div className={styles.sectionHead}><h2>Choose a resource</h2><p>Pick the one that matches your weak areas.</p></div>
   <div className={hs.bentoGrid}>
    <Card href="/resources/cue-cards" span="s3" title="Speaking Cue Cards" blurb="Pick a topic and follow a step-by-step sample answer, with Part 3 model answers and useful phrases." chips={[`${c.cue} topics`,`${c.cats} categories`,'Part 3 included']} access="First category free" cta="Open cue cards">
     <div className={hs.miniCue}><span>Cue card</span><b>{d.cue.title}</b></div>
@@ -63,10 +63,10 @@ export function ResourcesHub({d}:{d:HubData}){
    <div><h3>With a plan</h3><ul><li>All {c.cue} cue cards with Part 3 answers</li><li>All {c.t1+c.t2} Writing samples</li><li>Every vocabulary word</li><li>All {c.questions} grammar questions</li><li>Full ebooks, with notes and bookmarks</li></ul><Link href="/pricing" className={styles.primary} style={{marginTop:10}}>See plans</Link></div>
   </section>
   <section className={styles.how}>
-   <div className={styles.step}><span>1</span><h3>Learn the pattern</h3><p>Cue card, Writing sample বা ebook chapter পড়ে কাঠামোটা বুঝে নাও।</p></div>
-   <div className={styles.step}><span>2</span><h3>Fix the gaps</h3><p>Grammar test আর Vocabulary flashcard দিয়ে নিজের দুর্বল জায়গা ঠিক করো।</p></div>
-   <div className={styles.step}><span>3</span><h3>Test yourself</h3><p>তারপর Speaking বা Writing evaluation দিয়ে আসল practice করো।</p></div>
+   <div className={styles.step}><span>1</span><h3>Learn the pattern</h3><p>Read a cue card, Writing sample or ebook chapter to understand the structure.</p></div>
+   <div className={styles.step}><span>2</span><h3>Fix the gaps</h3><p>Use Grammar tests and Vocabulary flashcards to fix weak areas.</p></div>
+   <div className={styles.step}><span>3</span><h3>Test yourself</h3><p>Then practise with a Speaking or Writing evaluation.</p></div>
   </section>
-  <div className={styles.upsell}><div><h3>Ready to practice a full test?</h3><p>Listening, Reading, Writing আর Speaking practice এখানে।</p></div><div className={styles.row}><Link href="/recent-tests" className={styles.primary}>Recent tests</Link><Link href="/writing-evaluation" className={styles.ghost}>Writing evaluation</Link><Link href="/speaking-evaluation" className={styles.ghost}>Speaking evaluation</Link></div></div>
+  <div className={styles.upsell}><div><h3>Ready to practice a full test?</h3><p>Practice for Listening, Reading, Writing and Speaking.</p></div><div className={styles.row}><Link href="/recent-tests" className={styles.primary}>Recent tests</Link><Link href="/writing-evaluation" className={styles.ghost}>Writing evaluation</Link><Link href="/speaking-evaluation" className={styles.ghost}>Speaking evaluation</Link></div></div>
  </div>;
 }

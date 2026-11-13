@@ -72,7 +72,7 @@ export function AdminDraft({ kind }: { kind: Kind }) {
       <WorkspaceHeading
         eyebrow={"AUTHORING / " + kind.toUpperCase()}
         title={"A new " + labels[kind][0].toLowerCase() + "."}
-        description="শুরুটা draft দিয়ে। Content backend connect না হওয়া পর্যন্ত file হিসেবে export করে রাখতে পারবে।"
+        description="Start with a draft and export it as a file."
       >
         <Link className="text-link" href={"/admin/" + kind}>
           ← Back to {labels[kind][1]}
@@ -80,7 +80,7 @@ export function AdminDraft({ kind }: { kind: Kind }) {
       </WorkspaceHeading>
       <form className="draft-layout" onSubmit={download}>
         <section className="workspace-panel draft-editor">
-          <span className="eyebrow">01 / THE CONTENT</span>
+          <span className="eyebrow">01 / CONTENT</span>
           <h2>{labels[kind][0]} details</h2>
           <label htmlFor="draft-title">
             Title
@@ -340,7 +340,7 @@ export function AdminDraft({ kind }: { kind: Kind }) {
           )}
         </section>
         <aside className="workspace-panel draft-options">
-          <span className="eyebrow">02 / THE DETAILS</span>
+          <span className="eyebrow">02 / DETAILS</span>
           <h2>Access & handoff</h2>
           <label htmlFor="draft-access">
             Access
@@ -363,8 +363,7 @@ export function AdminDraft({ kind }: { kind: Kind }) {
             Draft only
           </div>
           <p lang="bn">
-            Export file তোমার device-এ download হবে। Browser storage বা server-এ
-            কোনো question save হচ্ছে না।
+            The exported file downloads to your device. No questions are saved in browser storage or on the server.
           </p>
           <button className="button" type="submit">
             Export draft <span>↓</span>

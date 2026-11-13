@@ -94,8 +94,8 @@ export function WorkspaceShell({
         <div className="sidebar-bottom">
           {!isAdmin ? (
             <div className="sidebar-note">
-              <span className="eyebrow">A LITTLE MORE ROOM</span>
-              <h3>Keep moving forward.</h3>
+              <span className="eyebrow">PREMIUM</span>
+              <h3>More tests and AI feedback.</h3>
               <Link href="/pricing">Explore Premium ↗</Link>
             </div>
           ) : null}
