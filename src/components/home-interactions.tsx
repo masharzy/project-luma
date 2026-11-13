@@ -41,7 +41,22 @@ export function HomeInteractions(){
    fit();on(window,'resize',fit);shelfObserver=new ResizeObserver(fit);shelfObserver.observe(shelf);
   }
   const cues=all<HTMLButtonElement>('.jtn-cue');cues.forEach(c=>on(c,'click',()=>cues.forEach(x=>x.style.setProperty('--i',String((Number(getComputedStyle(x).getPropertyValue('--i'))+2)%3)))));
-  return()=>{abort.abort();headerObserver.disconnect();shelfObserver?.disconnect();clearInterval(tick);timeouts.forEach(clearTimeout);wave.replaceChildren();};
+  const hop=root.querySelector<HTMLElement>('.jtn-hop');let hopTimer:ReturnType<typeof setTimeout>|undefined;
+  if(hop){
+   hop.setAttribute('data-js','1');
+   const btns=all<HTMLButtonElement>('.jtn-hop-btn',hop),panels=all<HTMLElement>('.jtn-hop-panel',hop),segs=all<HTMLElement>('.jtn-hop-seg',hop),dot=hop.querySelector<HTMLElement>('.jtn-hop-dot')!;
+   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   let cur=0,auto=false,stopped=reduced;
+   const tickNext=()=>{clearTimeout(hopTimer);if(auto)hopTimer=setTimeout(()=>show((cur+1)%panels.length),5200);};
+   const show=(i:number)=>{cur=i;hop.setAttribute('data-step',String(i+1));panels.forEach((p,j)=>p.classList.toggle('on',j===i));btns.forEach((b,j)=>b.setAttribute('aria-current',j===i?'step':'false'));segs.forEach((s,j)=>{s.classList.toggle('done',j<i);s.classList.toggle('on',j===i);});dot.classList.remove('jump');void dot.offsetWidth;dot.classList.add('jump');hop.removeAttribute('data-play');void hop.offsetWidth;if(auto)hop.setAttribute('data-play','1');tickNext();};
+   const stop=()=>{stopped=true;auto=false;clearTimeout(hopTimer);hop.removeAttribute('data-play');};
+   btns.forEach((b,i)=>on(b,'click',()=>{stop();show(i);}));
+   on(hop.querySelector('.jtn-hop-next')!,'click',()=>{stop();show((cur+1)%panels.length);});
+   show(0);
+   const io=new IntersectionObserver(es=>{const seen=es.some(e=>e.isIntersecting);if(stopped)return;auto=seen;if(seen)show(cur);else{clearTimeout(hopTimer);hop.removeAttribute('data-play');}},{threshold:.5});
+   io.observe(hop);signal.addEventListener('abort',()=>io.disconnect());
+  }
+  return()=>{abort.abort();clearTimeout(hopTimer);headerObserver.disconnect();shelfObserver?.disconnect();clearInterval(tick);timeouts.forEach(clearTimeout);wave.replaceChildren();};
  },[]);
  return null;
 }
