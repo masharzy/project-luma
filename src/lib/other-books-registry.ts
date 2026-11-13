@@ -3,7 +3,7 @@ import {db} from "@/lib/auth/db";
 export type CatalogSeries={slug:string;name:string;cover:string;status:"draft"|"published"};
 export type CatalogVolume={slug:string;seriesSlug:string;series:string;title:string;volume:string;isbn:string;cover:string;status:"draft"|"published"};
 export async function listCatalogSeries(publishedOnly=true):Promise<CatalogSeries[]>{
- const rows=await db().query("SELECT slug,name,cover,status FROM public.book_series WHERE ($1::boolean=false OR status='published') ORDER BY created_at,slug",[publishedOnly]);
+ const rows=await db().query("SELECT slug,name,cover,status FROM public.book_series WHERE ($1::boolean=false OR status='published') ORDER BY sort_order,created_at,slug",[publishedOnly]);
  return rows.map(r=>({slug:String(r.slug),name:String(r.name),cover:String(r.cover||""),status:r.status}));
 }
 export async function listCatalogVolumes(publishedOnly=true,seriesSlug?:string):Promise<CatalogVolume[]>{
