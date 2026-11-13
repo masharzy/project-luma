@@ -111,20 +111,6 @@ export function AuthForm({
   return (
     <section className="auth-section">
       <div className="auth-layout">
-        <aside className="auth-story">
-          <span className="eyebrow">JUMPTONINE / IELTS</span>
-          <h2 lang="bn">
-            পরের গল্পটা তোমার।
-            <br />
-            <span>শুরুটা এখানেই।</span>
-          </h2>
-          <p lang="bn">একটু একটু করে, নিজের লক্ষ্যের দিকে।</p>
-          <div className="auth-paper" aria-hidden="true">
-            <span>YOUR NEXT</span>
-            <strong>chapter.</strong>
-            <span>LISTENING / READING / WRITING</span>
-          </div>
-        </aside>
         <div className="auth-panel">
           <span className="eyebrow">{c.eyebrow}</span>
           <h1>{c.heading}</h1>
