@@ -332,3 +332,28 @@ body:has(.jtn-home){overflow-x:clip}
 /* Free badge on the home bookshelf */
 .jtn-design .jtn-free{position:absolute;top:-13px;left:50%;transform:translateX(-50%);z-index:2;padding:3px 9px;border-radius:999px;background:#fff;color:#14683A;border:1.5px solid #14683A;font:700 .6rem/1.2 'Instrument Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 .jtn-design .jtn-cv .jtn-free{top:12px;left:auto;right:10px;transform:none}
+
+/* How-it-works staircase (home) */
+.jtn-steps{padding:clamp(56px,8vw,104px) 0 clamp(8px,2vw,24px)}
+.jtn-ladder{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end}
+.jtn-ladder li{position:relative;display:flex;flex-direction:column;gap:.5rem;padding:1.25rem 1.25rem 1.5rem;background:var(--sand);border-top:3px solid var(--c);min-height:calc(232px + var(--i)*46px);transition:transform .25s ease,box-shadow .25s ease}
+.jtn-ladder li:nth-child(2){background:#F6E3D6}
+.jtn-ladder li:nth-child(3){background:var(--blush)}
+.jtn-ladder li:nth-child(4){background:var(--c);color:var(--paper);border-top-color:var(--w)}
+.jtn-ladder li:hover{transform:translateY(-4px);box-shadow:0 14px 28px -18px rgba(123,18,48,.55)}
+.jtn-ladder b{font:700 clamp(2.6rem,5vw,4rem)/1 var(--d);letter-spacing:-.05em;color:var(--c);margin-bottom:auto}
+.jtn-ladder li:nth-child(4) b{color:var(--paper)}
+.jtn-ladder li:nth-child(4) b::after{content:"";display:inline-block;width:.32em;height:.32em;margin-left:.12em;border-radius:50%;background:var(--paper)}
+.jtn-ladder h3{font-size:1.3rem;line-height:1.15;margin-top:1.4rem}
+.jtn-ladder p{margin:0;font-size:.95rem;color:var(--mute)}
+.jtn-ladder li:nth-child(4) p{color:rgba(253,251,247,.88)}
+.jtn-ladder .jtn-link{margin-top:.4rem;align-self:flex-start}
+@media(max-width:860px){
+ .jtn-ladder{grid-template-columns:1fr;gap:10px;align-items:stretch}
+ .jtn-ladder li{min-height:0;display:grid;grid-template-columns:auto 1fr;column-gap:1rem;row-gap:.2rem;margin-left:calc(var(--i)*12px);border-top:0;border-left:4px solid var(--c)}
+ .jtn-ladder li:nth-child(4){border-left-color:var(--w)}
+ .jtn-ladder b{grid-row:1/span 3;margin:0;font-size:2.4rem}
+ .jtn-ladder h3{margin-top:0;font-size:1.15rem}
+ .jtn-ladder .jtn-link{grid-column:2}
+}
+@media(prefers-reduced-motion:reduce){.jtn-ladder li{transition:none}.jtn-ladder li:hover{transform:none}}
