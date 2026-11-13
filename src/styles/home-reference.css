@@ -80,10 +80,6 @@ background:linear-gradient(rgba(200,8,47,.055) 1px,transparent 1px) 0 0/56px 56p
 .jtn-design .jtn-run{display:flex;height:150px;gap:4px}
 .jtn-design .jtn-run div{flex:var(--n);display:flex;flex-direction:column;justify-content:flex-end;padding:14px;font:600 1.05rem/1.1 var(--d);letter-spacing:-.02em;min-width:0;background:var(--bg)}
 .jtn-design .jtn-run small{font:400 .8rem 'Instrument Sans';color:var(--mute);letter-spacing:0}
-.jtn-design .jtn-pickset{display:grid;gap:8px}
-.jtn-design .jtn-pick{display:flex;justify-content:space-between;align-items:center;gap:1rem;width:100%;text-align:left;padding:1.05em 1.2em;background:none;border:1px solid var(--line);font:600 1.2rem var(--d);letter-spacing:-.025em;color:var(--ink);cursor:pointer;transition:.2s}
-.jtn-design .jtn-pick span{font:400 .85rem 'Instrument Sans';color:var(--mute);letter-spacing:0}
-.jtn-design .jtn-pick[aria-pressed=true]{background:var(--c);border-color:var(--c);color:#fff}.jtn-design .jtn-pick[aria-pressed=true] span{color:#fff}
 .jtn-design .jtn-chips{display:flex;flex-wrap:wrap;gap:8px}
 .jtn-design .jtn-chip{padding:.55em 1em;border:1px solid var(--line);border-radius:99px;background:none;font:500 .92rem 'Instrument Sans';cursor:pointer;color:var(--ink);transition:.2s}
 .jtn-design .jtn-chip[aria-pressed=true]{background:var(--w);border-color:var(--w);color:#fff}
