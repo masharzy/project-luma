@@ -17,7 +17,7 @@ export default async function Page({params}:{params:Promise<{slug:string}>}){
    <span className={styles.tag}>{a.category}</span><h1>{a.title}</h1><p style={{color:'#4a4249',fontSize:15}}>{readMinutes(a.body)} min read</p>
    <Prose body={a.body}/>
   </article>
-  <div className={styles.upsell}><div><h3>Practise what you just read</h3><p>Cue card, Writing sample বা Grammar test দিয়ে আজই প্রয়োগ করো।</p></div><Link href="/resources" className={styles.primary}>Open resources</Link></div>
+  <div className={styles.upsell}><div><h3>Practice what you just read</h3><p>Cue card, Writing sample বা Grammar test দিয়ে আজই প্রয়োগ করো।</p></div><Link href="/resources" className={styles.primary}>Open resources</Link></div>
   <div className={styles.sectionHead} style={{marginTop:30}}><h2>More from the journal</h2></div>
   <div className={js.jGrid}>{more.map(x=><Link key={x.slug} href={`/blog/${x.slug}`} className={js.jCard}><span className={styles.tag}>{x.category}</span><h3>{x.title}</h3><p>{x.excerpt}</p></Link>)}</div>
  </div>;
