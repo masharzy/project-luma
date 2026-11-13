@@ -1,3 +1,8 @@
+/* Recent Tests — compact contextual note in the page header. */
+.feature-page.recent-tests-page .page-intro p[lang="en"]{display:grid;gap:5px;max-width:64ch;margin:14px 0 0;color:var(--lib-mute);font:400 clamp(.86rem,1.2vw,.95rem)/1.55 'Instrument Sans',system-ui,sans-serif}
+.feature-page.recent-tests-page .recent-tests-intro-kicker{display:block;color:var(--lib-red);font-size:.7rem;font-weight:700;letter-spacing:.11em;line-height:1.4}
+.feature-page.recent-tests-page .recent-tests-intro-copy{display:block}
+
 /* Type Wise Question Practice — stepped flow: collection → book/series → types → questions → start.
    Uses the homepage tokens (see library.css). Whole cards are buttons; states: default / selected / locked. */
 .typewise-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin:6px 0 26px}
