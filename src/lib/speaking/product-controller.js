@@ -13,7 +13,7 @@ async function submitSpeaking(){if(submittingEvaluation)return;submittingEvaluat
 $('exit').onclick=()=>{if(ROOM.mockAttemptId&&window.parent!==window)return;if(phase==='recording'&&!confirm('Leave this room? The current unsaved recording will be lost.'))return;window.location.assign(ROOM.mockAttemptId?'/exam/attempt/'+ROOM.testId:'/speaking-evaluation');};
 $('complete-text').textContent='Your recordings can be evaluated after the test.';
 if(ROOM.savedSteps?.length)$('saved-count').textContent=ROOM.savedSteps.length+' saved privately';
-if(!ROOM.storageReady)notify('Recording storage is not enabled yet. You can practise and download recordings, but uploads are unavailable.');
+if(!ROOM.storageReady)notify('Recording storage is not enabled yet. You can practice and download recordings, but uploads are unavailable.');
 window.LumaSpeaking.submitForEvaluation=submitSpeaking;
 
 if(ROOM.mockAttemptId){document.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('copy',e=>e.preventDefault());document.addEventListener('keydown',e=>{const k=e.key.toLowerCase(),m=e.ctrlKey||e.metaKey;if(e.key==='F12'||(m&&e.shiftKey&&['i','j','c'].includes(k))||(m&&['u','s','p'].includes(k)))e.preventDefault();},true);}
