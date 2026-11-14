@@ -58,6 +58,23 @@
         .exam-engine .ielts-part-strip strong { font-size:16px; }
         .exam-engine .ielts-part-strip span { font-size:13px; }
         .exam-engine .ielts-audio-status { margin-left:auto; display:flex; align-items:center; gap:8px; font-weight:700; font-size:12px; }
+        .exam-engine .ielts-audio-bar { margin-left:auto; display:flex; align-items:center; gap:8px; padding:4px 10px; border:1px solid var(--ielts-border); border-radius:999px; background:color-mix(in srgb, var(--ielts-panel) 55%, transparent); backdrop-filter:blur(6px); color:var(--ielts-text); font-size:12px; font-weight:600; min-width:0; }
+        .exam-engine .ielts-audio-btn { position:relative; display:inline-grid; place-items:center; width:28px; height:28px; border-radius:50%; color:var(--ielts-text); opacity:.8; }
+        .exam-engine .ielts-audio-btn:hover { opacity:1; background:color-mix(in srgb, var(--ielts-text) 8%, transparent); }
+        .exam-engine .ielts-audio-btn i { position:absolute; font-style:normal; font-size:7px; font-weight:800; line-height:1; pointer-events:none; }
+        .exam-engine .ielts-audio-main { width:32px; height:32px; background:var(--ielts-text); color:var(--ielts-panel); opacity:1; }
+        .exam-engine .ielts-audio-main:hover { background:var(--ielts-text); opacity:.85; }
+        .exam-engine .ielts-audio-time { font-variant-numeric:tabular-nums; min-width:32px; text-align:center; font-weight:600; }
+        .exam-engine .ielts-audio-left { white-space:nowrap; opacity:.7; font-weight:500; }
+        .exam-engine .ielts-audio-vol-icon { opacity:.7; flex:none; }
+        .exam-engine .ielts-audio-bar input[type=range] { -webkit-appearance:none; appearance:none; height:4px; border-radius:999px; background:linear-gradient(to right, var(--ielts-text) var(--p,100%), color-mix(in srgb, var(--ielts-text) 20%, transparent) var(--p,100%)); outline:none; cursor:pointer; }
+        .exam-engine .ielts-audio-seek { width:min(280px, 22vw); min-width:90px; }
+        .exam-engine .ielts-audio-volume { width:60px; --p:100%; background:color-mix(in srgb, var(--ielts-text) 25%, transparent)!important; }
+        .exam-engine .ielts-audio-bar input[type=range]:disabled { opacity:.4; cursor:default; }
+        .exam-engine .ielts-audio-bar input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; height:12px; border-radius:50%; background:var(--ielts-text); border:2px solid var(--ielts-panel); }
+        .exam-engine .ielts-audio-bar input[type=range]::-moz-range-thumb { width:10px; height:10px; border-radius:50%; background:var(--ielts-text); border:2px solid var(--ielts-panel); }
+        .exam-engine .ielts-audio-bar button:focus-visible, .exam-engine .ielts-audio-bar input:focus-visible { outline:2px solid var(--ielts-text); outline-offset:2px; }
+        @media (max-width: 768px) { .exam-engine .ielts-audio-bar { margin-left:0; width:100%; flex-wrap:wrap; border-radius:14px; } .exam-engine .ielts-audio-seek { flex:1; width:auto; } .exam-engine .ielts-audio-volume, .exam-engine .ielts-audio-vol-icon { display:none; } }
         .exam-engine .ielts-audio-status button { border:1px solid var(--ielts-border); padding:5px 12px; background:var(--ielts-panel); color:var(--ielts-text); }
         .exam-engine .ielts-official-root #left-panel, .exam-engine .ielts-official-root #right-panel, .exam-engine .ielts-official-root main > div.flex-1 { background:var(--ielts-panel)!important; color:var(--ielts-text); }
         .exam-engine .ielts-pane-inner { padding:28px 34px 90px; max-width:none; min-height:100%; color:var(--ielts-text); }

@@ -39,6 +39,7 @@ import {
 import { toast } from "./feedback";
 import {SourceQuestionGroup} from "./source-question-group";
 import { isObjectiveAnswerCorrect } from "@/lib/exam/mock-scoring";
+import { PracticeAudioBar } from "./practice-audio-bar";
 
 export interface ExamInterfaceProps {
   nonce?: string;
@@ -58,6 +59,8 @@ export interface ExamInterfaceProps {
   sectionAudioUrl?: string;
   onAudioPlaybackStarted?: () => void | Promise<void>;
   autoStartTimerOnAudioBlock?: boolean;
+  /** Practice only (never mocks): seekable themed player instead of the plain status chip. */
+  practiceAudioPlayer?: boolean;
 }
 
 const toRoman = (num: number): string => {
@@ -467,7 +470,8 @@ export default function ExamInterface({
   waitForAudioStart = false,
   sectionAudioUrl = "",
   onAudioPlaybackStarted,
-  autoStartTimerOnAudioBlock = false
+  autoStartTimerOnAudioBlock = false,
+  practiceAudioPlayer = false
 }: ExamInterfaceProps) {
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -3006,7 +3010,14 @@ export default function ExamInterface({
       <div className="ielts-part-strip">
         <strong>Part {currentPartIndex + 1}</strong>
         <span>{currentPart?.instructions || `${sectionLabel} questions`}</span>
-        {sectionType === "listening" && listeningAudioUrl && (
+        {sectionType === "listening" && listeningAudioUrl && practiceAudioPlayer && (
+          <PracticeAudioBar
+            audioRef={audioRef}
+            sourceKey={listeningAudioUrl}
+            onPlayRequest={() => { if (reviewMode) void audioRef.current?.play().catch(() => undefined); else handleStartListeningAudio(); }}
+          />
+        )}
+        {sectionType === "listening" && listeningAudioUrl && !practiceAudioPlayer && (
           <div className="ielts-audio-status">
             <Volume2 className="w-4 h-4" />
             <span>{audioStarted ? "Audio is playing" : audioReady ? "Audio ready" : "Preparing audio"}</span>
@@ -3045,7 +3056,7 @@ export default function ExamInterface({
               <div className="ielts-headphone-icon">
                 <Volume2 className="h-16 w-16" />
               </div>
-              <p>You will be listening to an audio clip during this test. You will not be permitted to pause or rewind the audio while answering the questions.</p>
+              <p>{practiceAudioPlayer ? "You will be listening to an audio clip. In practice mode you can pause and rewind the audio any time." : "You will be listening to an audio clip during this test. You will not be permitted to pause or rewind the audio while answering the questions."}</p>
               <p>To continue, click Play.</p>
               <button type="button" onClick={handleStartListeningAudio}>
                 <span>▶</span> Play

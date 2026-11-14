@@ -214,6 +214,7 @@ function AttemptRunnerBody({ id, nonce, onLock }: {
     return <EngineSurface nonce={nonce}><Toaster />{audioBlocked&&<button type="button" className="session-primary" style={{position:'fixed',top:12,left:'50%',transform:'translateX(-50%)',zIndex:2147483000}} onClick={()=>audioCtl.current?.resume()}>Tap to turn on the Listening audio</button>}<p role="status">{saveStatus}</p>{error && <div className="attempt-error" role="alert">{error}<button disabled={busy} onClick={() => void action('submit').catch(() => { })}>Retry submission</button></div>}<ExamInterface key={state.index} nonce={nonce} testTitle={state.title + ' · ' + (state.index + 1) + ' / ' + state.modules.length} sectionType={state.current!.module as Module} parts={examDoc.parts} questions={examDoc.questions} timeLeft={waitingForListeningAudio ? state.current!.document.durationMinutes * 60 : time} answers={answers} onAnswerChange={change} onFinish={() => action('submit')} onExit={() => { if (state.kind==='mock') return; if (confirm('Leave this test? The current module timer will keep running.'))
         window.location.assign(back); }} disablePause sectionAudioUrl={state.kind==='mock'?'':state.current!.document.audioUrl}
       waitForAudioStart={waitingForListeningAudio}
+      practiceAudioPlayer={state.kind!=='mock'}
       onAudioPlaybackStarted={async () => {
         if (stateRef.current?.deadline || lock.current) return;
         await action('start');

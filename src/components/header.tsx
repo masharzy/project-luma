@@ -7,7 +7,7 @@ import {otherBookSeries} from '@/lib/other-books';
 type NavLink={href:string;label:string;sub?:boolean};
 // Navbar order: IELTS (Cambridge, More Test Books with every series, Recent IELTS Tests, Exercise by Question Type), Mock exams, AI Feedback, Resources, Pricing.
 const seriesLinks:NavLink[]=[...otherBookSeries].sort((a,b)=>(b.slug==='official-guide'?1:0)-(a.slug==='official-guide'?1:0)).map(x=>({href:'/other-books/'+x.slug,label:x.name,sub:true}));
-const ielts:NavLink[]=[{href:'/cambridge',label:'Cambridge'},{href:'/other-books',label:'More Test Books'},...seriesLinks,{href:'/recent-tests',label:'Recent IELTS Tests'},{href:'/recent-tests?view=questions',label:'IELTS Exercise by Question Type'}];
+const ielts:NavLink[]=[{href:'/cambridge',label:'Cambridge'},{href:'/other-books',label:'Other Books'},...seriesLinks,{href:'/recent-tests',label:'Recent IELTS Tests'},{href:'/recent-tests?view=questions',label:'IELTS Exercise by Question Type'}];
 const ieltsPaths=['/cambridge','/other-books','/recent-tests','/type-wise-question-practice'];
 const ai:NavLink[]=[{href:'/writing-evaluation',label:'Writing'},{href:'/speaking-evaluation',label:'Speaking'}];
 const groups=[{id:'ielts',label:'IELTS',links:ielts,paths:ieltsPaths},{id:'ai',label:'AI Feedback',links:ai,paths:['/writing-evaluation','/speaking-evaluation']}];
