@@ -18,6 +18,8 @@ jobs:
           node-version: '22'
       - name: Speech tools
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng && pip install --quiet gTTS
+      - name: Create QA session tokens (hashes only are published)
+        run: node tests/e2e/prod-mock-robot.mjs --init
       - name: Robot mock on production
         run: node tests/e2e/prod-mock-robot.mjs
       - name: Report
