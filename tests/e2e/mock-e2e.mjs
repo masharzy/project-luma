@@ -104,7 +104,8 @@ async function user(name, role = 'user') {
 const admin = await user('E2E Admin', 'admin');
 const robots = { A: await user('Robot A · Listening, offline, closes browser'), B: await user('Robot B · two lines of Writing, closes at once'), C: await user('Robot C · two Speaking answers, reload, offline'), D: await user('Robot D · full Speaking, submits') };
 const FOCUS = process.env.E2E_FOCUS === 'speaking'; // quick loop: a Speaking-only mock
-const MODULES = FOCUS ? ['speaking'] : ['listening', 'reading', 'writing', 'speaking'];
+const WFOCUS = process.env.E2E_FOCUS === 'writing'; // quick loop: a Writing-only mock (Robot B)
+const MODULES = FOCUS ? ['speaking'] : WFOCUS ? ['writing'] : ['listening', 'reading', 'writing', 'speaking'];
 const MIN = { listening: 1, reading: 1, writing: 2 };
 // Listening recording, served to Chrome from an https test host by request routing (no network needed).
 const audioFile = path.join(OUT, 'listening.mp3');
@@ -115,7 +116,7 @@ for (const module of ['listening', 'reading', 'writing']) {
   const writing = module === 'writing';
   const parts = writing ? [{ id: 'w1', passage_text: 'Task 1. The chart shows bus use in Dhaka. Summarise it.', question_groups: [] }, { id: 'w2', passage_text: 'Task 2. Should public transport be free? Discuss.', question_groups: [] }] : [{ id: 'p1', passage_text: 'Fixture passage for ' + module + '.', question_groups: [] }];
   const document = { schemaVersion: 1, durationMinutes: MIN[module], audioUrl: module === 'listening' ? 'https://audio.e2e.test/listening.mp3' : '', ...(writing ? { mockSetup: { mode: 'manual' } } : {}), parts, questions: writing ? [] : Array.from({ length: 5 }, (_, i) => ({ id: module[0] + i, part_id: 'p1', question_type: 'short_answer', question_text: 'Question ' + (i + 1) + ': write A', correct_answer: 'A', order_index: i + 1 })) };
-  await sql.query("INSERT INTO public.exam_modules(kind,parent_id,module,content_id,document) VALUES('mock',$1,$2,$1,$3::jsonb)", [mockId, module, JSON.stringify(FOCUS && writing ? { ...document, mockSetup: { mode: 'manual', modules: MODULES } } : document)]);
+  await sql.query("INSERT INTO public.exam_modules(kind,parent_id,module,content_id,document) VALUES('mock',$1,$2,$1,$3::jsonb)", [mockId, module, JSON.stringify((FOCUS || WFOCUS) && writing ? { ...document, mockSetup: { mode: 'manual', modules: MODULES } } : document)]);
 }
 const speakingSet = { part1: ['Where do you live?'], cueCard: { topic: 'Describe a journey you remember.', points: ['Where you went', 'Who you went with'], explain: 'Explain why you remember it.' }, rounding: [], part3: ['Why do people travel?'] };
 const bank = await q1("INSERT INTO public.speaking_sets(title,document,published,minutes) VALUES('E2E Speaking set',$1::jsonb,true,15) RETURNING id", [JSON.stringify(speakingSet)]);
@@ -125,7 +126,7 @@ const ev = await q1('SELECT snapshot FROM public.mock_events WHERE id=$1', [mock
 log('mock prepared', mockId, ev.snapshot.map(s => s.module + ':' + (s.document.durationMinutes ?? '')).join(' '));
 for (const r of Object.values(robots)) await sql.query('INSERT INTO public.mock_registrations(mock_id,user_id) VALUES($1,$2)', [mockId, r.id]);
 // Join window open for ~25 more seconds; Listening starts in ~40 s (3 min join window + 15 s loading).
-await sql.query("UPDATE public.mock_events SET starts_at=now()-interval '155 seconds',ends_at=now()-interval '155 seconds'+$2::interval WHERE id=$1", [mockId, (3 * 60 + 15 + (FOCUS ? 15 : MIN.listening + MIN.reading + MIN.writing + 15 + 3) * 60) + ' seconds']);
+await sql.query("UPDATE public.mock_events SET starts_at=now()-interval '155 seconds',ends_at=now()-interval '155 seconds'+$2::interval WHERE id=$1", [mockId, (3 * 60 + 15 + (FOCUS ? 15 : WFOCUS ? MIN.writing + 1 : MIN.listening + MIN.reading + MIN.writing + 15 + 3) * 60) + ' seconds']);
 
 // ---------- the real Next.js server ----------
 const server = spawn(process.execPath, [path.join(root, 'node_modules/next/dist/bin/next'), 'start', '-p', String(PORT)], {
@@ -180,6 +181,7 @@ await check('every robot joins through the waiting-room Join now button inside t
 });
 
 if (!FOCUS) {
+if (!WFOCUS) {
 // ----- Listening -----
 const inputs = p => p.locator('.exam-engine input[type="text"]');
 await until('Listening paper', () => inputs(page.A).first().isVisible(), 90000, 500).catch(async e => { for (const [k, p] of Object.entries(page)) { await shot(p, 'fatal-' + k); writeFileSync(path.join(OUT, 'fatal-' + k + '.html'), await p.content().catch(() => '')); } writeFileSync(path.join(OUT, 'server.log'), serverLog.join('').slice(-30000)); writeFileSync(path.join(OUT, 'browser.log'), browserLog.join('\n')); throw e; });
@@ -209,22 +211,30 @@ await check('Robot A closes the browser in the middle of Listening and never ret
 await until('Reading paper for D', () => inputs(page.D).first().isVisible().then(v => v && page.D.getByText(/Fixture passage for reading/).isVisible()), 150000, 1000);
 await inputs(page.D).nth(0).fill('A');
 
+}
 // ----- Writing -----
 const textarea = p => p.locator('textarea.ielts-writing-textarea');
 await until('Writing paper', () => textarea(page.B).isVisible(), 150000, 1000);
 await shot(page.B, '03-writing');
 await check('Robot B: two typed lines are saved even though the browser is closed within a second', async () => {
+  const net = [];
+  page.B.on('request', r => { if (r.url().includes('/api/exam-attempts/')) net.push('req ' + r.method() + ' ' + (r.postData() || '').slice(0, 60)); });
+  page.B.on('requestfinished', async r => { if (r.url().includes('/api/exam-attempts/')) net.push('done ' + r.method() + ' ' + ((await r.response())?.status())); });
+  page.B.on('requestfailed', r => { if (r.url().includes('/api/exam-attempts/')) net.push('failed ' + r.method() + ' ' + r.failure()?.errorText); });
   await textarea(page.B).fill(twoLines);
   await sleep(250);
+  const diag = await page.B.evaluate(() => ({ status: document.querySelector('.exam-engine [role=status], p[role=status]')?.textContent, drafts: Object.keys(localStorage).filter(k => k.startsWith('j9-attempt-draft:')).map(k => k + '=' + localStorage.getItem(k).slice(0, 80)) }));
+  setTimeout(() => log('Robot B diagnostics', JSON.stringify({ diag, net })), 7000);
   await page.B.close({ runBeforeUnload: true });
   await ctx.B.close();
-  await until('two lines on the server', async () => ((await attemptRow(robots.B)).answers['2'] || {}).writing_draft_w1 === twoLines, 8000);
+  await until('two lines on the server', async () => ((await attemptRow(robots.B)).answers[String(MODULES.indexOf('writing'))] || {}).writing_draft_w1 === twoLines, 8000);
 });
 const essay = 'Public transport in Dhaka carries millions of people every day, and the chart shows that bus use rose steadily over the decade. '.repeat(4);
 await textarea(page.D).fill(essay);
-await until('D essay saved', async () => ((await attemptRow(robots.D)).answers['2'] || {}).writing_draft_w1 === essay, 10000);
+await until('D essay saved', async () => ((await attemptRow(robots.D)).answers[String(MODULES.indexOf('writing'))] || {}).writing_draft_w1 === essay, 10000);
 
 }
+if (WFOCUS) { await sleep(8000); writeFileSync(path.join(OUT, 'server-wfocus.log'), serverLog.join('')); await browser.close(); server.kill('SIGTERM'); console.log(results.map(r => (r.ok ? 'PASS ' : 'FAIL ') + r.name).join('\n')); process.exit(results.every(r => r.ok) ? 0 : 1); }
 // ----- Speaking (in an iframe on the same page) -----
 const room = p => p.frameLocator('iframe[title="Speaking test"]');
 const main = p => room(p).locator('#main-action');

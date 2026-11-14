@@ -147,8 +147,12 @@ function AttemptRunnerBody({ id, nonce, onLock }: {
         }catch{setSaveStatus('Offline — your answers are kept on this device and will sync automatically.');}finally{saving.current=false;}
       };
       flushRef.current=flush;
-      let lastAttempt=0;const timer=setInterval(()=>{const current=stateRef.current;const remaining=current?.deadline?new Date(current.deadline).getTime()-Date.now()-offset.current:Infinity;const interval=remaining<5000?500:3000;if(Date.now()-lastAttempt>=interval){lastAttempt=Date.now();void flush();}},500);const onHide=()=>{if(document.visibilityState==='hidden')void flush();};const now=()=>void flush();document.addEventListener('visibilitychange',onHide);window.addEventListener('beforeunload',now);window.addEventListener('pagehide',now);window.addEventListener('online',now);
-      return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',onHide);window.removeEventListener('beforeunload',now);window.removeEventListener('pagehide',now);window.removeEventListener('online',now);};
+      let lastAttempt=0;const timer=setInterval(()=>{const current=stateRef.current;const remaining=current?.deadline?new Date(current.deadline).getTime()-Date.now()-offset.current:Infinity;const interval=remaining<5000?500:3000;if(Date.now()-lastAttempt>=interval){lastAttempt=Date.now();void flush();}},500);// Leaving the page (close, reload, tab switch): a beacon is queued by the browser itself and survives the page,
+      // unlike a fetch that may be cut off. It ignores an in-flight save so the newest answers always go out.
+      const beacon=()=>{const current=stateRef.current;if(!dirty.current||!current||current.complete||current.moduleSubmitted||!current.deadline)return;const body=JSON.stringify({action:'save',index:current.index,answers:answerRef.current});
+        try{if(new Blob([body]).size<60000&&navigator.sendBeacon?.('/api/exam-attempts/'+id,new Blob([body],{type:'application/json'})))return;}catch{}void flush();};
+      const onHide=()=>{if(document.visibilityState==='hidden')beacon();};const now=()=>beacon();const online=()=>void flush();document.addEventListener('visibilitychange',onHide);window.addEventListener('beforeunload',now);window.addEventListener('pagehide',now);window.addEventListener('online',online);
+      return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',onHide);window.removeEventListener('beforeunload',now);window.removeEventListener('pagehide',now);window.removeEventListener('online',online);};
     },[id,load]);
     // Legacy attempts may have been created before automatic module starts existed.
     // Recover them without showing an extra "Start listening/reading" screen.
