@@ -6,6 +6,7 @@ import { EngineSurface } from './engine-surface';
 import { Toaster } from './feedback';
 import { ExamLock } from './exam-lock';
 import { startMockAudio, type AudioStatus } from '@/lib/exam/mock-audio';
+import { readDraft, writeDraft, markSynced, clearDrafts, restoreAnswers } from '@/lib/exam/answer-draft';
 import type { ExamDocument, Module } from '@/lib/exam/document';
 import '@/styles/exam-engine.css';
 const ExamInterface = dynamic(() => import('./exam-interface'), { ssr: false });
@@ -68,11 +69,10 @@ function AttemptRunnerBody({ id, nonce, onLock }: {
     const dirty=useRef(false),saving=useRef(false),flushRef=useRef<()=>Promise<void>>(async()=>{});
     const [saveStatus,setSaveStatus]=useState('');
     const answerRef = useRef<Record<string, string>>({}), lock = useRef(false), offset = useRef(0), stateRef = useRef<State | null>(null);
-    const apply = useCallback((s: State) => { offset.current = s.serverNow - Date.now(); stateRef.current = s; setState(s); setTime(s.deadline ? Math.max(0, Math.ceil((new Date(s.deadline).getTime() - s.serverNow) / 1000)) : 0); let next:Record<string,string> = s.savedAnswers||{}; try {
-        const saved = sessionStorage.getItem('luma-attempt:' + id + ':' + s.index);
-        if(saved){const parsed=JSON.parse(saved);if(parsed&&typeof parsed==='object'&&!Array.isArray(parsed))next=parsed;}
-    }
-    catch { } answerRef.current = next; dirty.current=true; setAnswers(next); }, [id]);
+    const apply = useCallback((s: State) => { offset.current = s.serverNow - Date.now(); stateRef.current = s; setState(s); setTime(s.deadline ? Math.max(0, Math.ceil((new Date(s.deadline).getTime() - s.serverNow) / 1000)) : 0); // Drafts of finished modules are useless once the server has moved on; unsynced edits of the open module win.
+    clearDrafts(id, s.complete ? Infinity : s.index);
+    const restored = s.current ? restoreAnswers(s.savedAnswers||{}, readDraft(id, s.index)) : { answers: {}, dirty: false };
+    answerRef.current = restored.answers; dirty.current = restored.dirty; setAnswers(restored.answers); }, [id]);
     const load = useCallback(async () => { try {
         const r = await fetch('/api/exam-attempts/' + id, { cache: 'no-store' }), d = await r.json();
         if (!r.ok)
@@ -86,10 +86,9 @@ function AttemptRunnerBody({ id, nonce, onLock }: {
     useEffect(() => { void load(); }, [load]);
     // A mock lives on its own page (one full-screen session). The plain attempt URL sends people there.
     useEffect(() => { if (state?.kind === 'mock' && !state.complete && location.pathname.startsWith('/exam/')) location.replace('/mocks/' + state.parentId); }, [state?.kind, state?.complete, state?.parentId]);
-    const change = useCallback((qid: string, value: unknown) => { const next = { ...answerRef.current, [qid]: String(value ?? '') }; answerRef.current = next; dirty.current=true; setAnswers(next); try {
-        sessionStorage.setItem('luma-attempt:' + id + ':' + stateRef.current?.index, JSON.stringify(next));
-    }
-    catch { } }, [id]);
+    // Every keystroke is written to this device at once (survives reload and a closed browser), then synced to the server.
+    const change = useCallback((qid: string, value: unknown) => { const next = { ...answerRef.current, [qid]: String(value ?? '') }; answerRef.current = next; dirty.current=true; setAnswers(next);
+        if (stateRef.current) writeDraft(id, stateRef.current.index, next, false); }, [id]);
     const action = useCallback(async (action: 'start' | 'submit') => {
         if (lock.current || !stateRef.current)
             return;
@@ -104,7 +103,7 @@ function AttemptRunnerBody({ id, nonce, onLock }: {
             if (!r.ok)
                 throw Error(d.error);
             if (action === 'submit')
-                sessionStorage.removeItem('luma-attempt:' + id + ':' + before.index);
+                clearDrafts(id, before.index + 1);
             apply(d);
         }
         catch (e) {
@@ -144,12 +143,12 @@ function AttemptRunnerBody({ id, nonce, onLock }: {
       const flush=async()=>{const current=stateRef.current;if(!dirty.current||saving.current||lock.current||!current||current.complete||current.moduleSubmitted||!current.deadline)return;
         const pending=answerRef.current;saving.current=true;setSaveStatus('Saving answers…');
         try{const body=JSON.stringify({action:'save',index:current.index,answers:pending});const r=await fetch('/api/exam-attempts/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body,keepalive:new Blob([body]).size<60000});
-          if(r.status===409){await load();return;}if(!r.ok)throw Error('Save failed');if(answerRef.current===pending)dirty.current=false;setSaveStatus('Answers saved');
-        }catch{setSaveStatus('Not saved online — keep this tab open. Your answers remain on this device.');}finally{saving.current=false;}
+          if(r.status===409){await load();return;}if(!r.ok)throw Error('Save failed');markSynced(id,current.index,pending);if(answerRef.current===pending)dirty.current=false;setSaveStatus('All answers saved');
+        }catch{setSaveStatus('Offline — your answers are kept on this device and will sync automatically.');}finally{saving.current=false;}
       };
       flushRef.current=flush;
-      let lastAttempt=0;const timer=setInterval(()=>{const current=stateRef.current;const remaining=current?.deadline?new Date(current.deadline).getTime()-Date.now()-offset.current:Infinity;const interval=remaining<5000?500:3000;if(Date.now()-lastAttempt>=interval){lastAttempt=Date.now();void flush();}},500);const onHide=()=>{if(document.visibilityState==='hidden')void flush();};document.addEventListener('visibilitychange',onHide);
-      return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',onHide);};
+      let lastAttempt=0;const timer=setInterval(()=>{const current=stateRef.current;const remaining=current?.deadline?new Date(current.deadline).getTime()-Date.now()-offset.current:Infinity;const interval=remaining<5000?500:3000;if(Date.now()-lastAttempt>=interval){lastAttempt=Date.now();void flush();}},500);const onHide=()=>{if(document.visibilityState==='hidden')void flush();};const now=()=>void flush();document.addEventListener('visibilitychange',onHide);window.addEventListener('pagehide',now);window.addEventListener('online',now);
+      return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',onHide);window.removeEventListener('pagehide',now);window.removeEventListener('online',now);};
     },[id,load]);
     // Legacy attempts may have been created before automatic module starts existed.
     // Recover them without showing an extra "Start listening/reading" screen.

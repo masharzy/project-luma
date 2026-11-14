@@ -1,3 +1,6 @@
+/* Pin this file to the exam Tailwind config: with several configs in one build (see admin-tw.css),
+   an unpinned file can be compiled with the wrong one and lose every exam utility (fixed, inset-0, flex…). */
+@config "../../tailwind.config.cjs";
 .exam-engine {font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#111;line-height:1.4}
 .exam-engine *,.exam-engine *::before,.exam-engine *::after {box-sizing:border-box;border-width:0;border-style:solid;border-color:#d1d5db}
 .exam-engine :where(h1,h2,h3,h4,p,ul,ol){margin:0;font:inherit}

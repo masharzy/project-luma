@@ -54,8 +54,8 @@ export async function prepareMock(id:string,adminId:string,speakingSetId?:string
 export async function mockAdminResults(id:string){
  const e=(await db().query('SELECT id,title,starts_at,ends_at,results_published_at,snapshot FROM public.mock_events WHERE id=$1',[id]))[0];if(!e){const draft=(await db().query("SELECT title,scheduled_at,status FROM public.admin_content WHERE id=$1 AND kind='mock'",[id]))[0];if(!draft)throw new AuthHttpError(404,'Mock not found');return {event:null,draft,participants:[],writingTasks:[]};}
  if(Date.now()>=new Date(String(e.ends_at)).getTime()){
- const pending=await db().query("SELECT * FROM public.exam_attempts WHERE kind='mock' AND parent_id=$1 AND current_index<jsonb_array_length(snapshot) LIMIT 50",[id]);
- await Promise.all(pending.map(r=>settleAttempt(r)));
+ // Settle every unfinished paper (batches of 50) so the review and publish gate see final marks for all candidates.
+ for(let round=0;round<40;round++){const pending=await db().query("SELECT * FROM public.exam_attempts WHERE kind='mock' AND parent_id=$1 AND current_index<jsonb_array_length(snapshot) AND deadline<now() ORDER BY id LIMIT 50",[id]);if(!pending.length)break;const before=pending.map(r=>Number(r.current_index)).join();const after=(await Promise.all(pending.map(r=>settleAttempt(r)))).map(r=>Number(r.current_index)).join();if(before===after)break;}
  }
  const participants=await db().query(`SELECT u.name,u.email,r.attempt_id,a.current_index,a.results,a.answers FROM public.mock_registrations r JOIN app_auth.users u ON u.id=r.user_id LEFT JOIN public.exam_attempts a ON a.id=r.attempt_id WHERE r.mock_id=$1 ORDER BY r.registered_at LIMIT 500`,[id]);
  const result={event:{id:e.id,title:e.title,starts_at:e.starts_at,ends_at:e.ends_at,results_published_at:e.results_published_at,moduleCount:e.snapshot.length,modules:e.snapshot.map((s:any)=>s.module),speakingIndex:e.snapshot.findIndex((s:any)=>s.module==='speaking')},writingTasks:e.snapshot?.find((s:any)=>s.module==='writing')?.document?.parts??[],participants};return {...result,readiness:mockPublicationReadiness(result.event,result.participants)};

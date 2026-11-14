@@ -4,7 +4,7 @@ import { db } from '@/lib/auth/db';
 import { requireSameOrigin,readBody,json,AuthHttpError,limit } from '@/lib/auth/http';
 import { event,registerMock,joinMock } from '@/lib/exam/mock-events';
 import { queueMockReminder } from '@/lib/exam/mock-reminders';
-import { enqueueMockEvaluation } from '@/lib/exam/mock-evaluation';
+import { enqueueMockEvaluationSafely } from '@/lib/exam/mock-evaluation';
 import { ensureMockSpeaking } from '@/lib/exam/mock-speaking';
 import { lobbyStage,joinClosesAt,examStart,lobbyOpensAt } from '@/lib/exam/mock-schedule';
 export const dynamic='force-dynamic';
@@ -14,5 +14,5 @@ export async function GET(_:Request,c:Context){try{const id=(await c.params).id,
  return json({id:String(e.id),title:e.title,description:e.description,access:e.access,startsAt:e.starts_at,endsAt:e.ends_at,phase:lobbyStage(new Date(String(e.starts_at)).getTime(),new Date(String(e.ends_at)).getTime(),Date.now()),serverNow:Date.now(),joinClosesAt:joinClosesAt(new Date(String(e.starts_at)).getTime()),examStart:examStart(new Date(String(e.starts_at)).getTime()),lobbyOpensAt:lobbyOpensAt(new Date(String(e.starts_at)).getTime()),registered:Boolean(r),attemptId:r?.attempt_id??null,signedIn:Boolean(s),published:Boolean(e.results_published_at),modules:(e.snapshot as any[]).map(v=>({module:v.module,minutes:v.module==='speaking'?15:v.document.durationMinutes}))});}catch(e){return failure(e)}}
 export async function POST(req:NextRequest,c:Context){try{requireSameOrigin(req);const s=await readSession();if(!s)throw new AuthHttpError(401,'Sign in with a verified account first.');const id=(await c.params).id,d=await readBody(req);await limit('mock-action:'+s.user.id,40,900);
  if(d.action==='register'){await registerMock(id,s.user.id);await queueMockReminder(id,s.user.id);return json({ok:true});}
- if(d.action==='join'){const attemptId=await joinMock(id,s.user.id);await ensureMockSpeaking(attemptId,s.user.id);await enqueueMockEvaluation(attemptId);return json({attemptId});}
+ if(d.action==='join'){const attemptId=await joinMock(id,s.user.id);await ensureMockSpeaking(attemptId,s.user.id);await enqueueMockEvaluationSafely(attemptId);return json({attemptId});}
  throw new AuthHttpError(400,'Invalid action');}catch(e){return failure(e)}}
