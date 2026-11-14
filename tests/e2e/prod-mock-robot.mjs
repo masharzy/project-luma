@@ -64,8 +64,9 @@ for (const k of ['A', 'C', 'D']) { r = await api(k, '/api/mocks/' + MOCK, { acti
 report.attempts = attempt;
 
 const state = async k => (await api(k, '/api/exam-attempts/' + attempt[k])).data;
-const at = (k, index) => until(k + ' module ' + index + ' open', async () => { const s = await state(k); return s.index === index && s.current ? s : null; }, 30 * 60000, 3000);
-async function saveAnswers(k, index, ans) { const res = await api(k, '/api/exam-attempts/' + attempt[k], { action: 'save', index, answers: ans }); log('save', k, 'module', index, res.status, JSON.stringify(res.data)); return res; }
+// The paper is sent 30 s before its module starts; answers are accepted only from the shared start second.
+const at = (k, index) => until(k + ' module ' + index + ' open', async () => { const s = await state(k); return s.index === index && s.current && s.serverNow >= s.mock.moduleStart + 1000 ? s : null; }, 30 * 60000, 2000);
+async function saveAnswers(k, index, ans) { let res; for (let i = 0; i < 5; i++) { res = await api(k, '/api/exam-attempts/' + attempt[k], { action: 'save', index, answers: ans }); log('save', k, 'module', index, res.status, JSON.stringify(res.data)); if (res.status === 200) break; await sleep(2000); } return res; }
 async function roomSteps(k) { const res = await api(k, '/speaking/evaluation/' + attempt[k], undefined, true); const html = await res.text(); const m = html.match(/const ROOM=(\{.*?\});\n/s); if (!m) throw Error('Speaking room did not render (' + res.status + ')'); return JSON.parse(m[1]).steps; }
 async function upload(k, step, bytes) { for (let i = 0; i < 4; i++) { const res = await api(k, `/api/products/speaking/recording/${attempt[k]}?step=${step}`, bytes); log('upload', k, 'step', step, res.status, JSON.stringify(res.data)); if (res.status === 200) return true; await sleep(3000); } return false; }
 
