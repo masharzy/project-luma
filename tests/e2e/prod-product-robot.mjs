@@ -54,9 +54,9 @@ for (let i = 0; i < 120; i++) { const s = await api('/api/products/writing/tasks
 log('session active');
 
 // ---- 1. pages ----
-for (const [path, auth] of cfg.pages) {
+for (const [path, auth, expected = 200] of cfg.pages) {
   const r = await api(path, undefined, { auth, raw: true });
-  ok(`page ${path}${auth ? ' (signed in)' : ''}`, r.status === 200, String(r.status));
+  ok(`page ${path}${auth ? ' (signed in)' : ''} → ${expected}${expected !== 200 ? ' ' + (r.headers.get('location') || '') : ''}`, r.status === expected, String(r.status));
 }
 
 // ---- 2. guest practice ----
