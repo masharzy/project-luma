@@ -1,0 +1,37 @@
+name: Production product robot (QA)
+# Manual QA run against https://jumptonine.com. Pushed only to qa/* branches; needs QA users prepared in the
+# database by an operator, who attaches the session hashes this job prints (tokens never leave the runner).
+on:
+  push:
+    branches: ['qa/prod-product-robot']
+    paths: ['tests/e2e/prod-product-robot.*', '.github/workflows/prod-product-robot.yml']
+permissions:
+  contents: write  # only to publish the session hashes on a side branch
+jobs:
+  robot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Speech tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng && pip install --quiet gTTS
+      - name: Create QA session tokens (hashes only are published)
+        run: node tests/e2e/prod-product-robot.mjs --init
+      - name: Publish the hashes on a side branch (readable while the robot waits)
+        run: |
+          git config user.name qa-robot && git config user.email qa-robot@users.noreply.github.com
+          git checkout --orphan qa/prod-product-robot-hashes && git rm -rq --cached . && cp "$RUNNER_TEMP/qa-hashes.json" hashes.json
+          git add hashes.json && git commit -qm "QA session hashes" && git push -qf origin qa/prod-product-robot-hashes
+          git checkout -qf ${{ github.sha }}
+      - name: Robot on production
+        run: node tests/e2e/prod-product-robot.mjs
+      - name: Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prod-product-robot
+          path: tests/e2e/output/prod-product-report.json
+          retention-days: 14
