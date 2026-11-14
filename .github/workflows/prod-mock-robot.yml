@@ -1,0 +1,29 @@
+name: Production mock robot (QA)
+# Manual QA run against https://jumptonine.com. Pushed only to qa/* branches; needs QA users prepared in the
+# database by an operator, who attaches the session hashes this job prints (tokens never leave the runner).
+on:
+  push:
+    branches: ['qa/prod-mock-robot']
+    paths: ['tests/e2e/prod-mock-robot.*', '.github/workflows/prod-mock-robot.yml']
+permissions:
+  contents: read
+jobs:
+  robot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Speech tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng && pip install --quiet gTTS
+      - name: Robot mock on production
+        run: node tests/e2e/prod-mock-robot.mjs
+      - name: Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prod-mock-robot
+          path: tests/e2e/output/prod-report.json
+          retention-days: 14
