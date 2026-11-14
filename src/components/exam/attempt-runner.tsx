@@ -147,8 +147,8 @@ function AttemptRunnerBody({ id, nonce, onLock }: {
         }catch{setSaveStatus('Offline — your answers are kept on this device and will sync automatically.');}finally{saving.current=false;}
       };
       flushRef.current=flush;
-      let lastAttempt=0;const timer=setInterval(()=>{const current=stateRef.current;const remaining=current?.deadline?new Date(current.deadline).getTime()-Date.now()-offset.current:Infinity;const interval=remaining<5000?500:3000;if(Date.now()-lastAttempt>=interval){lastAttempt=Date.now();void flush();}},500);const onHide=()=>{if(document.visibilityState==='hidden')void flush();};const now=()=>void flush();document.addEventListener('visibilitychange',onHide);window.addEventListener('pagehide',now);window.addEventListener('online',now);
-      return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',onHide);window.removeEventListener('pagehide',now);window.removeEventListener('online',now);};
+      let lastAttempt=0;const timer=setInterval(()=>{const current=stateRef.current;const remaining=current?.deadline?new Date(current.deadline).getTime()-Date.now()-offset.current:Infinity;const interval=remaining<5000?500:3000;if(Date.now()-lastAttempt>=interval){lastAttempt=Date.now();void flush();}},500);const onHide=()=>{if(document.visibilityState==='hidden')void flush();};const now=()=>void flush();document.addEventListener('visibilitychange',onHide);window.addEventListener('beforeunload',now);window.addEventListener('pagehide',now);window.addEventListener('online',now);
+      return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',onHide);window.removeEventListener('beforeunload',now);window.removeEventListener('pagehide',now);window.removeEventListener('online',now);};
     },[id,load]);
     // Legacy attempts may have been created before automatic module starts existed.
     // Recover them without showing an extra "Start listening/reading" screen.

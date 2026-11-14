@@ -115,7 +115,8 @@ export async function advanceAttempt(id:string,body:Record<string,unknown>){
   if(!r.deadline)await db().query("UPDATE public.exam_attempts SET deadline=now()+($3::integer*interval '1 second') WHERE id=$1 AND current_index=$2 AND deadline IS NULL",[id,index,snapshot[index].document.durationMinutes*60]);
  }else if(body.action==='save'||body.action==='submit'){
   if(!r.deadline)throw new AuthHttpError(409,'Start the module first');
-  if(r.kind==='mock'&&Date.now()<moduleStart(snapshot,new Date(r.scheduled_start).getTime(),index))throw new AuthHttpError(409,'This module has not started yet.');
+  // Same small grace as at the deadline: a browser whose clock estimate runs slightly ahead opens the paper a moment early.
+  if(r.kind==='mock'&&Date.now()+SAVE_GRACE_MS<moduleStart(snapshot,new Date(r.scheduled_start).getTime(),index))throw new AuthHttpError(409,'This module has not started yet.');
   if(r.locked_index===index)throw new AuthHttpError(409,'This module has been submitted.');
   let answers:Record<string,string>;try{answers=cleanAnswers(snapshot,index,body.answers);}catch{throw new AuthHttpError(400,'Invalid answers');}
   // The last module of a scheduled mock has nothing to wait for: Submit finishes the whole mock at once.
