@@ -17,7 +17,7 @@ process.on('exit', save);
 
 const who = ['A', 'C', 'D', 'ADMIN'];
 const token = Object.fromEntries(who.map(k => [k, randomBytes(32).toString('base64url')]));
-console.log('SESSION_HASHES ' + JSON.stringify(Object.fromEntries(who.map(k => [k, createHash('sha256').update(token[k]).digest('hex')]))));
+console.log('::notice title=SESSION_HASHES::' + JSON.stringify(Object.fromEntries(who.map(k => [k, createHash('sha256').update(token[k]).digest('hex')]))));
 async function api(k, path, body, raw = false) {
   const r = await fetch(BASE + path, { method: body === undefined ? 'GET' : 'POST', headers: { cookie: '__Host-luma-session=' + token[k], origin: BASE, ...(body instanceof Uint8Array ? { 'content-type': 'audio/wav' } : body !== undefined ? { 'content-type': 'application/json' } : {}) }, body: body instanceof Uint8Array ? body : body !== undefined ? JSON.stringify(body) : undefined, redirect: 'manual' });
   if (raw) return r;
