@@ -8,6 +8,19 @@ export async function queueSpeakingEvaluation(job:{id:string;tries:number}){
  await send('luma-speaking-evaluation',{id:job.id},{idempotencyKey:key,retentionSeconds:86400});
 }
 
+/**
+ * Safety net for jobs whose queue message is gone or pinned to an older deployment (seen in production: a job stayed
+ * "pending" for hours and blocked the learner's next evaluation). Re-sends a fresh message on the current deployment.
+ * Claims stay atomic, so an already-running job is not paid for twice; an expired "running" lease is failed and refunded
+ * by the worker so the learner can retry.
+ */
+export async function requeueStaleSpeaking(userId:string){
+ const rows=await db().query(`SELECT id,tries FROM public.speaking_evaluations WHERE user_id=$1
+  AND ((status='pending' AND updated_at<now()-interval '10 minutes') OR (status='running' AND lease_until<now()))`,[userId]);
+ for(const r of rows)await send('luma-speaking-evaluation',{id:String(r.id)},{idempotencyKey:'speaking:'+r.id+':requeue:'+Math.floor(Date.now()/600000),retentionSeconds:86400});
+ return rows.length;
+}
+
 export async function retrySpeakingEvaluation(id:string,userId:string|null){
  try{
   // Update the same row before reserving quota so competing retries cannot double-charge.

@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { queueSpeakingEvaluation,retrySpeakingEvaluation } from '@/lib/products/speaking-jobs';
+import { queueSpeakingEvaluation,retrySpeakingEvaluation,requeueStaleSpeaking } from '@/lib/products/speaking-jobs';
 import { db } from '@/lib/auth/db';
 import { requireSameOrigin,readBody,json,AuthHttpError,limitMany,networkKey } from '@/lib/auth/http';
 import { productUser,productError,uuid } from '@/lib/products/access';
@@ -13,7 +13,7 @@ if(d.retry===true){
  if(!existing)throw new AuthHttpError(404,'Speaking evaluation not found');
  job=await retrySpeakingEvaluation(existing.id,u.id);
 }else{
- job=await createSpeakingEvaluation(d.attemptId,u.id);
+ try{job=await createSpeakingEvaluation(d.attemptId,u.id);}catch(e){if(e instanceof AuthHttpError&&e.status===409&&await requeueStaleSpeaking(u.id).catch(()=>0))throw new AuthHttpError(409,'Your previous Speaking evaluation was delayed and has been restarted. Check it in a minute, then submit this test.');throw e;}
  if(job.status==='pending')await queueSpeakingEvaluation({id:job.id,tries:job.tries});
 }return json({evaluation:job},202);}catch(e){return productError(e)}}
-export async function GET(req:NextRequest){try{const u=await productUser(),id=req.nextUrl.searchParams.get('attemptId');if(!uuid(id))throw new AuthHttpError(400,'Invalid attempt');const mock=await mockSpeakingContext(id,u.id);if(mock){const a=(await db().query('SELECT results FROM public.exam_attempts WHERE id=$1',[id]))[0];const result=a?.results?.find((r:any)=>r.module==='speaking');return json({evaluation:mock.results_published_at?{status:'completed',result:result?.speakingAssessment??null}:null});}const job=(await db().query('SELECT id,status,result,error_code FROM public.speaking_evaluations WHERE attempt_id=$1 AND user_id=$2',[id,u.id]))[0];return json({evaluation:job||null});}catch(e){return productError(e)}}
+export async function GET(req:NextRequest){try{const u=await productUser(),id=req.nextUrl.searchParams.get('attemptId');if(!uuid(id))throw new AuthHttpError(400,'Invalid attempt');const mock=await mockSpeakingContext(id,u.id);if(mock){const a=(await db().query('SELECT results FROM public.exam_attempts WHERE id=$1',[id]))[0];const result=a?.results?.find((r:any)=>r.module==='speaking');return json({evaluation:mock.results_published_at?{status:'completed',result:result?.speakingAssessment??null}:null});}const job=(await db().query('SELECT id,status,result,error_code FROM public.speaking_evaluations WHERE attempt_id=$1 AND user_id=$2',[id,u.id]))[0];if(job&&(job.status==='pending'||job.status==='running'))await requeueStaleSpeaking(u.id).catch(()=>0);return json({evaluation:job||null});}catch(e){return productError(e)}}
