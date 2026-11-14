@@ -48,7 +48,8 @@ function speech(i, text) {
 answers.forEach((t, i) => speech(i, t));
 log('speech ready', answers.length, 'clips');
 
-await until('QA sessions to be attached', async () => { for (const k of who) { const r = await api(k, '/api/mocks/' + MOCK); if (!r.data.signedIn) return false; } return (await api('ADMIN', '/api/admin/mocks/' + MOCK)).status === 200; }, 20 * 60000, 10000);
+// The draft mock is not public yet, so the admin review endpoint is the check (sessions are attached together).
+await until('QA sessions to be attached', async () => (await api('ADMIN', '/api/admin/mocks/' + MOCK)).status === 200, 20 * 60000, 10000);
 log('sessions active');
 
 let r = await api('ADMIN', '/api/admin/mocks/' + MOCK, { action: 'prepare' });
