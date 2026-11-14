@@ -40,10 +40,12 @@ const answers = cfg.speakingAnswers;
 function speech(i, text) {
   const mp3 = new URL(`a${i}.mp3`, OUT).pathname, wav = new URL(`a${i}.wav`, OUT).pathname;
   if (!existsSync(wav)) {
-    try { execFileSync('gtts-cli', [text, '--lang', 'en', '--tld', 'co.uk', '--output', mp3]); execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp3, '-ac', '1', '-ar', '16000', '-sample_fmt', 's16', wav]); }
-    catch { execFileSync('espeak-ng', ['-v', 'en-gb', '-s', '150', '-w', mp3 + '.wav', text]); execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp3 + '.wav', '-ac', '1', '-ar', '16000', '-sample_fmt', 's16', wav]); }
+    try { execFileSync('gtts-cli', [text, '--lang', 'en', '--tld', 'co.uk', '--output', mp3]); execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp3, '-map_metadata', '-1', '-fflags', '+bitexact', '-flags:a', '+bitexact', '-ac', '1', '-ar', '16000', '-sample_fmt', 's16', wav]); }
+    catch { execFileSync('espeak-ng', ['-v', 'en-gb', '-s', '150', '-w', mp3 + '.wav', text]); execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', mp3 + '.wav', '-map_metadata', '-1', '-fflags', '+bitexact', '-flags:a', '+bitexact', '-ac', '1', '-ar', '16000', '-sample_fmt', 's16', wav]); }
   }
-  return new Uint8Array(readFileSync(wav));
+  const b = readFileSync(wav);
+  if (b.toString('ascii', 36, 40) !== 'data') throw Error('WAV header is not the plain 44-byte PCM layout the server accepts');
+  return new Uint8Array(b);
 }
 answers.forEach((t, i) => speech(i, t));
 log('speech ready', answers.length, 'clips');
@@ -63,6 +65,7 @@ const attempt = {};
 for (const k of ['A', 'C', 'D']) { r = await api(k, '/api/mocks/' + MOCK, { action: 'join' }); attempt[k] = r.data.attemptId; log('join', k, r.status, r.data.attemptId ? 'ok' : JSON.stringify(r.data)); }
 report.attempts = attempt;
 
+const idx = m => ev.modules.findIndex(x => x.module === m);
 const state = async k => (await api(k, '/api/exam-attempts/' + attempt[k])).data;
 // The paper is sent 30 s before its module starts; answers are accepted only from the shared start second.
 const at = (k, index) => until(k + ' module ' + index + ' open', async () => { const s = await state(k); return s.index === index && s.current && s.serverNow >= s.mock.moduleStart + 1000 ? s : null; }, 30 * 60000, 2000);
@@ -71,16 +74,19 @@ async function roomSteps(k) { const res = await api(k, '/speaking/evaluation/' +
 async function upload(k, step, bytes) { for (let i = 0; i < 4; i++) { const res = await api(k, `/api/products/speaking/recording/${attempt[k]}?step=${step}`, bytes); log('upload', k, 'step', step, res.status, JSON.stringify(res.data)); if (res.status === 200) return true; await sleep(3000); } return false; }
 
 const robotA = (async () => { // answers two Listening questions, then the browser is gone for good
-  await at('A', 0);
-  await saveAnswers('A', 0, { l0: cfg.listeningCorrect, l1: cfg.listeningCorrect, l2: 'wrong' });
+  if (idx('listening') < 0) return;
+  await at('A', idx('listening'));
+  await saveAnswers('A', idx('listening'), { l0: cfg.listeningCorrect, l1: cfg.listeningCorrect, l2: 'wrong' });
   log('A abandons in Listening');
 })();
 const robotD = (async () => { // full paper, submits Speaking early
-  await at('D', 1); await saveAnswers('D', 1, { r0: cfg.readingCorrect });
-  await at('D', 2);
-  await saveAnswers('D', 2, { writing_draft_w1: cfg.writing.task1 });
-  await saveAnswers('D', 2, { writing_draft_w1: cfg.writing.task1, writing_draft_w2: cfg.writing.task2 });
-  await at('D', 3);
+  if (idx('reading') >= 0) { await at('D', idx('reading')); await saveAnswers('D', idx('reading'), { r0: cfg.readingCorrect }); }
+  if (idx('writing') >= 0) {
+    await at('D', idx('writing'));
+    await saveAnswers('D', idx('writing'), { writing_draft_w1: cfg.writing.task1 });
+    await saveAnswers('D', idx('writing'), { writing_draft_w1: cfg.writing.task1, writing_draft_w2: cfg.writing.task2 });
+  }
+  await at('D', idx('speaking'));
   const asks = (await roomSteps('D')).map((s, i) => ({ ...s, i })).filter(s => s.t === 'ask');
   log('D speaking asks', asks.length);
   for (const [n, s] of asks.entries()) await upload('D', s.i, speech(Math.min(n, answers.length - 1), answers[Math.min(n, answers.length - 1)]));
@@ -89,7 +95,7 @@ const robotD = (async () => { // full paper, submits Speaking early
   const s = await state('D'); log('D after submit: complete=' + s.complete + ' resultsVisible=' + (s.results || []).length);
 })();
 const robotC = (async () => { // records two answers (Part 1 Q1 and the Part 2 long turn), then closes the browser
-  await at('C', 3);
+  await at('C', idx('speaking'));
   const steps = (await roomSteps('C')).map((s, i) => ({ ...s, i })).filter(s => s.t === 'ask');
   await upload('C', steps[0].i, speech(0, answers[0]));
   const long = steps.find(s => s.long) || steps[1];
@@ -113,8 +119,8 @@ report.beforePublish = summary(review);
 console.log(JSON.stringify(report.beforePublish, null, 1));
 
 if (review.readiness?.ready) {
-  r = await api('ADMIN', '/api/admin/mocks/' + MOCK, { action: 'grade', attemptId: attempt.A, band: 0.5, feedback: 'QA reviewer: changed by admin before publishing.', module: 'writing' });
-  log('admin edits A writing band', r.status, JSON.stringify(r.data));
+  r = await api('ADMIN', '/api/admin/mocks/' + MOCK, { action: 'grade', attemptId: attempt.A, band: 0.5, feedback: 'QA reviewer: changed by admin before publishing.', module: idx('writing') >= 0 ? 'writing' : 'speaking' });
+  log('admin edits A band', r.status, JSON.stringify(r.data));
   r = await api('ADMIN', '/api/admin/mocks/' + MOCK, { action: 'publish' });
   log('admin publish', r.status, JSON.stringify(r.data));
   for (const k of ['A', 'C', 'D']) { const s = await state(k); log('candidate', k, 'sees', (s.results || []).map(x => x.module + '=' + (x.total !== null ? x.correct + '/' + x.total : x.bandScore)).join(' ')); }
