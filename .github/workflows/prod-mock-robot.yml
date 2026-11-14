@@ -6,7 +6,7 @@ on:
     branches: ['qa/prod-mock-robot']
     paths: ['tests/e2e/prod-mock-robot.*', '.github/workflows/prod-mock-robot.yml']
 permissions:
-  contents: read
+  contents: write  # only to publish the session hashes on a side branch
 jobs:
   robot:
     runs-on: ubuntu-latest
@@ -20,6 +20,12 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng && pip install --quiet gTTS
       - name: Create QA session tokens (hashes only are published)
         run: node tests/e2e/prod-mock-robot.mjs --init
+      - name: Publish the hashes on a side branch (readable while the robot waits)
+        run: |
+          git config user.name qa-robot && git config user.email qa-robot@users.noreply.github.com
+          git checkout --orphan qa/prod-mock-robot-hashes && git rm -rq --cached . && cp "$RUNNER_TEMP/qa-hashes.json" hashes.json
+          git add hashes.json && git commit -qm "QA session hashes" && git push -qf origin qa/prod-mock-robot-hashes
+          git checkout -qf ${{ github.sha }}
       - name: Robot mock on production
         run: node tests/e2e/prod-mock-robot.mjs
       - name: Report

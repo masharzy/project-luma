@@ -21,7 +21,9 @@ const tokenFile = (process.env.RUNNER_TEMP || '/tmp') + '/qa-tokens.json';
 if (process.argv.includes('--init')) {
   const t = Object.fromEntries(who.map(k => [k, randomBytes(32).toString('base64url')]));
   writeFileSync(tokenFile, JSON.stringify(t), { mode: 0o600 });
-  console.log('::notice title=SESSION_HASHES::' + JSON.stringify(Object.fromEntries(who.map(k => [k, createHash('sha256').update(t[k]).digest('hex')]))));
+  const hashes = JSON.stringify(Object.fromEntries(who.map(k => [k, createHash('sha256').update(t[k]).digest('hex')])));
+  writeFileSync((process.env.RUNNER_TEMP || '/tmp') + '/qa-hashes.json', hashes);
+  console.log('SESSION_HASHES ' + hashes);
   process.exit(0);
 }
 const token = JSON.parse(readFileSync(tokenFile, 'utf8'));
