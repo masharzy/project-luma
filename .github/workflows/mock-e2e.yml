@@ -1,0 +1,64 @@
+name: Mock exam robotic E2E
+# Runs a full scheduled mock on the real production build in Chrome with four robot candidates
+# (answer, go offline, close the browser, reload, record Speaking), then the server-side settle/evaluate
+# worker, admin mark edit and publish. Uses a throwaway PostgreSQL; the AI and queue are deterministic stand-ins.
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'src/lib/exam/**'
+      - 'src/lib/speaking/**'
+      - 'src/components/exam/**'
+      - 'src/components/mock-*.tsx'
+      - 'src/app/api/mocks/**'
+      - 'src/app/api/exam-attempts/**'
+      - 'src/app/api/admin/mocks/**'
+      - 'src/app/api/products/speaking/**'
+      - 'src/app/api/queues/mock-evaluation/**'
+      - 'src/app/(exam)/speaking/**'
+      - 'migrations/**'
+      - 'tests/e2e/**'
+      - '.github/workflows/mock-e2e.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mock-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: pw
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Tools (ffmpeg for the Listening fixture, Chrome is preinstalled)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && google-chrome --version
+      - name: Fresh database with all migrations
+        run: node tests/e2e/migrate.mjs postgres://postgres:pw@127.0.0.1:5432/postgres e2e
+      - run: npm run build
+      - run: node scripts/check-exam-css.mjs
+      - name: Robotic mock exam
+        env:
+          E2E_PG_URL: postgres://postgres:pw@127.0.0.1:5432/e2e
+          CHROME_PATH: /usr/bin/google-chrome
+        run: node tests/e2e/mock-e2e.mjs
+      - name: Screenshots, report and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-e2e-output
+          path: |
+            tests/e2e/output/*.png
+            tests/e2e/output/*.json
+            tests/e2e/output/*.log
+          retention-days: 14

@@ -9,7 +9,8 @@ const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAABErAA
 const pool: HTMLAudioElement[] = [];
 /** Call from a click: lets every later scripted play() succeed (Safari/Chrome autoplay rules). */
 export function unlockAudio() {
-  try { const a = new Audio(SILENT); a.volume = 0; void a.play().then(() => a.pause()).catch(() => {}); pool.push(a); } catch {}
+  // The mock page CSP allows media from blob: but not data:, so the silent clip is played from a blob URL.
+  try { const bytes = Uint8Array.from(atob(SILENT.split(',')[1]), c => c.charCodeAt(0)); const a = new Audio(URL.createObjectURL(new Blob([bytes], { type: 'audio/wav' }))); a.volume = 0; void a.play().then(() => a.pause()).catch(() => {}); pool.push(a); } catch {}
 }
 export function startMockAudio(urls: string[], startAt: number, serverNow: () => number, onStatus: (s: AudioStatus) => void) {
   const els = urls.map(u => { const a = new Audio(); a.preload = 'auto'; a.src = u; return a; });
