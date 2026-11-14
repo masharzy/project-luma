@@ -1,4 +1,4 @@
-name: Mock exam robotic E2E
+name: Mock exam robotic E2E (+ practice audio)
 # Runs a full scheduled mock on the real production build in Chrome with four robot candidates
 # (answer, go offline, close the browser, reload, record Speaking), then the server-side settle/evaluate
 # worker, admin mark edit and publish. Uses a throwaway PostgreSQL; the AI and queue are deterministic stand-ins.
@@ -52,6 +52,11 @@ jobs:
           E2E_PG_URL: postgres://postgres:pw@127.0.0.1:5432/e2e
           CHROME_PATH: /usr/bin/google-chrome
         run: node tests/e2e/mock-e2e.mjs
+      - name: Practice Listening audio follows the opened part
+        env:
+          E2E_PG_URL: postgres://postgres:pw@127.0.0.1:5432/e2e
+          CHROME_PATH: /usr/bin/google-chrome
+        run: node tests/e2e/practice-audio-e2e.mjs
       - name: Screenshots, report and logs
         if: always()
         uses: actions/upload-artifact@v4

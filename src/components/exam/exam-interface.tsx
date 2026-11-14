@@ -623,6 +623,22 @@ export default function ExamInterface({
     setPassageHtml(currentPart.passage_text || "");
   }, [currentPart?.id, currentPart?.passage_text]);
 
+  // Practice with part-by-part recordings: the audio follows the part the learner opens (Part 3 tab → Part 3 audio).
+  // It keeps playing if it was playing; if it was paused, the new part's audio waits for Play. Mocks and
+  // single-recording tests are unchanged (one audio for the whole section, parts advance on "ended").
+  const holdPracticeAutoplayRef = useRef(false);
+  useEffect(() => {
+    if (!practiceAudioPlayer || sectionType !== "listening" || sectionAudioUrl) return;
+    const target = parts[currentPartIndex]?.audio_url;
+    // Some books repeat one full recording on every part: then the audio must simply keep playing.
+    if (currentPartIndex === audioPartIndex || !target || target === parts[audioPartIndex]?.audio_url) return;
+    const audio = audioRef.current;
+    holdPracticeAutoplayRef.current = !audio || audio.paused;
+    audio?.pause();
+    setAudioFallbackIndex(0);
+    setAudioPartIndex(currentPartIndex);
+  }, [practiceAudioPlayer, sectionType, sectionAudioUrl, currentPartIndex, audioPartIndex, parts]);
+
   useEffect(() => {
     audioAttemptedForRef.current = null;
     setAudioReady(false);
@@ -653,7 +669,9 @@ export default function ExamInterface({
           : 'Please tap Start Listening again. Your timer has not started yet.';
       setAudioError(fallbackText);
     }
-  }, [autoStartTimerOnAudioBlock, listeningAudioUrl, onAudioPlaybackStarted, reviewMode]);
+  // onAudioPlaybackStarted is not used here; listing it made this callback (and the autoplay timer below) change on
+  // every parent render, so the 300 ms autoplay never fired after a part change.
+  }, [autoStartTimerOnAudioBlock, listeningAudioUrl, reviewMode]);
 
   const handleStartListeningAudio = useCallback(() => {
     void attemptListeningAudioPlayback('manual');
@@ -672,7 +690,9 @@ export default function ExamInterface({
     }
 
     // Load media early, but require user interaction before starting the first clip.
-    if (waitForAudioStart) return;
+    const hold = holdPracticeAutoplayRef.current;
+    holdPracticeAutoplayRef.current = false;
+    if (waitForAudioStart || hold) return;
     const id = window.setTimeout(() => {
       void attemptListeningAudioPlayback('auto');
     }, 300);
