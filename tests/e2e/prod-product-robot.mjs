@@ -94,6 +94,13 @@ for (const [path, auth, expected = 200] of cfg.pages) {
   ok('writing: evaluation completed and saved', job?.status === 'completed' && job.result?.estimatedBand != null, JSON.stringify(report.writing));
 }
 
+// ---- 4a. earlier stuck job: polling it must revive it on the current deployment ----
+if (cfg.stuckSpeakingAttempt) {
+  const t0 = Date.now(); let job;
+  for (let i = 0; i < 60; i++) { job = (await api('/api/products/speaking/evaluate?attemptId=' + cfg.stuckSpeakingAttempt)).data.evaluation; if (job && ['completed', 'failed'].includes(job.status)) break; await sleep(5000); }
+  report.revived = { status: job?.status, seconds: Math.round((Date.now() - t0) / 1000), band: job?.result?.estimatedBand, error: job?.error_code };
+  ok('speaking: a job stuck on the old deployment is revived and finishes', job?.status === 'completed', JSON.stringify(report.revived));
+}
 // ---- 4. standalone AI Speaking ----
 {
   let r = await api('/api/products/speaking/attempts', { testId: cfg.speaking.setId });
