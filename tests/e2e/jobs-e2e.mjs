@@ -37,7 +37,8 @@ const queue = load('lib/jobs/queue'), worker = load('lib/jobs/pg-worker'), { job
 const runs = [];
 jobHandlers['e2e-ok'] = { run: async m => { runs.push(m.n); await sleep(20); }, visibilityTimeoutSeconds: 30, retryAfterSeconds: 1 };
 jobHandlers['e2e-fail'] = { run: async () => { throw Error('Provider unavailable'); }, visibilityTimeoutSeconds: 30, retryAfterSeconds: 60 };
-await sql.query("DELETE FROM public.app_jobs WHERE topic LIKE 'e2e-%'");
+// Throwaway test database: start from an empty queue (earlier E2E runs leave mock jobs behind).
+await sql.query('DELETE FROM public.app_jobs');
 
 await check('backend: off Vercel the app uses the Postgres queue; on Vercel, Vercel Queues', async () => {
   delete process.env.JOBS_BACKEND; delete process.env.VERCEL; assert.equal(queue.jobsBackend(), 'postgres');
