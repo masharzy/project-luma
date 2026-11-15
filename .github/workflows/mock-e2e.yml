@@ -17,6 +17,9 @@ on:
       - 'src/app/api/queues/mock-evaluation/**'
       - 'src/app/(exam)/speaking/**'
       - 'migrations/**'
+      - 'src/lib/jobs/**'
+      - 'src/instrumentation.ts'
+      - 'src/lib/evaluation/**'
       - 'tests/e2e/**'
       - '.github/workflows/mock-e2e.yml'
   workflow_dispatch:
@@ -52,6 +55,10 @@ jobs:
           E2E_PG_URL: postgres://postgres:pw@127.0.0.1:5432/e2e
           CHROME_PATH: /usr/bin/google-chrome
         run: node tests/e2e/mock-e2e.mjs
+      - name: Self-hosted job queue (Postgres worker, used off Vercel)
+        env:
+          E2E_PG_URL: postgres://postgres:pw@127.0.0.1:5432/e2e
+        run: node tests/e2e/jobs-e2e.mjs
       - name: Practice Listening audio follows the opened part
         env:
           E2E_PG_URL: postgres://postgres:pw@127.0.0.1:5432/e2e

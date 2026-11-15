@@ -1,5 +1,5 @@
 import 'server-only';
-import { send } from '@vercel/queue';
+import { enqueue as send } from '@/lib/jobs/queue';
 import { db } from '@/lib/auth/db';
 import { appOrigin } from '@/lib/auth/config';
 import { sendNotificationMail } from '@/lib/auth/mail';

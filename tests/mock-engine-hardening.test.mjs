@@ -1,4 +1,6 @@
 // Mock engine: device drafts, partial-paper bands, end-of-mock settlement and non-blocking queueing.
+// These tests model the Vercel Queues backend (the self-hosted queue has its own tests).
+process.env.JOBS_BACKEND='vercel';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import ts from 'typescript';
