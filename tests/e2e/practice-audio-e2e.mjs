@@ -34,7 +34,7 @@ const A = 'https://audio.e2e.test/';
 const perPart = await practiceTest('E2E per-part audio', ['p1', 'p2', 'p3', 'p4'].map(p => A + p + '.mp3'));
 const sameUrl = await practiceTest('E2E one full recording', Array(4).fill(A + 'full.mp3'));
 
-const server = spawn(process.execPath, [path.join(root, 'node_modules/next/dist/bin/next'), 'start', '-p', String(PORT)], { cwd: root, env: { ...process.env, NODE_ENV: 'production', NODE_OPTIONS: '--require ' + path.join(root, 'tests/e2e/preload.cjs'), DATABASE_URL: 'postgres://e2e:e2e@db.neon-shim.test/e2e', APP_ORIGIN: ORIGIN, E2E_NEON_SHIM: `http://127.0.0.1:${neon.port}/sql` }, stdio: 'ignore' });
+const server = spawn(process.execPath, [path.join(root, 'node_modules/next/dist/bin/next'), 'start', '-p', String(PORT)], { cwd: root, env: { ...process.env, JOBS_WORKER: 'off', NODE_ENV: 'production', NODE_OPTIONS: '--require ' + path.join(root, 'tests/e2e/preload.cjs'), DATABASE_URL: 'postgres://e2e:e2e@db.neon-shim.test/e2e', APP_ORIGIN: ORIGIN, E2E_NEON_SHIM: `http://127.0.0.1:${neon.port}/sql` }, stdio: 'ignore' });
 process.on('exit', () => { try { server.kill('SIGKILL'); } catch {} });
 await until('server', async () => (await fetch(ORIGIN + '/')).status < 500, 90000);
 

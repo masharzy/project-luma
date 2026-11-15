@@ -1,6 +1,6 @@
 import 'server-only';
 import { randomUUID } from 'node:crypto';
-import { send } from '@vercel/queue';
+import { enqueue as send } from '@/lib/jobs/queue';
 import { db } from '@/lib/auth/db';
 import { assessWriting } from '@/lib/evaluation/provider';
 import { writingInput } from '@/lib/evaluation/input';

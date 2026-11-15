@@ -131,7 +131,7 @@ await sql.query("UPDATE public.mock_events SET starts_at=now()-interval '155 sec
 // ---------- the real Next.js server ----------
 const server = spawn(process.execPath, [path.join(root, 'node_modules/next/dist/bin/next'), 'start', '-p', String(PORT)], {
   cwd: root,
-  env: { ...process.env, NODE_ENV: 'production', NODE_OPTIONS: '--require ' + path.join(root, 'tests/e2e/preload.cjs'), DATABASE_URL: 'postgres://e2e:e2e@db.neon-shim.test/e2e', APP_ORIGIN: ORIGIN, E2E_NEON_SHIM: `http://127.0.0.1:${neon.port}/sql`, E2E_FAKE_S3: `127.0.0.1:${s3.port}`, R2_ENDPOINT: 'https://e2e.r2.cloudflarestorage.com', R2_ACCESS_KEY_ID: 'e2e', R2_SECRET_ACCESS_KEY: 'e2e', R2_BUCKET: 'e2e', OPENROUTER_API_KEY: '', DASHSCOPE_API_KEY: '' },
+  env: { ...process.env, JOBS_WORKER: 'off', NODE_ENV: 'production', NODE_OPTIONS: '--require ' + path.join(root, 'tests/e2e/preload.cjs'), DATABASE_URL: 'postgres://e2e:e2e@db.neon-shim.test/e2e', APP_ORIGIN: ORIGIN, E2E_NEON_SHIM: `http://127.0.0.1:${neon.port}/sql`, E2E_FAKE_S3: `127.0.0.1:${s3.port}`, R2_ENDPOINT: 'https://e2e.r2.cloudflarestorage.com', R2_ACCESS_KEY_ID: 'e2e', R2_SECRET_ACCESS_KEY: 'e2e', R2_BUCKET: 'e2e', OPENROUTER_API_KEY: '', DASHSCOPE_API_KEY: '' },
   stdio: ['ignore', 'pipe', 'pipe'],
 });
 const serverLog = [];
