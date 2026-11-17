@@ -1,0 +1,34 @@
+name: Production asset migration (QA admin)
+# Operator-run: pushed only to the qa/prod-asset-migration branch. The operator attaches a temporary admin session
+# for the hash this job publishes (the token never leaves the runner) and removes it afterwards.
+on:
+  push:
+    branches: ['qa/prod-asset-migration']
+    paths: ['tests/e2e/prod-asset-migration.mjs', '.github/workflows/prod-asset-migration.yml']
+permissions:
+  contents: write  # only to publish the session hash on a side branch
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tests/e2e/prod-asset-migration.mjs --init
+      - name: Publish the hash on a side branch
+        run: |
+          git config user.name qa-robot && git config user.email qa-robot@users.noreply.github.com
+          git checkout --orphan qa/prod-asset-migration-hashes && git rm -rq --cached . && cp "$RUNNER_TEMP/qa-hashes.json" hashes.json
+          git add hashes.json && git commit -qm "QA session hash" && git push -qf origin qa/prod-asset-migration-hashes
+          git checkout -qf ${{ github.sha }}
+          git worktree add -q /tmp/hashes qa/prod-asset-migration-hashes
+      - run: node tests/e2e/prod-asset-migration.mjs
+        env:
+          REPORT_DIR: /tmp/hashes
+      - name: Final report on the hash branch
+        if: always()
+        run: |
+          cp tests/e2e/output/prod-asset-migration.json /tmp/hashes/report.json || true
+          cd /tmp/hashes && git add report.json && git commit -qm "Asset migration report" && git push -q origin HEAD:qa/prod-asset-migration-hashes || true
