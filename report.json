@@ -1,0 +1,59 @@
+{
+  "started": "2026-11-17T15:18:20.462Z",
+  "checks": [
+    {
+      "name": "scan",
+      "pass": true,
+      "detail": "{\"external\":4,\"audio\":0,\"image\":4,\"alreadyMigrated\":1978}"
+    },
+    {
+      "name": "storage configured",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sample image engnovate.com",
+      "pass": true,
+      "detail": "{\"status\":200,\"type\":\"image/png\",\"bytes\":456145,\"pass\":true} links 1"
+    }
+  ],
+  "samples": [
+    {
+      "url": "https://engnovate.com/wp-content/uploads/2024/10/cambridge-ielts-19-academic-writing-test-1–1.png",
+      "kind": "image",
+      "host": "engnovate.com",
+      "usages": 1,
+      "result": {
+        "ok": true,
+        "ms": 1214,
+        "assetId": "587d88a5-4fad-4abe-96e9-0bdd14edd871",
+        "newUrl": "https://jumptonine.com/api/media/587d88a5-4fad-4abe-96e9-0bdd14edd871",
+        "bytes": 456145,
+        "contentType": "image/png",
+        "reused": false,
+        "replaced": {
+          "modules": 1,
+          "mocks": 0,
+          "attempts": 0,
+          "links": 1,
+          "conflicts": 0
+        }
+      },
+      "served": {
+        "status": 200,
+        "type": "image/png",
+        "bytes": 456145,
+        "pass": true
+      }
+    }
+  ],
+  "failures": [],
+  "totals": {
+    "before": {
+      "external": 4,
+      "audio": 0,
+      "image": 4,
+      "alreadyMigrated": 1978
+    }
+  }
+}
