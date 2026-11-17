@@ -1,0 +1,33 @@
+name: engnovate download probe
+on:
+  push:
+    branches: ['qa/engnovate-probe']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe
+        run: |
+          IMG='https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-10-academic-writing-test-1-1.png'
+          MP3='https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-2-audio-1.mp3'
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36'
+          {
+          for u in "$IMG" "$MP3"; do
+            echo "== $u"
+            echo "plain:        $(curl -s -o /dev/null -w '%{http_code} %{content_type} %{size_download}' -r 0-999 "$u")"
+            echo "jtn-ua:       $(curl -s -o /dev/null -w '%{http_code} %{content_type}' -r 0-999 -A 'JumpToNine asset migration (+https://jumptonine.com)' "$u")"
+            echo "browser-ua:   $(curl -s -o /dev/null -w '%{http_code} %{content_type}' -r 0-999 -A "$UA" "$u")"
+            echo "ua+ref-jtn:   $(curl -s -o /dev/null -w '%{http_code} %{content_type}' -r 0-999 -A "$UA" -e 'https://jumptonine.com/' "$u")"
+            echo "ua+ref-eng:   $(curl -s -o /dev/null -w '%{http_code} %{content_type}' -r 0-999 -A "$UA" -e 'https://engnovate.com/' "$u")"
+            echo "headers:"; curl -s -D - -o /dev/null -r 0-99 -A "$UA" "$u" | grep -iE '^(HTTP|server|cf-|content-type|location)' 
+          done
+          echo "== media host"; curl -s -o /dev/null -w '%{http_code} %{content_type}\n' -r 0-999 'https://ielts-listening-audio.engnovatemedia.com/11884-ielts-listening-testscambridge-ielts-10-academic-listening-1-audio-1.mp3'
+          } | tee probe.txt
+      - name: Publish
+        run: |
+          git config user.name qa-robot && git config user.email qa-robot@users.noreply.github.com
+          git checkout --orphan qa/engnovate-probe-result && git rm -rq --cached . && git add probe.txt && git commit -qm probe && git push -qf origin qa/engnovate-probe-result
