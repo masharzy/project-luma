@@ -67,7 +67,8 @@ async function referenced(url: string) {
   return Boolean(rows[0]?.ok);
 }
 function likeNeedle(url: string) {
-  const part = url.startsWith('data:') ? url.slice(url.indexOf(',') + 1, url.indexOf(',') + 121) : (() => { const u = new URL(url); return u.host + u.pathname; })();
+  // Raw text after the scheme (not URL().pathname, which percent-encodes characters such as an en dash).
+  const part = url.startsWith('data:') ? url.slice(url.indexOf(',') + 1, url.indexOf(',') + 121) : url.replace(/^https?:\/\//, '').split(/[?#]/)[0];
   return '%' + part.replace(/[\\%_]/g, m => '\\' + m) + '%';
 }
 

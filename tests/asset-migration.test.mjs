@@ -73,3 +73,9 @@ test('an unreachable fallback is removed only where the main audio is already ou
   const r2 = dropRedundantFallback(notYet, dead, origin);
   assert.equal(r2.removed, 0); assert.equal(r2.stillUsed, true);
 });
+
+test('DB lookup uses the stored text, so non-ASCII paths (en dash) are found', () => {
+  const lib = fs.readFileSync('src/lib/admin/asset-migration.ts', 'utf8');
+  assert.doesNotMatch(lib, /u\.host \+ u\.pathname/);
+  assert.deepEqual(externalAssets('<img src="https://engnovate.com/wp-content/uploads/2024/10/test-1–1.png">', origin), ['https://engnovate.com/wp-content/uploads/2024/10/test-1–1.png']);
+});
