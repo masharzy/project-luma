@@ -5,7 +5,7 @@ export default async function proxy(request: NextRequest) {
 
   const mockPage = /^\/(dashboard\/)?mocks\/\d+/.test(request.nextUrl.pathname);
   const engine = mockPage || request.nextUrl.pathname.startsWith("/speaking/") || request.nextUrl.pathname.startsWith("/admin/engine/") || request.nextUrl.pathname.startsWith("/exam/");
-  const productMedia=request.nextUrl.pathname.startsWith("/dashboard/writing")||request.nextUrl.pathname.startsWith("/writing-evaluation")||request.nextUrl.pathname.startsWith("/speaking-evaluation/results/");
+  const productMedia=request.nextUrl.pathname.startsWith("/dashboard/writing")||request.nextUrl.pathname.startsWith("/writing-evaluation")||request.nextUrl.pathname.startsWith("/speaking-evaluation/results/")||request.nextUrl.pathname==="/admin/asset-migration";
   const isDev = process.env.NODE_ENV !== "production";
   const csp = [
     "default-src 'self'",
