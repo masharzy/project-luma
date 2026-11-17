@@ -93,3 +93,32 @@ export function sniffMediaType(d: Uint8Array): string | null {
   if (d.length >= 3 && (ascii(0, 3) === 'ID3' || (d[0] === 255 && (d[1] & 224) === 224))) return 'audio/mpeg';
   return null;
 }
+
+/** WordPress.com sites answer 403 to datacenter IPs; their public image CDN (Jetpack Photon) serves the same upload. */
+export function mirrorUrl(url: string): string | null {
+  try { const u = new URL(url); if (u.hostname === 'engnovate.com' && u.pathname.startsWith('/wp-content/uploads/') && assetKind(url) === 'image') return 'https://i0.wp.com/engnovate.com' + u.pathname; } catch {}
+  return null;
+}
+
+/**
+ * Remove `url` from `audio_fallbacks` wherever the part's main `audio_url` is already ours. The importer stores the same
+ * recording from a second host as a fallback, so once the main audio lives in our bucket the external copy is redundant.
+ * Returns how many entries were removed and whether `url` is still used anywhere else in the value.
+ */
+export function dropRedundantFallback(value: unknown, url: string, origin: string): { value: unknown; removed: number; stillUsed: boolean } {
+  let removed = 0, stillUsed = false;
+  const walk = (v: any): any => {
+    if (typeof v === 'string') { if (externalAssets(v, origin).includes(url)) stillUsed = true; return v; }
+    if (Array.isArray(v)) return v.map(walk);
+    if (!v || typeof v !== 'object') return v;
+    const out: any = {};
+    for (const [k, x] of Object.entries(v)) {
+      if (k === 'audio_fallbacks' && Array.isArray(x) && typeof v.audio_url === 'string' && isOwnMedia(v.audio_url, origin)) {
+        const kept = x.filter(f => { const drop = typeof f === 'string' && canonicalAssetUrl(f) === url; if (drop) removed++; return !drop; });
+        out[k] = kept.map(walk);
+      } else out[k] = walk(x);
+    }
+    return out;
+  };
+  return { value: walk(value), removed, stillUsed };
+}

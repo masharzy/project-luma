@@ -4,7 +4,7 @@ import { db } from '@/lib/auth/db';
 import { audit } from '@/lib/auth/http';
 import { putPrivate, storageConfigured } from '@/lib/products/storage';
 import { canonicalExamKind } from '@/lib/practice-routes';
-import { assetHost, assetKind, assetExtension, externalAssets, findAssetsInDocument, mediaFormat, rewriteAssets, sniffMediaType, type AssetKind, type AssetUsage } from './asset-urls';
+import { assetHost, assetKind, assetExtension, externalAssets, findAssetsInDocument, mediaFormat, rewriteAssets, sniffMediaType, mirrorUrl, dropRedundantFallback, type AssetKind, type AssetUsage } from './asset-urls';
 
 export const MAX_ASSET_BYTES = 200_000_000;
 export type ScannedAsset = { url: string; preview: string; kind: AssetKind; ext: string; host: string; usages: AssetUsage[]; attempts: number; migrated: null | { assetId: string; newUrl: string } };
@@ -81,11 +81,10 @@ function safeRemote(url: string) {
 }
 export class MigrationError extends Error {}
 
-async function download(url: string): Promise<Uint8Array> {
-  if (url.startsWith('data:')) return new Uint8Array(Buffer.from(url.slice(url.indexOf(',') + 1), 'base64'));
+async function fetchBytes(url: string, accept: string): Promise<Uint8Array> {
   const u = safeRemote(url);
   let res: Response;
-  try { res = await fetch(u, { redirect: 'follow', signal: AbortSignal.timeout(240_000), headers: { 'User-Agent': 'JumpToNine asset migration (+https://jumptonine.com)', Accept: 'audio/*,image/*,*/*;q=0.5' } }); }
+  try { res = await fetch(u, { redirect: 'follow', signal: AbortSignal.timeout(240_000), headers: { 'User-Agent': 'JumpToNine asset migration (+https://jumptonine.com)', Accept: accept } }); }
   catch (e) { throw new MigrationError('Download failed: ' + (e instanceof Error && e.name === 'TimeoutError' ? 'timed out' : 'host did not respond')); }
   if (!res.ok || !res.body) throw new MigrationError('Download failed: HTTP ' + res.status);
   safeRemote(res.url || url);
@@ -95,6 +94,17 @@ async function download(url: string): Promise<Uint8Array> {
   while (true) { const { done, value } = await reader.read(); if (done) break; size += value.length; if (size > MAX_ASSET_BYTES) { await reader.cancel(); throw new MigrationError('File is larger than 200 MB.'); } chunks.push(value); }
   if (!size) throw new MigrationError('The host returned an empty file.');
   return new Uint8Array(Buffer.concat(chunks));
+}
+async function download(url: string): Promise<Uint8Array> {
+  if (url.startsWith('data:')) return new Uint8Array(Buffer.from(url.slice(url.indexOf(',') + 1), 'base64'));
+  try { return await fetchBytes(url, 'audio/*,image/*,*/*;q=0.5'); }
+  catch (e) {
+    const mirror = mirrorUrl(url);
+    if (!mirror || !(e instanceof MigrationError) || !/HTTP (401|403|404|429)/.test(e.message)) throw e;
+    // Same upload through the site's own image CDN; ask for the original formats (not WebP).
+    try { return await fetchBytes(mirror, 'image/png,image/jpeg,image/gif;q=0.9,*/*;q=0.1'); }
+    catch (m) { throw new MigrationError(e.message + '; image CDN copy also failed (' + (m instanceof Error ? m.message : 'error') + ')'); }
+  }
 }
 
 function fileName(url: string, ext: string) {
@@ -155,10 +165,44 @@ async function rewriteEverywhere(url: string, newUrl: string, userId: string) {
   return replaced;
 }
 
+/**
+ * For an unreachable fallback recording: remove it from parts whose main audio is already in our bucket.
+ * Only applied when every remaining use is such a redundant fallback; otherwise nothing is written.
+ */
+async function dropFallbackEverywhere(url: string, userId: string, origin: string) {
+  const needle = likeNeedle(url);
+  const res = { modules: 0, mocks: 0, attempts: 0, links: 0, conflicts: 0, stillUsed: false };
+  const mods = await db().query(`SELECT kind, parent_id::text AS id, module, revision, document FROM public.exam_modules WHERE document::text LIKE $1`, [needle]);
+  const snaps: { table: string; counter: 'mocks' | 'attempts'; rows: any[] }[] = [];
+  for (const [table, counter] of [['mock_events', 'mocks'], ['exam_attempts', 'attempts']] as const)
+    snaps.push({ table, counter, rows: await db().query(`SELECT id::text, md5(snapshot::text) AS h, snapshot FROM public.${table} WHERE snapshot::text LIKE $1`, [needle]) });
+  const plans = [...mods.map(r => ({ r, out: dropRedundantFallback(r.document, url, origin) })), ...snaps.flatMap(s => s.rows.map(r => ({ r, s, out: dropRedundantFallback(r.snapshot, url, origin) })))] as any[];
+  if (plans.some(p => p.out.stillUsed)) return { ...res, stillUsed: true };
+  for (const p of plans) {
+    if (!p.out.removed) continue;
+    if (!p.s) {
+      const ok = await db().query(`UPDATE public.exam_modules SET document=$1::jsonb, revision=revision+1, updated_by=$2::uuid, updated_at=now() WHERE kind=$3 AND parent_id=$4::bigint AND module=$5 AND revision=$6 RETURNING 1`, [JSON.stringify(p.out.value), userId, p.r.kind, p.r.id, p.r.module, p.r.revision]);
+      if (ok.length) { res.modules++; res.links += p.out.removed; } else res.conflicts++;
+    } else {
+      const ok = await db().query(`UPDATE public.${p.s.table} SET snapshot=$1::jsonb WHERE id=$2 AND md5(snapshot::text)=$3 RETURNING 1`, [JSON.stringify(p.out.value), p.r.id, p.r.h]);
+      if (ok.length) { res[p.s.counter as 'mocks' | 'attempts']++; res.links += p.out.removed; } else res.conflicts++;
+    }
+  }
+  return res;
+}
+
 export async function migrateAsset(url: string, userId: string, origin: string) {
   if (typeof url !== 'string' || url.length < 8 || url.length > 1_600_000 || !assetKind(url)) throw new MigrationError('Not a supported audio or image link.');
   if (!(await referenced(url))) throw new MigrationError('This link is no longer used by any test.');
-  const asset = await ensureAsset(url, userId);
+  let asset;
+  try { asset = await ensureAsset(url, userId); }
+  catch (e) {
+    if (!(e instanceof MigrationError) || assetKind(url) !== 'audio' || !/^Download failed/.test(e.message)) throw e;
+    const dropped = await dropFallbackEverywhere(url, userId, origin);
+    if (dropped.stillUsed || !dropped.links) throw new MigrationError(e.message + (dropped.stillUsed ? ' (still used as main audio somewhere; nothing changed there)' : ''));
+    await audit(userId, 'asset_fallback_removed:' + createHash('sha256').update(url).digest('hex').slice(0, 16));
+    return { assetId: null, newUrl: null, bytes: 0, contentType: '', reused: false, droppedFallback: true, replaced: dropped };
+  }
   const newUrl = mediaUrl(origin, asset.assetId);
   const replaced = await rewriteEverywhere(url, newUrl, userId);
   await db().query(`UPDATE public.media_asset_sources SET replaced=$2::jsonb, rewritten_at=now() WHERE source_url=$1`, [sourceKey(url), JSON.stringify(replaced)]);
