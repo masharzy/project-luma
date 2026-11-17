@@ -6,3 +6,5 @@ function client(){if(!storageConfigured())throw Error('Private audio storage is 
 export async function putPrivate(key:string,data:Uint8Array,type:string){await client().send(new PutObjectCommand({Bucket:process.env.R2_BUCKET,Key:key,Body:data,ContentType:type}));}
 export async function getPrivate(key:string){const r=await client().send(new GetObjectCommand({Bucket:process.env.R2_BUCKET,Key:key}));if(!r.Body)throw Error('Audio unavailable');return r.Body.transformToByteArray();}
 export async function signedAudio(key:string){return getSignedUrl(client(),new GetObjectCommand({Bucket:process.env.R2_BUCKET,Key:key}),{expiresIn:900});}
+/** Long-lived signed GET for test media (R2 serves Range requests, so audio can seek). Max 7 days. */
+export async function signedMedia(key:string,seconds:number){return getSignedUrl(client(),new GetObjectCommand({Bucket:process.env.R2_BUCKET,Key:key}),{expiresIn:Math.min(604800,Math.max(60,seconds))});}

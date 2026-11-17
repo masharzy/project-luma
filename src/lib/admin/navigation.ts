@@ -20,6 +20,7 @@ export const adminNavigation: { label: string; links: AdminLink[] }[] = [
     { href: '/admin/ai-operations', label: 'AI job monitor', icon: 'chart', keywords: 'writing speaking queues errors evaluation' },
     { href: '/admin/import', label: 'Import tests', icon: 'file', keywords: 'json duplicates bulk upload' },
     { href: '/admin/media', label: 'Media library', icon: 'file', keywords: 'audio image cloudflare storage r2' },
+    { href: '/admin/asset-migration', label: 'Asset migration', icon: 'file', keywords: 'migrate external links audio images bucket r2 engnovate hotlink' },
     { href: '/admin/activity', label: 'Activity log', icon: 'clock', keywords: 'audit security history' },
     { href: '/admin/costs', label: 'Cost & usage', icon: 'chart', keywords: 'spend budget bdt tokens audio margin pricing model prices' },
     { href: '/admin/flags', label: 'Feature flags', icon: 'settings', keywords: 'toggle rollout switches' },
