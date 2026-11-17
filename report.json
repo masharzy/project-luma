@@ -15,6 +15,11 @@
       "name": "sample image engnovate.com",
       "pass": true,
       "detail": "{\"status\":200,\"type\":\"image/png\",\"bytes\":456145,\"pass\":true} links 1"
+    },
+    {
+      "name": "rescan",
+      "pass": true,
+      "detail": "{\"external\":0,\"byHost\":{},\"migrated\":1982}"
     }
   ],
   "samples": [
@@ -54,6 +59,19 @@
       "audio": 0,
       "image": 4,
       "alreadyMigrated": 1978
+    },
+    "bulk": {
+      "total": 3,
+      "done": 3,
+      "failed": 0,
+      "minutes": 0
+    },
+    "after": {
+      "external": 0,
+      "byHost": {},
+      "migrated": 1982
     }
-  }
+  },
+  "failuresByError": [],
+  "finished": "2026-11-17T15:18:56.539Z"
 }
