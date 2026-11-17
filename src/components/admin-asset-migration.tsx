@@ -50,6 +50,7 @@ export function AdminAssetMigration() {
       const r = await fetch("/api/admin/asset-migration", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url }) }), d = await r.json();
       if (!r.ok) throw Error(d.error || "Migration failed");
       const p = d.replaced || {};
+      if (d.droppedFallback) { setRows(x => ({ ...x, [url]: { state: "done", message: `Host blocks downloads; removed as redundant fallback (main audio already in our bucket) · ${p.links || 0} place(s)` } })); return true; }
       setRows(x => ({ ...x, [url]: { state: "done", newUrl: d.newUrl, message: `${p.links || 0} link(s) replaced · ${p.modules || 0} module(s), ${p.mocks || 0} mock(s), ${p.attempts || 0} attempt(s)${p.conflicts ? ` · ${p.conflicts} skipped (edited meanwhile, run again)` : ""}${d.bytes ? " · " + mb(d.bytes) : ""}` } }));
       return true;
     } catch (e) { setRows(x => ({ ...x, [url]: { state: "error", message: e instanceof Error ? e.message : "Migration failed" } })); return false; }

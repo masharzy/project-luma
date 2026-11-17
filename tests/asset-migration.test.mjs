@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { canonicalAssetUrl, externalAssets, rewriteAssets, findAssetsInDocument, describePath, assetKind, sniffMediaType, isOwnMedia } from '../src/lib/admin/asset-urls.ts';
+import { mirrorUrl, dropRedundantFallback, canonicalAssetUrl, externalAssets, rewriteAssets, findAssetsInDocument, describePath, assetKind, sniffMediaType, isOwnMedia } from '../src/lib/admin/asset-urls.ts';
 const origin = 'https://jumptonine.com';
 const own = origin + '/api/media/0b9c3c1e-1111-4222-8333-944445555666';
 
@@ -55,4 +55,21 @@ test('migration page and API are admin-only and the page may preview external me
   assert.match(lib, /referenced\(url\)/, 'only URLs that tests actually use may be fetched');
   assert.match(lib, /revision=\$6/, 'module rewrites are guarded by revision');
   assert.match(fs.readFileSync('src/app/api/media/[id]/route.ts', 'utf8'), /signedMedia/);
+});
+
+test('engnovate images fall back to the site image CDN; audio has no mirror', () => {
+  assert.equal(mirrorUrl('https://engnovate.com/wp-content/uploads/2023/08/a.png'), 'https://i0.wp.com/engnovate.com/wp-content/uploads/2023/08/a.png');
+  assert.equal(mirrorUrl('https://engnovate.com/wp-content/uploads/2023/07/a.mp3'), null);
+  assert.equal(mirrorUrl('https://api.ieltsprobd.com/x.png'), null);
+});
+
+test('an unreachable fallback is removed only where the main audio is already ours', () => {
+  const dead = 'https://engnovate.com/wp-content/uploads/a.mp3';
+  const doc = { parts: [{ audio_url: own, audio_fallbacks: [dead] }, { audio_url: own, audio_fallbacks: ['https://other.com/b.mp3', dead] }] };
+  const r = dropRedundantFallback(doc, dead, origin);
+  assert.equal(r.removed, 2); assert.equal(r.stillUsed, false);
+  assert.deepEqual(r.value.parts.map(p => p.audio_fallbacks), [[], ['https://other.com/b.mp3']]);
+  const notYet = { parts: [{ audio_url: 'https://cdn.example.com/a.mp3', audio_fallbacks: [dead] }] };
+  const r2 = dropRedundantFallback(notYet, dead, origin);
+  assert.equal(r2.removed, 0); assert.equal(r2.stillUsed, true);
 });
