@@ -1,0 +1,26 @@
+== https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-10-academic-writing-test-1-1.png
+plain:        403 text/html 1762
+jtn-ua:       403 text/html
+browser-ua:   403 text/html
+ua+ref-jtn:   403 text/html
+ua+ref-eng:   403 text/html
+headers:
+HTTP/2 403 
+server: nginx
+content-type: text/html
+server-timing: a8c-cdn, dc;desc=sea, cache;desc=BYPASS;dur=1.0
+== https://engnovate.com/wp-content/uploads/2023/07/cambridge-ielts-10-academic-listening-2-audio-1.mp3
+plain:        403 text/html 1762
+jtn-ua:       403 text/html
+browser-ua:   403 text/html
+ua+ref-jtn:   403 text/html
+ua+ref-eng:   403 text/html
+headers:
+HTTP/2 403 
+server: nginx
+content-type: text/html
+server-timing: a8c-cdn, dc;desc=sea, cache;desc=BYPASS;dur=1.0
+https://i0.wp.com/engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-10-academic-writing-test-1-1.png -> 200 image/png 188902
+https://i0.wp.com/engnovate.com/wp-content/uploads/2023/06/ielts-reading-testscambridge-ielts-11-academic-reading-test-1-20-26.jpg?ssl=1 -> 200 image/jpeg 183771
+https://engnovate.com/ -> 403 text/html 1762
+https://engnovate.com/wp-content/uploads/2023/08/cambridge-ielts-10-academic-writing-test-1-1.png?x=1 -> 403 text/html 1762
