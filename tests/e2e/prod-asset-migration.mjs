@@ -1,3 +1,4 @@
+// Run 3: 2026-11-17 en-dash images.
 // Production run of /admin/asset-migration with a temporary QA admin session.
 //  --init : create a session token, print only its SHA-256 (operator inserts the session row).
 //  run    : scan → migrate 3 samples and check how they are served → migrate the rest → rescan.
