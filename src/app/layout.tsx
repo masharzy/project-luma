@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { site } from "@/config/site";
 import { SiteFrame } from "@/components/site-frame";
 import { BrandIntro, brandIntroScript } from "@/components/brand-intro";
+import { SkipLink } from "@/components/skip-link";
 
 import "@/styles/marketing.css";
 import "@/styles/foundation.css";
@@ -36,9 +37,7 @@ export default async function Layout({
       </head>
       <body>
         <BrandIntro />
-        <a className="skip-link" href="#content">
-          Skip to content
-        </a>
+        <SkipLink />
         <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
