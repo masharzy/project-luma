@@ -48,3 +48,9 @@
 .resources-cue-action { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-top: 24px; border-top: 1px solid #eee2e7; }
 .resources-cue-action > span { font-size: 12px; color: #78656d; }
 @media(max-width:640px){ .resources-cue-action { align-items: start; flex-direction: column; } }
+
+/* Header logo (brand kit, Nov 2026) */
+.upgraded-header .brand-logo { display: flex; align-items: center; line-height: 0; }
+.upgraded-header .brand-logo img { display: block; height: 38px; width: auto; }
+@media (max-width: 760px) { .upgraded-header .brand-logo img { height: 32px; } }
+@media (max-width: 400px) { .upgraded-header .brand-logo img { height: 28px; } }
