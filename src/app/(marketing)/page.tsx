@@ -6,7 +6,7 @@ import { getHomeShelf, getHomeAllowance, shelfMarkup, allowanceMarkup } from '@/
 import { HomeInteractions } from '@/components/home-interactions';
 const title='JumpToNine: Free IELTS Recent Tests with AI Writing and Speaking Feedback';
 const description='Practice IELTS Listening, Reading, Writing and Speaking online. Cambridge 1–21, Type Wise Question Practice, scheduled mock exams and AI feedback with an estimated band.';
-export const metadata:Metadata={title:{absolute:title},description,alternates:{canonical:'https://jumptonine.com/'},openGraph:{type:'website',url:'https://jumptonine.com/',siteName:'JumpToNine',title:'JumpToNine: IELTS practice, one step at a time',description:'Cambridge 1–21, mock exams and AI feedback for all four IELTS modules. Start with a free test.'},twitter:{card:'summary',title,description}};
+export const metadata:Metadata={title:{absolute:title},description,alternates:{canonical:'https://jumptonine.com/'},openGraph:{type:'website',url:'https://jumptonine.com/',siteName:'JumpToNine',title:'JumpToNine: IELTS practice, one step at a time',description:'Cambridge 1–21, mock exams and AI feedback for all four IELTS modules. Start with a free test.',images:[{url:'/images/og-jumptonine.png',width:1200,height:630,alt:'JumpToNine — Academic IELTS practice'}]},twitter:{card:'summary',title,description}};
 export const viewport:Viewport={themeColor:'#FDFBF7'};
 export const dynamic='force-dynamic';
 const booksAt=homeMarkup.indexOf('<section id="books"');
