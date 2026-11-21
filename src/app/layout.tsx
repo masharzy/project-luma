@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { site } from "@/config/site";
 import { SiteFrame } from "@/components/site-frame";
+import { BrandIntro, brandIntroScript } from "@/components/brand-intro";
 
 import "@/styles/marketing.css";
 import "@/styles/foundation.css";
@@ -15,6 +16,7 @@ import "@/styles/home-reference.css";
 import "@/styles/resources-reference.css";
 import "@/styles/plans-reference.css";
 import "@/styles/library.css";
+import "@/styles/brand-intro.css";
 export const metadata: Metadata = {
   title: { default: site.name, template: `%s · ${site.name}` },
   description: site.description,
@@ -26,10 +28,14 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  await headers(); // Opt into per-request rendering for nonce-based CSP.
+  const nonce = (await headers()).get("x-nonce") ?? undefined; // Per-request rendering for nonce-based CSP.
   return (
-    <html lang="bn">
+    <html lang="bn" suppressHydrationWarning>
+      <head>
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: brandIntroScript }} />
+      </head>
       <body>
+        <BrandIntro />
         <a className="skip-link" href="#content">
           Skip to content
         </a>
