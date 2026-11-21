@@ -51,6 +51,6 @@
 
 /* Header logo (brand kit, Nov 2026) */
 .upgraded-header .brand-logo { display: flex; align-items: center; line-height: 0; }
-.upgraded-header .brand-logo img { display: block; height: 38px; width: auto; }
-@media (max-width: 760px) { .upgraded-header .brand-logo img { height: 32px; } }
-@media (max-width: 400px) { .upgraded-header .brand-logo img { height: 28px; } }
+.upgraded-header .brand-logo img { display: block; height: 46px; width: auto; }
+@media (max-width: 760px) { .upgraded-header .brand-logo img { height: 38px; } }
+@media (max-width: 400px) { .upgraded-header .brand-logo img { height: 33px; } }
